@@ -21,7 +21,7 @@ public abstract class Character {
 		setIntelligence(10);
 		setWisdom(10);
 		setCharisma(10);
-		
+
 	}
 
 	public int getStrength() {
