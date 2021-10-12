@@ -9,6 +9,13 @@ public abstract class Equipment {
 		this.condition = MAX_CONDITION;
 	}
 	
+	public Equipment(int condition) {
+		if (condition < MIN_CONDITION || condition > MAX_CONDITION) {
+			throw new IllegalArgumentException();
+		}
+		this.condition = condition;
+	}
+	
 	public int getCondition() {
 		return condition;
 	}
