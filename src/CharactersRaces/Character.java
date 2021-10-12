@@ -25,6 +25,18 @@ public abstract class Character {
 		setCharisma(10);
 
 	}
+	
+	public String getName() {
+		return name;
+	}
+	 
+	public int getAge() {
+		return age;
+	}
+	
+	public boolean isAlive() {
+		return alive;
+	}
 
 	public int getStrength() {
 		return strength;
