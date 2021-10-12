@@ -9,6 +9,6 @@ class EquipmentTest {
 	@Test
 	void newSwordHasFullCondition() {
 		Equipment sword = new Sword();
-		assertEquals(100, sword.getCondition());
+		assertEquals(Equipment.MAX_CONDITION, sword.getCondition());
 	}
 }
