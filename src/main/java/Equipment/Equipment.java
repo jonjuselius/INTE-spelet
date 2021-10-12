@@ -7,6 +7,6 @@ public abstract class Equipment {
 	}
 	
 	public int getCondition() {
-		return 0;
+		return 100;
 	}
 }
