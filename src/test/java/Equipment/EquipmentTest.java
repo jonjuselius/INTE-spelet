@@ -7,7 +7,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class EquipmentTest {
 	
 	@Test
-	void test() {
-	
+	void newSwordHasFullCondition() {
+		Equipment sword = new Sword();
+		assertEquals(100, sword.getCondition());
 	}
 }
