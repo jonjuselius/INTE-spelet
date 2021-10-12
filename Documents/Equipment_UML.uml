@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>Equipment.Equipment</OriginalElement>
+  <nodes>
+    <node x="30.5" y="217.0">Equipment.Sword</node>
+    <node x="0.0" y="0.0">Equipment.Equipment</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="Equipment.Sword" target="Equipment.Equipment" relationship="GENERALIZATION">
+      <point x="0.0" y="-38.5" />
+      <point x="0.0" y="83.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="1.0" showDependencies="false" x="90.0" y="147.0" />
+  <SelectedNodes>
+    <node>Equipment.Equipment</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
