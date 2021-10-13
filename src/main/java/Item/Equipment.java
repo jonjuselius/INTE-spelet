@@ -1,16 +1,15 @@
-package Equipment;
+package Item;
 
-public abstract class Equipment {
+public abstract class Equipment extends Item implements Equippable {
+	
 	public static final int MAX_CONDITION = 100;
 	public static final int MIN_CONDITION = 0;
 	private int condition;
 	private boolean equipped;
 	
-	public Equipment() {
-		this.condition = MAX_CONDITION;
-	}
-	
-	public Equipment(int condition) {
+	public Equipment(int weight, int value, int condition) {
+		super(weight, value);
+		this.equipped = false;
 		if (condition < MIN_CONDITION || condition > MAX_CONDITION) {
 			throw new IllegalArgumentException();
 		}
@@ -21,10 +20,12 @@ public abstract class Equipment {
 		return condition;
 	}
 	
+	@Override
 	public boolean isEquipped() {
 		return equipped;
 	}
 	
+	@Override
 	public void equip() {
 		if (equipped) {
 			throw new IllegalStateException();
@@ -32,6 +33,7 @@ public abstract class Equipment {
 		equipped = true;
 	}
 	
+	@Override
 	public void unequip() {
 		if (!equipped) {
 			throw new IllegalStateException();
