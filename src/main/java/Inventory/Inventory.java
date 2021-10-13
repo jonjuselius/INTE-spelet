@@ -1,18 +1,26 @@
 package Inventory;
 
 import Item.*;
+
 import java.util.*;
 
 public class Inventory {
 	
 	public static final int DEFAULT_CAPACITY = 100;
-	private Item[] items;
+	private Item[] slots;
 	
 	public Inventory() {
-		items = new Item[DEFAULT_CAPACITY];
+		slots = new Item[DEFAULT_CAPACITY];
+	}
+	
+	public List<Item> getSlots() {
+		return Collections.unmodifiableList(Arrays.asList(slots));
 	}
 	
 	public List<Item> getItems() {
-		return Collections.unmodifiableList(Arrays.asList(items));
+		List<Item> items = new ArrayList<>();
+		for (Item item : slots) if (item != null) items.add(item);
+		return Collections.unmodifiableList(items);
 	}
+	
 }
