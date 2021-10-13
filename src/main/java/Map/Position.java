@@ -1,8 +1,8 @@
 package Map;
 
 public class Position {
-    private int x;
-    private int y;
+    private int xPos;
+    private int yPos;
 
     private enum Terrain {
         GROUND, WATER, LAVA
