@@ -1,10 +1,11 @@
-package Equipment;
+package Item;
 
-public class Sword extends Equipment {
-	public Sword() {
-	}
+public class Sword extends Item {
 	
-	public Sword(int condition) {
-		super(condition);
+	public static final int SWORD_WEIGHT = 10;
+	public static final int SWORD_VALUE = 200;
+	
+	public Sword() {
+		super(SWORD_WEIGHT, SWORD_VALUE);
 	}
 }
