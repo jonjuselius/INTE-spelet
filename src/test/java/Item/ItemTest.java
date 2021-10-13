@@ -12,12 +12,12 @@ class ItemTest {
 	@Test
 	void newSwordHasDefaultSwordWeight() {
 		Item sword = new Sword();
-		assertThat(sword.getWeight(), is(equalTo(10)));
+		assertThat(sword.getWeight(), is(equalTo(Sword.SWORD_WEIGHT)));
 	}
 	
 	@Test
 	void newSwordHasDefaultSwordValue() {
 		Item sword = new Sword();
-		assertThat(sword.getValue(), is(equalTo(200)));
+		assertThat(sword.getValue(), is(equalTo(Sword.SWORD_VALUE)));
 	}
 }
