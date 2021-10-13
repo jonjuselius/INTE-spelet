@@ -5,19 +5,21 @@ import org.junit.jupiter.api.Test;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class ItemTest {
 	
+	public static final Item NEW_SWORD = new Sword();
+	public static final Item NEW_WAND = new Wand();
+	
 	@Test
-	void newSwordHasDefaultSwordWeight() {
-		Item sword = new Sword();
-		assertThat(sword.getWeight(), is(equalTo(Sword.SWORD_WEIGHT)));
+	void newItemHasDefaultItemWeight() {
+		assertThat(NEW_SWORD.getWeight(), is(equalTo(Sword.SWORD_WEIGHT)));
+		assertThat(NEW_WAND.getWeight(), is(equalTo(Wand.WAND_WEIGHT)));
 	}
 	
 	@Test
-	void newSwordHasDefaultSwordValue() {
-		Item sword = new Sword();
-		assertThat(sword.getValue(), is(equalTo(Sword.SWORD_VALUE)));
+	void newItemHasDefaultItemValue() {
+		assertThat(NEW_SWORD.getValue(), is(equalTo(Sword.SWORD_VALUE)));
+		assertThat(NEW_WAND.getValue(), is(equalTo(Wand.WAND_VALUE)));
 	}
 }
