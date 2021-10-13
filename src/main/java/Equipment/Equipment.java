@@ -4,6 +4,7 @@ public abstract class Equipment {
 	public static final int MAX_CONDITION = 100;
 	public static final int MIN_CONDITION = 0;
 	private int condition;
+	private boolean equipped;
 	
 	public Equipment() {
 		this.condition = MAX_CONDITION;
@@ -18,5 +19,23 @@ public abstract class Equipment {
 	
 	public int getCondition() {
 		return condition;
+	}
+	
+	public boolean isEquipped() {
+		return equipped;
+	}
+	
+	public void equip() {
+		if (equipped) {
+			throw new IllegalStateException();
+		}
+		equipped = true;
+	}
+	
+	public void unequip() {
+		if (!equipped) {
+			throw new IllegalStateException();
+		}
+		equipped = false;
 	}
 }
