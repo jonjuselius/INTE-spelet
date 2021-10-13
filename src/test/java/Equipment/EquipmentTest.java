@@ -15,7 +15,7 @@ class EquipmentTest {
 		assertEquals(Equipment.MAX_CONDITION, sword.getCondition());
 	}
 	
-	@Test // Upprepning av samma testfall som ovan, fast med Hamcrest
+	@Test // Same as above, but with Hamcrest
 	void newSwordHasFullConditionHamcrest() {
 		Equipment sword = new Sword();
 		assertThat(sword.getCondition(), is(equalTo(Equipment.MAX_CONDITION)));
@@ -37,4 +37,39 @@ class EquipmentTest {
 	void newSwordWithConditionOverMaximumThrowsIAE() {
 		assertThrows(IllegalArgumentException.class, () -> new Sword(Equipment.MAX_CONDITION + 1));
 	}
+	
+	@Test
+	void equippingSwordMakesItEquipped() {
+		Equipment sword = new Sword();
+		assertThat(sword.isEquipped(), is(equalTo(false)));
+		sword.equip();
+		assertThat(sword.isEquipped(), is(equalTo(true)));
+	}
+	
+	@Test
+	void unequippingSwordMakesItUnequipped() {
+		Equipment sword = new Sword();
+		assertThat(sword.isEquipped(), is(equalTo(false)));
+		sword.equip();
+		assertThat(sword.isEquipped(), is(equalTo(true)));
+		sword.unequip();
+		assertThat(sword.isEquipped(), is(equalTo(false)));
+	}
+	
+	@Test
+	void equippingEquippedSwordThrowsISE() {
+		Equipment sword = new Sword();
+		assertThat(sword.isEquipped(), is(equalTo(false)));
+		sword.equip();
+		assertThat(sword.isEquipped(), is(equalTo(true)));
+		assertThrows(IllegalStateException.class, () -> sword.equip());
+	}
+	
+	@Test
+	void unequippingUnequippedSwordThrowsISE() {
+		Equipment sword = new Sword();
+		assertThat(sword.isEquipped(), is(equalTo(false)));
+		assertThrows(IllegalStateException.class, () -> sword.unequip());
+	}
+	
 }
