@@ -12,6 +12,6 @@ class InventoryTest {
 	@Test
 	void newInventoryHasDefaultCapacity() {
 		Inventory inventory = new Inventory();
-		assertThat(inventory.getItems().size(), is(equalTo(100)));
+		assertThat(inventory.getItems().size(), is(equalTo(Inventory.DEFAULT_CAPACITY)));
 	}
 }
