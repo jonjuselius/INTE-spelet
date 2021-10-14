@@ -14,14 +14,11 @@
             <version>5.4.2</version>
             <scope>test</scope>
         </dependency>
-<<<<<<< HEAD
         <dependency>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-compiler-plugin</artifactId>
             <version>3.8.1</version>
         </dependency>
-=======
->>>>>>> 130b9d16c06ff109d1da245fa75f17ef5fdaf1f9
     </dependencies>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

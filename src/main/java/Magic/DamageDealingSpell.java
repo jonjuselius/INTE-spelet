@@ -36,4 +36,9 @@ public class DamageDealingSpell extends Spell {
     private void setDuration(int duration){
         this.duration = duration;
     }
+
+    @Override
+    public void cast(){
+
+    }
 }

@@ -22,6 +22,10 @@ public abstract class Spell {
 
     }
 
+    public void cast(){
+
+    }
+
     public String getName() {
         return name;
     }
