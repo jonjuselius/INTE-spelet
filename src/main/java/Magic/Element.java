@@ -1,4 +1,6 @@
-public enum ElementalType {
+package Magic;
+
+public enum Element {
 
     PHYSICAL,
     FIRE,
@@ -6,7 +8,7 @@ public enum ElementalType {
     WIND,
     WATER,;
 
-    ElementalType() {
+    Element() {
 
     }
 
