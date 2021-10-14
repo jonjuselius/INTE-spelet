@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="INTE-spelet" target="16" />
+      <module name="INTE-spelet" target="17" />
     </bytecodeTargetLevel>
   </component>
 </project>
