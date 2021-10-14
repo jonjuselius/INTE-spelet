@@ -29,4 +29,8 @@ public abstract class Spell {
     public int getManaCost() {
         return manaCost;
     }
+
+    public Element getElement(){
+        return element;
+    }
 }

@@ -1,16 +1,16 @@
 package Magic;
 
-public class DamageDealing extends Spell {
+public class DamageDealingSpell extends Spell {
 
     private int initialDamage;
     private int damageOverTime;
     private int duration;
 
-    public DamageDealing(String name, int manaCost, Element element) {
+    public DamageDealingSpell(String name, int manaCost, Element element) {
         super(name, manaCost, element);
     }
 
-    public DamageDealing(String name, int manaCost) {
+    public DamageDealingSpell(String name, int manaCost) {
         super(name, manaCost);
     }
 
