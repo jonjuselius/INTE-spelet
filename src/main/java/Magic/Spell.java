@@ -1,5 +1,8 @@
 package Magic;
 
+import GameCharacters.*;
+import GameCharacters.Character;
+
 public abstract class Spell {
 
     private String name;
@@ -22,7 +25,7 @@ public abstract class Spell {
 
     }
 
-    public void cast(){
+    public void cast(Character spellCaster, Character target){
 
     }
 

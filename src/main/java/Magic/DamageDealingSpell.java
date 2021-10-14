@@ -1,5 +1,8 @@
 package Magic;
 
+import GameCharacters.*;
+import GameCharacters.Character;
+
 public class DamageDealingSpell extends Spell {
 
     private int initialDamage;
@@ -38,7 +41,12 @@ public class DamageDealingSpell extends Spell {
     }
 
     @Override
-    public void cast(){
-
+    public void cast(Character spellCaster, Character opponent){
+        if(getManaCost() > spellCaster.getRemainingMana()){
+            //TODO: add exception
+            return;
+        }else {
+            opponent.setRemainingHitPoints(opponent.getRemainingHitPoints() - getInitialDamage());
+        }
     }
 }
