@@ -1,3 +1,4 @@
+package Races;
 public class NPC extends Character {
 
 
