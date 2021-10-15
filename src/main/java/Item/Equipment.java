@@ -7,13 +7,13 @@ public abstract class Equipment extends Item implements Equippable {
 	private int condition;
 	private boolean equipped;
 	
-	public Equipment(int weight, int value, int condition) {
-		super(weight, value);
-		this.equipped = false;
+	public Equipment(int weight, int value, int condition, String[] jobCertifications, String[] raceCertifications) {
+		super(weight, value, jobCertifications, raceCertifications);
 		if (condition < MIN_CONDITION || condition > MAX_CONDITION) {
 			throw new IllegalArgumentException();
 		}
 		this.condition = condition;
+		this.equipped = false;
 	}
 	
 	public int getCondition() {
