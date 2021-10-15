@@ -15,19 +15,25 @@ class ItemTest {
 	public static final Item DEFAULT_SWORD = new Sword();
 	public static final Item DEFAULT_WAND = new Wand();
 	public static final Item DEFAULT_EGG = new Egg();
+	public static final Item DEFAULT_SHIELD = new Shield();
+	public static final Item DEFAULT_RING = new Ring();
 	
 	@Test
 	void newItemHasDefaultItemWeight() {
 		assertThat(DEFAULT_SWORD.getWeight(), is(equalTo(Sword.WEIGHT)));
-		assertThat(DEFAULT_WAND.getWeight(), is(equalTo(Wand.WEIGHT))); // Överflödigt?
-		assertThat(DEFAULT_EGG.getWeight(), is(equalTo(Egg.WEIGHT))); // Överflödigt?
+		assertThat(DEFAULT_WAND.getWeight(), is(equalTo(Wand.WEIGHT)));
+		assertThat(DEFAULT_EGG.getWeight(), is(equalTo(Egg.WEIGHT)));
+		assertThat(DEFAULT_SHIELD.getWeight(), is(equalTo(Shield.WEIGHT)));
+		assertThat(DEFAULT_RING.getWeight(), is(equalTo(Ring.WEIGHT)));
 	}
 	
 	@Test
 	void newItemHasDefaultItemValue() {
 		assertThat(DEFAULT_SWORD.getValue(), is(equalTo(Sword.VALUE)));
-		assertThat(DEFAULT_WAND.getValue(), is(equalTo(Wand.VALUE))); // Överflödigt?
-		assertThat(DEFAULT_EGG.getValue(), is(equalTo(Egg.VALUE))); // Överflödigt?
+		assertThat(DEFAULT_WAND.getValue(), is(equalTo(Wand.VALUE)));
+		assertThat(DEFAULT_EGG.getValue(), is(equalTo(Egg.VALUE)));
+		assertThat(DEFAULT_SHIELD.getValue(), is(equalTo(Shield.VALUE)));
+		assertThat(DEFAULT_RING.getValue(), is(equalTo(Ring.VALUE)));
 	}
 	
 	@Test
@@ -64,6 +70,22 @@ class ItemTest {
 		String[] racesArr = races.toArray(new String[races.size()]);
 		String[] raceCertificationsArr = raceCertifications.toArray(new String[raceCertifications.size()]);
 		assertArrayEquals(racesArr, raceCertificationsArr);
+	}
+	
+	@Test
+	void newSwordHasDefaultSize() {
+		assertThat(DEFAULT_SWORD.getSize(), is(equalTo(Sword.DEFAULT_SIZE)));
+	}
+	
+	@Test
+	void specifyingSizeInConstructorCreatesEquipmentOfCorrespondingSize() {
+		for (Size size : Size.values()) {
+			assertThat(new Sword(size).getSize(), is(equalTo(size)));
+			assertThat(new Wand(size).getSize(), is(equalTo(size)));
+			assertThat(new Egg(size).getSize(), is(equalTo(size)));
+			assertThat(new Shield(size).getSize(), is(equalTo(size)));
+			assertThat(new Ring(size).getSize(), is(equalTo(size)));
+		}
 	}
 	
 }

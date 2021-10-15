@@ -8,12 +8,14 @@ public abstract class Item {
 	private int value;
 	private List<String> jobCertifications;
 	private List<String> raceCertifications;
+	private Size size;
 	
-	public Item(int weight, int value, String[] jobCertifications, String[] raceCertifications) {
+	public Item(int weight, int value, String[] jobCertifications, String[] raceCertifications, Size size) {
 		this.weight = weight;
 		this.value = value;
 		this.jobCertifications = Arrays.asList(jobCertifications);
 		this.raceCertifications = Arrays.asList(raceCertifications);
+		this.size = size;
 	}
 	
 	public int getWeight() {
@@ -30,5 +32,9 @@ public abstract class Item {
 	
 	public List<String> getRaceCertifications() {
 		return Collections.unmodifiableList(raceCertifications);
+	}
+	
+	public Size getSize() {
+		return size;
 	}
 }
