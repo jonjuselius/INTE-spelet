@@ -41,11 +41,18 @@ public class DamageDealingSpell extends Spell {
     }
 
     @Override
+    public void powerProgression(Character character){
+        int powerFactor = 1 + character.getLevel() * 2 + character.getIntelligence() * 2;
+        setInitialDamage(initialDamage * powerFactor);
+
+    }
+//Rough draft, kväver fler variabler
+    @Override
     public void cast(Character spellCaster, Character opponent){
         if(getManaCost() > spellCaster.getRemainingMana()){
-            //TODO: add exception
-            return;
+            throw new IllegalStateException("Not enough mana");
         }else {
+            powerProgression(spellCaster);
             opponent.setRemainingHitPoints(opponent.getRemainingHitPoints() - getInitialDamage());
         }
     }

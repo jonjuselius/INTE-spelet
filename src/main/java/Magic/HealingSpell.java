@@ -14,4 +14,31 @@ public class HealingSpell extends Spell {
     public HealingSpell(String name, int manaCost) {
         super(name, manaCost);
     }
+
+    public int getInitialHeal() {
+        return initialHeal;
+    }
+
+    public void setInitialHeal(int initialHeal) {
+        this.initialHeal = initialHeal;
+    }
+
+    public int getHealOverTime() {
+        return healOverTime;
+    }
+
+    public void setHealOverTime(int healOverTime) {
+        this.healOverTime = healOverTime;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
 }
+
+
