@@ -1,4 +1,4 @@
-package Races;
+package Jobs;
 
 public class Healer extends Job {
 

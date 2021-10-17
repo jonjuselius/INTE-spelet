@@ -1,4 +1,5 @@
 package Races;
+import Jobs.*;
 
 public abstract class Character {
 

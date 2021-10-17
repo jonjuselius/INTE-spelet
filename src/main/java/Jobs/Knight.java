@@ -1,4 +1,4 @@
-package Races;
+package Jobs;
 
 public class Knight extends Job{
 	

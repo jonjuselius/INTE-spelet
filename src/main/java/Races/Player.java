@@ -1,4 +1,5 @@
 package Races;
+import Jobs.*;
 public class Player extends Character {
 
     private int level;
