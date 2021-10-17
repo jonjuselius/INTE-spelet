@@ -1,10 +1,15 @@
 package Magic;
 
+import GameCharacters.Adversary;
+import GameCharacters.Human;
+import GameCharacters.Player;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class HealingSpellTest {
+
+    Human human = new Human();
 
     @Test
     void elementalHealingConstructor(){
@@ -33,12 +38,67 @@ class HealingSpellTest {
 
     @Test
     void defaultHealOverTime() {
+        HealingSpell hs = new HealingSpell("Band-aid", 5);
+
+        assertEquals(0, hs.getHealOverTime());
     }
 
 
     @Test
     void defaultDuration() {
+        HealingSpell hs = new HealingSpell("Band-aid", 5);
+
+        assertEquals(0, hs.getDuration());
     }
 
+    @Test
+    void powerProgressionSetsCorrectInitialHeal(){
+        HealingSpell hs = new HealingSpell("Band-aid", 5);
+        Player p = new Player("Player1", human, true);
+        hs.powerProgression(p);
+
+        assertEquals(130, hs.getInitialHeal());
+    }
+
+    @Test
+    void exceptionThrownWhenNotEnoughManaForCast(){
+        HealingSpell hs = new HealingSpell("Morphine-pill", 205);
+        Player p = new Player("Player1", human, true);
+        Adversary a = new Adversary("Bandit", human, true, 1);
+
+        assertThrows(IllegalStateException.class, ()-> hs.cast(p,a));
+    }
+
+    @Test
+    void castDepletesCorrectAmountOfMana(){
+        HealingSpell hs = new HealingSpell("Band-aid", 5);
+        Player p = new Player("Player1", human, true);
+        Adversary a = new Adversary("Bandit", human, true, 1);
+        hs.cast(p,a);
+
+        assertEquals(195, p.getRemainingMana());
+    }
+
+    @Test
+    void castIncreasesHealthCorrectAmount(){
+        HealingSpell hs = new HealingSpell("Band-aid", 5);
+        Player p = new Player("Player1", human, true);
+        Adversary a = new Adversary("Bandit", human, true, 1);
+        p.setRemainingHealth(0);
+        hs.cast(p,a);
+
+        assertEquals(130, p.getRemainingHealth());
+    }
+
+    @Test
+    void castIncreasesHealthToMaxIfHealAmountTooHigh(){
+        HealingSpell hs = new HealingSpell("Band-aid", 5);
+        Player p = new Player("Player1", human, true);
+        Adversary a = new Adversary("Bandit", human, true, 1);
+        p.setRemainingHealth(190);
+        hs.cast(p,a);
+
+        assertEquals(300, p.getRemainingHealth());
+    }
 
 }

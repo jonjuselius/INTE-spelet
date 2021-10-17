@@ -109,4 +109,9 @@ public abstract class Character {
     public void useMana(int manaCost){
         remainingMana = remainingMana - manaCost;
     }
+
+    public void getHealed(int healPoints){
+        int healTotal = remainingHealth + healPoints;
+        remainingHealth = Math.min(healTotal, maxHealth);
+    }
 }
