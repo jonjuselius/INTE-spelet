@@ -1,4 +1,5 @@
 package Races;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -36,37 +37,34 @@ class RaceTest {
 		assertEquals(true, oger.getIfCanWalkThroughTerraign());
 
 	}
-	
+
 	@Test
 	void increasingLifePointsOverMaxForOgre() {
-		
-		Ogre o = new Ogre();
-		
-		Player c1 = new Player("Jasmyn", o, true, 400);
+
+		Player c1 = new Player("Jasmyn", new Ogre(), new Knight(), true, 400);
 		assertThrows(IllegalStateException.class, () -> {
-			c1.increaseHealth(100);;
+			c1.increaseHealth(100);
+			;
 		});
 	}
-	
+
 	@Test
 	void increasingLifePointsOverMaxForHuman() {
-		
-		Ogre o = new Ogre();
-		
-		Player c2 = new Player("Emma", o, true, 100);
+
+		Player c2 = new Player("Emma", new Human(), new Knight(), true, 100);
 		assertThrows(IllegalStateException.class, () -> {
-			c2.increaseHealth(100);;
+			c2.increaseHealth(100);
+			;
 		});
 	}
-	
+
 	@Test
 	void increasingLifePointsOverMaxForElf() {
-		
-		Elf e = new Elf();
-		
-		Player c3 = new Player("Oliver", e, true, 300);
+
+		Player c3 = new Player("Oliver", new Elf(), new Knight(), true, 300);
 		assertThrows(IllegalStateException.class, () -> {
-			c3.increaseHealth(100);;
+			c3.increaseHealth(100);
+			;
 		});
 	}
 }

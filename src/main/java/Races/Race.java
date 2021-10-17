@@ -5,7 +5,6 @@ public abstract class Race {
 	private boolean canWalkThroughTerraign;
 	private boolean canSwim;
 	private boolean canFly;
-	public final int DEFAULT_MAX_HEALTH = 100;
 	protected int maxHealth;
 
 

@@ -35,5 +35,7 @@ public abstract class Job {
 	protected void setSwordSkill(int swordSkill) {
 		this.swordSkill = swordSkill;
 	}
+	
+	
 
 }
