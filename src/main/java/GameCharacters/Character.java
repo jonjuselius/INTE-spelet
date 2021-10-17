@@ -8,14 +8,14 @@ public abstract class Character {
     private boolean isAlive;
     private Race race;
     //private Job job;
-    private int level;
+    protected int level;
     private SpellCollection spellCollection;
 
 
     //hitPoints = hälsa
     private int maxMana;
-    private int maxHitpoints;
-    private int remainingHitPoints;
+    private int maxHealth;
+    private int remainingHealth;
     private int remainingMana;
     private int strength;
     private int intelligence;
@@ -28,6 +28,8 @@ public abstract class Character {
         isAlive = true;
         setStrength(10);
         setIntelligence(10);
+        setMaxMana(200);
+        remainingMana = maxMana;
     }
 
     public String getName() {
@@ -66,27 +68,42 @@ public abstract class Character {
         this.maxMana = maxMana;
     }
 
-    public int getMaxHitpoints() {
-        return maxHitpoints;
+    private void setMaxMana(){
+        //Calculate job/race/etc.
     }
 
-    protected void setMaxHitpoints(int maxHitpoints) {
-        this.maxHitpoints = maxHitpoints;
+    public int getMaxHealth() {
+        return maxHealth;
     }
 
-    public int getRemainingHitPoints() {
-        return remainingHitPoints;
+    protected void setMaxHealth(int maxHealth) {
+        this.maxHealth = maxHealth;
     }
 
-    public void setRemainingHitPoints(int remainingHitPoints) {
-        this.remainingHitPoints = remainingHitPoints;
+    public int getRemainingHealth() {
+        return remainingHealth;
+    }
+
+    public void setRemainingHealth(int remainingHealth) {
+        this.remainingHealth = remainingHealth;
     }
 
     public int getRemainingMana() {
         return remainingMana;
     }
 
-    protected void setRemainingMana(int remainingMana) {
+    public void setRemainingMana(int remainingMana) {
         this.remainingMana = remainingMana;
+    }
+
+    public void takeDamage(int damage){
+        remainingHealth = remainingHealth - damage;
+        if (remainingHealth <= 0){
+            isAlive = false;
+        }
+    }
+
+    public void useMana(int manaCost){
+        remainingMana = remainingMana - manaCost;
     }
 }

@@ -4,7 +4,10 @@ import GameCharacters.Character;
 
 public class Adversary extends Character {
 
-    public Adversary(String name, Race race, boolean isAlive) {
+    private int level;
+
+    public Adversary(String name, Race race, boolean isAlive, int level) {
         super(name, race, isAlive);
+        this.level = level;
     }
 }
