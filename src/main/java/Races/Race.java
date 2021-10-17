@@ -1,27 +1,20 @@
 package Races;
 public abstract class Race {
 
-	private int health;
 
 	private boolean canWalkThroughTerraign;
 	private boolean canSwim;
 	private boolean canFly;
+	public final int DEFAULT_MAX_HEALTH = 100;
+	protected int maxHealth;
+
 
 	public Race() {
-		setHealth(100);
 
 
 		setIfCanFly(false);
 		setIfCanSwim(false);
 		setIfCanWalkThroughTerraign(false);
-	}
-
-	public int getHealth() {
-		return health;
-	}
-
-	protected void setHealth(int health) {
-		this.health = health;
 	}
 
 	public boolean getIfCanFly() {
@@ -46,6 +39,10 @@ public abstract class Race {
 
 	protected void setIfCanWalkThroughTerraign(boolean canWalkThroughTerraign) {
 		this.canWalkThroughTerraign = canWalkThroughTerraign;
+	}
+	
+	public int getMaxHealth() {
+		return maxHealth;
 	}
 
 }

@@ -8,5 +8,8 @@ public class Human extends Race {
 		setIfCanWalkThroughTerraign(true);
 
 	}
+	public int getMaxHealth() {
+		return 100;
+	}
 
 }
