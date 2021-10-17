@@ -30,6 +30,9 @@ public abstract class Character {
         setIntelligence(10);
         setMaxMana(200);
         remainingMana = maxMana;
+        setMaxHealth(300);
+        remainingHealth = maxHealth;
+
     }
 
     public String getName() {

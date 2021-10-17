@@ -73,6 +73,15 @@ class DamageDealingTest {
         Adversary a = new Adversary("Bandit", human, true, 5);
         dd.cast(p,a);
         assertEquals(175, p.getRemainingMana());
+    }
 
+    @Test
+    void castDealsCorrectDamage(){
+        DamageDealingSpell dd = new DamageDealingSpell("Stonefist", 25);
+        Player p = new Player("Player1", human, true);
+        Adversary a = new Adversary("Bandit", human, true, 1);
+        dd.cast(p,a);
+
+        assertEquals(70, a.getRemainingHealth());
     }
 }
