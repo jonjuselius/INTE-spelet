@@ -1,9 +1,6 @@
 package Magic;
 
-import GameCharacters.Adversary;
-import GameCharacters.Human;
-import GameCharacters.Player;
-import GameCharacters.Race;
+import GameCharacters.*;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,6 +24,7 @@ class DamageDealingTest {
 
         assertEquals("Stonefist", dd.getName());
         assertEquals(25, dd.getManaCost());
+        assertEquals(Element.PHYSICAL, dd.getElement());
     }
 
     @Test

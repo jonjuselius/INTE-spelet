@@ -21,7 +21,7 @@ public abstract class Character {
     private int intelligence;
 
 
-
+//TODO ändra maxhealth och maxmana
     public Character(String name, Race race, boolean isAlive) {
         this.name = name;
         this.race = race;

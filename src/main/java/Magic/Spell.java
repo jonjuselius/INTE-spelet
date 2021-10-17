@@ -21,7 +21,7 @@ public abstract class Spell {
         this.element = Element.PHYSICAL;
     }
 
-    void powerProgression(Character character) {
+    public void powerProgression(Character character) {
 
     }
 
