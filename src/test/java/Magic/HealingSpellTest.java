@@ -1,7 +1,6 @@
 package Magic;
 
-import GameCharacters.Adversary;
-import GameCharacters.Player;
+import GameCharacters.*;
 import Jobs.Magician;
 import Races.*;
 import org.junit.jupiter.api.Test;
