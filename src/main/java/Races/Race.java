@@ -1,4 +1,8 @@
+
 package Races;
+
+import GameCharacters.*;
+
 public abstract class Race {
 
 

@@ -1,4 +1,6 @@
 package Races;
+import GameCharacters.*;
+
 
 public class Human extends Race {
 

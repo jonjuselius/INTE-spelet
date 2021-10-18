@@ -1,5 +1,8 @@
 package Races;
 
+import GameCharacters.*;
+
+
 public class Ogre extends Race {
 
 	public Ogre() {
