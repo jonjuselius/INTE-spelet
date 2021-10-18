@@ -14,45 +14,37 @@ class DamageDealingTest {
     Magician magician = new Magician();
 
     @Test
-    void elementalDamageConstructor(){
-        DamageDealingSpell dd = new DamageDealingSpell("Fireball", 50, Element.FIRE);
+    void damageDealingSpellConstructor(){
+        DamageDealingSpell dd = new DamageDealingSpell("Fireball", 50, Element.FIRE, 10);
 
         assertEquals("Fireball", dd.getName());
         assertEquals(50, dd.getManaCost());
         assertEquals(Element.FIRE, dd.getElement());
-    }
-
-    @Test
-    void physicalDamageSpellConstructor(){
-        DamageDealingSpell dd = new DamageDealingSpell("Stonefist", 25);
-
-        assertEquals("Stonefist", dd.getName());
-        assertEquals(25, dd.getManaCost());
-        assertEquals(Element.PHYSICAL, dd.getElement());
+        assertEquals(10, dd.getBaseDamage());
     }
 
     @Test
     void defaultInitialDamage() {
-        DamageDealingSpell dd = new DamageDealingSpell("Stonefist", 25);
+        DamageDealingSpell dd = new DamageDealingSpell("Stonefist", 25, Element.PHYSICAL, 5);
         assertEquals(10, dd.getInitialDamage());
     }
 
     @Test
     void defaultDamageOverTime() {
-        DamageDealingSpell dd = new DamageDealingSpell("Stonefist", 25);
+        DamageDealingSpell dd = new DamageDealingSpell("Stonefist", 25, Element.PHYSICAL, 5);
         assertEquals(0, dd.getDamageOverTime());
     }
 
     @Test
     void defaultDuration(){
-        DamageDealingSpell dd = new DamageDealingSpell("Stonefist", 25);
+        DamageDealingSpell dd = new DamageDealingSpell("Stonefist", 25, Element.PHYSICAL, 5);
         assertEquals(0, dd.getDuration());
     }
 
     //TODO när player kan skapas
     @Test
     void powerProgressionChangesInitialDamage() {
-        DamageDealingSpell dd = new DamageDealingSpell("Stonefist", 25);
+        DamageDealingSpell dd = new DamageDealingSpell("Stonefist", 25, Element.PHYSICAL, 5);
         Player p = new Player("Player1", human, magician, true);
         dd.powerProgression(p);
 
@@ -61,7 +53,7 @@ class DamageDealingTest {
 
     @Test
     void castThrowsExceptionWhenManaTooLow() {
-        DamageDealingSpell dd = new DamageDealingSpell("Implode", 250, Element.FIRE);
+        DamageDealingSpell dd = new DamageDealingSpell("Implode", 250, Element.FIRE, 50);
         Player p = new Player("Player1", human, magician, true);
         Adversary a = new Adversary("Bandit", human, magician, true, 5);
 
@@ -70,7 +62,7 @@ class DamageDealingTest {
 
     @Test
     void castDecreasesCorrectMana() {
-        DamageDealingSpell dd = new DamageDealingSpell("Stonefist", 25);
+        DamageDealingSpell dd = new DamageDealingSpell("Stonefist", 25, Element.PHYSICAL, 5);
         Player p = new Player("Player1", human, magician, true);
         Adversary a = new Adversary("Bandit", human, magician, true, 5);
         dd.cast(p,a);
@@ -79,7 +71,7 @@ class DamageDealingTest {
 
     @Test
     void castDealsCorrectDamage(){
-        DamageDealingSpell dd = new DamageDealingSpell("Stonefist", 25);
+        DamageDealingSpell dd = new DamageDealingSpell("Stonefist", 25, Element.PHYSICAL, 5);
         Player p = new Player("Player1", human, magician, true);
         Adversary a = new Adversary("Bandit", human, magician, true, 1);
         dd.cast(p,a);

@@ -18,6 +18,7 @@ public class DamageDealingSpell extends Spell {
         setDuration(0);
     }
 
+
     public int getInitialDamage() {
         return initialDamage;
     }
