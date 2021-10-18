@@ -38,6 +38,7 @@ public abstract class Character {
 			setHealth(race.getMaxHealth());
 			return;
 		}
+		
 		throw new IllegalStateException();
 	}
 
