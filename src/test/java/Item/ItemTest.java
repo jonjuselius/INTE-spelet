@@ -9,6 +9,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ItemTest {
 	
@@ -86,6 +87,50 @@ class ItemTest {
 			assertThat(new Shield(size).getSize(), is(equalTo(size)));
 			assertThat(new Ring(size).getSize(), is(equalTo(size)));
 		}
+	}
+	
+	@Test
+	void newSwordHasDefaultCondition() {
+		assertThat(DEFAULT_SWORD.getCondition(), is(equalTo(Sword.DEFAULT_CONDITION)));
+	}
+	
+	@Test
+	void newSwordWithConditionBetweenMinAndMaxSetsConditionInConstructor() {
+		int condition = (Sword.DEFAULT_CONDITION + Sword.DEFAULT_CONDITION) / 2;
+		Item sword = new Sword(condition);
+		assertThat(sword.getCondition(), is(equalTo(condition)));
+	}
+	
+	@Test
+	void newSwordWithConditionUnderMinimumThrowsIAE() {
+		assertThrows(IllegalArgumentException.class, () -> new Sword(Item.MIN_CONDITION - 1));
+	}
+	
+	@Test
+	void newSwordWithConditionOverMaximumThrowsIAE() {
+		assertThrows(IllegalArgumentException.class, () -> new Sword(Item.MAX_CONDITION + 1));
+	}
+	
+	@Test
+	void newSwordIsAWeapon() {
+		assertThat(DEFAULT_SWORD.getType(), is(equalTo(Sword.TYPE)));
+	}
+	
+	@Test
+	void eatingFoodMakesItConsumed() {
+		Food egg = new Egg();
+		assertThat(egg.isConsumed(), is(equalTo(false)));
+		egg.consume();
+		assertThat(egg.isConsumed(), is(equalTo(true)));
+	}
+	
+	@Test
+	void eatingConsumedFoodThrowsISE() {
+		Food egg = new Egg();
+		assertThat(egg.isConsumed(), is(equalTo(false)));
+		egg.consume();
+		assertThat(egg.isConsumed(), is(equalTo(true)));
+		assertThrows(IllegalStateException.class, () -> egg.consume());
 	}
 	
 }
