@@ -5,37 +5,41 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 import GameCharacters.Player;
+import Races.Human;
 import Races.Ogre;
 
 class JobTest {
-
+//Tdd
 	@Test
-	void getHealedByHealerOnceShouldBeThreehundredTenForLevelOne() {
+	void getHealedDependingOnYourOwnHealSkillShouldBeThreehundredTwentyForLevelOne() {
 
 		Player c1 = new Player("Jasmyn", new Ogre(), new Healer(), true);
-		c1.getHealedByHealer();
+		c1.getHealedDependingOnYourOwnHealSkill();
+		c1.getHealedDependingOnYourOwnHealSkill();
 
-		assertEquals(310, c1.getRemainingHealth());
+		assertEquals(320, c1.getRemainingHealth());
 
 	}
-	
+
 	@Test
-	void getHealedByHealerTwiceShouldBeThreehundredTenForLevelOne() {
+	void getHealedDependingOnYourOwnHealSkillOverMaxLifePointsStaysAtMaxLifePoint() {
 
 		Player c1 = new Player("Jasmyn", new Ogre(), new Healer(), true);
-		c1.getHealedByHealer();
+		c1.getHealedDependingOnYourOwnHealSkill();
+		c1.getHealedDependingOnYourOwnHealSkill();
+		c1.getHealedDependingOnYourOwnHealSkill();
+		c1.getHealedDependingOnYourOwnHealSkill();
+		c1.getHealedDependingOnYourOwnHealSkill();
+		c1.getHealedDependingOnYourOwnHealSkill();
+		c1.getHealedDependingOnYourOwnHealSkill();
+		c1.getHealedDependingOnYourOwnHealSkill();
+		c1.getHealedDependingOnYourOwnHealSkill();
+		c1.getHealedDependingOnYourOwnHealSkill();
+		c1.getHealedDependingOnYourOwnHealSkill();
+		c1.getHealedDependingOnYourOwnHealSkill();
 
-		assertEquals(310, c1.getRemainingHealth());
+		assertEquals(400, c1.getRemainingHealth());
 
 	}
-	
-//	@Test
-//	void getHealedOverMaxLifePointsForElfThrowsException() {
-//
-//		Player c1 = new Player("Jasmyn", new Ogre(), new Knight(), true);
-//		assertThrows(IllegalStateException.class, () -> {
-//			
-//
-//		});
-//	}
+
 }
