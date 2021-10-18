@@ -37,4 +37,9 @@ public abstract class Item {
 	public Size getSize() {
 		return size;
 	}
+	
+	@Override
+	public String toString() {
+		return this.getClass().getName().toString();
+	}
 }
