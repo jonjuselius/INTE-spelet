@@ -55,8 +55,8 @@ public abstract class Item {
 		return size;
 	}
 	
-	@Override
-	public String toString() {
-		return this.getClass().getName().toString();
-	}
+	//@Override
+	//public String toString() {
+	//	return this.getClass().getName().toString();
+	//}
 }
