@@ -1,6 +1,5 @@
 package Map;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -18,7 +17,7 @@ public class MapGenerator {
         for (int x = 0; x < map.getWidth(); x++) {
             for (int y = 0; y < map.getHeight(); y++) {
                 MapTile tile = new MapTile(new Position(x, y));
-                map.setTile(tile);
+                map.put(tile, x, y);
 
                 //Set neighbors
                 setNeighbors(map, tile);
@@ -33,19 +32,13 @@ public class MapGenerator {
     }
 
     private Map.MapTile.Terrain checkTerrainOfNeighbors(Map map, MapTile tile) {
-        //TODO: Är det ens någon idé att kolla den övre grannen? Den kommer väl aldrig att finnas i detta skede?
-        Position upNeighbor = tile.getNeighbors()[2];
         Position downNeighbor = tile.getNeighbors()[3];
 
-        if (upNeighbor != null) {
-            return map.getTiles().get(upNeighbor.getxPos()).get(upNeighbor.getyPos()).getTerrain();
-        }
-
         if (downNeighbor != null) {
-            return map.getTiles().get(upNeighbor.getxPos()).get(upNeighbor.getyPos()).getTerrain();
+            return map.getTiles().get(downNeighbor.getxPos()).get(downNeighbor.getyPos()).getTerrain();
         }
 
-        //If the tile doesn't have any neighbors yet, return grass
+        //If the tile doesn't have any neighbors yet, return grass as standard
         return MapTile.Terrain.GRASS;
     }
 

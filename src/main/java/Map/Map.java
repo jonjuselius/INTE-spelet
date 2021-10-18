@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Map {
     private int width;
     private int height;
-    private ArrayList<ArrayList<MapTile> > tiles = new ArrayList<ArrayList<MapTile>>();
+    private ArrayList<ArrayList<MapTile> > tiles = new ArrayList<>();
     private int size;
 
     public Map(int width, int height) {
@@ -31,9 +31,8 @@ public class Map {
         return copyOfTiles;
     }
 
-    public void setTile(MapTile tile) {
-        int xPos = tile.getPosition().getxPos();
-        tiles.get(xPos).add(tile);
+    public void put(MapTile tile, int xPos, int yPos) {
+        tiles.get(xPos).add(yPos, tile);
 
     }
 
