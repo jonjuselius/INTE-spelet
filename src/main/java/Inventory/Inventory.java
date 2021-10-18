@@ -13,6 +13,17 @@ public class Inventory {
 		slots = new Item[CAPACITY];
 	}
 	
+	public Inventory(Item... items) {
+		if (items.length > CAPACITY) {
+			throw new IllegalArgumentException("Too many items specified in constructor");
+		}
+		slots = new Item[CAPACITY];
+		System.arraycopy(items, 0, slots, 0, items.length);
+		//for (int i = 0; i < items.length; i++) {
+		//	slots[i] = items[i];
+		//}
+	}
+	
 	public List<Item> getSlots() {
 		return Collections.unmodifiableList(Arrays.asList(slots.clone()));
 	}
@@ -23,7 +34,20 @@ public class Inventory {
 		return Collections.unmodifiableList(items);
 	}
 	
+	public int getItemSize() {
+		List<Item> items = this.getItems();
+		return items.size();
+	}
+	
+	public int getSlotSize() {
+		List<Item> slots = this.getSlots();
+		return slots.size();
+	}
+	
 	public void add(Item item) {
+		if (this.getItemSize() == CAPACITY) {
+			throw new IllegalArgumentException("Inventory is full!");
+		}
 		int position = -1;
 		for (int i = 0; i < slots.length; i++) {
 			if (slots[i] == null) {
@@ -36,10 +60,10 @@ public class Inventory {
 	
 	public void add(Item item, int position) {
 		if (position < 0 || position >= CAPACITY) {
-			throw new IndexOutOfBoundsException();
+			throw new IndexOutOfBoundsException("Position index is out of inventory boundaries");
 		}
 		if (slots[position] != null) {
-			throw new IllegalStateException();
+			throw new IllegalStateException("There is already an item on this slot");
 		}
 		slots[position] = item;
 	}
@@ -59,25 +83,30 @@ public class Inventory {
 	}
 	
 	public Item remove(int position) {
-		Item removedItem = null;
 		if (position < 0 || position >= CAPACITY) {
 			throw new IndexOutOfBoundsException("Position is out of inventory bounds!");
 		}
 		if (slots[position] == null) {
 			throw new IllegalArgumentException("No item exists at the position!");
 		}
-		removedItem = slots[position];
+		Item removedItem = slots[position];
 		slots[position] = null;
 		return removedItem;
 	}
 	
 	public boolean contains(Item item) {
-		for (int i = 0; i < slots.length; i++) {
-			if (slots[i] == item) {
+		for (Item slot : slots) {
+			if (slot == item) {
 				return true;
 			}
 		}
 		return false;
 	}
 	
+	@Override
+	public String toString() {
+		String output = "";
+		output += this.getItems().toString();
+		return output;
+	}
 }

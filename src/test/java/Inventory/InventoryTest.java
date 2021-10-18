@@ -1,9 +1,10 @@
 package Inventory;
 
 import Item.*;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import java.util.Arrays;
+import org.junit.jupiter.api.function.Executable;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -12,10 +13,67 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class InventoryTest {
 	
+	public static final Item[] DEFAULT_ITEMSET = {new Sword(), new Wand(), new Egg(), new Shield(), new Ring()};
+	public static final Inventory DEFAULT_INVENTORY = new Inventory(DEFAULT_ITEMSET);
+	public static final Item[] EMPTY_ITEMSET = {};
+	public static final Inventory EMPTY_INVENTORY = new Inventory();
+	public static Inventory FULL_INVENTORY;
+	
+	@BeforeAll
+	static void beforeAll() {
+		Item[] swords = new Item[Inventory.CAPACITY];
+		for (int i = 0; i < swords.length; i++) {
+			swords[i] = new Sword();
+		}
+		FULL_INVENTORY = new Inventory(swords);
+	}
+	
 	@Test
-	void newInventoryHasDefaultCapacity() {
-		Inventory inventory = new Inventory();
-		assertThat(inventory.getSlots().size(), is(equalTo(Inventory.CAPACITY)));
+	void emptyInventoryHasItemSizeEqualToZero() {
+		MatcherAssert.assertThat(EMPTY_INVENTORY.getItemSize(), is(equalTo(0)));
+	}
+	
+	@Test
+	void fullInventoryHasItemSizeEqualToMaximumCapacity() {
+		MatcherAssert.assertThat(FULL_INVENTORY.getItemSize(), is(equalTo(Inventory.CAPACITY)));
+	}
+	
+	@Test
+	void inventoryFilledWithExampleItemsetHasInventorySizeEqualToSizeOfExampleItemset() {
+		MatcherAssert.assertThat(DEFAULT_INVENTORY.getItemSize(), is(equalTo(DEFAULT_ITEMSET.length)));
+	}
+	
+	@Test
+	void inventoryConstructorWithEmptyItemsetHasItemSizeEqualToZero() {
+		MatcherAssert.assertThat(new Inventory(EMPTY_ITEMSET).getItemSize(), is(equalTo(0)));
+	}
+	
+	@Test
+	void inventoryConstructorWithTooManyItemsThrowsIAE() {
+		Item[] itemset = FULL_INVENTORY.getItems().toArray(new Item[FULL_INVENTORY.getItemSize() + 1]);
+		itemset[itemset.length - 1] = new Sword();
+		assertThrows(IllegalArgumentException.class, () -> new Inventory(itemset));
+	}
+	
+	@Test
+	void inventorySlotSizeReturnsDefaultInventoryCapacity() {
+		assertThat(DEFAULT_INVENTORY.getSlotSize(), is(equalTo(Inventory.CAPACITY)));
+	}
+	
+	@Test
+	void inventoryConstructorWithDefaultItemsetsCreatesInventoryWithItemsEqualToItemsInTheDefaultItemsets() {
+		Item[] actualItems = DEFAULT_INVENTORY.getItems().toArray(new Item[DEFAULT_INVENTORY.getItemSize()]);
+		assertArrayEquals(actualItems, DEFAULT_ITEMSET);
+	}
+	
+	@Test
+	void addingItemToFullInventoryThrowsIAE() {
+		assertThrows(IllegalArgumentException.class, () -> FULL_INVENTORY.add(new Sword()));
+	}
+	
+	@Test
+	void emptyInventoryHasDefaultCapacity() {
+		MatcherAssert.assertThat(EMPTY_INVENTORY.getSlots().size(), is(equalTo(Inventory.CAPACITY)));
 	}
 	
 	@Test
@@ -58,18 +116,14 @@ class InventoryTest {
 	void addingNewItemToEmptyInventoryOnPositionUnderInventoryBoundsThrowsIOOBE() {
 		Inventory inventory = new Inventory();
 		Item sword = new Sword();
-		assertThrows(IndexOutOfBoundsException.class, () -> {
-			inventory.add(sword, -1);
-		});
+		assertThrows(IndexOutOfBoundsException.class, () -> inventory.add(sword, -1));
 	}
 	
 	@Test
 	void addingNewItemToEmptyInventoryOnPositionOverInventoryBoundsThrowsIOOBE() {
 		Inventory inventory = new Inventory();
 		Item sword = new Sword();
-		assertThrows(IndexOutOfBoundsException.class, () -> {
-			inventory.add(sword, Inventory.CAPACITY);
-		});
+		assertThrows(IndexOutOfBoundsException.class, () -> inventory.add(sword, Inventory.CAPACITY));
 	}
 	
 	@Test
@@ -78,9 +132,7 @@ class InventoryTest {
 		Item sword1 = new Sword();
 		Item sword2 = new Sword();
 		inventory.add(sword1, 2);
-		assertThrows(IllegalStateException.class, () -> {
-			inventory.add(sword2, 2);
-		});
+		assertThrows(IllegalStateException.class, () -> inventory.add(sword2, 2));
 	}
 	
 	@Test
@@ -99,7 +151,7 @@ class InventoryTest {
 		
 		Item[] predicted = {sword, wand, egg, ring};
 		inventory.remove(shield);
-		Item[] actual = inventory.getItems().toArray(new Item[inventory.getItems().size()]);
+		Item[] actual = inventory.getItems().toArray(new Item[inventory.getItemSize()]);
 		assertArrayEquals(predicted, actual);
 	}
 	
@@ -111,9 +163,7 @@ class InventoryTest {
 		inventory.add(sword);
 		
 		assertFalse(inventory.contains(ring));
-		assertThrows(IllegalArgumentException.class, () -> {
-			inventory.remove(ring);
-		});
+		assertThrows(IllegalArgumentException.class, () -> inventory.remove(ring));
 	}
 	
 	@Test
@@ -138,26 +188,20 @@ class InventoryTest {
 	void removingItemFromInventoryOnNegativePositionThrowsIOOBE() {
 		Inventory inventory = new Inventory();
 		inventory.add(new Wand());
-		assertThrows(IndexOutOfBoundsException.class, () -> {
-			inventory.remove(-1);
-		});
+		assertThrows(IndexOutOfBoundsException.class, () -> inventory.remove(-1));
 	}
 	
 	@Test
 	void removingItemFromInventoryOnPositionOverInventoryPositionBoundaryThrowsIOOBE() {
 		Inventory inventory = new Inventory();
 		inventory.add(new Wand());
-		assertThrows(IndexOutOfBoundsException.class, () -> {
-			inventory.remove(Inventory.CAPACITY);
-		});
+		assertThrows(IndexOutOfBoundsException.class, () -> inventory.remove(Inventory.CAPACITY));
 	}
 	
 	@Test
 	void removingItemFromInventoryOnPositionWhereNoItemExistsThrowsIAE() {
 		Inventory inventory = new Inventory();
 		inventory.add(new Wand());
-		assertThrows(IllegalArgumentException.class, () -> {
-			inventory.remove(1);
-		});
+		assertThrows(IllegalArgumentException.class, () -> inventory.remove(1));
 	}
 }
