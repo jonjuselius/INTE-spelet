@@ -1,13 +1,13 @@
 package Jobs;
 
-public class Knight extends Job{
-	
+public class Knight extends Job {
+
 	public Knight() {
+		
+		setHealing(7);
+		setMagic(3);
 		setSwordSkill(10);
-		setHealing(8);
 		setMaxMana(400);
-
-
 
 	}
 
