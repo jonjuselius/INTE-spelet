@@ -32,8 +32,7 @@ public class Map {
     }
 
     public void setTile(MapTile tile) {
-        int xPos = tile.getXPos();
-        //int yPos = tile.getYPos();
+        int xPos = tile.getPosition().getxPos();
         tiles.get(xPos).add(tile);
 
     }

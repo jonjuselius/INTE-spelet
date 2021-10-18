@@ -1,26 +1,28 @@
 package Map;
 
+import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class MapTest {
 
-    @org.junit.jupiter.api.Test
+    @Test
     void getSize() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void getWidth() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void getHeight() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void getTiles() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void setTile() {
     }
 }
