@@ -13,7 +13,7 @@ public class SpellLoaderTest {
     //DamageDealingSpell,Fireball,25,Fire,50
     //HealingSpell,Band-Aid,10,physical,15
 
-    ArrayList<Spell> testSpells = new SpellLoader().loadSpells("SpellDataTest.txt");
+    ArrayList<Spell> testSpells = new SpellLoader().loadSpells("src/resources/SpellDataTest/SpellDataTest");
 
     @Test
     void testLoadedDamageDealingSpell() {
@@ -33,6 +33,23 @@ public class SpellLoaderTest {
         assertEquals(10, spell.getManaCost());
         assertEquals(Element.PHYSICAL, spell.getElement());
         assertEquals(15, ((HealingSpell) spell).getBaseHeal());
+    }
+
+    @Test
+    void testLoadedBuffSpell() {
+
+    }
+
+    @Test
+    void testLoadedDebuffSpell() {
+
+    }
+
+    @Test
+    void testMissingParameterInTxtFile() {
+        assertThrows(IndexOutOfBoundsException.class, () -> {
+            new SpellLoader().loadSpells("src/resources/SpellDataTest/FaultySpellDataTest1");
+        });
     }
 
 }
