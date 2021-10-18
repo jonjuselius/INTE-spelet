@@ -1,6 +1,7 @@
 package GameCharacters;
 
 import org.junit.jupiter.api.Test;
+import Races.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
