@@ -4,6 +4,10 @@ import GameCharacters.*;
 public class Elf extends Race {
 
 	public Elf() {
+		
+		setInitialHealth(200);
+		setStrength(10);
+		setIntelligence(40);
 
 		setIfCanFly(true);
 		setIfCanSwim(false);
@@ -11,7 +15,7 @@ public class Elf extends Race {
 	}
 	
 	public int getMaxHealth() {
-		return 200;
+		return 300;
 	}
 
 }
