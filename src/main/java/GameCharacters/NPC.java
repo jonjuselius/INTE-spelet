@@ -1,3 +1,7 @@
+package GameCharacters;
+
+import GameCharacters.Character;
+
 public class NPC extends Character {
 
 
