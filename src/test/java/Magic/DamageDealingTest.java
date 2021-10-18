@@ -1,6 +1,7 @@
 package Magic;
 
 import GameCharacters.*;
+import Jobs.Magician;
 import Races.*;
 
 import org.junit.jupiter.api.Test;
@@ -10,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class DamageDealingTest {
 
     Human human = new Human();
+    Magician magician = new Magician();
 
     @Test
     void elementalDamageConstructor(){
@@ -51,7 +53,7 @@ class DamageDealingTest {
     @Test
     void powerProgressionChangesInitialDamage() {
         DamageDealingSpell dd = new DamageDealingSpell("Stonefist", 25);
-        Player p = new Player("Player1", human, true);
+        Player p = new Player("Player1", human, magician, true);
         dd.powerProgression(p);
 
         assertEquals(230, dd.getInitialDamage());
@@ -60,8 +62,8 @@ class DamageDealingTest {
     @Test
     void castThrowsExceptionWhenManaTooLow() {
         DamageDealingSpell dd = new DamageDealingSpell("Implode", 250, Element.FIRE);
-        Player p = new Player("Player1", human, true);
-        Adversary a = new Adversary("Bandit", human, true, 5);
+        Player p = new Player("Player1", human, magician, true);
+        Adversary a = new Adversary("Bandit", human, magician, true, 5);
 
         assertThrows(IllegalStateException.class, ()-> dd.cast(p,a));
     }
@@ -69,8 +71,8 @@ class DamageDealingTest {
     @Test
     void castDecreasesCorrectMana() {
         DamageDealingSpell dd = new DamageDealingSpell("Stonefist", 25);
-        Player p = new Player("Player1", human, true);
-        Adversary a = new Adversary("Bandit", human, true, 5);
+        Player p = new Player("Player1", human, magician, true);
+        Adversary a = new Adversary("Bandit", human, magician, true, 5);
         dd.cast(p,a);
         assertEquals(175, p.getRemainingMana());
     }
@@ -78,8 +80,8 @@ class DamageDealingTest {
     @Test
     void castDealsCorrectDamage(){
         DamageDealingSpell dd = new DamageDealingSpell("Stonefist", 25);
-        Player p = new Player("Player1", human, true);
-        Adversary a = new Adversary("Bandit", human, true, 1);
+        Player p = new Player("Player1", human, magician, true);
+        Adversary a = new Adversary("Bandit", human, magician, true, 1);
         dd.cast(p,a);
 
         assertEquals(70, a.getRemainingHealth());

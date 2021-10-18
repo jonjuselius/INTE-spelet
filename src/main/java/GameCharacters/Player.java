@@ -8,9 +8,9 @@ public class Player extends Character {
 
     //private int level;
 
-    public Player(String name, Race race,Job job, boolean isAlive, int health) {
+    public Player(String name, Race race,Job job, boolean isAlive) {
 
-        super( name,  race, job,  isAlive,  health);
+        super( name,  race, job,  isAlive);
         setLevel(1);
 
     }
