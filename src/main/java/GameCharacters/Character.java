@@ -1,5 +1,6 @@
 package GameCharacters;
 
+import Inventory.*;
 import Jobs.Job;
 import Magic.SpellCollection;
 import Races.*;
@@ -14,19 +15,22 @@ public abstract class Character {
 	private int health;
 
 	private SpellCollection spellCollection;
+	private Inventory inventory;
 
 	// hitPoints = hälsa
+	private int maxMana;
+	private int maxHealth;
 	private int remainingHealth;
 	private int remainingMana;
 	private int strength;
 	private int intelligence;
 
-//TODO ändra maxhealth och maxmana
 	public Character(String name, Race race, Job job, boolean isAlive) {
 		this.name = name;
 		this.race = race;
 		this.job = job;
 		isAlive = true;
+		this.inventory = inventory;
 
 	}
 
@@ -41,6 +45,7 @@ public abstract class Character {
 		}
 
 		throw new IllegalStateException();
+
 	}// increase
 
 	public int getLevel() {
@@ -102,4 +107,12 @@ public abstract class Character {
 			remainingHealth = Math.min(newHealth, race.getMaxHealth());
 		}
 	}
+
+	// Lagt health i character
+
+
+
+	public Inventory getInventory() {
+        return inventory;
+    }
 }

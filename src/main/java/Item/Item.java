@@ -4,18 +4,27 @@ import java.util.*;
 
 public abstract class Item {
 	
+	public static final int MAX_CONDITION = 100;
+	public static final int MIN_CONDITION = 0;
 	private int weight;
 	private int value;
 	private List<String> jobCertifications;
 	private List<String> raceCertifications;
 	private Size size;
+	private Type type;
+	private int condition;
 	
-	public Item(int weight, int value, String[] jobCertifications, String[] raceCertifications, Size size) {
+	public Item(int weight, int value, String[] jobCertifications, String[] raceCertifications, Size size, Type type, int condition) {
+		if (condition < MIN_CONDITION || condition > MAX_CONDITION) {
+			throw new IllegalArgumentException();
+		}
 		this.weight = weight;
 		this.value = value;
 		this.jobCertifications = Arrays.asList(jobCertifications);
 		this.raceCertifications = Arrays.asList(raceCertifications);
 		this.size = size;
+		this.type = type;
+		this.condition = condition;
 	}
 	
 	public int getWeight() {
@@ -24,6 +33,14 @@ public abstract class Item {
 	
 	public int getValue() {
 		return value;
+	}
+	
+	public int getCondition() {
+		return condition;
+	}
+	
+	public Type getType() {
+		return type;
 	}
 	
 	public List<String> getJobCertifications() {
@@ -36,5 +53,10 @@ public abstract class Item {
 	
 	public Size getSize() {
 		return size;
+	}
+	
+	@Override
+	public String toString() {
+		return this.getClass().getName().toString();
 	}
 }

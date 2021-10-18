@@ -3,6 +3,8 @@ package Inventory;
 import Item.*;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -78,6 +80,84 @@ class InventoryTest {
 		inventory.add(sword1, 2);
 		assertThrows(IllegalStateException.class, () -> {
 			inventory.add(sword2, 2);
+		});
+	}
+	
+	@Test
+	void removingItemFromInventoryThatContainsThatItemActuallyRemovesThatItemFromInventory() {
+		Inventory inventory = new Inventory();
+		Item sword = new Sword();
+		Item wand = new Wand();
+		Item egg = new Egg();
+		Item shield = new Shield();
+		Item ring = new Ring();
+		inventory.add(sword);
+		inventory.add(wand);
+		inventory.add(egg);
+		inventory.add(shield);
+		inventory.add(ring);
+		
+		Item[] predicted = {sword, wand, egg, ring};
+		inventory.remove(shield);
+		Item[] actual = inventory.getItems().toArray(new Item[inventory.getItems().size()]);
+		assertArrayEquals(predicted, actual);
+	}
+	
+	@Test
+	void removingItemFromInventoryThatDoesntContainThatItemThrowsIAE() {
+		Inventory inventory = new Inventory();
+		Item sword = new Sword();
+		Item ring = new Ring();
+		inventory.add(sword);
+		
+		assertFalse(inventory.contains(ring));
+		assertThrows(IllegalArgumentException.class, () -> {
+			inventory.remove(ring);
+		});
+	}
+	
+	@Test
+	void addingShieldToInventoryMakesInventoryContainThatShield() {
+		Inventory inventory = new Inventory();
+		Item shield = new Shield();
+		inventory.add(shield);
+		assertTrue(inventory.contains(shield));
+	}
+	
+	@Test
+	void inventoryContainingARingDoesNotContainAnotherRing() {
+		Inventory inventory = new Inventory();
+		Item ring = new Ring();
+		inventory.add(ring);
+		assertTrue(inventory.contains(ring));
+		Item anotherRing = new Ring();
+		assertFalse(inventory.contains(anotherRing));
+	}
+	
+	@Test
+	void removingItemFromInventoryOnNegativePositionThrowsIOOBE() {
+		Inventory inventory = new Inventory();
+		inventory.add(new Wand());
+		assertThrows(IndexOutOfBoundsException.class, () -> {
+			inventory.remove(-1);
+		});
+	}
+	
+	@Test
+	void removingItemFromInventoryOnPositionOverInventoryPositionBoundaryThrowsIOOBE() {
+		Inventory inventory = new Inventory();
+		inventory.add(new Wand());
+		assertThrows(IndexOutOfBoundsException.class, () -> {
+			inventory.remove(Inventory.CAPACITY);
+		});
+	}
+	
+	@Test
+	void removingItemFromInventoryOnPositionWhereNoItemExistsThrowsIAE() {
+		Inventory inventory = new Inventory();
+		inventory.add(new Wand());
+		assertThrows(IllegalArgumentException.class, () -> {
+			inventory.remove(1);
 		});
 	}
 }
