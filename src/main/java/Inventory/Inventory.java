@@ -44,4 +44,40 @@ public class Inventory {
 		slots[position] = item;
 	}
 	
+	public Item remove(Item item) {
+		int position = -1;
+		for (int i = 0; i < slots.length; i++) {
+			if (slots[i] == item) {
+				position = i;
+				break;
+			}
+		}
+		if (position < 0) {
+			throw new IllegalArgumentException("Item does not exist in inventory!");
+		}
+		return remove(position);
+	}
+	
+	public Item remove(int position) {
+		Item removedItem = null;
+		if (position < 0 || position >= CAPACITY) {
+			throw new IndexOutOfBoundsException("Position is out of inventory bounds!");
+		}
+		if (slots[position] == null) {
+			throw new IllegalArgumentException("No item exists at the position!");
+		}
+		removedItem = slots[position];
+		slots[position] = null;
+		return removedItem;
+	}
+	
+	public boolean contains(Item item) {
+		for (int i = 0; i < slots.length; i++) {
+			if (slots[i] == item) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 }

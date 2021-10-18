@@ -1,5 +1,6 @@
 package GameCharacters;
 
+import Inventory.*;
 import Jobs.Job;
 import Magic.SpellCollection;
 import Races.*;
@@ -15,6 +16,7 @@ public abstract class Character {
 	private int health;
 
     private SpellCollection spellCollection;
+    private Inventory inventory;
 
 
     //hitPoints = hälsa
@@ -38,6 +40,7 @@ public abstract class Character {
         setHealth(300);
         remainingMana = maxMana;
         remainingHealth = maxHealth;
+        this.inventory = inventory;
 
     }
 
@@ -130,5 +133,9 @@ public abstract class Character {
     public void getHealed(int healPoints){
         int healTotal = remainingHealth + healPoints;
         remainingHealth = Math.min(healTotal, maxHealth);
+    }
+    
+    public Inventory getInventory() {
+        return inventory;
     }
 }
