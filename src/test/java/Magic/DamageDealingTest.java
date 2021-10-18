@@ -1,6 +1,8 @@
 package Magic;
 
 import GameCharacters.*;
+import Races.*;
+
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
