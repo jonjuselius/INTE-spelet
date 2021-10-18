@@ -1,6 +1,10 @@
+package GameCharacters;
+
+import GameCharacters.Character;
+
 public class Player extends Character {
 
-    private int level;
+    //private int level;
 
     public Player(String name, Race race, boolean isAlive) {
 
