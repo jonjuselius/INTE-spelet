@@ -27,7 +27,7 @@ public abstract class Character {
 
 
 //TODO ändra maxhealth och maxmana
-    public Character(String name, Race race,Job job, boolean isAlive, int health) {
+    public Character(String name, Race race,Job job, boolean isAlive) {
         this.name = name;
         this.race = race;
 		this.job = job;
@@ -35,6 +35,7 @@ public abstract class Character {
         setStrength(10);
         setIntelligence(10);
         setMaxMana(200);
+        setHealth(300);
         remainingMana = maxMana;
         remainingHealth = maxHealth;
 
