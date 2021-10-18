@@ -98,7 +98,7 @@ public abstract class Character {
 		remainingHealth = Math.min(healTotal, race.getMaxHealth());
 	}
 
-	public void getHealedByHealer() {
+	public void getHealedDependingOnYourOwnHealSkill() {
 		if (race.getHealth() < remainingHealth) {
 			int newHealth = remainingHealth + job.getHealing() * getLevel();
 			remainingHealth = Math.min(newHealth, race.getMaxHealth());
