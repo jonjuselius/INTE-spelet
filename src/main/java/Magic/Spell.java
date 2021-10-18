@@ -15,12 +15,6 @@ public abstract class Spell {
         this.element = element;
     }
 
-    public Spell(String name, int manaCost) {
-        this.name = name;
-        this.manaCost = manaCost;
-        this.element = Element.PHYSICAL;
-    }
-
     public void powerProgression(Character character) {
 
     }

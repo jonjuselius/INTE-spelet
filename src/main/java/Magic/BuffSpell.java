@@ -7,7 +7,4 @@ public class BuffSpell extends Spell {
         super(name, manaCost, element);
     }
 
-    public BuffSpell(String name, int manaCost) {
-        super(name, manaCost);
-    }
 }

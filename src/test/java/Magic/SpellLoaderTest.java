@@ -1,2 +1,6 @@
-package Magic;public class SpellLoaderTest {
+package Magic;
+
+public class SpellLoaderTest {
+
+
 }

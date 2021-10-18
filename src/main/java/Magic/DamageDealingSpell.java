@@ -5,19 +5,14 @@ import GameCharacters.Character;
 
 public class DamageDealingSpell extends Spell {
 
+    private int baseDamage;
     private int initialDamage;
     private int damageOverTime;
     private int duration;
 
-    public DamageDealingSpell(String name, int manaCost, Element element) {
+    public DamageDealingSpell(String name, int manaCost, Element element, int baseDamage) {
         super(name, manaCost, element);
-        setInitialDamage(10);
-        setDamageOverTime(0);
-        setDuration(0);
-    }
-
-    public DamageDealingSpell(String name, int manaCost) {
-        super(name, manaCost);
+        this.baseDamage = baseDamage;
         setInitialDamage(10);
         setDamageOverTime(0);
         setDuration(0);

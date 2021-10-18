@@ -4,20 +4,15 @@ import GameCharacters.Character;
 
 public class HealingSpell extends Spell {
 
+    private int baseHeal;
     private int initialHeal;
     private int healOverTime;
     private int duration;
 
 
-    public HealingSpell(String name, int manaCost, Element element) {
+    public HealingSpell(String name, int manaCost, Element element, int baseHeal) {
         super(name, manaCost, element);
-        setInitialHeal(getManaCost() * 2);
-        setHealOverTime(0);
-        setDuration(0);
-    }
-
-    public HealingSpell(String name, int manaCost) {
-        super(name, manaCost);
+        this.baseHeal = baseHeal;
         setInitialHeal(getManaCost() * 2);
         setHealOverTime(0);
         setDuration(0);
