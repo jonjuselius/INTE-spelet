@@ -1,3 +1,5 @@
+import Inventory.*;
+
 public abstract class Character {
 
     private String name;
@@ -5,6 +7,7 @@ public abstract class Character {
     private Race race;
     private Job job;
     private int level;
+    private Inventory inventory;
 
     //hitPoints = hälsa
     private int hitPoints;
@@ -24,6 +27,7 @@ public abstract class Character {
         setIntelligence(10);
         setWisdom(10);
         setCharisma(10);
+        this.inventory = new Inventory();
     }
 
     public String getName() {
@@ -70,5 +74,9 @@ public abstract class Character {
 
     protected void setCharisma(int charisma) {
         this.charisma = charisma;
+    }
+    
+    public Inventory getInventory() {
+        return inventory;
     }
 }
