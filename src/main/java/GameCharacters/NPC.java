@@ -10,8 +10,8 @@ public class NPC extends Character {
 
     private int level;
 
-    public NPC(String name, Race race,Job job, boolean isAlive, int health) {
-        super( name, race, job, isAlive, health);
+    public NPC(String name, Race race,Job job, boolean isAlive) {
+        super( name, race, job, isAlive);
         this.level = level;
     }
 }

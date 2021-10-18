@@ -5,7 +5,7 @@ import GameCharacters.*;
 
 public abstract class Race {
 
-
+	private int initialHealth;
 	private boolean canWalkThroughTerraign;
 	private boolean canSwim;
 	private boolean canFly;
@@ -19,6 +19,14 @@ public abstract class Race {
 		setIfCanSwim(false);
 		setIfCanWalkThroughTerraign(false);
 	}
+	
+    public int getHealth(){
+        return initialHealth;
+    }
+    
+	public void setInitialHealth(int health) {
+		this.initialHealth = health;
+	}//
 
 	public boolean getIfCanFly() {
 		return canFly;
@@ -47,5 +55,14 @@ public abstract class Race {
 	public int getMaxHealth() {
 		return maxHealth;
 	}
+	
+
+    protected void setStrength(int strength) {
+    }
+
+
+    protected void setIntelligence(int intelligence) {
+    }
+
 
 }

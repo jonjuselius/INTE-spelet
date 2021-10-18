@@ -6,10 +6,13 @@ import Races.*;
 
 public class Adversary extends Character {
 
-    private int level;
 
-    public Adversary(String name, Race race,Job job, boolean isAlive, int health) {
-        super( name,  race, job,  isAlive,  health);
+    public Adversary(String name, Race race,Job job, boolean isAlive, int level) {
+        super( name,  race, job,  isAlive);
+        this.level = level;
+    }
+
+    protected void setLevel(int level) {
         this.level = level;
     }
 }
