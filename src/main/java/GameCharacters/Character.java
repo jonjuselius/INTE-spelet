@@ -17,7 +17,7 @@ public abstract class Character {
 	private SpellCollection spellCollection;
 	private Inventory inventory;
 
-	// hitPoints = h√§lsa
+	// hitPoints = h‰lsa
 	private int maxMana;
 	private int maxHealth;
 	private int remainingHealth;
@@ -102,17 +102,30 @@ public abstract class Character {
 		if (race.getHealth() < remainingHealth) {
 			int newHealth = remainingHealth + job.getHealing() * getLevel();
 			remainingHealth = Math.min(newHealth, race.getMaxHealth());
-		} else {
+		} else if(race.getHealth() > remainingHealth){
 			int newHealth = race.getHealth() + job.getHealing() * getLevel();
 			remainingHealth = Math.min(newHealth, race.getMaxHealth());
 		}
 	}
 
-	// Lagt health i character
-
+	public void takeDamageDependingOnYourSwordSkillAndStrength(int damage) {
+		int milderDamage = job.getSwordSkill() *getLevel() + (race.getStrength()/10);
+		if (race.getHealth() < remainingHealth) {
+			int newHealth = remainingHealth - damage + milderDamage;
+			remainingHealth = Math.min(newHealth, race.getMaxHealth());
+		} else if(race.getHealth() > remainingHealth){
+			int newHealth = race.getHealth() - damage + milderDamage;
+			remainingHealth = Math.min(newHealth, race.getMaxHealth());
+		}
+	}
 
 
 	public Inventory getInventory() {
         return inventory;
     }
 }
+
+
+
+	// Lagt health i character
+	

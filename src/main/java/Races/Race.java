@@ -10,6 +10,7 @@ public abstract class Race {
 	private boolean canSwim;
 	private boolean canFly;
 	protected int maxHealth;
+	private int strength;
 
 
 	public Race() {
@@ -59,6 +60,10 @@ public abstract class Race {
 
     protected void setStrength(int strength) {
     }
+    
+	public int getStrength() {
+		return strength;
+	}
 
 
     protected void setIntelligence(int intelligence) {
