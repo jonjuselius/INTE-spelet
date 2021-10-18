@@ -1,0 +1,3 @@
+Spells:
+DamageDealingSpell,Fireball,25,Fire,50
+HealingSpell,Band-Aid,10,physical,15

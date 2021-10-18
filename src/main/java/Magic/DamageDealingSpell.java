@@ -64,4 +64,8 @@ public class DamageDealingSpell extends Spell {
             target.takeDamage(initialDamage);
         }
     }
+
+    public int getBaseDamage() {
+        return baseDamage;
+    }
 }

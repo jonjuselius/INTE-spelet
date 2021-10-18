@@ -15,11 +15,10 @@ public class SpellLoader {
 
     //loads spells from textfile in the following format:
     //<spellType>,<mana cost>,<Element>,<baseDamage/Heal>(for damage or healing spells)
-    public ArrayList<Spell> loadSpells() {
-        String fileName = "src/resources/SpellData.txt";
+    public ArrayList<Spell> loadSpells(String spellDataPathName) {
         ArrayList<Spell> spells = new ArrayList<>();
         try {
-            FileReader rd = new FileReader(fileName);
+            FileReader rd = new FileReader(spellDataPathName);
             BufferedReader br = new BufferedReader(rd);
 
             String line;
@@ -45,7 +44,7 @@ public class SpellLoader {
 
 
         } catch (FileNotFoundException e){
-            System.err.println("SpellLoader: Cannot find " + fileName);
+            System.err.println("SpellLoader: Cannot find " + spellDataPathName);
         } catch (IOException e) {
             System.err.println("Error: " + e.getMessage());
         }

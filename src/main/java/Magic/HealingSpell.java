@@ -62,6 +62,10 @@ public class HealingSpell extends Spell {
         }
     }
 
+    public int getBaseHeal() {
+        return baseHeal;
+    }
+
 
 
 }
