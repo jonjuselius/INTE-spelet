@@ -35,7 +35,7 @@ public class MapGenerator {
         Position downNeighbor = tile.getNeighbors()[3];
 
         if (downNeighbor != null) {
-            return map.getTiles().get(downNeighbor.getxPos()).get(downNeighbor.getyPos()).getTerrain();
+            return map.getTiles().get(downNeighbor.getXPos()).get(downNeighbor.getYPos()).getTerrain();
         }
 
         //If the tile doesn't have any neighbors yet, return grass as standard
@@ -79,43 +79,43 @@ public class MapGenerator {
     }
 
     private void setNeighbors(Map map, MapTile tile) {
-        int xPos = tile.getPosition().getxPos();
-        int yPos = tile.getPosition().getyPos();
+        int xPos = tile.getPosition().getXPos();
+        int yPos = tile.getPosition().getYPos();
 
-        Position leftNeighbor;
-        Position rightNeighbor;
-        Position upNeighbor;
-        Position downNeighbor;
+        Position westNeighbor;
+        Position eastNeighbor;
+        Position northNeighbor;
+        Position southNeighbor;
 
-        //Set left neighbor
+        //Set west neighbor
         if (xPos - 1 < map.getWidth() -1 ) {
-            leftNeighbor = null;
+            westNeighbor = null;
         } else {
-            leftNeighbor = new Position(xPos - 1, yPos);
+            westNeighbor = new Position(xPos - 1, yPos);
         }
 
-        //Set right neighbor
+        //Set east neighbor
         if (xPos + 1 > map.getWidth() - 1) {
-            rightNeighbor = null;
+            eastNeighbor = null;
         } else {
-            rightNeighbor = new Position(xPos + 1, yPos);
+            eastNeighbor = new Position(xPos + 1, yPos);
         }
 
-        //Set neighbor above
+        //Set north neighbor
         if (yPos + 1 > map.getHeight() - 1) {
-            upNeighbor = null;
+            northNeighbor = null;
         } else {
-            upNeighbor = new Position(xPos, yPos + 1);
+            northNeighbor = new Position(xPos, yPos + 1);
         }
 
-        //Set neighbor below
+        //Set south neighbor
         if (yPos - 1 < map.getHeight() - 1) {
-            downNeighbor = null;
+            southNeighbor = null;
         } else {
-            downNeighbor = new Position(xPos, yPos - 1);
+            southNeighbor = new Position(xPos, yPos - 1);
         }
 
-        tile.setNeighbors(leftNeighbor, rightNeighbor, upNeighbor, downNeighbor);
+        tile.setNeighbors(westNeighbor, eastNeighbor, northNeighbor, southNeighbor);
         }
     }
 

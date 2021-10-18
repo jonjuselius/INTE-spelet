@@ -25,11 +25,11 @@ public class MapTile {
         return terrain;
     }
 
-    public void setNeighbors(Position left, Position right, Position up, Position down) {
-        neighbors[0] = left;
-        neighbors[1] = right;
-        neighbors[2] = up;
-        neighbors[3] = down;
+    public void setNeighbors(Position west, Position east, Position north, Position south) {
+        neighbors[0] = west;
+        neighbors[1] = east;
+        neighbors[2] = north;
+        neighbors[3] = south;
     }
 
     public Position[] getNeighbors() {
