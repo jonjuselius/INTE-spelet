@@ -58,13 +58,13 @@ public class Inventory {
 		return remove(position);
 	}
 	
-	private Item remove(int position) {
+	public Item remove(int position) {
 		Item removedItem = null;
 		if (position < 0 || position >= CAPACITY) {
 			throw new IndexOutOfBoundsException("Position is out of inventory bounds!");
 		}
 		if (slots[position] == null) {
-			throw new IllegalStateException("No item exists at the position!");
+			throw new IllegalArgumentException("No item exists at the position!");
 		}
 		removedItem = slots[position];
 		slots[position] = null;

@@ -133,4 +133,31 @@ class InventoryTest {
 		Item anotherRing = new Ring();
 		assertFalse(inventory.contains(anotherRing));
 	}
+	
+	@Test
+	void removingItemFromInventoryOnNegativePositionThrowsIOOBE() {
+		Inventory inventory = new Inventory();
+		inventory.add(new Wand());
+		assertThrows(IndexOutOfBoundsException.class, () -> {
+			inventory.remove(-1);
+		});
+	}
+	
+	@Test
+	void removingItemFromInventoryOnPositionOverInventoryPositionBoundaryThrowsIOOBE() {
+		Inventory inventory = new Inventory();
+		inventory.add(new Wand());
+		assertThrows(IndexOutOfBoundsException.class, () -> {
+			inventory.remove(Inventory.CAPACITY);
+		});
+	}
+	
+	@Test
+	void removingItemFromInventoryOnPositionWhereNoItemExistsThrowsIAE() {
+		Inventory inventory = new Inventory();
+		inventory.add(new Wand());
+		assertThrows(IllegalArgumentException.class, () -> {
+			inventory.remove(1);
+		});
+	}
 }
