@@ -5,7 +5,7 @@ import GameCharacters.*;
 public class Human extends Race {
 
 	public Human() {
-		setMaxHealth(100);
+		setMaxHealth(300);
 		setStrength(20);
 		setIntelligence(20);
 
