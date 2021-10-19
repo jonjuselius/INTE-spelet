@@ -11,7 +11,7 @@ import Races.Human;
 import Races.Ogre;
 
 class JobTest {
-	void elfConstructor() {
+	void knightConstructor() {
 
 		Knight h = new Knight();
 		assertEquals(7, h.getHealing());
@@ -22,7 +22,7 @@ class JobTest {
 	}
 
 	@Test
-	void humanConstructor() {
+	void healerConstructor() {
 		Healer h = new Healer();
 		assertEquals(10, h.getHealing());
 		assertEquals(3, h.getMagic());
@@ -32,7 +32,7 @@ class JobTest {
 	}
 
 	@Test
-	void ogreConstructor() {
+	void magicianConstructor() {
 		Magician h = new Magician();
 		assertEquals(7, h.getHealing());
 		assertEquals(10, h.getMagic());
@@ -45,11 +45,12 @@ class JobTest {
 	@Test
 	void getHealedDependingOnYourOwnHealSkillShouldBeThreehundredTwentyForLevelOne() {
 
-		Player c1 = new Player("Jasmyn", new Ogre(), new Healer(), true);
-		c1.getHealedDependingOnYourOwnHealSkill();
+		Player c1 = new Player("Jasmyn", new Ogre(), new Knight(), true);
+		c1.takeDamage(100);
+
 		c1.getHealedDependingOnYourOwnHealSkill();
 
-		assertEquals(320, c1.getRemainingHealth());
+		assertEquals(207, c1.getRemainingHealth());
 
 	}
 
@@ -70,7 +71,7 @@ class JobTest {
 		c1.getHealedDependingOnYourOwnHealSkill();
 		c1.getHealedDependingOnYourOwnHealSkill();
 
-		assertEquals(400, c1.getRemainingHealth());
+		assertEquals(300, c1.getRemainingHealth());
 
 	}
 	
@@ -80,7 +81,7 @@ class JobTest {
 		Player c1 = new Player("Jasmyn", new Elf(), new Knight(), true);
 		c1.takeDamageDependingOnYourSwordSkillAndStrength(100);
 
-		assertEquals(110, c1.getRemainingHealth());
+		assertEquals(120, c1.getRemainingHealth());
 
 	}
 

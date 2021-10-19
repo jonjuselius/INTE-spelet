@@ -38,7 +38,7 @@ class CharacterTest {
     @Test
     void getHealedIncreasesHealth() {
         Player p = new Player("Player1", human, magician, true);
-        p.setRemainingHealth(100);
+//        p.setRemainingHealth(100);
         p.getHealed(100);
 
         assertEquals(200, p.getRemainingHealth());
@@ -47,7 +47,7 @@ class CharacterTest {
     @Test
     void getHealedMoreThanMaxSetsHealthToMax(){
         Player p = new Player("Player1", human, magician, true);
-        p.setRemainingHealth(250);
+//        p.setRemainingHealth(250);
         p.getHealed(100);
 
         assertEquals(300, p.getRemainingHealth());
