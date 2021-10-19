@@ -73,10 +73,6 @@ class MapTest {
         assertEquals(yPos, map.getMapTiles()[xPos][yPos].getPosition().getYPos());
     }
 
-//    @Test
-//    void containsAllTerrains() {
-//        fail("Not yet implemented");
-//    }
 
 
 
