@@ -16,8 +16,8 @@ class SwordTest {
 	public static final Race OGRE = new Ogre();
 	public static final Race ELF = new Elf();
 	public static final Job KNIGHT = new Knight();
-	public static final Job MAGICIAN = new Knight();
-	public static final Job HEALER = new Knight();
+	public static final Job MAGICIAN = new Magician();
+	public static final Job HEALER = new Healer();
 	public static final boolean DEFAULT_LIFE_STATUS = true;
 	public static final Character[] DEFAULT_PLAYERS = {
 			new Player(DEFAULT_NAME, HUMAN, KNIGHT, DEFAULT_LIFE_STATUS),
@@ -48,31 +48,31 @@ class SwordTest {
 	
 	@Test
 	void R4_canUse() {
-		assertTrue(DEFAULT_SWORD.canBeUsedBy(DEFAULT_PLAYERS[3]));
+		assertFalse(DEFAULT_SWORD.canBeUsedBy(DEFAULT_PLAYERS[3]));
 	}
 	
 	@Test
 	void R5_canUse() {
-		assertTrue(DEFAULT_SWORD.canBeUsedBy(DEFAULT_PLAYERS[4]));
+		assertFalse(DEFAULT_SWORD.canBeUsedBy(DEFAULT_PLAYERS[4]));
 	}
 	
 	@Test
 	void R6_canUse() {
-		assertTrue(DEFAULT_SWORD.canBeUsedBy(DEFAULT_PLAYERS[5]));
+		assertFalse(DEFAULT_SWORD.canBeUsedBy(DEFAULT_PLAYERS[5]));
 	}
 	
 	@Test
 	void R7_canUse() {
-		assertTrue(DEFAULT_SWORD.canBeUsedBy(DEFAULT_PLAYERS[6]));
+		assertFalse(DEFAULT_SWORD.canBeUsedBy(DEFAULT_PLAYERS[6]));
 	}
 	
 	@Test
 	void R8_canUse() {
-		assertTrue(DEFAULT_SWORD.canBeUsedBy(DEFAULT_PLAYERS[7]));
+		assertFalse(DEFAULT_SWORD.canBeUsedBy(DEFAULT_PLAYERS[7]));
 	}
 	
 	@Test
 	void R9_canUse() {
-		assertTrue(DEFAULT_SWORD.canBeUsedBy(DEFAULT_PLAYERS[8]));
+		assertFalse(DEFAULT_SWORD.canBeUsedBy(DEFAULT_PLAYERS[8]));
 	}
 }

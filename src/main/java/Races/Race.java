@@ -59,5 +59,5 @@ public abstract class Race {
 	}
 
 	public abstract int getMaxHealth();
-
+	
 }

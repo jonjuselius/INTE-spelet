@@ -210,6 +210,14 @@ public abstract class Character {
 	public Inventory getInventory() {
 		return inventory;
 	}
+	
+	public Race getRace() {
+		return race;
+	}
+	
+	public Job getJob() {
+		return job;
+	}
 }
 
 // Lagt health i character

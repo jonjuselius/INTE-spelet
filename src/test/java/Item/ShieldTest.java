@@ -2,8 +2,10 @@ package Item;
 
 import GameCharacters.Character;
 import GameCharacters.Player;
+import Jobs.Healer;
 import Jobs.Job;
 import Jobs.Knight;
+import Jobs.Magician;
 import Races.Elf;
 import Races.Human;
 import Races.Ogre;
@@ -20,8 +22,8 @@ class ShieldTest {
 	public static final Race OGRE = new Ogre();
 	public static final Race ELF = new Elf();
 	public static final Job KNIGHT = new Knight();
-	public static final Job MAGICIAN = new Knight();
-	public static final Job HEALER = new Knight();
+	public static final Job MAGICIAN = new Magician();
+	public static final Job HEALER = new Healer();
 	public static final boolean DEFAULT_LIFE_STATUS = true;
 	public static final Character[] DEFAULT_PLAYERS = {
 			new Player(DEFAULT_NAME, HUMAN, KNIGHT, DEFAULT_LIFE_STATUS),

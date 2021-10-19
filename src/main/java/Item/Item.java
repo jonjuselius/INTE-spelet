@@ -2,6 +2,8 @@ package Item;
 
 import java.util.*;
 import GameCharacters.Character;
+import Jobs.Job;
+import Races.Race;
 
 public abstract class Item {
 	
@@ -57,6 +59,19 @@ public abstract class Item {
 	}
 	
 	public boolean canBeUsedBy(Character character) {
-		return true;
+		Race race = character.getRace();
+		Job job = character.getJob();
+		
+		String raceStr = race.getClass().getSimpleName().toString();
+		String jobStr = job.getClass().getSimpleName().toString();
+		
+		//System.out.println(raceStr);
+		//System.out.println(jobStr);
+		
+		if (getRaceCertifications().contains(raceStr) && getJobCertifications().contains(jobStr)) {
+			return true;
+		}
+		
+		return false;
 	}
 }
