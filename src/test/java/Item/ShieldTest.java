@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ShieldTest {
 	
-	public static final Egg DEFAULT_SHIELD = new Egg();
+	public static final Shield DEFAULT_SHIELD = new Shield();
 	public static final String DEFAULT_NAME = "Mr Default";
 	public static final Race HUMAN = new Human();
 	public static final Race OGRE = new Ogre();
