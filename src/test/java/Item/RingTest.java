@@ -17,24 +17,24 @@ import static org.junit.jupiter.api.Assertions.*;
 class RingTest {
 	
 	public static final Ring DEFAULT_RING = new Ring();
-	public static final String DEFAULT_NAME = "Mr Default";
+	public static final String NAME = "Mr Default";
 	public static final Race HUMAN = new Human();
 	public static final Race OGRE = new Ogre();
 	public static final Race ELF = new Elf();
 	public static final Job KNIGHT = new Knight();
 	public static final Job MAGICIAN = new Magician();
 	public static final Job HEALER = new Healer();
-	public static final boolean DEFAULT_LIFE_STATUS = true;
+	public static final boolean ALIVE = true;
 	public static final Character[] DEFAULT_PLAYERS = {
-			new Player(DEFAULT_NAME, HUMAN, KNIGHT, DEFAULT_LIFE_STATUS),
-			new Player(DEFAULT_NAME, OGRE, KNIGHT, DEFAULT_LIFE_STATUS),
-			new Player(DEFAULT_NAME, ELF, KNIGHT, DEFAULT_LIFE_STATUS),
-			new Player(DEFAULT_NAME, HUMAN, MAGICIAN, DEFAULT_LIFE_STATUS),
-			new Player(DEFAULT_NAME, OGRE, MAGICIAN, DEFAULT_LIFE_STATUS),
-			new Player(DEFAULT_NAME, ELF, MAGICIAN, DEFAULT_LIFE_STATUS),
-			new Player(DEFAULT_NAME, HUMAN, HEALER, DEFAULT_LIFE_STATUS),
-			new Player(DEFAULT_NAME, OGRE, HEALER, DEFAULT_LIFE_STATUS),
-			new Player(DEFAULT_NAME, ELF, HEALER, DEFAULT_LIFE_STATUS),
+			new Player(NAME, HUMAN, KNIGHT, ALIVE),
+			new Player(NAME, OGRE, KNIGHT, ALIVE),
+			new Player(NAME, ELF, KNIGHT, ALIVE),
+			new Player(NAME, HUMAN, MAGICIAN, ALIVE),
+			new Player(NAME, OGRE, MAGICIAN, ALIVE),
+			new Player(NAME, ELF, MAGICIAN, ALIVE),
+			new Player(NAME, HUMAN, HEALER, ALIVE),
+			new Player(NAME, OGRE, HEALER, ALIVE),
+			new Player(NAME, ELF, HEALER, ALIVE),
 	};
 	
 	@Test
