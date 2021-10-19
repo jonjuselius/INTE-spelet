@@ -6,7 +6,7 @@ import Jobs.Magician;
 import org.junit.jupiter.api.Test;
 import Races.*;
 
-import static org.junit.Assert.assertEquals;
+//import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CharacterTest {
@@ -150,7 +150,7 @@ class CharacterTest {
 		assertEquals(299, c1.getRemainingHealth());
 		
 		
-	}//förCoverage
+	}//fï¿½rCoverage
 
 	// Tdd
 	@Test
