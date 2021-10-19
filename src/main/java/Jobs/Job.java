@@ -8,10 +8,7 @@ public abstract class Job {
 	protected int maxMana;
 
 	public Job() {
-		setMagic(0);
-		setHealing(0);
-		setSwordSkill(0);
-		setMaxMana(0);
+
 	}
 
 	public int getMagic() {
