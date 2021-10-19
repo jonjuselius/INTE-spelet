@@ -24,7 +24,7 @@ class RaceTest {
 	@Test
 	void humanConstructor() {
 		Human human = new Human();
-		assertEquals(100, human.getMaxHealth());
+		assertEquals(300, human.getMaxHealth());
 		assertEquals(false, human.getIfCanFly());
 		assertEquals(true, human.getIfCanSwim());
 		assertEquals(true, human.getIfCanWalkThroughTerraign());
