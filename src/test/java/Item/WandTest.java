@@ -39,17 +39,17 @@ class WandTest {
 	
 	@Test
 	void R10_canUse() {
-		assertTrue(DEFAULT_WAND.canBeUsedBy(DEFAULT_PLAYERS[0]));
+		assertFalse(DEFAULT_WAND.canBeUsedBy(DEFAULT_PLAYERS[0]));
 	}
 	
 	@Test
 	void R11_canUse() {
-		assertTrue(DEFAULT_WAND.canBeUsedBy(DEFAULT_PLAYERS[1]));
+		assertFalse(DEFAULT_WAND.canBeUsedBy(DEFAULT_PLAYERS[1]));
 	}
 	
 	@Test
 	void R12_canUse() {
-		assertTrue(DEFAULT_WAND.canBeUsedBy(DEFAULT_PLAYERS[2]));
+		assertFalse(DEFAULT_WAND.canBeUsedBy(DEFAULT_PLAYERS[2]));
 	}
 	
 	@Test
