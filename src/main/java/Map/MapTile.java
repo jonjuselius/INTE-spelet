@@ -5,10 +5,6 @@ public class MapTile {
     private Position position;
     private Position[] neighbors = new Position[4];
 
-    public enum Terrain {
-        GRASS, WATER, LAVA
-    }
-
     public MapTile(Position position) {
         this.position = position;
     }
