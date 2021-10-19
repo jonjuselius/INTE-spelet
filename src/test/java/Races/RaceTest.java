@@ -14,7 +14,7 @@ class RaceTest {
 	void elfConstructor() {
 
 		Elf elf = new Elf();
-		assertEquals(200, elf.getHealth());
+		assertEquals(200, elf.getMaxHealth());
 		assertEquals(true, elf.getIfCanFly());
 		assertEquals(false, elf.getIfCanSwim());
 		assertEquals(true, elf.getIfCanWalkThroughTerraign());
@@ -24,7 +24,7 @@ class RaceTest {
 	@Test
 	void humanConstructor() {
 		Human human = new Human();
-		assertEquals(100, human.getHealth());
+		assertEquals(300, human.getMaxHealth());
 		assertEquals(false, human.getIfCanFly());
 		assertEquals(true, human.getIfCanSwim());
 		assertEquals(true, human.getIfCanWalkThroughTerraign());
@@ -34,7 +34,7 @@ class RaceTest {
 	@Test
 	void ogreConstructor() {
 		Ogre oger = new Ogre();
-		assertEquals(300, oger.getHealth());
+		assertEquals(300, oger.getMaxHealth());
 		assertEquals(false, oger.getIfCanFly());
 		assertEquals(false, oger.getIfCanSwim());
 		assertEquals(true, oger.getIfCanWalkThroughTerraign());

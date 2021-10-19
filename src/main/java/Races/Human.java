@@ -1,20 +1,26 @@
 package Races;
-import GameCharacters.*;
 
+import GameCharacters.*;
 
 public class Human extends Race {
 
 	public Human() {
-		setInitialHealth(100);
+		setMaxHealth(300);
 		setStrength(20);
 		setIntelligence(20);
+
 		setIfCanFly(false);
 		setIfCanSwim(true);
 		setIfCanWalkThroughTerraign(true);
 
 	}
+
+	public void setMaxHealth(int maxHealth) {
+		this.maxHealth = maxHealth;
+	}
+
 	public int getMaxHealth() {
-		return 200;
+		return maxHealth;
 	}
 
 }

@@ -1,11 +1,10 @@
 package Races;
-import GameCharacters.*;
 
 public class Elf extends Race {
 
 	public Elf() {
-		
-		setInitialHealth(200);
+
+		setMaxHealth(200);
 		setStrength(10);
 		setIntelligence(40);
 
@@ -13,9 +12,12 @@ public class Elf extends Race {
 		setIfCanSwim(false);
 		setIfCanWalkThroughTerraign(true);
 	}
-	
-	public int getMaxHealth() {
-		return 300;
+
+	public void setMaxHealth(int maxHealth) {
+		this.maxHealth = maxHealth;
 	}
 
+	public int getMaxHealth() {
+		return maxHealth;
+	}
 }
