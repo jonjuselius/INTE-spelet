@@ -1,6 +1,7 @@
 package Item;
 
 import java.util.*;
+import GameCharacters.Character;
 
 public abstract class Item {
 	
@@ -55,4 +56,7 @@ public abstract class Item {
 		return size;
 	}
 	
+	public boolean canBeUsedBy(Character character) {
+		return true;
+	}
 }
