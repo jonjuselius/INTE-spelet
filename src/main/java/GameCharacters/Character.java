@@ -12,27 +12,23 @@ public abstract class Character {
 	private Race race;
 	private Job job;
 	protected int level;
-	
+
 	private int strength;
 	private int intelligence;
 	private boolean canWalkThroughTerraign;
 	private boolean canSwim;
 	private boolean canFly;
-	
+
 	protected int magicSkill;
 	protected int healingSkill;
 	protected int swordSkill;
 	protected int maxMana;
-	
+
 	private int remainingHealth;
 	private int remainingMana;
 
-
 	private SpellCollection spellCollection;
 	private Inventory inventory;
-
-
-
 
 	public Character(String name, Race race, Job job, boolean isAlive) {
 		this.name = name;
@@ -40,19 +36,19 @@ public abstract class Character {
 		this.job = job;
 		isAlive = true;
 		this.inventory = inventory;
-		
+
 		setRemainingHealth(race.getMaxHealth());
 		setStrength(race.getStrength());
 		setIntelligence(race.getIntelligence());
 		setIfCanFly(race.getIfCanFly());
 		setIfCanSwim(race.getIfCanSwim());
 		setIfCanWalkThroughTerraign(race.getIfCanWalkThroughTerraign());
-		
+
 		setMagicSkill(job.getMagic());
 		setHealingSkill(job.getHealing());
 		setSwordSkill(job.getSwordSkill());
 		setRemainingMana(job.getMaxMana());
-		
+
 	}
 
 	public String getName() {
@@ -91,12 +87,11 @@ public abstract class Character {
 		return intelligence;
 	}
 
-	public void setIntelligence(int strength) {
+	public void setIntelligence(int intelligence) {
 		this.intelligence = race.getIntelligence();//
-		
+
 	}
 
-	
 	public boolean getIfCanFly() {
 		return canFly;
 	}
@@ -120,7 +115,7 @@ public abstract class Character {
 	protected void setIfCanWalkThroughTerraign(boolean canWalkThroughTerraign) {
 		this.canWalkThroughTerraign = canWalkThroughTerraign;
 	}
-	
+
 	public int getMagicSkill() {
 		return magicSkill;
 	}
@@ -179,7 +174,7 @@ public abstract class Character {
 
 	public void getHealedDependingOnYourOwnHealSkill() {
 		if (race.getMaxHealth() > remainingHealth) {
-			int newHealth = remainingHealth + job.getHealing() * getLevel();
+			int newHealth = remainingHealth + getHealingSkill() * getLevel();
 			remainingHealth = Math.min(newHealth, race.getMaxHealth());
 		}
 	}
@@ -193,8 +188,24 @@ public abstract class Character {
 			remainingHealth = Math.min(newHealth, race.getMaxHealth());
 			remainingHealth = Math.max(newHealth, 0);
 
+		} else {
+			remainingHealth = 0;
 		}
 	}
+
+	public void increaseIntelligenceFromWinningASpell() {
+		if (getIntelligence() < race.getIntelligence() + 5) {
+			intelligence += 1;
+			return;
+		}
+	}
+
+	public void increaseStrengthFromWinningASpell() {
+		if (getStrength() < race.getStrength() + 5) {
+			strength += 1;
+			return;
+		}
+	}// Level up if high attributes
 
 	public Inventory getInventory() {
 		return inventory;
