@@ -1,5 +1,13 @@
 package Item;
 
+import GameCharacters.Character;
+import GameCharacters.Player;
+import Jobs.Job;
+import Jobs.Knight;
+import Races.Elf;
+import Races.Human;
+import Races.Ogre;
+import Races.Race;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
