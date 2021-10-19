@@ -1,0 +1,10 @@
+INTRUCTIONS: The method reading this file will use the information below the line "Spells: "
+Add a spell with a new line in the format for each spelltype:
+
+DamageDealingSpell,<name>,<mana cost>,<element>
+HealingSpell,<name>,<mana cost>,<element>
+Buff,<name>,<mana cost>,<element>
+Debuff,<name>,<mana cost>,<element>
+
+Spells:
+DamageDealingSpell,Lightning Bolt,25,Lightning
