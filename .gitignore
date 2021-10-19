@@ -1,1 +1,16 @@
 /target/
+
+/shelf/
+/workspace.xml
+/misc.xml
+# Datasource local storage ignored files
+/dataSources/
+/dataSources.local.xml
+# Editor-based HTTP Client requests
+/httpRequests/
+
+.classpath
+.project
+/.idea/
+/.settings/
+/documents/~$Item_Beslutstabell.xlsx
