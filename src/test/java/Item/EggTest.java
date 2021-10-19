@@ -4,50 +4,51 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class SwordTest {
+class EggTest {
 	
 	@Test
-	void R1_canUse() {
+	void R19_canUse() {
 		fail();
 	}
 	
 	@Test
-	void R2_canUse() {
+	void R20_canUse() {
 		fail();
 	}
 	
 	@Test
-	void R3_canUse() {
+	void R21_canUse() {
 		fail();
 	}
 	
 	@Test
-	void R4_canUse() {
+	void R22_canUse() {
 		fail();
 	}
 	
 	@Test
-	void R5_canUse() {
+	void R23_canUse() {
 		fail();
 	}
 	
 	@Test
-	void R6_canUse() {
+	void R24_canUse() {
 		fail();
 	}
 	
 	@Test
-	void R7_canUse() {
+	void R25_canUse() {
 		fail();
 	}
 	
 	@Test
-	void R8_canUse() {
+	void R26_canUse() {
 		fail();
 	}
 	
 	@Test
-	void R9_canUse() {
+	void R27_canUse() {
 		fail();
 	}
+	
 }
