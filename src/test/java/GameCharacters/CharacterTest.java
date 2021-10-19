@@ -69,7 +69,7 @@ class CharacterTest {
 	// boundary value
 
 	@Test
-	void increaseIntelligenceFromWinningASpellByOneOverBoundary() {
+	void increaseIntelligenceFromWinningASpellByOneOverMethodBoundary() {
 		Player p = new Player("Player1", human, magician, true);
 		p.increaseIntelligenceFromWinningASpell();
 		p.increaseIntelligenceFromWinningASpell();
@@ -95,7 +95,7 @@ class CharacterTest {
 	// boundary value
 
 	@Test
-	void increaseStrengthFromWinningASpellByOneOverBoundary() {
+	void increaseStrengthFromWinningASpellByOneOverMethodBoundary() {
 		Player p = new Player("Player1", human, magician, true);
 		p.increaseStrengthFromWinningASpell();
 		p.increaseStrengthFromWinningASpell();
@@ -154,7 +154,7 @@ class CharacterTest {
 
 	// Tdd
 	@Test
-	void getHealedDependingOnYourOwnHealSkillShouldBeThreehundredTwentyForLevelOne() {
+	void getHealedDependingOnYourOwnHealSkillShouldBeTwohundreedSeven() {
 
 		Player c1 = new Player("Jasmyn", new Ogre(), new Knight(), true);
 		c1.takeDamage(100);
@@ -170,24 +170,13 @@ class CharacterTest {
 
 		Player c1 = new Player("Jasmyn", new Ogre(), new Healer(), true);
 		c1.getHealedDependingOnYourOwnHealSkill();
-		c1.getHealedDependingOnYourOwnHealSkill();
-		c1.getHealedDependingOnYourOwnHealSkill();
-		c1.getHealedDependingOnYourOwnHealSkill();
-		c1.getHealedDependingOnYourOwnHealSkill();
-		c1.getHealedDependingOnYourOwnHealSkill();
-		c1.getHealedDependingOnYourOwnHealSkill();
-		c1.getHealedDependingOnYourOwnHealSkill();
-		c1.getHealedDependingOnYourOwnHealSkill();
-		c1.getHealedDependingOnYourOwnHealSkill();
-		c1.getHealedDependingOnYourOwnHealSkill();
-		c1.getHealedDependingOnYourOwnHealSkill();
 
 		assertEquals(300, c1.getRemainingHealth());
 
 	}
 
 	@Test
-	void takeDamageDependingOnYourSwordSkillAndStrengthShouldBeOneHundredTen() {
+	void takeDamageDependingOnYourSwordSkillAndStrengthShouldBeOneHundredTwenty() {
 
 		Player c1 = new Player("Jasmyn", new Elf(), new Knight(), true);
 		c1.takeDamageDependingOnYourSwordSkillAndStrength(100);
