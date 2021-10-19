@@ -54,32 +54,32 @@ class ShieldTest {
 	
 	@Test
 	void R31_canUse() {
-		assertTrue(DEFAULT_SHIELD.canBeUsedBy(DEFAULT_PLAYERS[3]));
+		assertFalse(DEFAULT_SHIELD.canBeUsedBy(DEFAULT_PLAYERS[3]));
 	}
 	
 	@Test
 	void R32_canUse() {
-		assertTrue(DEFAULT_SHIELD.canBeUsedBy(DEFAULT_PLAYERS[4]));
+		assertFalse(DEFAULT_SHIELD.canBeUsedBy(DEFAULT_PLAYERS[4]));
 	}
 	
 	@Test
 	void R33_canUse() {
-		assertTrue(DEFAULT_SHIELD.canBeUsedBy(DEFAULT_PLAYERS[5]));
+		assertFalse(DEFAULT_SHIELD.canBeUsedBy(DEFAULT_PLAYERS[5]));
 	}
 	
 	@Test
 	void R34_canUse() {
-		assertTrue(DEFAULT_SHIELD.canBeUsedBy(DEFAULT_PLAYERS[6]));
+		assertFalse(DEFAULT_SHIELD.canBeUsedBy(DEFAULT_PLAYERS[6]));
 	}
 	
 	@Test
 	void R35_canUse() {
-		assertTrue(DEFAULT_SHIELD.canBeUsedBy(DEFAULT_PLAYERS[7]));
+		assertFalse(DEFAULT_SHIELD.canBeUsedBy(DEFAULT_PLAYERS[7]));
 	}
 	
 	@Test
 	void R36_canUse() {
-		assertTrue(DEFAULT_SHIELD.canBeUsedBy(DEFAULT_PLAYERS[8]));
+		assertFalse(DEFAULT_SHIELD.canBeUsedBy(DEFAULT_PLAYERS[8]));
 	}
 	
 }
