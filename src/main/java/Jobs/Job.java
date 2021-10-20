@@ -2,14 +2,13 @@ package Jobs;
 
 public abstract class Job {
 
-	private int magicSkill;
-	private int healingSkill;
-	private int swordSkill;
+	protected int magicSkill;
+	protected int healingSkill;
+	protected int swordSkill;
+	protected int maxMana;
 
 	public Job() {
-		setMagic(0);
-		setHealing(0);
-		setSwordSkill(0);
+
 	}
 
 	public int getMagic() {
@@ -35,7 +34,12 @@ public abstract class Job {
 	protected void setSwordSkill(int swordSkill) {
 		this.swordSkill = swordSkill;
 	}
-	
-	
 
+	public int getMaxMana() {
+		return maxMana;
+	}
+
+	protected void setMaxMana(int maxMana) {
+		this.maxMana = maxMana;
+	}
 }

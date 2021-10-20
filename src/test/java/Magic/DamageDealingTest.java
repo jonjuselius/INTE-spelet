@@ -41,7 +41,7 @@ class DamageDealingTest {
         assertEquals(0, dd.getDuration());
     }
 
-    //TODO n√§r player kan skapas
+    //TODO n‰r player kan skapas
     @Test
     void powerProgressionChangesInitialDamage() {
         DamageDealingSpell dd = new DamageDealingSpell("Stonefist", 25, Element.PHYSICAL, 5);

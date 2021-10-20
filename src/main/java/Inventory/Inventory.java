@@ -1,16 +1,25 @@
 package Inventory;
 
-import Item.*;
+import Item.Item;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class Inventory {
-	
 	public static final int CAPACITY = 100;
-	private Item[] slots;
+	private Item[] slots = new Item[CAPACITY];
 	
 	public Inventory() {
-		slots = new Item[CAPACITY];
+		this(new Item[0]);
+	}
+	
+	public Inventory(final Item... items) {
+		if (items.length > CAPACITY) {
+			throw new IllegalArgumentException("Too many items specified in constructor");
+		}
+		System.arraycopy(items, 0, slots, 0, items.length);
 	}
 	
 	public List<Item> getSlots() {
@@ -19,11 +28,26 @@ public class Inventory {
 	
 	public List<Item> getItems() {
 		List<Item> items = new ArrayList<>();
-		for (Item item : slots) if (item != null) items.add(item);
+		for (Item item : slots) {
+			if (item != null) {
+				items.add(item);
+			}
+		}
 		return Collections.unmodifiableList(items);
 	}
 	
-	public void add(Item item) {
+	public int getItemSize() {
+		return this.getItems().size();
+	}
+	
+	public int getSlotSize() {
+		return this.getSlots().size();
+	}
+	
+	public void add(final Item item) {
+		if (this.getItemSize() == CAPACITY) {
+			throw new IllegalArgumentException("Inventory is full!");
+		}
 		int position = -1;
 		for (int i = 0; i < slots.length; i++) {
 			if (slots[i] == null) {
@@ -34,17 +58,17 @@ public class Inventory {
 		add(item, position);
 	}
 	
-	public void add(Item item, int position) {
+	public void add(final Item item, final int position) {
 		if (position < 0 || position >= CAPACITY) {
-			throw new IndexOutOfBoundsException();
+			throw new IndexOutOfBoundsException("Position index is out of inventory boundaries");
 		}
 		if (slots[position] != null) {
-			throw new IllegalStateException();
+			throw new IllegalStateException("There is already an item on this slot");
 		}
 		slots[position] = item;
 	}
 	
-	public Item remove(Item item) {
+	public Item remove(final Item item) {
 		int position = -1;
 		for (int i = 0; i < slots.length; i++) {
 			if (slots[i] == item) {
@@ -58,26 +82,31 @@ public class Inventory {
 		return remove(position);
 	}
 	
-	public Item remove(int position) {
-		Item removedItem = null;
+	public Item remove(final int position) {
 		if (position < 0 || position >= CAPACITY) {
 			throw new IndexOutOfBoundsException("Position is out of inventory bounds!");
 		}
 		if (slots[position] == null) {
 			throw new IllegalArgumentException("No item exists at the position!");
 		}
-		removedItem = slots[position];
+		Item removedItem = slots[position];
 		slots[position] = null;
 		return removedItem;
 	}
 	
-	public boolean contains(Item item) {
-		for (int i = 0; i < slots.length; i++) {
-			if (slots[i] == item) {
+	public boolean contains(final Item item) {
+		for (Item slot : slots) {
+			if (slot == item) {
 				return true;
 			}
 		}
 		return false;
 	}
 	
+	//@Override
+	//public String toString() {
+	//	String output = "";
+	//	output += this.getItems().toString();
+	//	return output;
+	//}
 }

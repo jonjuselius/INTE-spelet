@@ -1,15 +1,16 @@
 package Races;
+
 import Jobs.*;
 import GameCharacters.*;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+//import static org.junit.Assert.assertEquals;
+//import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.*;
-
 
 import org.junit.jupiter.api.Test;
 
 class RaceTest {
-
+	// human health 100, elf health 200, oger health 300, max �r + 100
 	@Test
 	void elfConstructor() {
 
@@ -24,7 +25,7 @@ class RaceTest {
 	@Test
 	void humanConstructor() {
 		Human human = new Human();
-		assertEquals(100, human.getMaxHealth());
+		assertEquals(300, human.getMaxHealth());
 		assertEquals(false, human.getIfCanFly());
 		assertEquals(true, human.getIfCanSwim());
 		assertEquals(true, human.getIfCanWalkThroughTerraign());
@@ -34,15 +35,17 @@ class RaceTest {
 	@Test
 	void ogreConstructor() {
 		Ogre oger = new Ogre();
-		assertEquals(400, oger.getMaxHealth());
+		assertEquals(300, oger.getMaxHealth());
 		assertEquals(false, oger.getIfCanFly());
 		assertEquals(false, oger.getIfCanSwim());
 		assertEquals(true, oger.getIfCanWalkThroughTerraign());
 
 	}
+	
+//
 
 	@Test
-	void increasingLifePointsOverMaxForOgre() {
+	void increasingHealthOverMaxForOgreThrowsException() {
 
 		Player c1 = new Player("Jasmyn", new Ogre(), new Knight(), true);
 		assertThrows(IllegalStateException.class, () -> {
@@ -52,7 +55,7 @@ class RaceTest {
 	}
 
 	@Test
-	void increasingLifePointsOverMaxForHuman() {
+	void increasingHealthOverMaxForHumanThrowsException() {
 
 		Player c2 = new Player("Emma", new Human(), new Knight(), true);
 		assertThrows(IllegalStateException.class, () -> {
@@ -62,7 +65,7 @@ class RaceTest {
 	}
 
 	@Test
-	void increasingLifePointsOverMaxForElf() {
+	void increasingHealthOverMaxForElfThrowsException() {
 
 		Player c3 = new Player("Oliver", new Elf(), new Knight(), true);
 		assertThrows(IllegalStateException.class, () -> {

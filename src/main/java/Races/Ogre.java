@@ -1,19 +1,24 @@
 package Races;
 
-import GameCharacters.*;
-
-
 public class Ogre extends Race {
 
 	public Ogre() {
+		setMaxHealth(300);
+		setStrength(30);
+		setIntelligence(10);
+
 		setIfCanFly(false);
 		setIfCanSwim(false);
 		setIfCanWalkThroughTerraign(true);
 
 	}
 
+	public void setMaxHealth(int maxHealth) {
+		this.maxHealth = maxHealth;
+	}
+
 	public int getMaxHealth() {
-		return 400;
+		return maxHealth;
 	}
 
 }

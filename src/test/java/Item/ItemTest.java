@@ -133,4 +133,8 @@ class ItemTest {
 		assertThrows(IllegalStateException.class, () -> egg.consume());
 	}
 	
+	@Test
+	void canBeUsedByMagicianHuman() {
+	
+	}
 }
