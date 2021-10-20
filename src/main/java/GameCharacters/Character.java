@@ -146,7 +146,11 @@ public abstract class Character {
 	}
 
 	public void setRemainingHealth(int remainingHealth) {
-		this.remainingHealth = race.getMaxHealth();//
+		this.remainingHealth = remainingHealth;//
+	}
+
+	public int getMaxHealth() {
+		return race.getMaxHealth();
 	}
 
 	public int getRemainingMana() {
@@ -180,17 +184,15 @@ public abstract class Character {
 		}
 	}
 
-	public void takeDamageDependingOnYourSwordSkillAndStrength(int damage) {
+	public void dealDamageDependingOnYourSwordSkillAndStrength(int damage, Character otherCharacter) {
 
-		int milderDamage = getSwordSkill() * getLevel() + getStrength();
-
-		if (remainingHealth > 0) {
-			int newHealth = remainingHealth - damage + milderDamage;
-			remainingHealth = Math.min(newHealth, race.getMaxHealth());
-			remainingHealth = Math.max(newHealth, 0);
+		int increasedDamage = getSwordSkill() * getLevel() + getStrength() + damage;
+		int otherCharacterNewHealth = otherCharacter.getRemainingHealth() - increasedDamage;
+		if (otherCharacter.getRemainingHealth() > 0 && otherCharacterNewHealth >= 0) {
+			otherCharacter.setRemainingHealth(Math.min(otherCharacterNewHealth, otherCharacter.getMaxHealth()));
 
 		} else {
-			remainingHealth = 0;
+			otherCharacter.setRemainingHealth(0);
 		}
 	}
 
@@ -229,6 +231,10 @@ public abstract class Character {
 
 	public Job getJob() {
 		return job;
+	}
+
+	public Race getRace() {
+		return race;
 	}
 }
 // Lagt health i character
