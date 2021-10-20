@@ -1,13 +1,16 @@
 package Magic;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class SpellCollection {
 
-    private ArrayList<Spell> spellCollection;
+    private HashMap<String, Spell> spellCollection;
 
     public SpellCollection() {
-
+        
     }
+
+
 }

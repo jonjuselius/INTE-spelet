@@ -34,4 +34,6 @@ public abstract class Spell {
     public Element getElement(){
         return element;
     }
+
+
 }
