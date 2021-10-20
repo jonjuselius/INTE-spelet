@@ -12,7 +12,7 @@ public class Adversary extends Character {
         this.level = level;
     }
 
-    protected void setLevel(int level) {
+    public void setLevel(int level) {
         this.level = level;
     }
 }

@@ -6,7 +6,7 @@ import Races.*;
 
 public class Player extends Character {
 
-    //private int level;
+//    private int level;
 
     public Player(String name, Race race,Job job, boolean isAlive) {
 
@@ -15,9 +15,15 @@ public class Player extends Character {
 
     }
 
-    protected void setLevel(int level) {
+    public void setLevel(int level) {
         this.level = level;
     }
+    
+    public int getLevel() {
+    	return level;
+    }
+    
+    
 
 
 }

@@ -48,6 +48,7 @@ public abstract class Character {
 		setHealingSkill(job.getHealing());
 		setSwordSkill(job.getSwordSkill());
 		setRemainingMana(job.getMaxMana());
+		setLevel(level);
 
 	}
 
@@ -194,30 +195,40 @@ public abstract class Character {
 	}
 
 	public void increaseIntelligenceFromWinningASpell() {
-		if (getIntelligence() < race.getIntelligence() + 5) {
-			intelligence += 1;
+		if (getIntelligence() < race.getIntelligence() + 15) {
+			intelligence += 3;
 			return;
 		}
 	}
 
 	public void increaseStrengthFromWinningASpell() {
-		if (getStrength() < race.getStrength() + 5) {
-			strength += 1;
+		if (getStrength() < race.getStrength() + 15) {
+			strength += 3;
 			return;
 		}
 	}// Level up if high attributes
 
+	public void elfLevelsUp() {
+
+		if (race.toString().contains("Elf") && level < 6 && ((intelligence - 40) % 3 == 0)) {
+			level++;
+			strength += 3;
+		} else {
+			return;
+		}
+
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
 	public Inventory getInventory() {
 		return inventory;
 	}
-	
-	public Race getRace() {
-		return race;
-	}
-	
+
 	public Job getJob() {
 		return job;
 	}
 }
-
 // Lagt health i character

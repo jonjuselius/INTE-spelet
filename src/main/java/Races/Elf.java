@@ -20,4 +20,5 @@ public class Elf extends Race {
 	public int getMaxHealth() {
 		return maxHealth;
 	}
+
 }
