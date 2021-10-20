@@ -3,13 +3,14 @@ package Races;
 import Jobs.*;
 import GameCharacters.*;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+//import static org.junit.Assert.assertEquals;
+//import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
 class RaceTest {
-	// human health 100, elf health 200, oger health 300, max är + 100
+	// human health 100, elf health 200, oger health 300, max ï¿½r + 100
 	@Test
 	void elfConstructor() {
 
