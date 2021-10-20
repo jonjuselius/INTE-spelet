@@ -1,6 +1,7 @@
 package Magic;
 
 import GameCharacters.Character;
+import Jobs.Healer;
 
 public class HealingSpell extends Spell {
 
@@ -13,7 +14,7 @@ public class HealingSpell extends Spell {
     public HealingSpell(String name, int manaCost, Element element, int baseHeal) {
         super(name, manaCost, element);
         this.baseHeal = baseHeal;
-        setInitialHeal(getManaCost() * 2);
+        setInitialHeal(baseHeal);
         setHealOverTime(0);
         setDuration(0);
     }
@@ -47,7 +48,10 @@ public class HealingSpell extends Spell {
 
     @Override
     public void powerProgression(Character character){
-        int healFactor = 1 + character.getLevel() * 2 + character.getIntelligence();
+        int healFactor = 1 + character.getHealingSkill() * 2 + character.getIntelligence();
+        if(character.getJob() instanceof Healer){
+            healFactor = healFactor * 2;
+        }
         initialHeal = initialHeal * healFactor;
     }
 

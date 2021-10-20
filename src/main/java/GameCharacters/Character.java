@@ -5,71 +5,72 @@ import Jobs.Job;
 import Magic.SpellCollection;
 import Races.*;
 
-
 public abstract class Character {
 
     private String name;
     private boolean isAlive;
     private Race race;
-	private Job job;
+    private Job job;
     protected int level;
-	private int health;
+
+    private int strength;
+    private int intelligence;
+    private boolean canWalkThroughTerraign;
+    private boolean canSwim;
+    private boolean canFly;
+
+    protected int magicSkill;
+    protected int healingSkill;
+    protected int swordSkill;
+    protected int maxMana;
+
+    private int remainingHealth;
+    private int remainingMana;
 
     private SpellCollection spellCollection;
     private Inventory inventory;
 
-
-    //hitPoints = hälsa
-    private int maxMana;
-    private int maxHealth;
-    private int remainingHealth;
-    private int remainingMana;
-    private int strength;
-    private int intelligence;
-
-
-//TODO ändra maxhealth och maxmana
-    public Character(String name, Race race,Job job, boolean isAlive) {
+    public Character(String name, Race race, Job job, boolean isAlive) {
         this.name = name;
         this.race = race;
-		this.job = job;
+        this.job = job;
         isAlive = true;
-        setStrength(10);
-        setIntelligence(10);
-        setMaxMana(200);
-        setHealth(300);
-        remainingMana = maxMana;
-        remainingHealth = maxHealth;
         this.inventory = inventory;
+
+        setRemainingHealth(race.getMaxHealth());
+        setStrength(race.getStrength());
+        setIntelligence(race.getIntelligence());
+        setIfCanFly(race.getIfCanFly());
+        setIfCanSwim(race.getIfCanSwim());
+        setIfCanWalkThroughTerraign(race.getIfCanWalkThroughTerraign());
+
+        setMagicSkill(job.getMagic());
+        setHealingSkill(job.getHealing());
+        setSwordSkill(job.getSwordSkill());
+        setRemainingMana(job.getMaxMana());
 
     }
 
     public String getName() {
         return name;
     }
-    
-	public void increaseHealth(int hp) {
-		if (getHealth() + hp > race.getMaxHealth()) {
-			setHealth(race.getMaxHealth());
-			return;
-		}
-		
-		throw new IllegalStateException();
-	}//increase
 
-    public int getLevel(){
+
+    public void increaseHealth(int hp) {
+        if (remainingHealth + hp < race.getMaxHealth()) {
+            remainingHealth += hp;
+            return;
+        }
+
+        throw new IllegalStateException();
+
+    }// increase
+
+    public int getLevel() {
         return level;
     }
-    
-    //Lagt health i character
-    
-    public int getHealth(){
-        return health;
-    }
-    
-	protected void setHealth(int health) {
-		this.health = health;
-	}//
+
+    // Lagt health i character
 
     public boolean isAlive() {
         return isAlive;
@@ -79,28 +80,65 @@ public abstract class Character {
         return strength;
     }
 
-    protected void setStrength(int strength) {
-        this.strength = strength;
+    public void setStrength(int strength) {
+        this.strength = race.getStrength();//
     }
 
     public int getIntelligence() {
         return intelligence;
     }
 
-    protected void setIntelligence(int intelligence) {
-        this.intelligence = intelligence;
+    public void setIntelligence(int intelligence) {
+        this.intelligence = race.getIntelligence();//
+
     }
 
-    public int getMaxMana() {
-        return maxMana;
+    public boolean getIfCanFly() {
+        return canFly;
     }
 
-    protected void setMaxMana(int maxMana) {
-        this.maxMana = maxMana;
+    protected void setIfCanFly(boolean canFly) {
+        this.canFly = canFly;
     }
 
-    private void setMaxMana(){
-        //Calculate job/race/etc.
+    public boolean getIfCanSwim() {
+        return canSwim;
+    }
+
+    protected void setIfCanSwim(boolean canSwim) {
+        this.canSwim = canSwim;
+    }
+
+    public boolean getIfCanWalkThroughTerraign() {
+        return canWalkThroughTerraign;
+    }
+
+    protected void setIfCanWalkThroughTerraign(boolean canWalkThroughTerraign) {
+        this.canWalkThroughTerraign = canWalkThroughTerraign;
+    }
+
+    public int getMagicSkill() {
+        return magicSkill;
+    }
+
+    protected void setMagicSkill(int magicSkill) {
+        this.magicSkill = magicSkill;
+    }
+
+    public int getHealingSkill() {
+        return healingSkill;
+    }
+
+    protected void setHealingSkill(int healingSkill) {
+        this.healingSkill = healingSkill;
+    }
+
+    public int getSwordSkill() {
+        return swordSkill;
+    }
+
+    protected void setSwordSkill(int swordSkill) {
+        this.swordSkill = swordSkill;
     }
 
     public int getRemainingHealth() {
@@ -108,7 +146,7 @@ public abstract class Character {
     }
 
     public void setRemainingHealth(int remainingHealth) {
-        this.remainingHealth = remainingHealth;
+        this.remainingHealth = remainingHealth;//
     }
 
     public int getRemainingMana() {
@@ -119,23 +157,67 @@ public abstract class Character {
         this.remainingMana = remainingMana;
     }
 
-    public void takeDamage(int damage){
+    public void takeDamage(int damage) {
         remainingHealth = remainingHealth - damage;
-        if (remainingHealth <= 0){
+        if (remainingHealth <= 0) {
             isAlive = false;
         }
     }
 
-    public void useMana(int manaCost){
+    public void useMana(int manaCost) {
         remainingMana = remainingMana - manaCost;
     }
 
-    public void getHealed(int healPoints){
+    public void getHealed(int healPoints) {
         int healTotal = remainingHealth + healPoints;
-        remainingHealth = Math.min(healTotal, maxHealth);
+        remainingHealth = Math.min(healTotal, race.getMaxHealth());
     }
-    
+
+    //TODO Behövs denna?
+    public void getHealedDependingOnYourOwnHealSkill() {
+        if (race.getMaxHealth() > remainingHealth) {
+            int newHealth = remainingHealth + getHealingSkill() * getLevel();
+            remainingHealth = Math.min(newHealth, race.getMaxHealth());
+        }
+    }
+
+    public void takeDamageDependingOnYourSwordSkillAndStrength(int damage) {
+
+        int milderDamage = getSwordSkill() * getLevel() + getStrength();
+
+        if (remainingHealth > 0) {
+            int newHealth = remainingHealth - damage + milderDamage;
+            remainingHealth = Math.min(newHealth, race.getMaxHealth());
+            remainingHealth = Math.max(newHealth, 0);
+
+        } else {
+            remainingHealth = 0;
+        }
+    }
+
+    public void increaseIntelligenceFromWinningASpell() {
+        if (getIntelligence() < race.getIntelligence() + 5) {
+            intelligence += 1;
+            return;
+        }
+    }
+
+    public void increaseStrengthFromWinningASpell() {
+        if (getStrength() < race.getStrength() + 5) {
+            strength += 1;
+            return;
+        }
+    }// Level up if high attributes
+
     public Inventory getInventory() {
         return inventory;
+    }
+
+    public Race getRace() {
+        return race;
+    }
+
+    public Job getJob() {
+        return job;
     }
 }

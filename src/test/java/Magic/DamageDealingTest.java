@@ -26,7 +26,7 @@ class DamageDealingTest {
     @Test
     void defaultInitialDamage() {
         DamageDealingSpell dd = new DamageDealingSpell("Stonefist", 25, Element.PHYSICAL, 5);
-        assertEquals(10, dd.getInitialDamage());
+        assertEquals(5, dd.getInitialDamage());
     }
 
     @Test
@@ -41,19 +41,18 @@ class DamageDealingTest {
         assertEquals(0, dd.getDuration());
     }
 
-    //TODO när player kan skapas
     @Test
     void powerProgressionChangesInitialDamage() {
         DamageDealingSpell dd = new DamageDealingSpell("Stonefist", 25, Element.PHYSICAL, 5);
         Player p = new Player("Player1", human, magician, true);
         dd.powerProgression(p);
 
-        assertEquals(230, dd.getInitialDamage());
+        assertEquals(205, dd.getInitialDamage());
     }
 
     @Test
     void castThrowsExceptionWhenManaTooLow() {
-        DamageDealingSpell dd = new DamageDealingSpell("Implode", 250, Element.FIRE, 50);
+        DamageDealingSpell dd = new DamageDealingSpell("Implode", 350, Element.FIRE, 50);
         Player p = new Player("Player1", human, magician, true);
         Adversary a = new Adversary("Bandit", human, magician, true, 5);
 
@@ -66,7 +65,7 @@ class DamageDealingTest {
         Player p = new Player("Player1", human, magician, true);
         Adversary a = new Adversary("Bandit", human, magician, true, 5);
         dd.cast(p,a);
-        assertEquals(175, p.getRemainingMana());
+        assertEquals(275, p.getRemainingMana());
     }
 
     @Test
@@ -76,6 +75,6 @@ class DamageDealingTest {
         Adversary a = new Adversary("Bandit", human, magician, true, 1);
         dd.cast(p,a);
 
-        assertEquals(70, a.getRemainingHealth());
+        assertEquals(95, a.getRemainingHealth());
     }
 }

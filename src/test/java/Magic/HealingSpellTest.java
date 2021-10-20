@@ -1,7 +1,7 @@
 package Magic;
 
 import GameCharacters.*;
-import Jobs.Magician;
+import Jobs.*;
 import Races.*;
 import org.junit.jupiter.api.Test;
 
@@ -11,6 +11,7 @@ class HealingSpellTest {
 
     Human human = new Human();
     Magician magician = new Magician();
+    Healer healer = new Healer();
 
     @Test
     void elementalHealingConstructor(){
@@ -27,7 +28,7 @@ class HealingSpellTest {
     void defaultInitialHeal() {
         HealingSpell hs = new HealingSpell("Band-aid", 5, Element.PHYSICAL, 1);
 
-        assertEquals(10, hs.getInitialHeal());
+        assertEquals(1, hs.getInitialHeal());
     }
 
     @Test
@@ -51,12 +52,22 @@ class HealingSpellTest {
         Player p = new Player("Player1", human, magician, true);
         hs.powerProgression(p);
 
-        assertEquals(130, hs.getInitialHeal());
+        assertEquals(35, hs.getInitialHeal());
     }
 
     @Test
+    void powerProgressionSetsCorrectInitialHealForHealer(){
+        HealingSpell hs = new HealingSpell("Band-aid", 5, Element.PHYSICAL, 1);
+        Player p = new Player("Player1", human, healer, true);
+        hs.powerProgression(p);
+
+        assertEquals(82, hs.getInitialHeal());
+    }
+
+
+    @Test
     void exceptionThrownWhenNotEnoughManaForCast(){
-        HealingSpell hs = new HealingSpell("Morphine-pill", 205, Element.PHYSICAL, 41);
+        HealingSpell hs = new HealingSpell("Morphine-pill", 305, Element.PHYSICAL, 41);
         Player p = new Player("Player1", human, magician,true);
         Adversary a = new Adversary("Bandit", human, magician,true, 1);
 
@@ -70,7 +81,7 @@ class HealingSpellTest {
         Adversary a = new Adversary("Bandit", human, magician,true, 1);
         hs.cast(p,a);
 
-        assertEquals(195, p.getRemainingMana());
+        assertEquals(295, p.getRemainingMana());
     }
 
     @Test
@@ -81,7 +92,7 @@ class HealingSpellTest {
         p.setRemainingHealth(0);
         hs.cast(p,a);
 
-        assertEquals(130, p.getRemainingHealth());
+        assertEquals(35, p.getRemainingHealth());
     }
 
     @Test

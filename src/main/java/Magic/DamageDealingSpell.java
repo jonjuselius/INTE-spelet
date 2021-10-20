@@ -13,7 +13,7 @@ public class DamageDealingSpell extends Spell {
     public DamageDealingSpell(String name, int manaCost, Element element, int baseDamage) {
         super(name, manaCost, element);
         this.baseDamage = baseDamage;
-        setInitialDamage(10);
+        setInitialDamage(baseDamage);
         setDamageOverTime(0);
         setDuration(0);
     }
@@ -50,7 +50,7 @@ public class DamageDealingSpell extends Spell {
     //Lägg till något om vapnet?
     @Override
     public void powerProgression(Character character){
-        int powerFactor = 1 + character.getLevel() * 2 + character.getIntelligence() * 2;
+        int powerFactor = 1 + character.getMagicSkill() * 2 + character.getIntelligence();
         initialDamage = initialDamage * powerFactor;
 
     }
