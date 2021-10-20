@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class RingTest {
 	/**
-	 * Test class for Ring class
+	 * Tests for Ring class
 	 */
 	public static final Ring DEFAULT_RING = new Ring();
 	public static final String NAME = "Mr Default";

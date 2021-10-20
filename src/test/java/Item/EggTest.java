@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 
 class EggTest {
 	/**
-	 * Test class for Egg class
+	 * Tests for Egg class
 	 */
 	public static final Egg DEFAULT_EGG = new Egg();
 	public static final String NAME = "Mr Default";

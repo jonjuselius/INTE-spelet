@@ -15,7 +15,7 @@ import Races.Race;
 
 class ShieldTest {
 	/**
-	 * Test class for Shield class
+	 * Tests for Shield class
 	 */
 	public static final Shield DEFAULT_SHIELD = new Shield();
 	public static final String NAME = "Mr Default";

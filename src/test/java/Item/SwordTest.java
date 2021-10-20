@@ -15,7 +15,7 @@ import Races.Elf;
 
 class SwordTest {
 	/**
-	 * Test class for Sword class
+	 * Tests for Sword class
 	 */
 	public static final Sword DEFAULT_SWORD = new Sword();
 	public static final String NAME = "Mr Default";

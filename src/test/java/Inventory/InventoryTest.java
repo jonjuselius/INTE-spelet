@@ -16,7 +16,7 @@ import Item.Ring;
 
 class InventoryTest {
 	/**
-	 * Test class for Inventory class
+	 * Tests for Inventory class
 	 */
 	public static final Item[] DEFAULT_ITEMSET = {new Sword(), new Wand(), new Egg(), new Shield(), new Ring()};
 	public static final Inventory DEFAULT_INVENTORY = new Inventory(DEFAULT_ITEMSET);

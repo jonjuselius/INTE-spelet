@@ -15,7 +15,7 @@ import Races.Race;
 
 class WandTest {
 	/**
-	 * Test class for Wand class
+	 * Tests for Wand class
 	 */
 	public static final Wand DEFAULT_WAND = new Wand();
 	public static final String NAME = "Mr Default";

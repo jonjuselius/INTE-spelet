@@ -11,7 +11,7 @@ import java.util.List;
 
 class ItemTest {
 	/**
-	 * Test class for Item class
+	 * Tests for Item class
 	 */
 	public static final Item DEFAULT_SWORD = new Sword();
 	public static final Item DEFAULT_WAND = new Wand();
