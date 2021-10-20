@@ -142,10 +142,8 @@ class CharacterTest {
 		Player c1 = new Player("Jasmyn", new Ogre(), new Knight(), true);
 		c1.takeDamage(10);
 		c1.increaseHealth(9);
-		assertEquals(299, c1.getRemainingHealth());}
-
-
-	// förCoverage
+		assertEquals(299, c1.getRemainingHealth());
+	}
 
 	// Tdd
 	@Test

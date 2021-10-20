@@ -227,10 +227,6 @@ public abstract class Character {
 		return inventory;
 	}
 
-	public Race getRace() {
-		return race;
-	}
-
 	public Job getJob() {
 		return job;
 	}
