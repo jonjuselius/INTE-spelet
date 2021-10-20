@@ -74,14 +74,14 @@ class JobTest {
 
 	}
 	
-	@Test
-	void takeDamageDependingOnYourSwordSkillAndStrengthShouldBeOneHundredTen() {
-
-		Player c1 = new Player("Jasmyn", new Elf(), new Knight(), true);
-		c1.takeDamageDependingOnYourSwordSkillAndStrength(100);
-
-		assertEquals(120, c1.getRemainingHealth());
-
-	}
+//	@Test
+//	void takeDamageDependingOnYourSwordSkillAndStrengthShouldBeOneHundredTen() {
+//
+//		Player c1 = new Player("Jasmyn", new Elf(), new Knight(), true);
+//		c1.takeDamageDependingOnYourSwordSkillAndStrength(100);
+//
+//		assertEquals(120, c1.getRemainingHealth());
+//
+//	}
 
 }

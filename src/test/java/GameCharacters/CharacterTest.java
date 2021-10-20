@@ -169,24 +169,28 @@ class CharacterTest {
 	}
 
 	@Test
-	void takeDamageDependingOnYourSwordSkillAndStrengthShouldBeOneHundredTwenty() {
+	void dealDamageDependingOnYourSwordSkillAndStrengthShouldBeSixty() {
 
-		Player c1 = new Player("Jasmyn", new Elf(), new Knight(), true);
-		c1.takeDamageDependingOnYourSwordSkillAndStrength(100);
+		Player p = new Player ("jasmyn", new Ogre(), new Knight(), true);
+		Player p1 = new Player ("Michael", new Elf(), new Healer(), true);
+		p.dealDamageDependingOnYourSwordSkillAndStrength(100, p1);
 
-		assertEquals(120, c1.getRemainingHealth());
+		assertEquals(60, p1.getRemainingHealth());
 
 	}
-
+	
 	@Test
-	void takeDamageDependingOnYourSwordSkillAndStrengthShouldBeZeroUnderHealthOne() {
+	void dealDamageDependingOnYourSwordSkillAndStrengthShouldBeZero() {
 
-		Player c1 = new Player("Jasmyn", new Elf(), new Knight(), true);
-		c1.takeDamageDependingOnYourSwordSkillAndStrength(300);
-		c1.takeDamageDependingOnYourSwordSkillAndStrength(10);
-		assertEquals(0, c1.getRemainingHealth());
+		Player p = new Player ("jasmyn", new Ogre(), new Knight(), true);
+		Player p1 = new Player ("Michael", new Elf(), new Healer(), true);
+		p.dealDamageDependingOnYourSwordSkillAndStrength(500, p1);
+
+		assertEquals(0, p1.getRemainingHealth());
 
 	}
+
+
 
 	// tdd
 	@Test
