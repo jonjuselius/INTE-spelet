@@ -6,7 +6,7 @@ import Jobs.Magician;
 import org.junit.jupiter.api.Test;
 import Races.*;
 
-import static org.junit.Assert.assertEquals;
+//import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CharacterTest {
@@ -142,9 +142,10 @@ class CharacterTest {
 		Player c1 = new Player("Jasmyn", new Ogre(), new Knight(), true);
 		c1.takeDamage(10);
 		c1.increaseHealth(9);
-		assertEquals(299, c1.getRemainingHealth());
+		assertEquals(299, c1.getRemainingHealth());}
 
-	}// förCoverage
+
+	// förCoverage
 
 	// Tdd
 	@Test

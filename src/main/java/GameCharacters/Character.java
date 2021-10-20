@@ -212,7 +212,7 @@ public abstract class Character {
 
 		if (race.toString().contains("Elf") && level < 6 && ((intelligence - 40) % 3 == 0)) {
 			level++;
-			strength+=3;
+			strength += 3;
 		} else {
 			return;
 		}
@@ -230,6 +230,9 @@ public abstract class Character {
 	public Race getRace() {
 		return race;
 	}
-}
 
+	public Job getJob() {
+		return job;
+	}
+}
 // Lagt health i character
