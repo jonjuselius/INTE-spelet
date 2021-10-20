@@ -1,7 +1,12 @@
 package Item;
 
 public class Ring extends Item {
-	
+	/**
+	 * Ring is a type of jewewllery, an instantiable item with a low weight and
+	 * high value. Rings can be used by every race and every job, i.e. there are
+	 * no restrictions for who can use a ring. Rings are by default medium in size,
+	 * but there are also small and large rings. A new ring has perfect condition.
+	 */
 	public static final int WEIGHT = 5;
 	public static final int VALUE = 5000;
 	public static final String[] JOB_CERTIFICATIONS = {"Knight", "Magician", "Healer"};

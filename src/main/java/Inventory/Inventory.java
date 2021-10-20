@@ -1,13 +1,31 @@
 package Inventory;
 
 import Item.Item;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 public class Inventory {
+	/**
+	 * Inventory represents the storage of items that a character has. The purpose
+	 * of an inventory is to keep track of which items a character has stored.
+	 *
+	 * Every character has one inventory. An inventory consists of several items, stored
+	 * on different slots. A slot represents a location in the inventory where an item can
+	 * be added to or removed from. The default capacity of an inventory is 100 slots. Besides
+	 * adding and removing items to and from the inventory, there is also possible to check if
+	 * the inventory contains a specific item. Some additional functionality include adding
+	 * an item to a predefined position, as long as this position is available and not occupied
+	 * by another item, and removing an item from a specified position, which is only possible
+	 * if there actually exists an item on that position that actually can be removed.
+	 *
+	 * CAPACITY: How many slots a default inventory has.
+	 * slots: Available locations in the inventory where items can be stored, one item per slot.
+	 * add: Adds an item to a slot. The position can be specified in a related method.
+	 * remove: Removes an item from a slot, and returns it. The position can be specified in a related method.
+	 * contains: Checks if the inventory contains an item.
+	 */
 	public static final int CAPACITY = 100;
 	private Item[] slots = new Item[CAPACITY];
 	
@@ -102,11 +120,4 @@ public class Inventory {
 		}
 		return false;
 	}
-	
-	//@Override
-	//public String toString() {
-	//	String output = "";
-	//	output += this.getItems().toString();
-	//	return output;
-	//}
 }

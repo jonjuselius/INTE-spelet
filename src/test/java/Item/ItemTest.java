@@ -1,18 +1,18 @@
 package Item;
 
-import org.junit.jupiter.api.Test;
-
-import java.util.Arrays;
-import java.util.List;
-
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.Test;
+import java.util.Arrays;
+import java.util.List;
 
 class ItemTest {
-	
+	/**
+	 * Test class for Item class
+	 */
 	public static final Item DEFAULT_SWORD = new Sword();
 	public static final Item DEFAULT_WAND = new Wand();
 	public static final Item DEFAULT_EGG = new Egg();
@@ -130,11 +130,6 @@ class ItemTest {
 		assertThat(egg.isConsumed(), is(equalTo(false)));
 		egg.consume();
 		assertThat(egg.isConsumed(), is(equalTo(true)));
-		assertThrows(IllegalStateException.class, () -> egg.consume());
-	}
-	
-	@Test
-	void canBeUsedByMagicianHuman() {
-	
+		assertThrows(IllegalStateException.class, egg::consume);
 	}
 }

@@ -1,21 +1,43 @@
 package Item;
 
-import java.util.*;
 import GameCharacters.Character;
-import Jobs.Job;
-import Races.Race;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public abstract class Item {
-	
+	/**
+	 * Item an abstract noninstantiable superclass for things such as food, weapon and armor.
+	 * Actual instantiable items include swords, wands, eggs, shields and rings.
+	 * Every item has a weight, a value, a size, a type, a condition, and more.
+	 *
+	 * The default condition for a new item is 100 %, which means that the item is in a perfect
+	 * condition, not destroyed or damaged in any way. An item with 0 % condition implies that
+	 * the item is in a very poor condition.
+	 *
+	 * An item can only be used by a character if the character has a race and a job that
+	 * qualifies the character for using the item. Every item stores information on which
+	 * race and job that it can be used by, e.g. a sword can be used by characters of any race,
+	 * but only if "knight" is their job.
+	 *
+	 * weight: How heavy an item is. Items with higher weight are heavier.
+	 * value: How expensive an item is. Items with higher valuer are more expensive.
+	 * size: How big an item is. Three size categories are present: small/medium/large.
+	 * type: What kind of item an item is. Five item types are: weapon, armor, food, jewellery
+	 * condition: How undamaged an item is. An item with max condition (100) is completely undamaged.
+	 * jobCertifications: Which jobs that are eligible for using an item, e.g. only knights.
+	 * raceCertifications: Which races that are eligible for using an item, e.g. only humans.
+	 * canBeUsedBy: Checks if a character can use the item or not, depending on its race and job.
+	 */
 	public static final int MAX_CONDITION = 100;
 	public static final int MIN_CONDITION = 0;
 	private int weight;
 	private int value;
-	private List<String> jobCertifications;
-	private List<String> raceCertifications;
 	private Size size;
 	private Type type;
 	private int condition;
+	private List<String> jobCertifications; // ändra från list till set?
+	private List<String> raceCertifications;
 	
 	public Item(int weight, int value, String[] jobCertifications, String[] raceCertifications, Size size, Type type, int condition) {
 		if (condition < MIN_CONDITION || condition > MAX_CONDITION) {
@@ -59,19 +81,8 @@ public abstract class Item {
 	}
 	
 	public boolean canBeUsedBy(Character character) {
-		Race race = character.getRace();
-		Job job = character.getJob();
-		
-		String raceStr = race.getClass().getSimpleName().toString();
-		String jobStr = job.getClass().getSimpleName().toString();
-		
-		//System.out.println(raceStr);
-		//System.out.println(jobStr);
-		
-		if (getRaceCertifications().contains(raceStr) && getJobCertifications().contains(jobStr)) {
-			return true;
-		}
-		
-		return false;
+		String race = character.getRace().getClass().getSimpleName();
+		String job = character.getJob().getClass().getSimpleName();
+		return getRaceCertifications().contains(race) && getJobCertifications().contains(job);
 	}
 }

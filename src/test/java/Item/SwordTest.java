@@ -1,15 +1,22 @@
 package Item;
 
-import GameCharacters.*;
-import GameCharacters.Character;
-import Jobs.*;
-import Races.*;
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+import GameCharacters.Character;
+import GameCharacters.Player;
+import Jobs.Job;
+import Jobs.Knight;
+import Jobs.Magician;
+import Jobs.Healer;
+import Races.Race;
+import Races.Human;
+import Races.Ogre;
+import Races.Elf;
 
 class SwordTest {
-	
+	/**
+	 * Test class for Sword class
+	 */
 	public static final Sword DEFAULT_SWORD = new Sword();
 	public static final String NAME = "Mr Default";
 	public static final Race HUMAN = new Human();

@@ -1,18 +1,23 @@
 package Inventory;
 
-import Item.*;
-import org.hamcrest.MatcherAssert;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
-
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.hamcrest.MatcherAssert;
+import Item.Item;
+import Item.Sword;
+import Item.Wand;
+import Item.Egg;
+import Item.Shield;
+import Item.Ring;
 
 class InventoryTest {
-	
+	/**
+	 * Test class for Inventory class
+	 */
 	public static final Item[] DEFAULT_ITEMSET = {new Sword(), new Wand(), new Egg(), new Shield(), new Ring()};
 	public static final Inventory DEFAULT_INVENTORY = new Inventory(DEFAULT_ITEMSET);
 	public static final Item[] EMPTY_ITEMSET = {};

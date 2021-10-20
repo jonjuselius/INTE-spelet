@@ -14,6 +14,7 @@
 /.idea/
 /.settings/
 /documents/~$Item_Beslutstabell.xlsx
+
 .DS_Store
 src/.DS_Store
 src/main/.DS_Store

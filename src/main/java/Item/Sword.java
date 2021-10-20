@@ -1,7 +1,13 @@
 package Item;
 
 public class Sword extends Item {
-	
+	/**
+	 * Sword is weapon that can be used by knights, irregardless of race. It is
+	 * an instantiable subclass of Item. The default size of a sword is medium,
+	 * and the default condition for a new sword is perfect condition. A sword
+	 * has a weight of 10 units and a value of 200 units. The purpose of a sword
+	 * is to deal damage to enemies.
+	 */
 	public static final int WEIGHT = 10;
 	public static final int VALUE = 200;
 	public static final String[] JOB_CERTIFICATIONS = {"Knight"};

@@ -1,5 +1,6 @@
 package Item;
 
+import static org.junit.jupiter.api.Assertions.*;
 import GameCharacters.Character;
 import GameCharacters.Player;
 import Jobs.Healer;
@@ -12,10 +13,10 @@ import Races.Ogre;
 import Races.Race;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class EggTest {
-	
+	/**
+	 * Test class for Egg class
+	 */
 	public static final Egg DEFAULT_EGG = new Egg();
 	public static final String NAME = "Mr Default";
 	public static final Race HUMAN = new Human();

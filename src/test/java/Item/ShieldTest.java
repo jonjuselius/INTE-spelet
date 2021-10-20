@@ -1,5 +1,7 @@
 package Item;
 
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 import GameCharacters.Character;
 import GameCharacters.Player;
 import Jobs.Healer;
@@ -10,12 +12,11 @@ import Races.Elf;
 import Races.Human;
 import Races.Ogre;
 import Races.Race;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class ShieldTest {
-	
+	/**
+	 * Test class for Shield class
+	 */
 	public static final Shield DEFAULT_SHIELD = new Shield();
 	public static final String NAME = "Mr Default";
 	public static final Race HUMAN = new Human();

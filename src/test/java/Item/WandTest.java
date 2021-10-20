@@ -1,5 +1,7 @@
 package Item;
 
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 import GameCharacters.Character;
 import GameCharacters.Player;
 import Jobs.Healer;
@@ -10,12 +12,11 @@ import Races.Elf;
 import Races.Human;
 import Races.Ogre;
 import Races.Race;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class WandTest {
-	
+	/**
+	 * Test class for Wand class
+	 */
 	public static final Wand DEFAULT_WAND = new Wand();
 	public static final String NAME = "Mr Default";
 	public static final Race HUMAN = new Human();
