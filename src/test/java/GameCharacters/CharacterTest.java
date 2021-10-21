@@ -11,10 +11,18 @@ import Map.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CharacterTest {
-	private static final MapGenerator MAP_GENERATOR = new MapGenerator(4, 4);
-	public static final Map MAP = MAP_GENERATOR.generate(1);
-	Human human = new Human();
-	Magician magician = new Magician();
+	private Map MAP = createTestMap();
+	private Human human = new Human();
+	private Magician magician = new Magician();
+
+	private Map createTestMap() {
+		Map testMap = new Map(2, 2);
+		testMap.put(new MapPosition(0, 0, Terrain.GRASS), 0, 0);
+		testMap.put(new MapPosition(0, 1, Terrain.WATER), 0, 1);
+		testMap.put(new MapPosition(1, 0, Terrain.GRASS), 1, 0);
+		testMap.put(new MapPosition(1, 1, Terrain.LAVA), 1, 1);
+		return testMap;
+	}
 
 	@Test
 	void takeDamageReducesCorrectHealth() {
