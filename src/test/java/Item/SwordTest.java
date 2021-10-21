@@ -1,6 +1,9 @@
 package Item;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import Map.Map;
+import Map.MapGenerator;
 import org.junit.jupiter.api.Test;
 import GameCharacters.Character;
 import GameCharacters.Player;
@@ -26,16 +29,18 @@ class SwordTest {
 	public static final Job MAGICIAN = new Magician();
 	public static final Job HEALER = new Healer();
 	public static final boolean ALIVE = true;
+	private static final MapGenerator MAP_GENERATOR = new MapGenerator(4, 4);
+	public static final Map MAP = MAP_GENERATOR.generate(1);
 	public static final Character[] DEFAULT_PLAYERS = {
-			new Player(NAME, HUMAN, KNIGHT, ALIVE),
-			new Player(NAME, OGRE, KNIGHT, ALIVE),
-			new Player(NAME, ELF, KNIGHT, ALIVE),
-			new Player(NAME, HUMAN, MAGICIAN, ALIVE),
-			new Player(NAME, OGRE, MAGICIAN, ALIVE),
-			new Player(NAME, ELF, MAGICIAN, ALIVE),
-			new Player(NAME, HUMAN, HEALER, ALIVE),
-			new Player(NAME, OGRE, HEALER, ALIVE),
-			new Player(NAME, ELF, HEALER, ALIVE),
+			new Player(NAME, HUMAN, KNIGHT, ALIVE, MAP),
+			new Player(NAME, OGRE, KNIGHT, ALIVE, MAP),
+			new Player(NAME, ELF, KNIGHT, ALIVE, MAP),
+			new Player(NAME, HUMAN, MAGICIAN, ALIVE, MAP),
+			new Player(NAME, OGRE, MAGICIAN, ALIVE, MAP),
+			new Player(NAME, ELF, MAGICIAN, ALIVE, MAP),
+			new Player(NAME, HUMAN, HEALER, ALIVE, MAP),
+			new Player(NAME, OGRE, HEALER, ALIVE, MAP),
+			new Player(NAME, ELF, HEALER, ALIVE, MAP),
 	};
 	
 	@Test

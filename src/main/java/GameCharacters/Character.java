@@ -3,6 +3,7 @@ package GameCharacters;
 import Inventory.*;
 import Jobs.Job;
 import Magic.SpellCollection;
+import Map.*;
 import Races.*;
 
 public abstract class Character {
@@ -29,13 +30,17 @@ public abstract class Character {
 
 	private SpellCollection spellCollection;
 	private Inventory inventory;
+	private Map map;
+	private MapPosition position;
 
-	public Character(String name, Race race, Job job, boolean isAlive) {
+	public Character(String name, Race race, Job job, boolean isAlive, Map map, MapPosition position) {
 		this.name = name;
 		this.race = race;
 		this.job = job;
 		isAlive = true;
 		this.inventory = inventory;
+		this.map = map;
+		this.position = position;
 
 		setRemainingHealth(race.getMaxHealth());
 		setStrength(race.getStrength());
@@ -54,6 +59,10 @@ public abstract class Character {
 
 	public String getName() {
 		return name;
+	}
+
+	public MapPosition getPosition() {
+		return position;
 	}
 
 	public void increaseHealth(int hp) {
