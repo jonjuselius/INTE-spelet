@@ -3,6 +3,8 @@ package Magic;
 import GameCharacters.Character;
 import Jobs.Healer;
 
+import java.util.Objects;
+
 public class HealingSpell extends Spell {
 
     private int baseHeal;
@@ -70,7 +72,18 @@ public class HealingSpell extends Spell {
         return baseHeal;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof HealingSpell) {
+            return super.equals(o) && baseHeal == ((HealingSpell) o).getBaseHeal();
+        }
+        return false;
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.getName(), this.getManaCost(), this.getElement(), this.getBaseHeal());
+    }
 
 }
 
