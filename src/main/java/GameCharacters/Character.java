@@ -81,7 +81,7 @@ public abstract class Character {
     }
 
     public void setStrength(int strength) {
-        this.strength = race.getStrength();//
+        this.strength = strength;
     }
 
     public int getIntelligence() {
@@ -89,7 +89,7 @@ public abstract class Character {
     }
 
     public void setIntelligence(int intelligence) {
-        this.intelligence = race.getIntelligence();//
+        this.intelligence = strength;//
 
     }
 
@@ -173,7 +173,6 @@ public abstract class Character {
         remainingHealth = Math.min(healTotal, race.getMaxHealth());
     }
 
-    //TODO Behövs denna?
     public void getHealedDependingOnYourOwnHealSkill() {
         if (race.getMaxHealth() > remainingHealth) {
             int newHealth = remainingHealth + getHealingSkill() * getLevel();
