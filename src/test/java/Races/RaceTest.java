@@ -7,9 +7,13 @@ import GameCharacters.*;
 //import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.*;
 
+import Map.Map;
+import Map.MapGenerator;
 import org.junit.jupiter.api.Test;
 
 class RaceTest {
+	private static final MapGenerator MAP_GENERATOR = new MapGenerator(4, 4);
+	public static final Map MAP = MAP_GENERATOR.generate(1);
 	// human health 100, elf health 200, oger health 300, max �r + 100
 	@Test
 	void elfConstructor() {
@@ -40,6 +44,4 @@ class RaceTest {
 		assertEquals(false, oger.getIfCanSwim());
 		assertEquals(true, oger.getIfCanWalkThroughTerraign());
 
-	}
-
-}
+	}}

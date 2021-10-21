@@ -2,6 +2,9 @@ package Jobs;
 
 //import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
+
+import Map.Map;
+import Map.MapGenerator;
 import org.junit.jupiter.api.Test;
 
 import GameCharacters.Player;
@@ -10,6 +13,9 @@ import Races.Human;
 import Races.Ogre;
 
 class JobTest {
+	private static final MapGenerator MAP_GENERATOR = new MapGenerator(4, 4);
+	public static final Map MAP = MAP_GENERATOR.generate(1);
+
 	void knightConstructor() {
 
 		Knight h = new Knight();

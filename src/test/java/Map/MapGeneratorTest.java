@@ -6,9 +6,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MapGeneratorTest {
     private final int FAKE_RANDOM = 1;
-    MapGenerator defaultMg = new MapGenerator(4, 4);
-    Map defaultMap = defaultMg.generate(FAKE_RANDOM);
-    MapTile defaultTile = defaultMap.getMapTiles()[2][2];
+    MapGenerator testMg = new MapGenerator(4, 4);
+    Map testMap = testMg.generate(FAKE_RANDOM);
+    MapPosition testPos = testMap.getMapTiles()[2][2];
 
     @Test
     void constructorSetsMap() {
@@ -33,30 +33,30 @@ class MapGeneratorTest {
 
     @Test
     void correctCoordinatesOfWestNeighbor() {
-        Position westNeighbor = defaultTile.getNeighbors()[0];
-        assertEquals(westNeighbor.getXPos(), defaultMap.getMapTiles()[westNeighbor.getXPos()][westNeighbor.getYPos()].getPosition().getXPos());
-        assertEquals(westNeighbor.getYPos(), defaultMap.getMapTiles()[westNeighbor.getXPos()][westNeighbor.getYPos()].getPosition().getYPos());
+        MapPosition westNeighbor = testPos.getNeighbors()[0];
+        assertEquals(westNeighbor.getXPos(), testMap.getMapTiles()[westNeighbor.getXPos()][westNeighbor.getYPos()].getXPos());
+        assertEquals(westNeighbor.getYPos(), testMap.getMapTiles()[westNeighbor.getXPos()][westNeighbor.getYPos()].getYPos());
     }
 
     @Test
     void correctCoordinatesOfEastNeighBor() {
-        Position eastNeighbor = defaultTile.getNeighbors()[1];
-        assertEquals(eastNeighbor.getXPos(), defaultMap.getMapTiles()[eastNeighbor.getXPos()][eastNeighbor.getYPos()].getPosition().getXPos());
-        assertEquals(eastNeighbor.getYPos(), defaultMap.getMapTiles()[eastNeighbor.getXPos()][eastNeighbor.getYPos()].getPosition().getYPos());
+        MapPosition eastNeighbor = testPos.getNeighbors()[1];
+        assertEquals(eastNeighbor.getXPos(), testMap.getMapTiles()[eastNeighbor.getXPos()][eastNeighbor.getYPos()].getXPos());
+        assertEquals(eastNeighbor.getYPos(), testMap.getMapTiles()[eastNeighbor.getXPos()][eastNeighbor.getYPos()].getYPos());
     }
 
     @Test
     void correctCoordinatesOfNorthNeighbor() {
-        Position northNeighbor = defaultTile.getNeighbors()[2];
-        assertEquals(northNeighbor.getXPos(), defaultMap.getMapTiles()[northNeighbor.getXPos()][northNeighbor.getYPos()].getPosition().getXPos());
-        assertEquals(northNeighbor.getYPos(), defaultMap.getMapTiles()[northNeighbor.getXPos()][northNeighbor.getYPos()].getPosition().getYPos());
+        MapPosition northNeighbor = testPos.getNeighbors()[2];
+        assertEquals(northNeighbor.getXPos(), testMap.getMapTiles()[northNeighbor.getXPos()][northNeighbor.getYPos()].getXPos());
+        assertEquals(northNeighbor.getYPos(), testMap.getMapTiles()[northNeighbor.getXPos()][northNeighbor.getYPos()].getYPos());
     }
 
     @Test
     void correctCoordinatesOfSouthNeighbor() {
-        Position southNeighbor = defaultTile.getNeighbors()[3];
-        assertEquals(southNeighbor.getXPos(), defaultMap.getMapTiles()[southNeighbor.getXPos()][southNeighbor.getYPos()].getPosition().getXPos());
-        assertEquals(southNeighbor.getYPos(), defaultMap.getMapTiles()[southNeighbor.getXPos()][southNeighbor.getYPos()].getPosition().getYPos());
+        MapPosition southNeighbor = testPos.getNeighbors()[3];
+        assertEquals(southNeighbor.getXPos(), testMap.getMapTiles()[southNeighbor.getXPos()][southNeighbor.getYPos()].getXPos());
+        assertEquals(southNeighbor.getYPos(), testMap.getMapTiles()[southNeighbor.getXPos()][southNeighbor.getYPos()].getYPos());
     }
 
 

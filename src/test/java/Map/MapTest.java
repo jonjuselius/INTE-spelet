@@ -2,8 +2,6 @@ package Map;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class MapTest {
@@ -36,7 +34,7 @@ class MapTest {
 
     @Test
     void constructorSetsTiles() {
-        MapTile[][] mapTiles = new MapTile[3][5];
+        MapPosition[][] mapTiles = new MapPosition[3][5];
         Map map = new Map(3, 5);
         assertEquals(mapTiles.length, map.getMapTiles().length);
     }
@@ -46,18 +44,18 @@ class MapTest {
         //Add utanför kartans storlek
         //Kolla både x och y?
         Map map = new Map(3, 6);
-        MapTile tile = new MapTile(new Position(3, 7));
+        MapPosition tile = new MapPosition(3, 7);
         assertThrows(IllegalArgumentException.class, () -> {
-            map.put(tile, tile.getPosition().getXPos(), tile.getPosition().getYPos());
+            map.put(tile, tile.getXPos(), tile.getYPos());
         });
     }
 
     @Test
     void tilePutWithinBounds() {
         Map map = new Map(3, 6);
-        MapTile tile = new MapTile(new Position(2, 3));
-        int xPos = tile.getPosition().getXPos();
-        int yPos = tile.getPosition().getYPos();
+        MapPosition tile = new MapPosition(2, 3);
+        int xPos = tile.getXPos();
+        int yPos = tile.getYPos();
         map.put(tile, xPos, yPos);
         assertEquals(tile, map.getMapTiles()[xPos][yPos]);
     }
@@ -65,12 +63,12 @@ class MapTest {
     @Test
     void tileIsInCorrectPosition() {
         Map map = new Map(2, 3);
-        MapTile tile = new MapTile(new Position(1, 2));
-        int xPos = tile.getPosition().getXPos();
-        int yPos = tile.getPosition().getYPos();
+        MapPosition tile = new MapPosition(1, 2);
+        int xPos = tile.getXPos();
+        int yPos = tile.getYPos();
         map.put(tile, xPos, yPos);
-        assertEquals(xPos, map.getMapTiles()[xPos][yPos].getPosition().getXPos());
-        assertEquals(yPos, map.getMapTiles()[xPos][yPos].getPosition().getYPos());
+        assertEquals(xPos, map.getMapTiles()[xPos][yPos].getXPos());
+        assertEquals(yPos, map.getMapTiles()[xPos][yPos].getYPos());
     }
 
 
