@@ -57,13 +57,13 @@ public abstract class Character {
 	}
 
 	public void increaseHealth(int hp) {
-		if (remainingHealth + hp < race.getMaxHealth()) {
+		if (remainingHealth + hp < getMaxHealth()) {
 			remainingHealth += hp;
 			return;
 		}
 
-		throw new IllegalStateException();
-
+		remainingHealth= getMaxHealth();
+		
 	}// increase
 
 	public int getLevel() {
@@ -176,10 +176,10 @@ public abstract class Character {
 		remainingHealth = Math.min(healTotal, race.getMaxHealth());
 	}
 
-	public void getHealedDependingOnYourOwnHealSkill() {
-		if (race.getMaxHealth() > remainingHealth) {
-			int newHealth = remainingHealth + getHealingSkill() * getLevel();
-			remainingHealth = Math.min(newHealth, race.getMaxHealth());
+	public void healDependingOnYourOwnHealSkill(Character otherCharacter) {
+		if (otherCharacter.getMaxHealth() > otherCharacter.getRemainingHealth()) {
+			int newHealthOfOtherCharacter = otherCharacter.getRemainingHealth() + getHealingSkill() * getLevel();
+			otherCharacter.setRemainingHealth(Math.min(newHealthOfOtherCharacter, otherCharacter.getMaxHealth()));
 		}
 	}
 
@@ -187,11 +187,12 @@ public abstract class Character {
 
 		int increasedDamage = getSwordSkill() * getLevel() + getStrength() + damage;
 		int otherCharacterNewHealth = otherCharacter.getRemainingHealth() - increasedDamage;
-		if (otherCharacter.getRemainingHealth() > 0 && otherCharacterNewHealth >= 0) {
+		if (otherCharacter.getRemainingHealth() > 0 && otherCharacterNewHealth >0) {
 			otherCharacter.setRemainingHealth(Math.min(otherCharacterNewHealth, otherCharacter.getMaxHealth()));
 
 		} else {
 			otherCharacter.setRemainingHealth(0);
+			isAlive= false;
 		}
 	}
 
@@ -215,7 +216,7 @@ public abstract class Character {
 			level++;
 			strength += 3;
 			increaseSkillWhenLevelingUp();
-			if (level == 5) {
+			if (level == 3) {
 				setIfCanSwim(true);//gör test till dessa
 			}
 
@@ -225,7 +226,7 @@ public abstract class Character {
 			level++;
 			intelligence += 3;
 			increaseSkillWhenLevelingUp();
-			if (level == 5) {
+			if (level == 3) {
 				setIfCanSwim(true);
 			}
 		}
@@ -234,7 +235,7 @@ public abstract class Character {
 			level++;
 			strength += 3;
 			increaseSkillWhenLevelingUp();
-			if (level == 5) {
+			if (level == 3) {
 				setIfCanFly(true);
 			}
 
