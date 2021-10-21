@@ -211,23 +211,54 @@ public abstract class Character {
 
 	public void levelsUp() {
 
-		if ( race.toString().contains("Elf") && level < 6 && ((intelligence - 40) % 3 == 0) && (intelligence - 40 > 0)) {
+		if (checkIfLevelUp() == true && race.toString().contains("Elf")) {
 			level++;
 			strength += 3;
+			increaseSkillWhenLevelingUp();
+			if (level == 5) {
+				setIfCanSwim(true);//gör test till dessa
+			}
 
 		}
 
-		if (race.toString().contains("Ogre") && level < 6 && ((strength - 30) % 3 == 0) && (strength - 30 > 0)) {
+		if (checkIfLevelUp() == true && race.toString().contains("Ogre")) {
 			level++;
 			intelligence += 3;
+			increaseSkillWhenLevelingUp();
+			if (level == 5) {
+				setIfCanSwim(true);
+			}
 		}
 
-		if (race.toString().contains("Human") && level < 6 && ((intelligence - 20) % 3 == 0) && ((strength - 20 > 0)
-				|| (intelligence - 20 > 0))) {
+		if (checkIfLevelUp() == true && race.toString().contains("Human")) {
 			level++;
 			strength += 3;
+			increaseSkillWhenLevelingUp();
+			if (level == 5) {
+				setIfCanFly(true);
+			}
 
 		}
+	}
+
+	private boolean checkIfLevelUp() {
+		int intelligenceAquired = intelligence - race.getIntelligence();
+		int strengthAquired = strength - race.getStrength();
+
+		boolean levelUp;
+		if ((intelligenceAquired > 0) || (strengthAquired > 0)) {
+			levelUp = true;
+		} else {
+			levelUp = false;
+		}
+		return levelUp;
+	}
+
+	private void increaseSkillWhenLevelingUp() {
+		swordSkill += 2;
+		healingSkill += 2;
+		magicSkill += 2;
+
 	}
 
 	public void setLevel(int level) {
@@ -246,4 +277,7 @@ public abstract class Character {
 		return race;
 	}
 }
-// Lagt health i character
+
+// Level up if high attributes
+
+//	

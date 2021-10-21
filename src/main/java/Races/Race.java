@@ -1,4 +1,3 @@
-
 package Races;
 
 import GameCharacters.*;
@@ -8,9 +7,9 @@ public abstract class Race {
 	private boolean canWalkThroughTerraign;
 	private boolean canSwim;
 	private boolean canFly;
-	protected int maxHealth;
-	private int strength;
-	private int intelligence;
+	public int maxHealth;
+	public int strength;
+	public int intelligence;
 
 	public Race() {
 
@@ -40,24 +39,13 @@ public abstract class Race {
 		this.canWalkThroughTerraign = canWalkThroughTerraign;
 	}
 
-	protected void setStrength(int strength) {
-		this.strength = strength;
 
-	}
 
-	public int getStrength() {
-		return strength;
-	}
+	public abstract int getStrength();
+	public abstract int getIntelligence();
 
-	protected void setIntelligence(int intelligence) {
-		this.intelligence = intelligence;
-
-	}
-
-	public int getIntelligence() {
-		return intelligence;
-	}
 
 	public abstract int getMaxHealth();
+	
 	
 }

@@ -39,49 +39,5 @@ class JobTest {
 		assertEquals(300, h.getMaxMana());
 
 	}
-	
-//Tdd
-	@Test
-	void getHealedDependingOnYourOwnHealSkillShouldBeThreehundredTwentyForLevelOne() {
-
-		Player c1 = new Player("Jasmyn", new Ogre(), new Knight(), true);
-		c1.takeDamage(100);
-
-		c1.getHealedDependingOnYourOwnHealSkill();
-
-		assertEquals(207, c1.getRemainingHealth());
-
-	}
-
-	@Test
-	void getHealedDependingOnYourOwnHealSkillOverMaxLifePointsStaysAtMaxLifePoint() {
-
-		Player c1 = new Player("Jasmyn", new Ogre(), new Healer(), true);
-		c1.getHealedDependingOnYourOwnHealSkill();
-		c1.getHealedDependingOnYourOwnHealSkill();
-		c1.getHealedDependingOnYourOwnHealSkill();
-		c1.getHealedDependingOnYourOwnHealSkill();
-		c1.getHealedDependingOnYourOwnHealSkill();
-		c1.getHealedDependingOnYourOwnHealSkill();
-		c1.getHealedDependingOnYourOwnHealSkill();
-		c1.getHealedDependingOnYourOwnHealSkill();
-		c1.getHealedDependingOnYourOwnHealSkill();
-		c1.getHealedDependingOnYourOwnHealSkill();
-		c1.getHealedDependingOnYourOwnHealSkill();
-		c1.getHealedDependingOnYourOwnHealSkill();
-
-		assertEquals(300, c1.getRemainingHealth());
-
-	}
-	
-//	@Test
-//	void takeDamageDependingOnYourSwordSkillAndStrengthShouldBeOneHundredTen() {
-//
-//		Player c1 = new Player("Jasmyn", new Elf(), new Knight(), true);
-//		c1.takeDamageDependingOnYourSwordSkillAndStrength(100);
-//
-//		assertEquals(120, c1.getRemainingHealth());
-//
-//	}
 
 }

@@ -2,6 +2,7 @@ package Races;
 
 public class Elf extends Race {
 
+
 	public Elf() {
 
 		setMaxHealth(200);
@@ -20,5 +21,24 @@ public class Elf extends Race {
 	public int getMaxHealth() {
 		return maxHealth;
 	}
+	
+	protected void setStrength(int strength) {
+		this.strength = strength;
+
+	}
+	
+	public int getStrength() {
+		return strength;
+	}
+
+	protected void setIntelligence(int intelligence) {
+		this.intelligence = intelligence;
+
+	}
+
+	public int getIntelligence() {
+		return intelligence;
+	}
+
 
 }

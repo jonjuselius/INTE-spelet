@@ -72,5 +72,6 @@ class RaceTest {
 			c3.increaseHealth(100);
 			;
 		});
-	}
-}
+	}}
+	
+  
