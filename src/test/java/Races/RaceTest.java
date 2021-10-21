@@ -7,9 +7,13 @@ import GameCharacters.*;
 //import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.*;
 
+import Map.Map;
+import Map.MapGenerator;
 import org.junit.jupiter.api.Test;
 
 class RaceTest {
+	private static final MapGenerator MAP_GENERATOR = new MapGenerator(4, 4);
+	public static final Map MAP = MAP_GENERATOR.generate(1);
 	// human health 100, elf health 200, oger health 300, max �r + 100
 	@Test
 	void elfConstructor() {
@@ -47,7 +51,7 @@ class RaceTest {
 	@Test
 	void increasingHealthOverMaxForOgreThrowsException() {
 
-		Player c1 = new Player("Jasmyn", new Ogre(), new Knight(), true);
+		Player c1 = new Player("Jasmyn", new Ogre(), new Knight(), true, MAP);
 		assertThrows(IllegalStateException.class, () -> {
 			c1.increaseHealth(100);
 			;
@@ -57,7 +61,7 @@ class RaceTest {
 	@Test
 	void increasingHealthOverMaxForHumanThrowsException() {
 
-		Player c2 = new Player("Emma", new Human(), new Knight(), true);
+		Player c2 = new Player("Emma", new Human(), new Knight(), true, MAP);
 		assertThrows(IllegalStateException.class, () -> {
 			c2.increaseHealth(100);
 			;
@@ -67,7 +71,7 @@ class RaceTest {
 	@Test
 	void increasingHealthOverMaxForElfThrowsException() {
 
-		Player c3 = new Player("Oliver", new Elf(), new Knight(), true);
+		Player c3 = new Player("Oliver", new Elf(), new Knight(), true, MAP);
 		assertThrows(IllegalStateException.class, () -> {
 			c3.increaseHealth(100);
 			;

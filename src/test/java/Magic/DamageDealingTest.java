@@ -2,6 +2,7 @@ package Magic;
 
 import GameCharacters.*;
 import Jobs.Magician;
+import Map.*;
 import Races.*;
 
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,8 @@ class DamageDealingTest {
 
     Human human = new Human();
     Magician magician = new Magician();
+    MapGenerator mg = new MapGenerator(4, 4);
+    Map testMap = mg.generate(1);
 
     @Test
     void elementalDamageConstructor(){
@@ -53,7 +56,7 @@ class DamageDealingTest {
     @Test
     void powerProgressionChangesInitialDamage() {
         DamageDealingSpell dd = new DamageDealingSpell("Stonefist", 25);
-        Player p = new Player("Player1", human, magician, true);
+        Player p = new Player("Player1", human, magician, true, testMap);
         dd.powerProgression(p);
 
         assertEquals(230, dd.getInitialDamage());
@@ -62,8 +65,8 @@ class DamageDealingTest {
     @Test
     void castThrowsExceptionWhenManaTooLow() {
         DamageDealingSpell dd = new DamageDealingSpell("Implode", 250, Element.FIRE);
-        Player p = new Player("Player1", human, magician, true);
-        Adversary a = new Adversary("Bandit", human, magician, true, 5);
+        Player p = new Player("Player1", human, magician, true, testMap);
+        Adversary a = new Adversary("Bandit", human, magician, true, 5, testMap, testMap.generateRandomPos(1, 1));
 
         assertThrows(IllegalStateException.class, ()-> dd.cast(p,a));
     }
@@ -71,8 +74,8 @@ class DamageDealingTest {
     @Test
     void castDecreasesCorrectMana() {
         DamageDealingSpell dd = new DamageDealingSpell("Stonefist", 25);
-        Player p = new Player("Player1", human, magician, true);
-        Adversary a = new Adversary("Bandit", human, magician, true, 5);
+        Player p = new Player("Player1", human, magician, true, testMap);
+        Adversary a = new Adversary("Bandit", human, magician, true, 5, testMap, testMap.generateRandomPos(1, 1));
         dd.cast(p,a);
         assertEquals(175, p.getRemainingMana());
     }
@@ -80,8 +83,8 @@ class DamageDealingTest {
     @Test
     void castDealsCorrectDamage(){
         DamageDealingSpell dd = new DamageDealingSpell("Stonefist", 25);
-        Player p = new Player("Player1", human, magician, true);
-        Adversary a = new Adversary("Bandit", human, magician, true, 1);
+        Player p = new Player("Player1", human, magician, true, testMap);
+        Adversary a = new Adversary("Bandit", human, magician, true, 1, testMap, testMap.generateRandomPos(1, 1));
         dd.cast(p,a);
 
         assertEquals(70, a.getRemainingHealth());
