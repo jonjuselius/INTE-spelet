@@ -11,7 +11,7 @@ import Map.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CharacterTest {
-	private Map MAP = createTestMap();
+	private Map testMap = createTestMap();
 	private Human human = new Human();
 	private Magician magician = new Magician();
 
@@ -26,7 +26,7 @@ class CharacterTest {
 
 	@Test
 	void takeDamageReducesCorrectHealth() {
-		Player p = new Player("Player1", human, magician, true, MAP);
+		Player p = new Player("Player1", human, magician, true, testMap);
 		p.takeDamage(100);
 
 		assertEquals(200, p.getRemainingHealth());
@@ -34,7 +34,7 @@ class CharacterTest {
 
 	@Test
 	void takeDamageKills() {
-		Player p = new Player("Player1", human, magician, true, MAP);
+		Player p = new Player("Player1", human, magician, true, testMap);
 		p.takeDamage(300);
 
 		assertFalse(p.isAlive());
@@ -42,7 +42,7 @@ class CharacterTest {
 
 	@Test
 	void useManaReducesCorrectAmount() {
-		Player p = new Player("Player1", human, magician, true, MAP);
+		Player p = new Player("Player1", human, magician, true, testMap);
 		p.useMana(100);
 
 		assertEquals(200, p.getRemainingMana());
@@ -50,7 +50,7 @@ class CharacterTest {
 
 	@Test
 	void getHealedIncreasesHealth() {
-		Player p = new Player("Player1", human, magician, true, MAP);
+		Player p = new Player("Player1", human, magician, true, testMap);
 //        p.setRemainingHealth(100);
 		p.getHealed(100);
 
@@ -59,7 +59,7 @@ class CharacterTest {
 
 	@Test
 	void getHealedMoreThanMaxSetsHealthToMax() {
-		Player p = new Player("Player1", human, magician, true, MAP);
+		Player p = new Player("Player1", human, magician, true, testMap);
 //        p.setRemainingHealth(250);
 		p.getHealed(100);
 
@@ -69,7 +69,7 @@ class CharacterTest {
 	/////// Tdd Jasmyn////////////
 	@Test
 	void increaseIntelligenceFromWinningASpellByOne() {
-		Player p = new Player("Player1", human, magician, true, MAP);
+		Player p = new Player("Player1", human, magician, true, testMap);
 		p.increaseIntelligenceFromWinningASpell();
 
 		assertEquals(23, p.getIntelligence());
@@ -79,7 +79,7 @@ class CharacterTest {
 
 	@Test
 	void increaseIntelligenceFromWinningASpellByOneOverMethodBoundary() {
-		Player p = new Player("Player1", human, magician, true, MAP);
+		Player p = new Player("Player1", human, magician, true, testMap);
 		p.increaseIntelligenceFromWinningASpell();
 		p.increaseIntelligenceFromWinningASpell();
 		p.increaseIntelligenceFromWinningASpell();
@@ -94,7 +94,7 @@ class CharacterTest {
 	// tdd Jas
 	@Test
 	void increaseStrengthFromWinningASpellByOne() {
-		Player p = new Player("Player1", human, magician, true, MAP);
+		Player p = new Player("Player1", human, magician, true, testMap);
 		p.increaseStrengthFromWinningASpell();
 
 		assertEquals(23, p.getStrength());
@@ -104,7 +104,7 @@ class CharacterTest {
 
 	@Test
 	void increaseStrengthFromWinningASpellByOneOverMethodBoundary() {
-		Player p = new Player("Player1", human, magician, true, MAP);
+		Player p = new Player("Player1", human, magician, true, testMap);
 		p.increaseStrengthFromWinningASpell();
 		p.increaseStrengthFromWinningASpell();
 		p.increaseStrengthFromWinningASpell();
@@ -119,7 +119,7 @@ class CharacterTest {
 	@Test
 	void increasingHealthOverMaxForOgreThrowsException() {
 
-		Player c1 = new Player("Jasmyn", new Ogre(), new Knight(), true, MAP);
+		Player c1 = new Player("Jasmyn", new Ogre(), new Knight(), true, testMap);
 		assertThrows(IllegalStateException.class, () -> {
 			c1.increaseHealth(100);
 			;
@@ -129,7 +129,7 @@ class CharacterTest {
 	@Test
 	void increasingHealthOverMaxForHumanThrowsException() {
 
-		Player c2 = new Player("Emma", new Human(), new Knight(), true, MAP);
+		Player c2 = new Player("Emma", new Human(), new Knight(), true, testMap);
 		assertThrows(IllegalStateException.class, () -> {
 			c2.increaseHealth(100);
 			;
@@ -139,7 +139,7 @@ class CharacterTest {
 	@Test
 	void increasingHealthOverMaxForElfThrowsException() {
 
-		Player c3 = new Player("Oliver", new Elf(), new Knight(), true, MAP);
+		Player c3 = new Player("Oliver", new Elf(), new Knight(), true, testMap);
 		assertThrows(IllegalStateException.class, () -> {
 			c3.increaseHealth(100);
 			;
@@ -149,7 +149,7 @@ class CharacterTest {
 	@Test
 	void increasingHealthUnderMax() {
 
-		Player c1 = new Player("Jasmyn", new Ogre(), new Knight(), true, MAP);
+		Player c1 = new Player("Jasmyn", new Ogre(), new Knight(), true, testMap);
 		c1.takeDamage(10);
 		c1.increaseHealth(9);
 		assertEquals(299, c1.getRemainingHealth());
@@ -159,7 +159,7 @@ class CharacterTest {
 	@Test
 	void getHealedDependingOnYourOwnHealSkillShouldBeTwohundreedSeven() {
 
-		Player c1 = new Player("Jasmyn", new Ogre(), new Knight(), true, MAP);
+		Player c1 = new Player("Jasmyn", new Ogre(), new Knight(), true, testMap);
 		c1.takeDamage(100);
 
 		c1.getHealedDependingOnYourOwnHealSkill();
@@ -172,7 +172,7 @@ class CharacterTest {
 	@Test
 	void getHealedDependingOnYourOwnHealSkillOverMaxLifePointsStaysAtMaxLifePoint() {
 
-		Player c1 = new Player("Jasmyn", new Ogre(), new Healer(), true, MAP);
+		Player c1 = new Player("Jasmyn", new Ogre(), new Healer(), true, testMap);
 		c1.getHealedDependingOnYourOwnHealSkill();
 
 		assertEquals(300, c1.getRemainingHealth());
@@ -183,8 +183,8 @@ class CharacterTest {
 	@Test
 	void dealDamageDependingOnYourSwordSkillAndStrengthShouldBeSixty() {
 
-		Player p = new Player ("jasmyn", new Ogre(), new Knight(), true, MAP);
-		Player p1 = new Player ("Michael", new Elf(), new Healer(), true, MAP);
+		Player p = new Player ("jasmyn", new Ogre(), new Knight(), true, testMap);
+		Player p1 = new Player ("Michael", new Elf(), new Healer(), true, testMap);
 		p.dealDamageDependingOnYourSwordSkillAndStrength(100, p1);
 
 		assertEquals(60, p1.getRemainingHealth());
@@ -195,8 +195,8 @@ class CharacterTest {
 	@Test
 	void dealDamageDependingOnYourSwordSkillAndStrengthShouldBeZero() {
 
-		Player p = new Player ("jasmyn", new Ogre(), new Knight(), true, MAP);
-		Player p1 = new Player ("Michael", new Elf(), new Healer(), true, MAP);
+		Player p = new Player ("jasmyn", new Ogre(), new Knight(), true, testMap);
+		Player p1 = new Player ("Michael", new Elf(), new Healer(), true, testMap);
 		p.dealDamageDependingOnYourSwordSkillAndStrength(500, p1);
 
 		assertEquals(0, p1.getRemainingHealth());
@@ -208,7 +208,7 @@ class CharacterTest {
 	//Tdd jas
 	@Test
 	void elfLevelsTriesToLevelUpTooTwoButCant() {
-		Player x = new Player("Jasmyn", new Elf(), new Knight(), true, MAP);
+		Player x = new Player("Jasmyn", new Elf(), new Knight(), true, testMap);
 		x.levelsUp();
 
 		assertEquals(1, x.getLevel());
@@ -217,7 +217,7 @@ class CharacterTest {
 	//Tdd jas
 	@Test
 	void elfLevelsUpToLevelTwo() {
-		Player c1 = new Player("Jasmyn", new Elf(), new Knight(), true, MAP);
+		Player c1 = new Player("Jasmyn", new Elf(), new Knight(), true, testMap);
 		c1.increaseIntelligenceFromWinningASpell();
 		c1.levelsUp();
 
@@ -228,7 +228,7 @@ class CharacterTest {
 	//Tdd jas
 	@Test
 	void elfLevelsUpToLevelTwoStrengthIsThirteen() {
-		Player c1 = new Player("Jasmyn", new Elf(), new Knight(), true, MAP);
+		Player c1 = new Player("Jasmyn", new Elf(), new Knight(), true, testMap);
 		c1.increaseIntelligenceFromWinningASpell();
 		c1.levelsUp();
 		assertEquals(13, c1.getStrength());
@@ -238,7 +238,7 @@ class CharacterTest {
 	//Tdd jas
 	@Test
 	void ogreLevelsTriesToLevelUpTwoTwoButCant() {
-		Player c1 = new Player("Jasmyn", new Ogre(), new Knight(), true, MAP);
+		Player c1 = new Player("Jasmyn", new Ogre(), new Knight(), true, testMap);
 		c1.levelsUp();
 
 		assertEquals(1, c1.getLevel());
@@ -247,7 +247,7 @@ class CharacterTest {
 	//Tdd jas
 	@Test
 	void ogreLevelsUpToLevelTwo() {
-		Player c1 = new Player("Jasmyn", new Ogre(), new Knight(), true, MAP);
+		Player c1 = new Player("Jasmyn", new Ogre(), new Knight(), true, testMap);
 		c1.increaseStrengthFromWinningASpell();;
 		c1.levelsUp();
 
@@ -257,7 +257,7 @@ class CharacterTest {
 	//Tdd jas
 	@Test
 	void ogreLevelsUpToLevelTwoIntelligenceIsThirteen() {
-		Player c1 = new Player("Jasmyn", new Ogre(), new Knight(), true, MAP);
+		Player c1 = new Player("Jasmyn", new Ogre(), new Knight(), true, testMap);
 		c1.increaseStrengthFromWinningASpell();;
 		c1.levelsUp();;
 
@@ -267,7 +267,7 @@ class CharacterTest {
 	//Tdd jas
 	@Test
 	void humanLevelsTriesToLevelUpToTwoButCant() {
-		Player c1 = new Player("Jasmyn", new Human(), new Knight(), true, MAP);
+		Player c1 = new Player("Jasmyn", new Human(), new Knight(), true, testMap);
 		c1.levelsUp();
 
 		assertEquals(1, c1.getLevel());
@@ -276,7 +276,7 @@ class CharacterTest {
 	//Tdd jas
 	@Test
 	void humanLevelsUpToLevelTwo() {
-		Player c1 = new Player("Jasmyn", new Human(), new Knight(), true, MAP);
+		Player c1 = new Player("Jasmyn", new Human(), new Knight(), true, testMap);
 		c1.increaseIntelligenceFromWinningASpell();
 		c1.levelsUp();
 
@@ -285,7 +285,7 @@ class CharacterTest {
 	//Tdd jas
 	@Test
 	void humanLevelsUpToLevelTwoWithIntelligenceNewStrengthIsTwentythree() {
-		Player c1 = new Player("Jasmyn", new Human(), new Knight(), true, MAP);
+		Player c1 = new Player("Jasmyn", new Human(), new Knight(), true, testMap);
 		c1.increaseIntelligenceFromWinningASpell();
 		c1.levelsUp();
 
@@ -295,7 +295,7 @@ class CharacterTest {
 	//Tdd jas
 	@Test
 	void humanLevelsUpToLevelTwoWithStrength() {
-		Player c1 = new Player("Jasmyn", new Human(), new Knight(), true, MAP);
+		Player c1 = new Player("Jasmyn", new Human(), new Knight(), true, testMap);
 		c1.increaseStrengthFromWinningASpell();;
 		c1.levelsUp();
 
@@ -305,7 +305,7 @@ class CharacterTest {
 	//Tdd jas
 	@Test 
 	void humanLevelsUpToLevelTwoWithStrengthNewStrengthIsTwentysix() {
-		Player c1 = new Player("Jasmyn", new Human(), new Knight(), true, MAP);
+		Player c1 = new Player("Jasmyn", new Human(), new Knight(), true, testMap);
 		c1.increaseStrengthFromWinningASpell();//
 		c1.levelsUp();
 
@@ -362,25 +362,25 @@ class CharacterTest {
 
 	@Test
 	void humanCanMoveOnGrass() {
-		Player human_player = new Player("Human", human, magician, true, MAP);
+		Player human_player = new Player("Human", human, magician, true, testMap);
 		MapPosition currentPos = human_player.getPosition();
-		MapPosition grassPosToVisit = MAP.getMapTiles()[1][0];
+		MapPosition grassPosToVisit = testMap.getMapTiles()[1][0];
 
 		assertEquals(grassPosToVisit, human_player.moveEast());
 	}
 
 	@Test
 	void humanCanMoveInWater() {
-		Player human_player = new Player("Human", human, magician, true, MAP);
+		Player human_player = new Player("Human", human, magician, true, testMap);
 		MapPosition currentPos = human_player.getPosition();
-		MapPosition waterPosToVisit = MAP.getMapTiles()[0][1];
+		MapPosition waterPosToVisit = testMap.getMapTiles()[0][1];
 
 		assertEquals(waterPosToVisit, human_player.moveNorth());
 	}
 
 	@Test
 	void humanDiesInLava() {
-		Player human_player = new Player("Human", human, magician, true, MAP);
+		Player human_player = new Player("Human", human, magician, true, testMap);
 		human_player.moveEast();
 		human_player.moveNorth();
 
