@@ -3,18 +3,17 @@ package GameCharacters;
 import Jobs.Healer;
 import Jobs.Knight;
 import Jobs.Magician;
-import Map.*;
 import org.junit.jupiter.api.Test;
 import Races.*;
+import Map.*;
 
 //import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CharacterTest {
-
+	private Map testMap = createTestMap();
 	private Human human = new Human();
 	private Magician magician = new Magician();
-	private Map testMap = createTestMap();
 
 	private Map createTestMap() {
 		Map testMap = new Map(2, 2);
@@ -206,18 +205,16 @@ class CharacterTest {
 
 
 
-
 	//Tdd jas
 	@Test
 	void elfLevelsTriesToLevelUpTooTwoButCant() {
-		Player x = new Player("Jasmyn", new Elf(), new Knight(), true);
+		Player x = new Player("Jasmyn", new Elf(), new Knight(), true, testMap);
 		x.levelsUp();
 
 		assertEquals(1, x.getLevel());
 	}
 	
 	//Tdd jas
-
 	@Test
 	void elfLevelsUpToLevelTwo() {
 		Player c1 = new Player("Jasmyn", new Elf(), new Knight(), true, testMap);
@@ -241,7 +238,7 @@ class CharacterTest {
 	//Tdd jas
 	@Test
 	void ogreLevelsTriesToLevelUpTwoTwoButCant() {
-		Player c1 = new Player("Jasmyn", new Ogre(), new Knight(), true);
+		Player c1 = new Player("Jasmyn", new Ogre(), new Knight(), true, testMap);
 		c1.levelsUp();
 
 		assertEquals(1, c1.getLevel());
@@ -250,7 +247,7 @@ class CharacterTest {
 	//Tdd jas
 	@Test
 	void ogreLevelsUpToLevelTwo() {
-		Player c1 = new Player("Jasmyn", new Ogre(), new Knight(), true);
+		Player c1 = new Player("Jasmyn", new Ogre(), new Knight(), true, testMap);
 		c1.increaseStrengthFromWinningASpell();;
 		c1.levelsUp();
 
@@ -260,7 +257,7 @@ class CharacterTest {
 	//Tdd jas
 	@Test
 	void ogreLevelsUpToLevelTwoIntelligenceIsThirteen() {
-		Player c1 = new Player("Jasmyn", new Ogre(), new Knight(), true);
+		Player c1 = new Player("Jasmyn", new Ogre(), new Knight(), true, testMap);
 		c1.increaseStrengthFromWinningASpell();;
 		c1.levelsUp();;
 
@@ -270,7 +267,7 @@ class CharacterTest {
 	//Tdd jas
 	@Test
 	void humanLevelsTriesToLevelUpToTwoButCant() {
-		Player c1 = new Player("Jasmyn", new Human(), new Knight(), true);
+		Player c1 = new Player("Jasmyn", new Human(), new Knight(), true, testMap);
 		c1.levelsUp();
 
 		assertEquals(1, c1.getLevel());
@@ -279,7 +276,7 @@ class CharacterTest {
 	//Tdd jas
 	@Test
 	void humanLevelsUpToLevelTwo() {
-		Player c1 = new Player("Jasmyn", new Human(), new Knight(), true);
+		Player c1 = new Player("Jasmyn", new Human(), new Knight(), true, testMap);
 		c1.increaseIntelligenceFromWinningASpell();
 		c1.levelsUp();
 
@@ -288,7 +285,7 @@ class CharacterTest {
 	//Tdd jas
 	@Test
 	void humanLevelsUpToLevelTwoWithIntelligenceNewStrengthIsTwentythree() {
-		Player c1 = new Player("Jasmyn", new Human(), new Knight(), true);
+		Player c1 = new Player("Jasmyn", new Human(), new Knight(), true, testMap);
 		c1.increaseIntelligenceFromWinningASpell();
 		c1.levelsUp();
 
@@ -298,7 +295,7 @@ class CharacterTest {
 	//Tdd jas
 	@Test
 	void humanLevelsUpToLevelTwoWithStrength() {
-		Player c1 = new Player("Jasmyn", new Human(), new Knight(), true);
+		Player c1 = new Player("Jasmyn", new Human(), new Knight(), true, testMap);
 		c1.increaseStrengthFromWinningASpell();;
 		c1.levelsUp();
 
@@ -308,7 +305,7 @@ class CharacterTest {
 	//Tdd jas
 	@Test 
 	void humanLevelsUpToLevelTwoWithStrengthNewStrengthIsTwentysix() {
-		Player c1 = new Player("Jasmyn", new Human(), new Knight(), true);
+		Player c1 = new Player("Jasmyn", new Human(), new Knight(), true, testMap);
 		c1.increaseStrengthFromWinningASpell();//
 		c1.levelsUp();
 
@@ -419,4 +416,5 @@ class CharacterTest {
 	void elfCanMoveOnLava() {
 
 	}
+
 }
