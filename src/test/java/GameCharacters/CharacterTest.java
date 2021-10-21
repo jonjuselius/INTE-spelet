@@ -156,7 +156,7 @@ class CharacterTest {
 		assertEquals(299, c1.getRemainingHealth());
 	}
 
-	// Tdd
+	//Tdd jas
 	@Test
 	void getHealedDependingOnYourOwnHealSkillShouldBeTwohundreedSeven() {
 
@@ -168,7 +168,8 @@ class CharacterTest {
 		assertEquals(207, c1.getRemainingHealth());
 
 	}
-
+	
+	//Tdd jas
 	@Test
 	void getHealedDependingOnYourOwnHealSkillOverMaxLifePointsStaysAtMaxLifePoint() {
 
@@ -178,7 +179,8 @@ class CharacterTest {
 		assertEquals(300, c1.getRemainingHealth());
 
 	}
-
+	
+	//Tdd jas
 	@Test
 	void dealDamageDependingOnYourSwordSkillAndStrengthShouldBeSixty() {
 
@@ -190,6 +192,7 @@ class CharacterTest {
 
 	}
 	
+	//Tdd jas
 	@Test
 	void dealDamageDependingOnYourSwordSkillAndStrengthShouldBeZero() {
 
@@ -201,23 +204,115 @@ class CharacterTest {
 
 	}
 
-	// tdd
+
+
+
+	//Tdd jas
+	@Test
+	void elfLevelsTriesToLevelUpTooTwoButCant() {
+		Player x = new Player("Jasmyn", new Elf(), new Knight(), true);
+		x.levelsUp();
+
+		assertEquals(1, x.getLevel());
+	}
+	
+	//Tdd jas
+
 	@Test
 	void elfLevelsUpToLevelTwo() {
 		Player c1 = new Player("Jasmyn", new Elf(), new Knight(), true, testMap);
 		c1.increaseIntelligenceFromWinningASpell();
-		c1.elfLevelsUp();
+		c1.levelsUp();
+
 
 		assertEquals(2, c1.getLevel());
 	}
-
+	
+	//Tdd jas
 	@Test
 	void elfLevelsUpToLevelTwoStrengthIsThirteen() {
 		Player c1 = new Player("Jasmyn", new Elf(), new Knight(), true, testMap);
 		c1.increaseIntelligenceFromWinningASpell();
-		c1.elfLevelsUp();
-
+		c1.levelsUp();
 		assertEquals(13, c1.getStrength());
+	}
+	
+	
+	//Tdd jas
+	@Test
+	void ogreLevelsTriesToLevelUpTwoTwoButCant() {
+		Player c1 = new Player("Jasmyn", new Ogre(), new Knight(), true);
+		c1.levelsUp();
+
+		assertEquals(1, c1.getLevel());
+	}
+	
+	//Tdd jas
+	@Test
+	void ogreLevelsUpToLevelTwo() {
+		Player c1 = new Player("Jasmyn", new Ogre(), new Knight(), true);
+		c1.increaseStrengthFromWinningASpell();;
+		c1.levelsUp();
+
+		assertEquals(2, c1.getLevel());
+	}
+	
+	//Tdd jas
+	@Test
+	void ogreLevelsUpToLevelTwoIntelligenceIsThirteen() {
+		Player c1 = new Player("Jasmyn", new Ogre(), new Knight(), true);
+		c1.increaseStrengthFromWinningASpell();;
+		c1.levelsUp();;
+
+		assertEquals(13, c1.getIntelligence());
+	}
+	
+	//Tdd jas
+	@Test
+	void humanLevelsTriesToLevelUpToTwoButCant() {
+		Player c1 = new Player("Jasmyn", new Human(), new Knight(), true);
+		c1.levelsUp();
+
+		assertEquals(1, c1.getLevel());
+	}
+	
+	//Tdd jas
+	@Test
+	void humanLevelsUpToLevelTwo() {
+		Player c1 = new Player("Jasmyn", new Human(), new Knight(), true);
+		c1.increaseIntelligenceFromWinningASpell();
+		c1.levelsUp();
+
+		assertEquals(2, c1.getLevel());
+	}
+	//Tdd jas
+	@Test
+	void humanLevelsUpToLevelTwoWithIntelligenceNewStrengthIsTwentythree() {
+		Player c1 = new Player("Jasmyn", new Human(), new Knight(), true);
+		c1.increaseIntelligenceFromWinningASpell();
+		c1.levelsUp();
+
+		assertEquals(23, c1.getStrength());
+	}
+	
+	//Tdd jas
+	@Test
+	void humanLevelsUpToLevelTwoWithStrength() {
+		Player c1 = new Player("Jasmyn", new Human(), new Knight(), true);
+		c1.increaseStrengthFromWinningASpell();;
+		c1.levelsUp();
+
+		assertEquals(2, c1.getLevel());
+	}
+	
+	//Tdd jas
+	@Test 
+	void humanLevelsUpToLevelTwoWithStrengthNewStrengthIsTwentysix() {
+		Player c1 = new Player("Jasmyn", new Human(), new Knight(), true);
+		c1.increaseStrengthFromWinningASpell();//
+		c1.levelsUp();
+
+		assertEquals(26, c1.getStrength());
 	}
 
 	/*

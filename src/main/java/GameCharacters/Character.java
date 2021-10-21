@@ -90,7 +90,7 @@ public abstract class Character {
 	}
 
 	public void setStrength(int strength) {
-		this.strength = race.getStrength();//
+		this.strength = strength;
 	}
 
 	public int getIntelligence() {
@@ -98,8 +98,7 @@ public abstract class Character {
 	}
 
 	public void setIntelligence(int intelligence) {
-		this.intelligence = race.getIntelligence();//
-
+		this.intelligence = intelligence;
 	}
 
 	public boolean getIfCanFly() {
@@ -219,15 +218,25 @@ public abstract class Character {
 		}
 	}// Level up if high attributes
 
-	public void elfLevelsUp() {
+	public void levelsUp() {
 
-		if (race.toString().contains("Elf") && level < 6 && ((intelligence - 40) % 3 == 0)) {
+		if ( race.toString().contains("Elf") && level < 6 && ((intelligence - 40) % 3 == 0) && (intelligence - 40 > 0)) {
 			level++;
 			strength += 3;
-		} else {
-			return;
+
 		}
 
+		if (race.toString().contains("Ogre") && level < 6 && ((strength - 30) % 3 == 0) && (strength - 30 > 0)) {
+			level++;
+			intelligence += 3;
+		}
+
+		if (race.toString().contains("Human") && level < 6 && ((intelligence - 20) % 3 == 0) && ((strength - 20 > 0)
+				|| (intelligence - 20 > 0))) {
+			level++;
+			strength += 3;
+
+		}
 	}
 
 	public void setLevel(int level) {
