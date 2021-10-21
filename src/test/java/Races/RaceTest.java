@@ -44,37 +44,4 @@ class RaceTest {
 		assertEquals(false, oger.getIfCanSwim());
 		assertEquals(true, oger.getIfCanWalkThroughTerraign());
 
-	}
-	
-//
-
-	@Test
-	void increasingHealthOverMaxForOgreThrowsException() {
-
-		Player c1 = new Player("Jasmyn", new Ogre(), new Knight(), true, MAP);
-		assertThrows(IllegalStateException.class, () -> {
-			c1.increaseHealth(100);
-			;
-		});
-	}
-
-	@Test
-	void increasingHealthOverMaxForHumanThrowsException() {
-
-		Player c2 = new Player("Emma", new Human(), new Knight(), true, MAP);
-		assertThrows(IllegalStateException.class, () -> {
-			c2.increaseHealth(100);
-			;
-		});
-	}
-
-	@Test
-	void increasingHealthOverMaxForElfThrowsException() {
-
-		Player c3 = new Player("Oliver", new Elf(), new Knight(), true, MAP);
-		assertThrows(IllegalStateException.class, () -> {
-			c3.increaseHealth(100);
-			;
-		});
-	}
-}
+	}}

@@ -66,13 +66,13 @@ public abstract class Character {
 	}
 
 	public void increaseHealth(int hp) {
-		if (remainingHealth + hp < race.getMaxHealth()) {
+		if (remainingHealth + hp < getMaxHealth()) {
 			remainingHealth += hp;
 			return;
 		}
 
-		throw new IllegalStateException();
-
+		remainingHealth= getMaxHealth();
+		
 	}// increase
 
 	public int getLevel() {
@@ -185,10 +185,10 @@ public abstract class Character {
 		remainingHealth = Math.min(healTotal, race.getMaxHealth());
 	}
 
-	public void getHealedDependingOnYourOwnHealSkill() {
-		if (race.getMaxHealth() > remainingHealth) {
-			int newHealth = remainingHealth + getHealingSkill() * getLevel();
-			remainingHealth = Math.min(newHealth, race.getMaxHealth());
+	public void healDependingOnYourOwnHealSkill(Character otherCharacter) {
+		if (otherCharacter.getMaxHealth() > otherCharacter.getRemainingHealth()) {
+			int newHealthOfOtherCharacter = otherCharacter.getRemainingHealth() + getHealingSkill() * getLevel();
+			otherCharacter.setRemainingHealth(Math.min(newHealthOfOtherCharacter, otherCharacter.getMaxHealth()));
 		}
 	}
 
@@ -196,11 +196,12 @@ public abstract class Character {
 
 		int increasedDamage = getSwordSkill() * getLevel() + getStrength() + damage;
 		int otherCharacterNewHealth = otherCharacter.getRemainingHealth() - increasedDamage;
-		if (otherCharacter.getRemainingHealth() > 0 && otherCharacterNewHealth >= 0) {
+		if (otherCharacter.getRemainingHealth() > 0 && otherCharacterNewHealth >0) {
 			otherCharacter.setRemainingHealth(Math.min(otherCharacterNewHealth, otherCharacter.getMaxHealth()));
 
 		} else {
 			otherCharacter.setRemainingHealth(0);
+			isAlive= false;
 		}
 	}
 
@@ -220,23 +221,54 @@ public abstract class Character {
 
 	public void levelsUp() {
 
-		if ( race.toString().contains("Elf") && level < 6 && ((intelligence - 40) % 3 == 0) && (intelligence - 40 > 0)) {
+		if (checkIfLevelUp() == true && race.toString().contains("Elf")) {
 			level++;
 			strength += 3;
+			increaseSkillWhenLevelingUp();
+			if (level == 3) {
+				setIfCanSwim(true);//gör test till dessa
+			}
 
 		}
 
-		if (race.toString().contains("Ogre") && level < 6 && ((strength - 30) % 3 == 0) && (strength - 30 > 0)) {
+		if (checkIfLevelUp() == true && race.toString().contains("Ogre")) {
 			level++;
 			intelligence += 3;
+			increaseSkillWhenLevelingUp();
+			if (level == 3) {
+				setIfCanSwim(true);
+			}
 		}
 
-		if (race.toString().contains("Human") && level < 6 && ((intelligence - 20) % 3 == 0) && ((strength - 20 > 0)
-				|| (intelligence - 20 > 0))) {
+		if (checkIfLevelUp() == true && race.toString().contains("Human")) {
 			level++;
 			strength += 3;
+			increaseSkillWhenLevelingUp();
+			if (level == 3) {
+				setIfCanFly(true);
+			}
 
 		}
+	}
+
+	private boolean checkIfLevelUp() {
+		int intelligenceAquired = intelligence - race.getIntelligence();
+		int strengthAquired = strength - race.getStrength();
+
+		boolean levelUp;
+		if ((intelligenceAquired > 0) || (strengthAquired > 0)) {
+			levelUp = true;
+		} else {
+			levelUp = false;
+		}
+		return levelUp;
+	}
+
+	private void increaseSkillWhenLevelingUp() {
+		swordSkill += 2;
+		healingSkill += 2;
+		magicSkill += 2;
+
 	}
 
 	public void setLevel(int level) {
@@ -255,4 +287,7 @@ public abstract class Character {
 		return race;
 	}
 }
-// Lagt health i character
+
+// Level up if high attributes
+
+//	
