@@ -133,32 +133,32 @@ class RingTest {
 	}
 	
 	@Test
-	void newRingWithSizeSpecifiedAsSmallInConstructorCreatesASmallRing() {
+	void RI8_newRingWithSizeSpecifiedAsSmallInConstructorCreatesASmallRing() {
 		assertThat(new Ring(Size.SMALL).getSize(), is(equalTo(Size.SMALL)));
 	}
 	
 	@Test
-	void newRingWithSizeSpecifiedAsMediumInConstructorCreatesAMediumRing() {
+	void RI9_newRingWithSizeSpecifiedAsMediumInConstructorCreatesAMediumRing() {
 		assertThat(new Ring(Size.MEDIUM).getSize(), is(equalTo(Size.MEDIUM)));
 	}
 	
 	@Test
-	void newRingWithSizeSpecifiedAsLargeInConstructorCreatesALargeRing() {
+	void RI10_newRingWithSizeSpecifiedAsLargeInConstructorCreatesALargeRing() {
 		assertThat(new Ring(Size.LARGE).getSize(), is(equalTo(Size.LARGE)));
 	}
 	
 	@Test
-	void newRingWithConditionBetweenMinAndMaxSetsConditionInConstructor() {
+	void RI11_newRingWithConditionBetweenMinAndMaxSetsConditionInConstructor() {
 		assertThat(new Ring(50).getCondition(), is(equalTo(50)));
 	}
 	
 	@Test
-	void newRingWithConditionUnderMinimumThrowsIAE() {
+	void RI12_newRingWithConditionUnderMinimumThrowsIAE() {
 		assertThrows(IllegalArgumentException.class, () -> new Ring(Item.MIN_CONDITION - 1));
 	}
 	
 	@Test
-	void newRingWithConditionOverMaximumThrowsIAE() {
+	void RI13_newRingWithConditionOverMaximumThrowsIAE() {
 		assertThrows(IllegalArgumentException.class, () -> new Ring(Item.MAX_CONDITION + 1));
 	}
 }

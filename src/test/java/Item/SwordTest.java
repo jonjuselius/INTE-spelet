@@ -133,32 +133,32 @@ class SwordTest {
 	}
 	
 	@Test
-	void newSwordWithSizeSpecifiedAsSmallInConstructorCreatesASmallSword() {
+	void SW8_newSwordWithSizeSpecifiedAsSmallInConstructorCreatesASmallSword() {
 		assertThat(new Sword(Size.SMALL).getSize(), is(equalTo(Size.SMALL)));
 	}
 	
 	@Test
-	void newSwordWithSizeSpecifiedAsMediumInConstructorCreatesAMediumSword() {
+	void SW9_newSwordWithSizeSpecifiedAsMediumInConstructorCreatesAMediumSword() {
 		assertThat(new Sword(Size.MEDIUM).getSize(), is(equalTo(Size.MEDIUM)));
 	}
 	
 	@Test
-	void newSwordWithSizeSpecifiedAsLargeInConstructorCreatesALargeSword() {
+	void SW10_newSwordWithSizeSpecifiedAsLargeInConstructorCreatesALargeSword() {
 		assertThat(new Sword(Size.LARGE).getSize(), is(equalTo(Size.LARGE)));
 	}
 	
 	@Test
-	void newSwordWithConditionBetweenMinAndMaxSetsConditionInConstructor() {
+	void SW11_newSwordWithConditionBetweenMinAndMaxSetsConditionInConstructor() {
 		assertThat(new Sword(50).getCondition(), is(equalTo(50)));
 	}
 	
 	@Test
-	void newSwordWithConditionUnderMinimumThrowsIAE() {
+	void SW12_newSwordWithConditionUnderMinimumThrowsIAE() {
 		assertThrows(IllegalArgumentException.class, () -> new Sword(Item.MIN_CONDITION - 1));
 	}
 	
 	@Test
-	void newSwordWithConditionOverMaximumThrowsIAE() {
+	void SW13_newSwordWithConditionOverMaximumThrowsIAE() {
 		assertThrows(IllegalArgumentException.class, () -> new Sword(Item.MAX_CONDITION + 1));
 	}
 	

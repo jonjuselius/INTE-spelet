@@ -16,7 +16,7 @@ public class Ring extends Item {
 	public static final String[] RACE_CERTIFICATIONS = {"Human", "Ogre", "Elf"};
 	
 	public Ring() {
-		this(Item.MAX_CONDITION);
+		this(DEFAULT_CONDITION);
 	}
 	
 	public Ring(int condition) {

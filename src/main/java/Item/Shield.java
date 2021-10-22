@@ -21,7 +21,7 @@ public class Shield extends Item {
 	public static final String[] RACE_CERTIFICATIONS = {"Human", "Ogre", "Elf"};
 	
 	public Shield() {
-		this(Item.MAX_CONDITION);
+		this(DEFAULT_CONDITION);
 	}
 	
 	public Shield(int condition) {

@@ -133,32 +133,32 @@ class ShieldTest {
 	}
 	
 	@Test
-	void newShieldWithSizeSpecifiedAsSmallInConstructorCreatesASmallShield() {
+	void SH8_newShieldWithSizeSpecifiedAsSmallInConstructorCreatesASmallShield() {
 		assertThat(new Shield(Size.SMALL).getSize(), is(equalTo(Size.SMALL)));
 	}
 	
 	@Test
-	void newShieldWithSizeSpecifiedAsMediumInConstructorCreatesAMediumShield() {
+	void SH9_newShieldWithSizeSpecifiedAsMediumInConstructorCreatesAMediumShield() {
 		assertThat(new Shield(Size.MEDIUM).getSize(), is(equalTo(Size.MEDIUM)));
 	}
 	
 	@Test
-	void newShieldWithSizeSpecifiedAsLargeInConstructorCreatesALargeShield() {
+	void SH10_newShieldWithSizeSpecifiedAsLargeInConstructorCreatesALargeShield() {
 		assertThat(new Shield(Size.LARGE).getSize(), is(equalTo(Size.LARGE)));
 	}
 	
 	@Test
-	void newShieldWithConditionBetweenMinAndMaxSetsConditionInConstructor() {
+	void SH11_newShieldWithConditionBetweenMinAndMaxSetsConditionInConstructor() {
 		assertThat(new Shield(50).getCondition(), is(equalTo(50)));
 	}
 	
 	@Test
-	void newShieldWithConditionUnderMinimumThrowsIAE() {
+	void SH12_newShieldWithConditionUnderMinimumThrowsIAE() {
 		assertThrows(IllegalArgumentException.class, () -> new Shield(Item.MIN_CONDITION - 1));
 	}
 	
 	@Test
-	void newShieldWithConditionOverMaximumThrowsIAE() {
+	void SH13_newShieldWithConditionOverMaximumThrowsIAE() {
 		assertThrows(IllegalArgumentException.class, () -> new Shield(Item.MAX_CONDITION + 1));
 	}
 }

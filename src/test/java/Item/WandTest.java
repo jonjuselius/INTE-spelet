@@ -133,32 +133,32 @@ class WandTest {
 	}
 	
 	@Test
-	void newWandWithSizeSpecifiedAsSmallInConstructorCreatesASmallWand() {
+	void WA8_newWandWithSizeSpecifiedAsSmallInConstructorCreatesASmallWand() {
 		assertThat(new Wand(Size.SMALL).getSize(), is(equalTo(Size.SMALL)));
 	}
 	
 	@Test
-	void newWandWithSizeSpecifiedAsMediumInConstructorCreatesAMediumWand() {
+	void WA9_newWandWithSizeSpecifiedAsMediumInConstructorCreatesAMediumWand() {
 		assertThat(new Wand(Size.MEDIUM).getSize(), is(equalTo(Size.MEDIUM)));
 	}
 	
 	@Test
-	void newWandWithSizeSpecifiedAsLargeInConstructorCreatesALargeWand() {
+	void WA10_newWandWithSizeSpecifiedAsLargeInConstructorCreatesALargeWand() {
 		assertThat(new Wand(Size.LARGE).getSize(), is(equalTo(Size.LARGE)));
 	}
 	
 	@Test
-	void newWandWithConditionBetweenMinAndMaxSetsConditionInConstructor() {
+	void WA11_newWandWithConditionBetweenMinAndMaxSetsConditionInConstructor() {
 		assertThat(new Wand(50).getCondition(), is(equalTo(50)));
 	}
 	
 	@Test
-	void newWandWithConditionUnderMinimumThrowsIAE() {
+	void WA12_newWandWithConditionUnderMinimumThrowsIAE() {
 		assertThrows(IllegalArgumentException.class, () -> new Wand(Item.MIN_CONDITION - 1));
 	}
 	
 	@Test
-	void newWandWithConditionOverMaximumThrowsIAE() {
+	void WA13_newWandWithConditionOverMaximumThrowsIAE() {
 		assertThrows(IllegalArgumentException.class, () -> new Wand(Item.MAX_CONDITION + 1));
 	}
 }

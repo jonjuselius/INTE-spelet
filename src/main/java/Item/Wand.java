@@ -20,7 +20,7 @@ public class Wand extends Item {
 	public static final String[] RACE_CERTIFICATIONS = {"Human", "Ogre", "Elf"};
 	
 	public Wand() {
-		this(Item.MAX_CONDITION);
+		this(DEFAULT_CONDITION);
 	}
 	
 	public Wand(int condition) {

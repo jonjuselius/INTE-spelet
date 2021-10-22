@@ -133,6 +133,36 @@ class EggTest {
 	}
 	
 	@Test
+	void EG8_newEggWithSizeSpecifiedAsSmallInConstructorCreatesASmallEgg() {
+		assertThat(new Egg(Size.SMALL).getSize(), is(equalTo(Size.SMALL)));
+	}
+	
+	@Test
+	void EG9_newEggWithSizeSpecifiedAsMediumInConstructorCreatesAMediumEgg() {
+		assertThat(new Egg(Size.MEDIUM).getSize(), is(equalTo(Size.MEDIUM)));
+	}
+	
+	@Test
+	void EG10_newEggWithSizeSpecifiedAsLargeInConstructorCreatesALargeEgg() {
+		assertThat(new Egg(Size.LARGE).getSize(), is(equalTo(Size.LARGE)));
+	}
+	
+	@Test
+	void EG11_newEggWithConditionBetweenMinAndMaxSetsConditionInConstructor() {
+		assertThat(new Egg(50).getCondition(), is(equalTo(50)));
+	}
+	
+	@Test
+	void EG12_newEggWithConditionUnderMinimumThrowsIAE() {
+		assertThrows(IllegalArgumentException.class, () -> new Egg(Item.MIN_CONDITION - 1));
+	}
+	
+	@Test
+	void EG13_newEggWithConditionOverMaximumThrowsIAE() {
+		assertThrows(IllegalArgumentException.class, () -> new Egg(Item.MAX_CONDITION + 1));
+	}
+	
+	@Test
 	void eatingFoodMakesItConsumed() {
 		Food egg = new Egg();
 		assertThat(egg.isConsumed(), is(equalTo(false)));
@@ -148,34 +178,4 @@ class EggTest {
 		assertThat(egg.isConsumed(), is(equalTo(true)));
 		assertThrows(IllegalStateException.class, egg::consume);
 	}
-	
-	@Test
-	void newEggWithSizeSpecifiedAsSmallInConstructorCreatesASmallEgg() {
-		assertThat(new Egg(Size.SMALL).getSize(), is(equalTo(Size.SMALL)));
-	}
-	
-	@Test
-	void newEggWithSizeSpecifiedAsMediumInConstructorCreatesAMediumEgg() {
-		assertThat(new Egg(Size.MEDIUM).getSize(), is(equalTo(Size.MEDIUM)));
-	}
-	
-	@Test
-	void newEggWithSizeSpecifiedAsLargeInConstructorCreatesALargeEgg() {
-		assertThat(new Egg(Size.LARGE).getSize(), is(equalTo(Size.LARGE)));
-	}
-	
-	//@Test
-	//void newEggWithConditionBetweenMinAndMaxSetsConditionInConstructor() {
-	//	assertThat(new Egg(50).getCondition(), is(equalTo(50)));
-	//}
-	
-	//@Test
-	//void newEggWithConditionUnderMinimumThrowsIAE() {
-	//	assertThrows(IllegalArgumentException.class, () -> new Egg(Item.MIN_CONDITION - 1));
-	//}
-	
-	//@Test
-	//void newEggWithConditionOverMaximumThrowsIAE() {
-	//	assertThrows(IllegalArgumentException.class, () -> new Egg(Item.MAX_CONDITION + 1));
-	//}
 }

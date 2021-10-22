@@ -11,11 +11,10 @@ public abstract class Food extends Item {
 	 * consume: The food becomes consumed, unless it already has been consumed.
 	 */
 	public static final Type TYPE = Type.FOOD;
-	public static final int DEFAULT_CONDITION = Item.MAX_CONDITION;
 	private boolean consumed;
 
-	public Food(int weight, int value, String[] jobCertifications, String[] raceCerticiations, Size size) {
-		super(weight, value, jobCertifications, raceCerticiations, size, TYPE, DEFAULT_CONDITION);
+	public Food(int weight, int value, String[] jobCertifications, String[] raceCerticiations, Size size, int condition) {
+		super(weight, value, jobCertifications, raceCerticiations, size, TYPE, condition);
 	}
 
 	public boolean isConsumed() {
