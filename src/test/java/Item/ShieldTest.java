@@ -1,5 +1,8 @@
 package Item;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import Map.Map;
 import Map.MapGenerator;
@@ -85,4 +88,28 @@ class ShieldTest {
 		assertFalse(DEFAULT_SHIELD.canBeUsedBy(DEFAULT_PLAYERS.get(8)));
 	}
 	
+	@Test
+	void SH1_newShieldHasDefaultWeight() {
+		assertThat(new Shield().getWeight(), is(equalTo(Shield.WEIGHT)));
+	}
+	
+	@Test
+	void SH2_newShieldHasDefaultValue() {
+		assertThat(new Shield().getValue(), is(equalTo(Shield.VALUE)));
+	}
+	
+	@Test
+	void SH3_newShieldHasDefaultSize() {
+		assertThat(new Shield().getSize(), is(equalTo(Shield.DEFAULT_SIZE)));
+	}
+	
+	@Test
+	void SH4_newShieldHasDefaultType() {
+		assertThat(new Shield().getType(), is(equalTo(Shield.TYPE)));
+	}
+	
+	@Test
+	void SH5_newShieldHasDefaultCondition() {
+		assertThat(new Shield().getCondition(), is(equalTo(Shield.DEFAULT_CONDITION)));
+	}
 }

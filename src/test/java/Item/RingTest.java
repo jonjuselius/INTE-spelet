@@ -1,5 +1,8 @@
 package Item;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import GameCharacters.Character;
 import GameCharacters.Player;
@@ -83,6 +86,31 @@ class RingTest {
 	@Test
 	void R45_canUse() {
 		assertTrue(DEFAULT_RING.canBeUsedBy(DEFAULT_PLAYERS.get(8)));
+	}
+	
+	@Test
+	void RI1_newRingHasDefaultWeight() {
+		assertThat(new Ring().getWeight(), is(equalTo(Ring.WEIGHT)));
+	}
+	
+	@Test
+	void RI2_newRingHasDefaultValue() {
+		assertThat(new Ring().getValue(), is(equalTo(Ring.VALUE)));
+	}
+	
+	@Test
+	void RI3_newRingHasDefaultSize() {
+		assertThat(new Ring().getSize(), is(equalTo(Ring.DEFAULT_SIZE)));
+	}
+	
+	@Test
+	void RI4_newRingHasDefaultType() {
+		assertThat(new Ring().getType(), is(equalTo(Ring.TYPE)));
+	}
+	
+	@Test
+	void RI5_newRingHasDefaultCondition() {
+		assertThat(new Ring().getCondition(), is(equalTo(Ring.DEFAULT_CONDITION)));
 	}
 	
 }

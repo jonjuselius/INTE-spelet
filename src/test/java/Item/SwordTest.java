@@ -1,5 +1,8 @@
 package Item;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import Map.Map;
 import Map.MapGenerator;
@@ -83,5 +86,47 @@ class SwordTest {
 	@Test
 	void R9_canUse() {
 		assertFalse(DEFAULT_SWORD.canBeUsedBy(DEFAULT_PLAYERS.get(8)));
+	}
+	
+	@Test
+	void SW1_newSwordHasDefaultWeight() {
+		assertThat(new Sword().getWeight(), is(equalTo(Sword.WEIGHT)));
+	}
+	
+	@Test
+	void SW2_newSwordHasDefaultValue() {
+		assertThat(new Sword().getValue(), is(equalTo(Sword.VALUE)));
+	}
+	
+	@Test
+	void SW3_newSwordHasDefaultSize() {
+		assertThat(new Sword().getSize(), is(equalTo(Sword.DEFAULT_SIZE)));
+	}
+	
+	@Test
+	void SW4_newSwordHasDefaultType() {
+		assertThat(new Sword().getType(), is(equalTo(Sword.TYPE)));
+	}
+	
+	@Test
+	void SW5_newSwordHasDefaultCondition() {
+		assertThat(new Sword().getCondition(), is(equalTo(Sword.DEFAULT_CONDITION)));
+	}
+	
+	@Test
+	void newSwordWithConditionBetweenMinAndMaxSetsConditionInConstructor() {
+		int condition = (Sword.DEFAULT_CONDITION + Sword.DEFAULT_CONDITION) / 2;
+		Item sword = new Sword(condition);
+		assertThat(sword.getCondition(), is(equalTo(condition)));
+	}
+	
+	@Test
+	void newSwordWithConditionUnderMinimumThrowsIAE() {
+		assertThrows(IllegalArgumentException.class, () -> new Sword(Item.MIN_CONDITION - 1));
+	}
+	
+	@Test
+	void newSwordWithConditionOverMaximumThrowsIAE() {
+		assertThrows(IllegalArgumentException.class, () -> new Sword(Item.MAX_CONDITION + 1));
 	}
 }

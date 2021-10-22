@@ -1,5 +1,8 @@
 package Item;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import GameCharacters.Character;
 import GameCharacters.Player;
@@ -85,4 +88,45 @@ class EggTest {
 		assertTrue(DEFAULT_EGG.canBeUsedBy(DEFAULT_PLAYERS.get(8)));
 	}
 	
+	@Test
+	void EG1_newEggHasDefaultWeight() {
+		assertThat(new Egg().getWeight(), is(equalTo(Egg.WEIGHT)));
+	}
+	
+	@Test
+	void EG2_newEggHasDefaultValue() {
+		assertThat(new Egg().getValue(), is(equalTo(Egg.VALUE)));
+	}
+	
+	@Test
+	void EG3_newEggHasDefaultSize() {
+		assertThat(new Egg().getSize(), is(equalTo(Egg.DEFAULT_SIZE)));
+	}
+	
+	@Test
+	void EG4_newEggHasDefaultType() {
+		assertThat(new Egg().getType(), is(equalTo(Egg.TYPE)));
+	}
+	
+	@Test
+	void EG5_newEggHasDefaultCondition() {
+		assertThat(new Egg().getCondition(), is(equalTo(Egg.DEFAULT_CONDITION)));
+	}
+	
+	@Test
+	void eatingFoodMakesItConsumed() {
+		Food egg = new Egg();
+		assertThat(egg.isConsumed(), is(equalTo(false)));
+		egg.consume();
+		assertThat(egg.isConsumed(), is(equalTo(true)));
+	}
+	
+	@Test
+	void eatingConsumedFoodThrowsISE() {
+		Food egg = new Egg();
+		assertThat(egg.isConsumed(), is(equalTo(false)));
+		egg.consume();
+		assertThat(egg.isConsumed(), is(equalTo(true)));
+		assertThrows(IllegalStateException.class, egg::consume);
+	}
 }

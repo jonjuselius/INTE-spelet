@@ -1,5 +1,8 @@
 package Item;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import Map.Map;
 import Map.MapGenerator;
@@ -83,6 +86,31 @@ class WandTest {
 	@Test
 	void R18_canUse() {
 		assertTrue(DEFAULT_WAND.canBeUsedBy(DEFAULT_PLAYERS.get(8)));
+	}
+	
+	@Test
+	void WA1_newWandHasDefaultWeight() {
+		assertThat(new Wand().getWeight(), is(equalTo(Wand.WEIGHT)));
+	}
+	
+	@Test
+	void WA2_newWandHasDefaultValue() {
+		assertThat(new Wand().getValue(), is(equalTo(Wand.VALUE)));
+	}
+	
+	@Test
+	void WA3_newWandHasDefaultSize() {
+		assertThat(new Wand().getSize(), is(equalTo(Wand.DEFAULT_SIZE)));
+	}
+	
+	@Test
+	void WA4_newWandHasDefaultType() {
+		assertThat(new Wand().getType(), is(equalTo(Wand.TYPE)));
+	}
+	
+	@Test
+	void WA5_newWandHasDefaultCondition() {
+		assertThat(new Wand().getCondition(), is(equalTo(Wand.DEFAULT_CONDITION)));
 	}
 	
 }
