@@ -1,7 +1,6 @@
 package Item;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 import Map.Map;
 import Map.MapGenerator;
 import org.junit.jupiter.api.BeforeAll;
@@ -16,7 +15,6 @@ import Races.Elf;
 import Races.Human;
 import Races.Ogre;
 import Races.Race;
-
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,14 +1,10 @@
 package Item;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 import Map.Map;
 import Map.MapGenerator;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 import GameCharacters.Character;
 import GameCharacters.Player;
 import Jobs.Job;
@@ -19,6 +15,8 @@ import Races.Race;
 import Races.Human;
 import Races.Ogre;
 import Races.Elf;
+import java.util.ArrayList;
+import java.util.List;
 
 class SwordTest {
 	/**

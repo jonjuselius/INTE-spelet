@@ -1,5 +1,6 @@
 package Item;
 
+import static org.junit.jupiter.api.Assertions.*;
 import GameCharacters.Character;
 import GameCharacters.Player;
 import Jobs.Healer;
@@ -14,11 +15,8 @@ import Races.Ogre;
 import Races.Race;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class RingTest {
 	/**
