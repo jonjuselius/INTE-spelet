@@ -4,7 +4,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import Map.Map;
 import Map.MapGenerator;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 import GameCharacters.Character;
 import GameCharacters.Player;
 import Jobs.Job;
@@ -22,69 +26,64 @@ class SwordTest {
 	 */
 	public static final Sword DEFAULT_SWORD = new Sword();
 	public static final String NAME = "Mr Default";
-	public static final Race HUMAN = new Human();
-	public static final Race OGRE = new Ogre();
-	public static final Race ELF = new Elf();
-	public static final Job KNIGHT = new Knight();
-	public static final Job MAGICIAN = new Magician();
-	public static final Job HEALER = new Healer();
+	public static final Race[] RACES = {new Human(), new Ogre(), new Elf()};
+	public static final Job[] JOBS = {new Knight(), new Magician(), new Healer()};
 	public static final boolean ALIVE = true;
 	private static final MapGenerator MAP_GENERATOR = new MapGenerator(4, 4);
 	public static final Map MAP = MAP_GENERATOR.generate(1);
-	public static final Character[] DEFAULT_PLAYERS = {
-			new Player(NAME, HUMAN, KNIGHT, ALIVE, MAP),
-			new Player(NAME, OGRE, KNIGHT, ALIVE, MAP),
-			new Player(NAME, ELF, KNIGHT, ALIVE, MAP),
-			new Player(NAME, HUMAN, MAGICIAN, ALIVE, MAP),
-			new Player(NAME, OGRE, MAGICIAN, ALIVE, MAP),
-			new Player(NAME, ELF, MAGICIAN, ALIVE, MAP),
-			new Player(NAME, HUMAN, HEALER, ALIVE, MAP),
-			new Player(NAME, OGRE, HEALER, ALIVE, MAP),
-			new Player(NAME, ELF, HEALER, ALIVE, MAP),
-	};
+	public static final List<Character> DEFAULT_PLAYERS = new ArrayList<>();
+	
+	@BeforeAll
+	static void beforeAll() {
+		for (Job job : JOBS) {
+			for (Race race : RACES) {
+				DEFAULT_PLAYERS.add(new Player(NAME, race, job, ALIVE, MAP));
+			}
+		}
+	}
 	
 	@Test
 	void R1_canUse() {
-		assertTrue(DEFAULT_SWORD.canBeUsedBy(DEFAULT_PLAYERS[0]));
+		assertTrue(DEFAULT_SWORD.canBeUsedBy(DEFAULT_PLAYERS.get(0)));
 	}
 	
 	@Test
 	void R2_canUse() {
-		assertTrue(DEFAULT_SWORD.canBeUsedBy(DEFAULT_PLAYERS[1]));
+		assertTrue(DEFAULT_SWORD.canBeUsedBy(DEFAULT_PLAYERS.get(1)));
 	}
 	
 	@Test
 	void R3_canUse() {
-		assertTrue(DEFAULT_SWORD.canBeUsedBy(DEFAULT_PLAYERS[2]));
+		assertTrue(DEFAULT_SWORD.canBeUsedBy(DEFAULT_PLAYERS.get(2)));
 	}
 	
 	@Test
 	void R4_canUse() {
-		assertFalse(DEFAULT_SWORD.canBeUsedBy(DEFAULT_PLAYERS[3]));
+		assertFalse(DEFAULT_SWORD.canBeUsedBy(DEFAULT_PLAYERS.get(3)));
 	}
 	
 	@Test
 	void R5_canUse() {
-		assertFalse(DEFAULT_SWORD.canBeUsedBy(DEFAULT_PLAYERS[4]));
+		assertFalse(DEFAULT_SWORD.canBeUsedBy(DEFAULT_PLAYERS.get(4)));
 	}
 	
 	@Test
 	void R6_canUse() {
-		assertFalse(DEFAULT_SWORD.canBeUsedBy(DEFAULT_PLAYERS[5]));
+		assertFalse(DEFAULT_SWORD.canBeUsedBy(DEFAULT_PLAYERS.get(5)));
 	}
 	
 	@Test
 	void R7_canUse() {
-		assertFalse(DEFAULT_SWORD.canBeUsedBy(DEFAULT_PLAYERS[6]));
+		assertFalse(DEFAULT_SWORD.canBeUsedBy(DEFAULT_PLAYERS.get(6)));
 	}
 	
 	@Test
 	void R8_canUse() {
-		assertFalse(DEFAULT_SWORD.canBeUsedBy(DEFAULT_PLAYERS[7]));
+		assertFalse(DEFAULT_SWORD.canBeUsedBy(DEFAULT_PLAYERS.get(7)));
 	}
 	
 	@Test
 	void R9_canUse() {
-		assertFalse(DEFAULT_SWORD.canBeUsedBy(DEFAULT_PLAYERS[8]));
+		assertFalse(DEFAULT_SWORD.canBeUsedBy(DEFAULT_PLAYERS.get(8)));
 	}
 }
