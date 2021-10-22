@@ -115,6 +115,24 @@ class EggTest {
 	}
 	
 	@Test
+	void EG6_eggCanBeUsedByAllJobs() {
+		List<String> jobs = Arrays.asList("Knight", "Magician", "Healer");
+		List<String> jobCertifications = DEFAULT_EGG.getJobCertifications();
+		String[] jobsArr = jobs.toArray(new String[jobs.size()]);
+		String[] jobCertificationsArr = jobCertifications.toArray(new String[jobCertifications.size()]);
+		assertArrayEquals(jobsArr, jobCertificationsArr);
+	}
+	
+	@Test
+	void EG7_eggCanBeUsedByAllRaces() {
+		List<String> races = Arrays.asList("Human", "Ogre", "Elf");
+		List<String> raceCertifications = DEFAULT_EGG.getRaceCertifications();
+		String[] racesArr = races.toArray(new String[races.size()]);
+		String[] raceCertificationsArr = raceCertifications.toArray(new String[raceCertifications.size()]);
+		assertArrayEquals(racesArr, raceCertificationsArr);
+	}
+	
+	@Test
 	void eatingFoodMakesItConsumed() {
 		Food egg = new Egg();
 		assertThat(egg.isConsumed(), is(equalTo(false)));
@@ -146,21 +164,18 @@ class EggTest {
 		assertThat(new Egg(Size.LARGE).getSize(), is(equalTo(Size.LARGE)));
 	}
 	
-	@Test
-	void eggCanBeUsedByAllJobs() {
-		List<String> jobs = Arrays.asList("Knight", "Magician", "Healer");
-		List<String> jobCertifications = DEFAULT_EGG.getJobCertifications();
-		String[] jobsArr = jobs.toArray(new String[jobs.size()]);
-		String[] jobCertificationsArr = jobCertifications.toArray(new String[jobCertifications.size()]);
-		assertArrayEquals(jobsArr, jobCertificationsArr);
-	}
+	//@Test
+	//void newEggWithConditionBetweenMinAndMaxSetsConditionInConstructor() {
+	//	assertThat(new Egg(50).getCondition(), is(equalTo(50)));
+	//}
 	
-	@Test
-	void eggCanBeUsedByAllRaces() {
-		List<String> races = Arrays.asList("Human", "Ogre", "Elf");
-		List<String> raceCertifications = DEFAULT_EGG.getRaceCertifications();
-		String[] racesArr = races.toArray(new String[races.size()]);
-		String[] raceCertificationsArr = raceCertifications.toArray(new String[raceCertifications.size()]);
-		assertArrayEquals(racesArr, raceCertificationsArr);
-	}
+	//@Test
+	//void newEggWithConditionUnderMinimumThrowsIAE() {
+	//	assertThrows(IllegalArgumentException.class, () -> new Egg(Item.MIN_CONDITION - 1));
+	//}
+	
+	//@Test
+	//void newEggWithConditionOverMaximumThrowsIAE() {
+	//	assertThrows(IllegalArgumentException.class, () -> new Egg(Item.MAX_CONDITION + 1));
+	//}
 }

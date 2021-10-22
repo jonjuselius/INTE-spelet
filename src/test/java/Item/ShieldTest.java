@@ -19,6 +19,7 @@ import Races.Human;
 import Races.Ogre;
 import Races.Race;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 class ShieldTest {
@@ -114,6 +115,24 @@ class ShieldTest {
 	}
 	
 	@Test
+	void SH6_shieldCanOnlyBeUsedByKnight() {
+		List<String> jobs = Arrays.asList("Knight");
+		List<String> jobCertifications = DEFAULT_SHIELD.getJobCertifications();
+		String[] jobsArr = jobs.toArray(new String[jobs.size()]);
+		String[] jobCertificationsArr = jobCertifications.toArray(new String[jobCertifications.size()]);
+		assertArrayEquals(jobsArr, jobCertificationsArr);
+	}
+	
+	@Test
+	void SH7_shieldCanBeUsedByAllRaces() {
+		List<String> races = Arrays.asList("Human", "Ogre", "Elf");
+		List<String> raceCertifications = DEFAULT_SHIELD.getRaceCertifications();
+		String[] racesArr = races.toArray(new String[races.size()]);
+		String[] raceCertificationsArr = raceCertifications.toArray(new String[raceCertifications.size()]);
+		assertArrayEquals(racesArr, raceCertificationsArr);
+	}
+	
+	@Test
 	void newShieldWithSizeSpecifiedAsSmallInConstructorCreatesASmallShield() {
 		assertThat(new Shield(Size.SMALL).getSize(), is(equalTo(Size.SMALL)));
 	}
@@ -126,5 +145,20 @@ class ShieldTest {
 	@Test
 	void newShieldWithSizeSpecifiedAsLargeInConstructorCreatesALargeShield() {
 		assertThat(new Shield(Size.LARGE).getSize(), is(equalTo(Size.LARGE)));
+	}
+	
+	@Test
+	void newShieldWithConditionBetweenMinAndMaxSetsConditionInConstructor() {
+		assertThat(new Shield(50).getCondition(), is(equalTo(50)));
+	}
+	
+	@Test
+	void newShieldWithConditionUnderMinimumThrowsIAE() {
+		assertThrows(IllegalArgumentException.class, () -> new Shield(Item.MIN_CONDITION - 1));
+	}
+	
+	@Test
+	void newShieldWithConditionOverMaximumThrowsIAE() {
+		assertThrows(IllegalArgumentException.class, () -> new Shield(Item.MAX_CONDITION + 1));
 	}
 }

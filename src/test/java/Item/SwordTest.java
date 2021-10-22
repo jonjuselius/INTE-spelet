@@ -115,20 +115,21 @@ class SwordTest {
 	}
 	
 	@Test
-	void newSwordWithConditionBetweenMinAndMaxSetsConditionInConstructor() {
-		int condition = (Sword.DEFAULT_CONDITION + Sword.DEFAULT_CONDITION) / 2;
-		Item sword = new Sword(condition);
-		assertThat(sword.getCondition(), is(equalTo(condition)));
+	void SW6_swordCanOnlyBeUsedByKnight() {
+		List<String> jobs = Arrays.asList("Knight");
+		List<String> jobCertifications = DEFAULT_SWORD.getJobCertifications();
+		String[] jobsArr = jobs.toArray(new String[jobs.size()]);
+		String[] jobCertificationsArr = jobCertifications.toArray(new String[jobCertifications.size()]);
+		assertArrayEquals(jobsArr, jobCertificationsArr);
 	}
 	
 	@Test
-	void newSwordWithConditionUnderMinimumThrowsIAE() {
-		assertThrows(IllegalArgumentException.class, () -> new Sword(Item.MIN_CONDITION - 1));
-	}
-	
-	@Test
-	void newSwordWithConditionOverMaximumThrowsIAE() {
-		assertThrows(IllegalArgumentException.class, () -> new Sword(Item.MAX_CONDITION + 1));
+	void SW7_swordCanBeUsedByAllRaces() {
+		List<String> races = Arrays.asList("Human", "Ogre", "Elf");
+		List<String> raceCertifications = DEFAULT_SWORD.getRaceCertifications();
+		String[] racesArr = races.toArray(new String[races.size()]);
+		String[] raceCertificationsArr = raceCertifications.toArray(new String[raceCertifications.size()]);
+		assertArrayEquals(racesArr, raceCertificationsArr);
 	}
 	
 	@Test
@@ -147,12 +148,18 @@ class SwordTest {
 	}
 	
 	@Test
-	void swordCanOnlyBeUsedByKnight() {
-		List<String> jobs = Arrays.asList("Knight");
-		List<String> jobCertifications = DEFAULT_SWORD.getJobCertifications();
-		String[] jobsArr = jobs.toArray(new String[jobs.size()]);
-		String[] jobCertificationsArr = jobCertifications.toArray(new String[jobCertifications.size()]);
-		assertArrayEquals(jobsArr, jobCertificationsArr);
+	void newSwordWithConditionBetweenMinAndMaxSetsConditionInConstructor() {
+		assertThat(new Sword(50).getCondition(), is(equalTo(50)));
+	}
+	
+	@Test
+	void newSwordWithConditionUnderMinimumThrowsIAE() {
+		assertThrows(IllegalArgumentException.class, () -> new Sword(Item.MIN_CONDITION - 1));
+	}
+	
+	@Test
+	void newSwordWithConditionOverMaximumThrowsIAE() {
+		assertThrows(IllegalArgumentException.class, () -> new Sword(Item.MAX_CONDITION + 1));
 	}
 	
 }

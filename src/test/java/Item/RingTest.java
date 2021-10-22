@@ -19,6 +19,7 @@ import Races.Race;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 class RingTest {
@@ -114,6 +115,24 @@ class RingTest {
 	}
 	
 	@Test
+	void RI6_ringCanBeUsedByAllJobs() {
+		List<String> jobs = Arrays.asList("Knight", "Magician", "Healer");
+		List<String> jobCertifications = DEFAULT_RING.getJobCertifications();
+		String[] jobsArr = jobs.toArray(new String[jobs.size()]);
+		String[] jobCertificationsArr = jobCertifications.toArray(new String[jobCertifications.size()]);
+		assertArrayEquals(jobsArr, jobCertificationsArr);
+	}
+	
+	@Test
+	void RI7_ringCanBeUsedByAllRaces() {
+		List<String> races = Arrays.asList("Human", "Ogre", "Elf");
+		List<String> raceCertifications = DEFAULT_RING.getRaceCertifications();
+		String[] racesArr = races.toArray(new String[races.size()]);
+		String[] raceCertificationsArr = raceCertifications.toArray(new String[raceCertifications.size()]);
+		assertArrayEquals(racesArr, raceCertificationsArr);
+	}
+	
+	@Test
 	void newRingWithSizeSpecifiedAsSmallInConstructorCreatesASmallRing() {
 		assertThat(new Ring(Size.SMALL).getSize(), is(equalTo(Size.SMALL)));
 	}
@@ -126,5 +145,20 @@ class RingTest {
 	@Test
 	void newRingWithSizeSpecifiedAsLargeInConstructorCreatesALargeRing() {
 		assertThat(new Ring(Size.LARGE).getSize(), is(equalTo(Size.LARGE)));
+	}
+	
+	@Test
+	void newRingWithConditionBetweenMinAndMaxSetsConditionInConstructor() {
+		assertThat(new Ring(50).getCondition(), is(equalTo(50)));
+	}
+	
+	@Test
+	void newRingWithConditionUnderMinimumThrowsIAE() {
+		assertThrows(IllegalArgumentException.class, () -> new Ring(Item.MIN_CONDITION - 1));
+	}
+	
+	@Test
+	void newRingWithConditionOverMaximumThrowsIAE() {
+		assertThrows(IllegalArgumentException.class, () -> new Ring(Item.MAX_CONDITION + 1));
 	}
 }
