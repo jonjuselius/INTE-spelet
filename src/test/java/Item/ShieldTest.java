@@ -112,4 +112,19 @@ class ShieldTest {
 	void SH5_newShieldHasDefaultCondition() {
 		assertThat(new Shield().getCondition(), is(equalTo(Shield.DEFAULT_CONDITION)));
 	}
+	
+	@Test
+	void newShieldWithSizeSpecifiedAsSmallInConstructorCreatesASmallShield() {
+		assertThat(new Shield(Size.SMALL).getSize(), is(equalTo(Size.SMALL)));
+	}
+	
+	@Test
+	void newShieldWithSizeSpecifiedAsMediumInConstructorCreatesAMediumShield() {
+		assertThat(new Shield(Size.MEDIUM).getSize(), is(equalTo(Size.MEDIUM)));
+	}
+	
+	@Test
+	void newShieldWithSizeSpecifiedAsLargeInConstructorCreatesALargeShield() {
+		assertThat(new Shield(Size.LARGE).getSize(), is(equalTo(Size.LARGE)));
+	}
 }

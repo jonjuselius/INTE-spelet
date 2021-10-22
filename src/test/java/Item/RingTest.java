@@ -113,4 +113,18 @@ class RingTest {
 		assertThat(new Ring().getCondition(), is(equalTo(Ring.DEFAULT_CONDITION)));
 	}
 	
+	@Test
+	void newRingWithSizeSpecifiedAsSmallInConstructorCreatesASmallRing() {
+		assertThat(new Ring(Size.SMALL).getSize(), is(equalTo(Size.SMALL)));
+	}
+	
+	@Test
+	void newRingWithSizeSpecifiedAsMediumInConstructorCreatesAMediumRing() {
+		assertThat(new Ring(Size.MEDIUM).getSize(), is(equalTo(Size.MEDIUM)));
+	}
+	
+	@Test
+	void newRingWithSizeSpecifiedAsLargeInConstructorCreatesALargeRing() {
+		assertThat(new Ring(Size.LARGE).getSize(), is(equalTo(Size.LARGE)));
+	}
 }

@@ -19,6 +19,7 @@ import Races.Human;
 import Races.Ogre;
 import Races.Race;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 class WandTest {
@@ -113,4 +114,27 @@ class WandTest {
 		assertThat(new Wand().getCondition(), is(equalTo(Wand.DEFAULT_CONDITION)));
 	}
 	
+	@Test
+	void newWandWithSizeSpecifiedAsSmallInConstructorCreatesASmallWand() {
+		assertThat(new Wand(Size.SMALL).getSize(), is(equalTo(Size.SMALL)));
+	}
+	
+	@Test
+	void newWandWithSizeSpecifiedAsMediumInConstructorCreatesAMediumWand() {
+		assertThat(new Wand(Size.MEDIUM).getSize(), is(equalTo(Size.MEDIUM)));
+	}
+	
+	@Test
+	void newWandWithSizeSpecifiedAsLargeInConstructorCreatesALargeWand() {
+		assertThat(new Wand(Size.LARGE).getSize(), is(equalTo(Size.LARGE)));
+	}
+	
+	@Test
+	void wandCanOnlyBeUsedByMagicianAndHealer() {
+		List<String> jobs = Arrays.asList("Magician", "Healer");
+		List<String> jobCertifications = DEFAULT_WAND.getJobCertifications();
+		String[] jobsArr = jobs.toArray(new String[jobs.size()]);
+		String[] jobCertificationsArr = jobCertifications.toArray(new String[jobCertifications.size()]);
+		assertArrayEquals(jobsArr, jobCertificationsArr);
+	}
 }

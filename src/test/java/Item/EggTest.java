@@ -19,6 +19,7 @@ import Races.Race;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 class EggTest {
@@ -128,5 +129,38 @@ class EggTest {
 		egg.consume();
 		assertThat(egg.isConsumed(), is(equalTo(true)));
 		assertThrows(IllegalStateException.class, egg::consume);
+	}
+	
+	@Test
+	void newEggWithSizeSpecifiedAsSmallInConstructorCreatesASmallEgg() {
+		assertThat(new Egg(Size.SMALL).getSize(), is(equalTo(Size.SMALL)));
+	}
+	
+	@Test
+	void newEggWithSizeSpecifiedAsMediumInConstructorCreatesAMediumEgg() {
+		assertThat(new Egg(Size.MEDIUM).getSize(), is(equalTo(Size.MEDIUM)));
+	}
+	
+	@Test
+	void newEggWithSizeSpecifiedAsLargeInConstructorCreatesALargeEgg() {
+		assertThat(new Egg(Size.LARGE).getSize(), is(equalTo(Size.LARGE)));
+	}
+	
+	@Test
+	void eggCanBeUsedByAllJobs() {
+		List<String> jobs = Arrays.asList("Knight", "Magician", "Healer");
+		List<String> jobCertifications = DEFAULT_EGG.getJobCertifications();
+		String[] jobsArr = jobs.toArray(new String[jobs.size()]);
+		String[] jobCertificationsArr = jobCertifications.toArray(new String[jobCertifications.size()]);
+		assertArrayEquals(jobsArr, jobCertificationsArr);
+	}
+	
+	@Test
+	void eggCanBeUsedByAllRaces() {
+		List<String> races = Arrays.asList("Human", "Ogre", "Elf");
+		List<String> raceCertifications = DEFAULT_EGG.getRaceCertifications();
+		String[] racesArr = races.toArray(new String[races.size()]);
+		String[] raceCertificationsArr = raceCertifications.toArray(new String[raceCertifications.size()]);
+		assertArrayEquals(racesArr, raceCertificationsArr);
 	}
 }
