@@ -2,7 +2,9 @@ package Magic;
 
 import GameCharacters.Player;
 import Jobs.Magician;
+import Map.Map;
 import Races.Human;
+import Map.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -12,6 +14,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BuffSpellTest {
 
+    private static final MapGenerator MAP_GENERATOR = new MapGenerator(4, 4);
+    public static final Map MAP = MAP_GENERATOR.generate(1);
+    private static final MapPosition MAP_POSITION = MAP.getMapTiles()[2][2];
     Human human = new Human();
     Magician magician = new Magician();
 
@@ -29,7 +34,7 @@ class BuffSpellTest {
     void physicalBuffSpellIncreasesAndDecreasesStrength(){
         List<Integer> strengthStats = new ArrayList<>();
         BuffSpell bs = new BuffSpell("StrengthBuff", 10, Element.PHYSICAL, 5);
-        Player p = new Player("Player1", human, magician, true){
+        Player p = new Player("Player1", human, magician, true, MAP_POSITION){
             @Override
             public void setStrength(int strength){
                 super.setStrength(strength);
@@ -48,7 +53,7 @@ class BuffSpellTest {
     void buffSpellLastsCorrectDuration(){
         List<Integer> strengthStats = new ArrayList<>();
         BuffSpell bs = new BuffSpell("StrengthBuff", 10, Element.PHYSICAL, 5);
-        Player p = new Player("Player1", human, magician, true){
+        Player p = new Player("Player1", human, magician, true, MAP_POSITION){
             @Override
             public void setStrength(int strength){
                 super.setStrength(strength);
