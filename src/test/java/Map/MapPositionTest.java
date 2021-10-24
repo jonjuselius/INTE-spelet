@@ -36,23 +36,36 @@ class MapPositionTest {
         });
     }
 
+//    @Test
+//    void constructorSetsTerrain() {
+//        Map map = new Map(2, 2);
+//        MapPosition position = new MapPosition(0, 0, Terrain.LAVA, map);
+//        assertEquals(Terrain.LAVA, position.getTerrain());
+//    }
+
     @Test
-    void constructorSetsTerrainToGrass() {
+    void constructorSetsMap() {
+        MapPosition position = new MapPosition(0, 0, MAP);
+        assertEquals(MAP, position.getMap());
+    }
+
+    @Test
+    void setTerrainSetsTerrain() {
         MAP_POSITION.setTerrain(Terrain.GRASS);
         assertEquals(Terrain.GRASS, MAP_POSITION.getTerrain());
     }
 
-    @Test
-    void constructorSetsTerrainToWater() {
-        MAP_POSITION.setTerrain(Terrain.WATER);
-        assertEquals(Terrain.WATER, MAP_POSITION.getTerrain());
-    }
-
-    @Test
-    void constructorsetsTerrainToLava() {
-        MAP_POSITION.setTerrain(Terrain.LAVA);
-        assertEquals(Terrain.LAVA, MAP_POSITION.getTerrain());
-    }
+//    @Test
+//    void constructorSetsTerrainToWater() {
+//        MAP_POSITION.setTerrain(Terrain.WATER);
+//        assertEquals(Terrain.WATER, MAP_POSITION.getTerrain());
+//    }
+//
+//    @Test
+//    void constructorSetsTerrainToLava() {
+//        MAP_POSITION.setTerrain(Terrain.LAVA);
+//        assertEquals(Terrain.LAVA, MAP_POSITION.getTerrain());
+//    }
 
 
     @Test

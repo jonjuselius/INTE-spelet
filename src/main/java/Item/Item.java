@@ -72,7 +72,11 @@ public abstract class Item {
 	public Type getType() {
 		return type;
 	}
-	
+
+	public MapPosition getMapPosition() {
+		return mapPosition;
+	}
+
 	public List<String> getJobCertifications() {
 		return Collections.unmodifiableList(jobCertifications);
 	}

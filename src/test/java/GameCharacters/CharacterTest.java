@@ -18,10 +18,18 @@ class CharacterTest {
 
 	private Map createTestMap() {
 		Map map = new Map(2, 2);
-		testMap.put(new MapPosition(0, 0, Terrain.GRASS, map), 0, 0);
-		testMap.put(new MapPosition(0, 1, Terrain.WATER, map), 0, 1);
-		testMap.put(new MapPosition(1, 0, Terrain.GRASS, map), 1, 0);
-		testMap.put(new MapPosition(1, 1, Terrain.LAVA, map), 1, 1);
+		MapPosition firstPos = new MapPosition(0, 0, map);
+		firstPos.setTerrain(Terrain.GRASS);
+		MapPosition secondPos = new MapPosition(0, 1, map);
+		secondPos.setTerrain(Terrain.WATER);
+		MapPosition thirdPos = new MapPosition(1, 0, map);
+		thirdPos.setTerrain(Terrain.GRASS);
+		MapPosition fourthPos = new MapPosition(1, 1, map);
+		fourthPos.setTerrain(Terrain.LAVA);
+		map.put(firstPos, firstPos.getXPos(), firstPos.getXPos());
+		map.put(secondPos, secondPos.getXPos(), secondPos.getYPos());
+		map.put(thirdPos, thirdPos.getXPos(), thirdPos.getYPos());
+		map.put(fourthPos, fourthPos.getXPos(), fourthPos.getYPos());
 		return testMap;
 	}
 
@@ -397,22 +405,22 @@ class CharacterTest {
 	 * Test driven development for players walking on the map (Emma)
 	 */
 	@Test
-	void playerMovesNorth() {
+	void positionChangesWhenPlayerMovesNorth() {
 
 	}
 
 	@Test
-	void playerMovesSouth() {
+	void positionChangesWhenPlayerMovesSouth() {
 
 	}
 
 	@Test
-	void playerMovesWest() {
+	void positionChangesWhenPlayerMovesWest() {
 
 	}
 
 	@Test
-	void playerMovesEast() {
+	void positionChangesWhenPlayerMovesEast() {
 
 	}
 
