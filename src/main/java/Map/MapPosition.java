@@ -15,19 +15,12 @@ public class MapPosition {
         this.yPos = yPos;
         this.map = map;
         //The standard terrain is grass
-        this.terrain = Terrain.GRASS;
     }
 
-
-    public MapPosition(int xPos, int yPos, Terrain terrain, Map map) {
-        if (xPos < 0 || yPos < 0) {
-            throw new IllegalArgumentException("Coordinates must be > 0");
-        }
-        this.xPos = xPos;
-        this.yPos = yPos;
-        this.terrain = terrain;
-        this.map = map;
-    }
+//    public MapPosition(int xPos, int yPos, Terrain terrain, Map map) {
+//        this(xPos, yPos, map);
+//        this.terrain = terrain;
+//    }
 
     public Map getMap() {
         return map;
