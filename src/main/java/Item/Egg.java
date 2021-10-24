@@ -1,5 +1,8 @@
 package Item;
 
+import Map.Map;
+import Map.MapPosition;
+
 public class Egg extends Food {
 	/**
 	 * An egg is an instantiable class of food, which is a type of item.
@@ -15,19 +18,19 @@ public class Egg extends Food {
 	public static final String[] JOB_CERTIFICATIONS = {"Knight", "Magician", "Healer"};
 	public static final String[] RACE_CERTIFICATIONS = {"Human", "Ogre", "Elf"};
 	
-	public Egg() {
-		this(DEFAULT_CONDITION, DEFAULT_SIZE);
+	public Egg(MapPosition mapPosition) {
+		this(DEFAULT_CONDITION, DEFAULT_SIZE, mapPosition);
 	}
 	
-	public Egg(int condition) {
-		this(condition, DEFAULT_SIZE);
+	public Egg(int condition, MapPosition mapPosition) {
+		this(condition, DEFAULT_SIZE, mapPosition);
 	}
 	
-	public Egg(Size size) {
-		this(DEFAULT_CONDITION, size);
+	public Egg(Size size, MapPosition mapPosition) {
+		this(DEFAULT_CONDITION, size, mapPosition);
 	}
 	
-	public Egg(int condition, Size size) {
-		super(WEIGHT, VALUE, JOB_CERTIFICATIONS, RACE_CERTIFICATIONS, size, condition);
+	public Egg(int condition, Size size, MapPosition mapPosition) {
+		super(WEIGHT, VALUE, JOB_CERTIFICATIONS, RACE_CERTIFICATIONS, size, condition, mapPosition);
 	}
 }

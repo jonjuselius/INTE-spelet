@@ -6,6 +6,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import Map.Map;
 import Map.MapGenerator;
+import Map.MapPosition;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import GameCharacters.Character;
@@ -26,20 +27,21 @@ class SwordTest {
 	/**
 	 * Tests for Sword class
 	 */
-	public static final Sword DEFAULT_SWORD = new Sword();
+	private static final MapGenerator MAP_GENERATOR = new MapGenerator(4, 4);
+	public static final Map MAP = MAP_GENERATOR.generate(1);
+	public static final MapPosition MAP_POSITION = MAP.getMapTiles()[2][2];
+	public static final Sword DEFAULT_SWORD = new Sword(MAP_POSITION);
 	public static final String NAME = "Mr Default";
 	public static final Race[] RACES = {new Human(), new Ogre(), new Elf()};
 	public static final Job[] JOBS = {new Knight(), new Magician(), new Healer()};
 	public static final boolean ALIVE = true;
-	private static final MapGenerator MAP_GENERATOR = new MapGenerator(4, 4);
-	public static final Map MAP = MAP_GENERATOR.generate(1);
 	public static final List<Character> DEFAULT_PLAYERS = new ArrayList<>();
 	
 	@BeforeAll
 	static void beforeAll() {
 		for (Job job : JOBS) {
 			for (Race race : RACES) {
-				DEFAULT_PLAYERS.add(new Player(NAME, race, job, ALIVE, MAP));
+				DEFAULT_PLAYERS.add(new Player(NAME, race, job, ALIVE, MAP_POSITION));
 			}
 		}
 	}
@@ -91,27 +93,27 @@ class SwordTest {
 	
 	@Test
 	void SW1_newSwordHasDefaultWeight() {
-		assertThat(new Sword().getWeight(), is(equalTo(Sword.WEIGHT)));
+		assertThat(new Sword(MAP_POSITION).getWeight(), is(equalTo(Sword.WEIGHT)));
 	}
 	
 	@Test
 	void SW2_newSwordHasDefaultValue() {
-		assertThat(new Sword().getValue(), is(equalTo(Sword.VALUE)));
+		assertThat(new Sword(MAP_POSITION).getValue(), is(equalTo(Sword.VALUE)));
 	}
 	
 	@Test
 	void SW3_newSwordHasDefaultSize() {
-		assertThat(new Sword().getSize(), is(equalTo(Sword.DEFAULT_SIZE)));
+		assertThat(new Sword(MAP_POSITION).getSize(), is(equalTo(Sword.DEFAULT_SIZE)));
 	}
 	
 	@Test
 	void SW4_newSwordHasDefaultType() {
-		assertThat(new Sword().getType(), is(equalTo(Sword.TYPE)));
+		assertThat(new Sword(MAP_POSITION).getType(), is(equalTo(Sword.TYPE)));
 	}
 	
 	@Test
 	void SW5_newSwordHasDefaultCondition() {
-		assertThat(new Sword().getCondition(), is(equalTo(Sword.DEFAULT_CONDITION)));
+		assertThat(new Sword(MAP_POSITION).getCondition(), is(equalTo(Sword.DEFAULT_CONDITION)));
 	}
 	
 	@Test
@@ -134,32 +136,32 @@ class SwordTest {
 	
 	@Test
 	void SW8_newSwordWithSizeSpecifiedAsSmallInConstructorCreatesASmallSword() {
-		assertThat(new Sword(Size.SMALL).getSize(), is(equalTo(Size.SMALL)));
+		assertThat(new Sword(Size.SMALL, MAP_POSITION).getSize(), is(equalTo(Size.SMALL)));
 	}
 	
 	@Test
 	void SW9_newSwordWithSizeSpecifiedAsMediumInConstructorCreatesAMediumSword() {
-		assertThat(new Sword(Size.MEDIUM).getSize(), is(equalTo(Size.MEDIUM)));
+		assertThat(new Sword(Size.MEDIUM, MAP_POSITION).getSize(), is(equalTo(Size.MEDIUM)));
 	}
 	
 	@Test
 	void SW10_newSwordWithSizeSpecifiedAsLargeInConstructorCreatesALargeSword() {
-		assertThat(new Sword(Size.LARGE).getSize(), is(equalTo(Size.LARGE)));
+		assertThat(new Sword(Size.LARGE, MAP_POSITION).getSize(), is(equalTo(Size.LARGE)));
 	}
 	
 	@Test
 	void SW11_newSwordWithConditionBetweenMinAndMaxSetsConditionInConstructor() {
-		assertThat(new Sword(50).getCondition(), is(equalTo(50)));
+		assertThat(new Sword(50, MAP_POSITION).getCondition(), is(equalTo(50)));
 	}
 	
 	@Test
 	void SW12_newSwordWithConditionUnderMinimumThrowsIAE() {
-		assertThrows(IllegalArgumentException.class, () -> new Sword(Item.MIN_CONDITION - 1));
+		assertThrows(IllegalArgumentException.class, () -> new Sword(Item.MIN_CONDITION - 1, MAP_POSITION));
 	}
 	
 	@Test
 	void SW13_newSwordWithConditionOverMaximumThrowsIAE() {
-		assertThrows(IllegalArgumentException.class, () -> new Sword(Item.MAX_CONDITION + 1));
+		assertThrows(IllegalArgumentException.class, () -> new Sword(Item.MAX_CONDITION + 1, MAP_POSITION));
 	}
 	
 }

@@ -15,10 +15,10 @@ public class MapGenerator {
 
         for (int x = 0; x < map.getWidth(); x++) {
             for (int y = 0; y < map.getHeight(); y++) {
-                MapPosition tile = new MapPosition(x, y);
+                MapPosition tile = new MapPosition(x, y, map);
                 map.put(tile, x, y);
 
-                setNeighbors(tile);
+                setNeighbors(tile, map);
 
                 //Check the terrain of the south and west neighbor & increase the probability of this tile getting the same terrain
                 Terrain terrain = checkTerrainOfNeighbors(tile);
@@ -78,7 +78,7 @@ public class MapGenerator {
         return chosenTerrain;
     }
 
-    private void setNeighbors(MapPosition tile) {
+    private void setNeighbors(MapPosition tile, Map map) {
         int xPos = tile.getXPos();
         int yPos = tile.getYPos();
 
@@ -91,28 +91,28 @@ public class MapGenerator {
         if (xPos - 1 < 0 ) {
             westNeighbor = null;
         } else {
-            westNeighbor = new MapPosition(xPos - 1, yPos);
+            westNeighbor = new MapPosition(xPos - 1, yPos, map);
         }
 
         //Set east neighbor
         if (xPos + 1 > map.getWidth() - 1) {
             eastNeighbor = null;
         } else {
-            eastNeighbor = new MapPosition(xPos + 1, yPos);
+            eastNeighbor = new MapPosition(xPos + 1, yPos, map);
         }
 
         //Set north neighbor
         if (yPos + 1 > map.getHeight() - 1) {
             northNeighbor = null;
         } else {
-            northNeighbor = new MapPosition(xPos, yPos + 1);
+            northNeighbor = new MapPosition(xPos, yPos + 1, map);
         }
 
         //Set south neighbor
         if (yPos - 1 < 0) {
             southNeighbor = null;
         } else {
-            southNeighbor = new MapPosition(xPos, yPos - 1);
+            southNeighbor = new MapPosition(xPos, yPos - 1, map);
         }
 
         tile.setNeighbors(westNeighbor, eastNeighbor, northNeighbor, southNeighbor);

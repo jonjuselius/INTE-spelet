@@ -7,8 +7,8 @@ import Races.*;
 public class Adversary extends Character {
 
 
-    public Adversary(String name, Race race, Job job, boolean isAlive, int level, Map map, MapPosition position) {
-        super( name,  race, job,  isAlive, map, position);
+    public Adversary(String name, Race race, Job job, boolean isAlive, int level, MapPosition position) {
+        super( name,  race, job,  isAlive, position);
         this.level = level;
     }
 

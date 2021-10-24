@@ -26,20 +26,21 @@ class EggTest {
 	/**
 	 * Tests for Egg class
 	 */
-	public static final Egg DEFAULT_EGG = new Egg();
+	private static final MapGenerator MAP_GENERATOR = new MapGenerator(4, 4);
+	public static final Map MAP = MAP_GENERATOR.generate(1);
+	public static final MapPosition MAP_POSITION = MAP.getMapTiles()[2][2];
+	public static final Egg DEFAULT_EGG = new Egg(MAP_POSITION);
 	public static final String NAME = "Mr Default";
 	public static final Race[] RACES = {new Human(), new Ogre(), new Elf()};
 	public static final Job[] JOBS = {new Knight(), new Magician(), new Healer()};
 	public static final boolean ALIVE = true;
-	private static final MapGenerator MAP_GENERATOR = new MapGenerator(4, 4);
-	public static final Map MAP = MAP_GENERATOR.generate(1);
 	public static final List<Character> DEFAULT_PLAYERS = new ArrayList<>();
-	
+
 	@BeforeAll
 	static void beforeAll() {
 		for (Job job : JOBS) {
 			for (Race race : RACES) {
-				DEFAULT_PLAYERS.add(new Player(NAME, race, job, ALIVE, MAP));
+				DEFAULT_PLAYERS.add(new Player(NAME, race, job, ALIVE, MAP_POSITION));
 			}
 		}
 	}
@@ -91,27 +92,27 @@ class EggTest {
 	
 	@Test
 	void EG1_newEggHasDefaultWeight() {
-		assertThat(new Egg().getWeight(), is(equalTo(Egg.WEIGHT)));
+		assertThat(new Egg(MAP_POSITION).getWeight(), is(equalTo(Egg.WEIGHT)));
 	}
 	
 	@Test
 	void EG2_newEggHasDefaultValue() {
-		assertThat(new Egg().getValue(), is(equalTo(Egg.VALUE)));
+		assertThat(new Egg(MAP_POSITION).getValue(), is(equalTo(Egg.VALUE)));
 	}
 	
 	@Test
 	void EG3_newEggHasDefaultSize() {
-		assertThat(new Egg().getSize(), is(equalTo(Egg.DEFAULT_SIZE)));
+		assertThat(new Egg(MAP_POSITION).getSize(), is(equalTo(Egg.DEFAULT_SIZE)));
 	}
 	
 	@Test
 	void EG4_newEggHasDefaultType() {
-		assertThat(new Egg().getType(), is(equalTo(Egg.TYPE)));
+		assertThat(new Egg(MAP_POSITION).getType(), is(equalTo(Egg.TYPE)));
 	}
 	
 	@Test
 	void EG5_newEggHasDefaultCondition() {
-		assertThat(new Egg().getCondition(), is(equalTo(Egg.DEFAULT_CONDITION)));
+		assertThat(new Egg(MAP_POSITION).getCondition(), is(equalTo(Egg.DEFAULT_CONDITION)));
 	}
 	
 	@Test
@@ -134,37 +135,37 @@ class EggTest {
 	
 	@Test
 	void EG8_newEggWithSizeSpecifiedAsSmallInConstructorCreatesASmallEgg() {
-		assertThat(new Egg(Size.SMALL).getSize(), is(equalTo(Size.SMALL)));
+		assertThat(new Egg(Size.SMALL, MAP_POSITION).getSize(), is(equalTo(Size.SMALL)));
 	}
 	
 	@Test
 	void EG9_newEggWithSizeSpecifiedAsMediumInConstructorCreatesAMediumEgg() {
-		assertThat(new Egg(Size.MEDIUM).getSize(), is(equalTo(Size.MEDIUM)));
+		assertThat(new Egg(Size.MEDIUM, MAP_POSITION).getSize(), is(equalTo(Size.MEDIUM)));
 	}
 	
 	@Test
 	void EG10_newEggWithSizeSpecifiedAsLargeInConstructorCreatesALargeEgg() {
-		assertThat(new Egg(Size.LARGE).getSize(), is(equalTo(Size.LARGE)));
+		assertThat(new Egg(Size.LARGE, MAP_POSITION).getSize(), is(equalTo(Size.LARGE)));
 	}
 	
 	@Test
 	void EG11_newEggWithConditionBetweenMinAndMaxSetsConditionInConstructor() {
-		assertThat(new Egg(50).getCondition(), is(equalTo(50)));
+		assertThat(new Egg(50, MAP_POSITION).getCondition(), is(equalTo(50)));
 	}
 	
 	@Test
 	void EG12_newEggWithConditionUnderMinimumThrowsIAE() {
-		assertThrows(IllegalArgumentException.class, () -> new Egg(Item.MIN_CONDITION - 1));
+		assertThrows(IllegalArgumentException.class, () -> new Egg(Item.MIN_CONDITION - 1, MAP_POSITION));
 	}
 	
 	@Test
 	void EG13_newEggWithConditionOverMaximumThrowsIAE() {
-		assertThrows(IllegalArgumentException.class, () -> new Egg(Item.MAX_CONDITION + 1));
+		assertThrows(IllegalArgumentException.class, () -> new Egg(Item.MAX_CONDITION + 1, MAP_POSITION));
 	}
 	
 	@Test
 	void eatingFoodMakesItConsumed() {
-		Food egg = new Egg();
+		Food egg = new Egg(MAP_POSITION);
 		assertThat(egg.isConsumed(), is(equalTo(false)));
 		egg.consume();
 		assertThat(egg.isConsumed(), is(equalTo(true)));
@@ -172,7 +173,7 @@ class EggTest {
 	
 	@Test
 	void eatingConsumedFoodThrowsISE() {
-		Food egg = new Egg();
+		Food egg = new Egg(MAP_POSITION);
 		assertThat(egg.isConsumed(), is(equalTo(false)));
 		egg.consume();
 		assertThat(egg.isConsumed(), is(equalTo(true)));

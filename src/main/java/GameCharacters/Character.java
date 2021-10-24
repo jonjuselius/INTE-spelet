@@ -30,16 +30,14 @@ public abstract class Character {
 
 	private SpellCollection spellCollection;
 	private Inventory inventory;
-	private Map map;
 	private MapPosition position;
 
-	public Character(String name, Race race, Job job, boolean isAlive, Map map, MapPosition position) {
+	public Character(String name, Race race, Job job, boolean isAlive, MapPosition position) {
 		this.name = name;
 		this.race = race;
 		this.job = job;
 		isAlive = true;
 		this.inventory = inventory;
-		this.map = map;
 		this.position = position;
 
 		setRemainingHealth(race.getMaxHealth());
@@ -226,7 +224,7 @@ public abstract class Character {
 			strength += 3;
 			increaseSkillWhenLevelingUp();
 			if (level == 3) {
-				setIfCanSwim(true);//gör test till dessa
+				setIfCanSwim(true);//gï¿½r test till dessa
 			}
 
 		}

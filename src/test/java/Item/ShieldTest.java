@@ -6,6 +6,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import Map.Map;
 import Map.MapGenerator;
+import Map.MapPosition;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import GameCharacters.Character;
@@ -26,12 +27,13 @@ class ShieldTest {
 	/**
 	 * Tests for Shield class
 	 */
-	public static final Shield DEFAULT_SHIELD = new Shield();
+	private static final MapGenerator MAP_GENERATOR = new MapGenerator(4, 4);
+	public static final Map MAP = MAP_GENERATOR.generate(1);
+	public static final MapPosition MAP_POSITION = MAP.getMapTiles()[2][2];
+	public static final Shield DEFAULT_SHIELD = new Shield(MAP_POSITION);
 	public static final String NAME = "Mr Default";
 	public static final Race[] RACES = {new Human(), new Ogre(), new Elf()};
 	public static final Job[] JOBS = {new Knight(), new Magician(), new Healer()};
-	private static final MapGenerator MAP_GENERATOR = new MapGenerator(4, 4);
-	public static final Map MAP = MAP_GENERATOR.generate(1);
 	public static final boolean ALIVE = true;
 	public static final List<Character> DEFAULT_PLAYERS = new ArrayList<>();
 	
@@ -39,7 +41,7 @@ class ShieldTest {
 	static void beforeAll() {
 		for (Job job : JOBS) {
 			for (Race race : RACES) {
-				DEFAULT_PLAYERS.add(new Player(NAME, race, job, ALIVE, MAP));
+				DEFAULT_PLAYERS.add(new Player(NAME, race, job, ALIVE, MAP_POSITION));
 			}
 		}
 	}
@@ -91,27 +93,27 @@ class ShieldTest {
 	
 	@Test
 	void SH1_newShieldHasDefaultWeight() {
-		assertThat(new Shield().getWeight(), is(equalTo(Shield.WEIGHT)));
+		assertThat(new Shield(MAP_POSITION).getWeight(), is(equalTo(Shield.WEIGHT)));
 	}
 	
 	@Test
 	void SH2_newShieldHasDefaultValue() {
-		assertThat(new Shield().getValue(), is(equalTo(Shield.VALUE)));
+		assertThat(new Shield(MAP_POSITION).getValue(), is(equalTo(Shield.VALUE)));
 	}
 	
 	@Test
 	void SH3_newShieldHasDefaultSize() {
-		assertThat(new Shield().getSize(), is(equalTo(Shield.DEFAULT_SIZE)));
+		assertThat(new Shield(MAP_POSITION).getSize(), is(equalTo(Shield.DEFAULT_SIZE)));
 	}
 	
 	@Test
 	void SH4_newShieldHasDefaultType() {
-		assertThat(new Shield().getType(), is(equalTo(Shield.TYPE)));
+		assertThat(new Shield(MAP_POSITION).getType(), is(equalTo(Shield.TYPE)));
 	}
 	
 	@Test
 	void SH5_newShieldHasDefaultCondition() {
-		assertThat(new Shield().getCondition(), is(equalTo(Shield.DEFAULT_CONDITION)));
+		assertThat(new Shield(MAP_POSITION).getCondition(), is(equalTo(Shield.DEFAULT_CONDITION)));
 	}
 	
 	@Test
@@ -134,31 +136,31 @@ class ShieldTest {
 	
 	@Test
 	void SH8_newShieldWithSizeSpecifiedAsSmallInConstructorCreatesASmallShield() {
-		assertThat(new Shield(Size.SMALL).getSize(), is(equalTo(Size.SMALL)));
+		assertThat(new Shield(Size.SMALL, MAP_POSITION).getSize(), is(equalTo(Size.SMALL)));
 	}
 	
 	@Test
 	void SH9_newShieldWithSizeSpecifiedAsMediumInConstructorCreatesAMediumShield() {
-		assertThat(new Shield(Size.MEDIUM).getSize(), is(equalTo(Size.MEDIUM)));
+		assertThat(new Shield(Size.MEDIUM, MAP_POSITION).getSize(), is(equalTo(Size.MEDIUM)));
 	}
 	
 	@Test
 	void SH10_newShieldWithSizeSpecifiedAsLargeInConstructorCreatesALargeShield() {
-		assertThat(new Shield(Size.LARGE).getSize(), is(equalTo(Size.LARGE)));
+		assertThat(new Shield(Size.LARGE, MAP_POSITION).getSize(), is(equalTo(Size.LARGE)));
 	}
 	
 	@Test
 	void SH11_newShieldWithConditionBetweenMinAndMaxSetsConditionInConstructor() {
-		assertThat(new Shield(50).getCondition(), is(equalTo(50)));
+		assertThat(new Shield(50, MAP_POSITION).getCondition(), is(equalTo(50)));
 	}
 	
 	@Test
 	void SH12_newShieldWithConditionUnderMinimumThrowsIAE() {
-		assertThrows(IllegalArgumentException.class, () -> new Shield(Item.MIN_CONDITION - 1));
+		assertThrows(IllegalArgumentException.class, () -> new Shield(Item.MIN_CONDITION - 1, MAP_POSITION));
 	}
 	
 	@Test
 	void SH13_newShieldWithConditionOverMaximumThrowsIAE() {
-		assertThrows(IllegalArgumentException.class, () -> new Shield(Item.MAX_CONDITION + 1));
+		assertThrows(IllegalArgumentException.class, () -> new Shield(Item.MAX_CONDITION + 1, MAP_POSITION));
 	}
 }

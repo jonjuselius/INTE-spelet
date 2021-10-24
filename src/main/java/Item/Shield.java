@@ -1,5 +1,8 @@
 package Item;
 
+import Map.Map;
+import Map.MapPosition;
+
 public class Shield extends Item {
 	/**
 	 * Shield is an instantiable item categorized under the item type "armor".
@@ -20,19 +23,19 @@ public class Shield extends Item {
 	public static final String[] JOB_CERTIFICATIONS = {"Knight"};
 	public static final String[] RACE_CERTIFICATIONS = {"Human", "Ogre", "Elf"};
 	
-	public Shield() {
-		this(DEFAULT_CONDITION);
+	public Shield(MapPosition mapPosition) {
+		this(DEFAULT_CONDITION, mapPosition);
 	}
 	
-	public Shield(int condition) {
-		this(condition, DEFAULT_SIZE);
+	public Shield(int condition, MapPosition mapPosition) {
+		this(condition, DEFAULT_SIZE, mapPosition);
 	}
 	
-	public Shield(Size size) {
-		this(DEFAULT_CONDITION, size);
+	public Shield(Size size, MapPosition mapPosition) {
+		this(DEFAULT_CONDITION, size, mapPosition);
 	}
 	
-	public Shield(int condition, Size size) {
-		super(WEIGHT, VALUE, JOB_CERTIFICATIONS, RACE_CERTIFICATIONS, size, TYPE, condition);
+	public Shield(int condition, Size size, MapPosition mapPosition) {
+		super(WEIGHT, VALUE, JOB_CERTIFICATIONS, RACE_CERTIFICATIONS, size, TYPE, condition, mapPosition);
 	}
 }
