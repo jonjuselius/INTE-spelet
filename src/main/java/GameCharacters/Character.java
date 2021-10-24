@@ -3,220 +3,289 @@ package GameCharacters;
 import Inventory.*;
 import Jobs.Job;
 import Magic.SpellCollection;
+import Map.*;
 import Races.*;
 
 public abstract class Character {
 
-    private String name;
-    private boolean isAlive;
-    private Race race;
-    private Job job;
-    protected int level;
+	private String name;
+	private boolean isAlive;
+	private Race race;
+	private Job job;
+	protected int level;
 
-    private int strength;
-    private int intelligence;
-    private boolean canWalkThroughTerraign;
-    private boolean canSwim;
-    private boolean canFly;
+	private int strength;
+	private int intelligence;
+	private boolean canWalkThroughTerraign;
+	private boolean canSwim;
+	private boolean canFly;
 
-    protected int magicSkill;
-    protected int healingSkill;
-    protected int swordSkill;
-    protected int maxMana;
+	protected int magicSkill;
+	protected int healingSkill;
+	protected int swordSkill;
+	protected int maxMana;
 
-    private int remainingHealth;
-    private int remainingMana;
+	private int remainingHealth;
+	private int remainingMana;
 
-    private SpellCollection spellCollection;
-    private Inventory inventory;
+	private SpellCollection spellCollection;
+	private Inventory inventory;
+	private MapPosition position;
 
-    public Character(String name, Race race, Job job, boolean isAlive) {
-        this.name = name;
-        this.race = race;
-        this.job = job;
-        isAlive = true;
-        this.inventory = inventory;
+	public Character(String name, Race race, Job job, boolean isAlive, MapPosition position) {
+		this.name = name;
+		this.race = race;
+		this.job = job;
+		isAlive = true;
+		this.inventory = inventory;
+		this.position = position;
 
-        setRemainingHealth(race.getMaxHealth());
-        setStrength(race.getStrength());
-        setIntelligence(race.getIntelligence());
-        setIfCanFly(race.getIfCanFly());
-        setIfCanSwim(race.getIfCanSwim());
-        setIfCanWalkThroughTerraign(race.getIfCanWalkThroughTerraign());
+		setRemainingHealth(race.getMaxHealth());
+		setStrength(race.getStrength());
+		setIntelligence(race.getIntelligence());
+		setIfCanFly(race.getIfCanFly());
+		setIfCanSwim(race.getIfCanSwim());
+		setIfCanWalkThroughTerraign(race.getIfCanWalkThroughTerraign());
 
-        setMagicSkill(job.getMagic());
-        setHealingSkill(job.getHealing());
-        setSwordSkill(job.getSwordSkill());
-        setRemainingMana(job.getMaxMana());
+		setMagicSkill(job.getMagic());
+		setHealingSkill(job.getHealing());
+		setSwordSkill(job.getSwordSkill());
+		setRemainingMana(job.getMaxMana());
+		setLevel(level);
 
-    }
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return name;
+	}
 
+	public MapPosition getPosition() {
+		return position;
+	}
 
-    public void increaseHealth(int hp) {
-        if (remainingHealth + hp < race.getMaxHealth()) {
-            remainingHealth += hp;
-            return;
-        }
+	public void increaseHealth(int hp) {
+		if (remainingHealth + hp < getMaxHealth()) {
+			remainingHealth += hp;
+			return;
+		}
 
-        throw new IllegalStateException();
+		remainingHealth= getMaxHealth();
+		
+	}// increase
 
-    }// increase
+	public int getLevel() {
+		return level;
+	}
 
-    public int getLevel() {
-        return level;
-    }
+	// Lagt health i character
 
-    // Lagt health i character
+	public boolean isAlive() {
+		return isAlive;
+	}
 
-    public boolean isAlive() {
-        return isAlive;
-    }
+	public int getStrength() {
+		return strength;
+	}
 
-    public int getStrength() {
-        return strength;
-    }
+	public void setStrength(int strength) {
+		this.strength = strength;
+	}
 
-    public void setStrength(int strength) {
-        this.strength = strength;
-    }
+	public int getIntelligence() {
+		return intelligence;
+	}
 
-    public int getIntelligence() {
-        return intelligence;
-    }
+	public void setIntelligence(int intelligence) {
+		this.intelligence = intelligence;
+	}
 
-    public void setIntelligence(int intelligence) {
-        this.intelligence = strength;//
+	public boolean getIfCanFly() {
+		return canFly;
+	}
 
-    }
+	protected void setIfCanFly(boolean canFly) {
+		this.canFly = canFly;
+	}
 
-    public boolean getIfCanFly() {
-        return canFly;
-    }
+	public boolean getIfCanSwim() {
+		return canSwim;
+	}
 
-    protected void setIfCanFly(boolean canFly) {
-        this.canFly = canFly;
-    }
+	protected void setIfCanSwim(boolean canSwim) {
+		this.canSwim = canSwim;
+	}
 
-    public boolean getIfCanSwim() {
-        return canSwim;
-    }
+	public boolean getIfCanWalkThroughTerraign() {
+		return canWalkThroughTerraign;
+	}
 
-    protected void setIfCanSwim(boolean canSwim) {
-        this.canSwim = canSwim;
-    }
+	protected void setIfCanWalkThroughTerraign(boolean canWalkThroughTerraign) {
+		this.canWalkThroughTerraign = canWalkThroughTerraign;
+	}
 
-    public boolean getIfCanWalkThroughTerraign() {
-        return canWalkThroughTerraign;
-    }
+	public int getMagicSkill() {
+		return magicSkill;
+	}
 
-    protected void setIfCanWalkThroughTerraign(boolean canWalkThroughTerraign) {
-        this.canWalkThroughTerraign = canWalkThroughTerraign;
-    }
+	protected void setMagicSkill(int magicSkill) {
+		this.magicSkill = magicSkill;
+	}
 
-    public int getMagicSkill() {
-        return magicSkill;
-    }
+	public int getHealingSkill() {
+		return healingSkill;
+	}
 
-    protected void setMagicSkill(int magicSkill) {
-        this.magicSkill = magicSkill;
-    }
+	protected void setHealingSkill(int healingSkill) {
+		this.healingSkill = healingSkill;
+	}
 
-    public int getHealingSkill() {
-        return healingSkill;
-    }
+	public int getSwordSkill() {
+		return swordSkill;
+	}
 
-    protected void setHealingSkill(int healingSkill) {
-        this.healingSkill = healingSkill;
-    }
+	protected void setSwordSkill(int swordSkill) {
+		this.swordSkill = swordSkill;
+	}
 
-    public int getSwordSkill() {
-        return swordSkill;
-    }
+	public int getRemainingHealth() {
+		return remainingHealth;
+	}
 
-    protected void setSwordSkill(int swordSkill) {
-        this.swordSkill = swordSkill;
-    }
+	public void setRemainingHealth(int remainingHealth) {
+		this.remainingHealth = remainingHealth;//
+	}
 
-    public int getRemainingHealth() {
-        return remainingHealth;
-    }
+	public int getMaxHealth() {
+		return race.getMaxHealth();
+	}
 
-    public void setRemainingHealth(int remainingHealth) {
-        this.remainingHealth = remainingHealth;//
-    }
+	public int getRemainingMana() {
+		return remainingMana;
+	}
 
-    public int getRemainingMana() {
-        return remainingMana;
-    }
+	public void setRemainingMana(int remainingMana) {
+		this.remainingMana = remainingMana;
+	}
 
-    public void setRemainingMana(int remainingMana) {
-        this.remainingMana = remainingMana;
-    }
+	public void takeDamage(int damage) {
+		remainingHealth = remainingHealth - damage;
+		if (remainingHealth <= 0) {
+			isAlive = false;
+		}
+	}
 
-    public void takeDamage(int damage) {
-        remainingHealth = remainingHealth - damage;
-        if (remainingHealth <= 0) {
-            isAlive = false;
-        }
-    }
+	public void useMana(int manaCost) {
+		remainingMana = remainingMana - manaCost;
+	}
 
-    public void useMana(int manaCost) {
-        remainingMana = remainingMana - manaCost;
-    }
+	public void getHealed(int healPoints) {
+		int healTotal = remainingHealth + healPoints;
+		remainingHealth = Math.min(healTotal, race.getMaxHealth());
+	}
 
-    public void getHealed(int healPoints) {
-        int healTotal = remainingHealth + healPoints;
-        remainingHealth = Math.min(healTotal, race.getMaxHealth());
-    }
+	public void healDependingOnYourOwnHealSkill(Character otherCharacter) {
+		if (otherCharacter.getMaxHealth() > otherCharacter.getRemainingHealth()) {
+			int newHealthOfOtherCharacter = otherCharacter.getRemainingHealth() + getHealingSkill() * getLevel();
+			otherCharacter.setRemainingHealth(Math.min(newHealthOfOtherCharacter, otherCharacter.getMaxHealth()));
+		}
+	}
 
-    public void getHealedDependingOnYourOwnHealSkill() {
-        if (race.getMaxHealth() > remainingHealth) {
-            int newHealth = remainingHealth + getHealingSkill() * getLevel();
-            remainingHealth = Math.min(newHealth, race.getMaxHealth());
-        }
-    }
+	public void dealDamageDependingOnYourSwordSkillAndStrength(int damage, Character otherCharacter) {
 
-    public void takeDamageDependingOnYourSwordSkillAndStrength(int damage) {
+		int increasedDamage = getSwordSkill() * getLevel() + getStrength() + damage;
+		int otherCharacterNewHealth = otherCharacter.getRemainingHealth() - increasedDamage;
+		if (otherCharacter.getRemainingHealth() > 0 && otherCharacterNewHealth >0) {
+			otherCharacter.setRemainingHealth(Math.min(otherCharacterNewHealth, otherCharacter.getMaxHealth()));
 
-        int milderDamage = getSwordSkill() * getLevel() + getStrength();
+		} else {
+			otherCharacter.setRemainingHealth(0);
+			isAlive= false;
+		}
+	}
 
-        if (remainingHealth > 0) {
-            int newHealth = remainingHealth - damage + milderDamage;
-            remainingHealth = Math.min(newHealth, race.getMaxHealth());
-            remainingHealth = Math.max(newHealth, 0);
+	public void increaseIntelligenceFromWinningASpell() {
+		if (getIntelligence() < race.getIntelligence() + 15) {
+			intelligence += 3;
+			return;
+		}
+	}
 
-        } else {
-            remainingHealth = 0;
-        }
-    }
+	public void increaseStrengthFromWinningASpell() {
+		if (getStrength() < race.getStrength() + 15) {
+			strength += 3;
+			return;
+		}
+	}// Level up if high attributes
 
-    public void increaseIntelligenceFromWinningASpell() {
-        if (getIntelligence() < race.getIntelligence() + 5) {
-            intelligence += 1;
-            return;
-        }
-    }
+	public void levelsUp() {
 
-    public void increaseStrengthFromWinningASpell() {
-        if (getStrength() < race.getStrength() + 5) {
-            strength += 1;
-            return;
-        }
-    }// Level up if high attributes
+		if (checkIfLevelUp() == true && race.toString().contains("Elf")) {
+			level++;
+			strength += 3;
+			increaseSkillWhenLevelingUp();
+			if (level == 3) {
+				setIfCanSwim(true);//g�r test till dessa
+			}
 
-    public Inventory getInventory() {
-        return inventory;
-    }
+		}
 
-    public Race getRace() {
-        return race;
-    }
+		if (checkIfLevelUp() == true && race.toString().contains("Ogre")) {
+			level++;
+			intelligence += 3;
+			increaseSkillWhenLevelingUp();
+			if (level == 3) {
+				setIfCanSwim(true);
+			}
+		}
 
-    public Job getJob() {
-        return job;
-    }
+		if (checkIfLevelUp() == true && race.toString().contains("Human")) {
+			level++;
+			strength += 3;
+			increaseSkillWhenLevelingUp();
+			if (level == 3) {
+				setIfCanFly(true);
+			}
+
+		}
+	}
+
+	private boolean checkIfLevelUp() {
+		int intelligenceAquired = intelligence - race.getIntelligence();
+		int strengthAquired = strength - race.getStrength();
+
+		boolean levelUp;
+		if ((intelligenceAquired > 0) || (strengthAquired > 0)) {
+			levelUp = true;
+		} else {
+			levelUp = false;
+		}
+		return levelUp;
+	}
+
+	private void increaseSkillWhenLevelingUp() {
+		swordSkill += 2;
+		healingSkill += 2;
+		magicSkill += 2;
+
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
+	public Inventory getInventory() {
+		return inventory;
+	}
+
+	public Job getJob() {
+		return job;
+	}
+
+	public Race getRace() {
+		return race;
+	}
 }
+
+// Level up if high attributes
+
+//	

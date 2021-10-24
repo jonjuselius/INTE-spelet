@@ -2,6 +2,7 @@ package Magic;
 
 import GameCharacters.*;
 import Jobs.Magician;
+import Map.*;
 import Races.*;
 
 import org.junit.jupiter.api.Test;
@@ -10,8 +11,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DamageDealingTest {
 
-    Human human = new Human();
-    Magician magician = new Magician();
+    private Human human = new Human();
+    private Magician magician = new Magician();
+    private MapGenerator MAP_GENERATOR = new MapGenerator(4, 4);
+    private Map MAP = MAP_GENERATOR.generate(1);
+    private MapPosition MAP_POSITION = MAP.getMapTiles()[2][2];
 
     @Test
     void damageDealingSpellConstructor(){
@@ -41,9 +45,10 @@ class DamageDealingTest {
         assertEquals(0, dd.getDuration());
     }
 
+    //TODO när player kan skapas
     @Test
     void powerProgressionChangesInitialDamage() {
-        DamageDealingSpell dd = new DamageDealingSpell("Stonefist", 25, Element.PHYSICAL, 5);
+        DamageDealingSpell dd = new DamageDealingSpell("Stonefist", 25);
         Player p = new Player("Player1", human, magician, true);
         dd.powerProgression(p);
 
@@ -52,7 +57,7 @@ class DamageDealingTest {
 
     @Test
     void castThrowsExceptionWhenManaTooLow() {
-        DamageDealingSpell dd = new DamageDealingSpell("Implode", 350, Element.FIRE, 50);
+        DamageDealingSpell dd = new DamageDealingSpell("Implode", 250, Element.FIRE);
         Player p = new Player("Player1", human, magician, true);
         Adversary a = new Adversary("Bandit", human, magician, true, 5);
 
@@ -61,7 +66,7 @@ class DamageDealingTest {
 
     @Test
     void castDecreasesCorrectMana() {
-        DamageDealingSpell dd = new DamageDealingSpell("Stonefist", 25, Element.PHYSICAL, 5);
+        DamageDealingSpell dd = new DamageDealingSpell("Stonefist", 25);
         Player p = new Player("Player1", human, magician, true);
         Adversary a = new Adversary("Bandit", human, magician, true, 5);
         dd.cast(p,a);
@@ -70,7 +75,7 @@ class DamageDealingTest {
 
     @Test
     void castDealsCorrectDamage(){
-        DamageDealingSpell dd = new DamageDealingSpell("Stonefist", 25, Element.PHYSICAL, 5);
+        DamageDealingSpell dd = new DamageDealingSpell("Stonefist", 25);
         Player p = new Player("Player1", human, magician, true);
         Adversary a = new Adversary("Bandit", human, magician, true, 1);
         dd.cast(p,a);

@@ -2,6 +2,9 @@ package Jobs;
 
 //import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
+
+import Map.Map;
+import Map.MapGenerator;
 import org.junit.jupiter.api.Test;
 
 import GameCharacters.Player;
@@ -10,6 +13,9 @@ import Races.Human;
 import Races.Ogre;
 
 class JobTest {
+	private static final MapGenerator MAP_GENERATOR = new MapGenerator(4, 4);
+	public static final Map MAP = MAP_GENERATOR.generate(1);
+
 	void knightConstructor() {
 
 		Knight h = new Knight();
@@ -37,50 +43,6 @@ class JobTest {
 		assertEquals(10, h.getMagic());
 		assertEquals(3, h.getSwordSkill());
 		assertEquals(300, h.getMaxMana());
-
-	}
-	
-//Tdd
-	@Test
-	void getHealedDependingOnYourOwnHealSkillShouldBeThreehundredTwentyForLevelOne() {
-
-		Player c1 = new Player("Jasmyn", new Ogre(), new Knight(), true);
-		c1.takeDamage(100);
-
-		c1.getHealedDependingOnYourOwnHealSkill();
-
-		assertEquals(207, c1.getRemainingHealth());
-
-	}
-
-	@Test
-	void getHealedDependingOnYourOwnHealSkillOverMaxLifePointsStaysAtMaxLifePoint() {
-
-		Player c1 = new Player("Jasmyn", new Ogre(), new Healer(), true);
-		c1.getHealedDependingOnYourOwnHealSkill();
-		c1.getHealedDependingOnYourOwnHealSkill();
-		c1.getHealedDependingOnYourOwnHealSkill();
-		c1.getHealedDependingOnYourOwnHealSkill();
-		c1.getHealedDependingOnYourOwnHealSkill();
-		c1.getHealedDependingOnYourOwnHealSkill();
-		c1.getHealedDependingOnYourOwnHealSkill();
-		c1.getHealedDependingOnYourOwnHealSkill();
-		c1.getHealedDependingOnYourOwnHealSkill();
-		c1.getHealedDependingOnYourOwnHealSkill();
-		c1.getHealedDependingOnYourOwnHealSkill();
-		c1.getHealedDependingOnYourOwnHealSkill();
-
-		assertEquals(300, c1.getRemainingHealth());
-
-	}
-	
-	@Test
-	void takeDamageDependingOnYourSwordSkillAndStrengthShouldBeOneHundredTen() {
-
-		Player c1 = new Player("Jasmyn", new Elf(), new Knight(), true);
-		c1.takeDamageDependingOnYourSwordSkillAndStrength(100);
-
-		assertEquals(120, c1.getRemainingHealth());
 
 	}
 
