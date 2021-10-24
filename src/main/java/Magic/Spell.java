@@ -3,6 +3,8 @@ package Magic;
 import GameCharacters.*;
 import GameCharacters.Character;
 
+import java.util.Objects;
+
 public abstract class Spell {
 
     private String name;
@@ -35,5 +37,18 @@ public abstract class Spell {
         return element;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        Spell spell = (Spell) o;
+        return manaCost == spell.manaCost && Objects.equals(name, spell.name) && element == spell.element;
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, manaCost, element);
+    }
 }

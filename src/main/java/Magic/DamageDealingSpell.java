@@ -3,6 +3,8 @@ package Magic;
 import GameCharacters.*;
 import GameCharacters.Character;
 
+import java.util.Objects;
+
 public class DamageDealingSpell extends Spell {
 
     private int baseDamage;
@@ -68,5 +70,21 @@ public class DamageDealingSpell extends Spell {
 
     public int getBaseDamage() {
         return baseDamage;
+    }
+
+
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof DamageDealingSpell) {
+            return super.equals(o) && baseDamage == ((DamageDealingSpell) o).getBaseDamage();
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.getName(), this.getManaCost(), this.getElement(), this.getBaseDamage());
     }
 }
