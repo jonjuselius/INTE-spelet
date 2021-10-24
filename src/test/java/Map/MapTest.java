@@ -5,6 +5,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MapTest {
+    private static final int FAKE_RANDOM = 1;
+    private static final MapGenerator MAP_GENERATOR = new MapGenerator(4, 4);
+    private static final Map MAP = MAP_GENERATOR.generate(FAKE_RANDOM);
+    private static final MapPosition MAP_POSITION = MAP.getMapTiles()[2][2];
 
     @Test
     void constructorSetsWidth() {
@@ -44,7 +48,7 @@ class MapTest {
         //Add utanför kartans storlek
         //Kolla både x och y?
         Map map = new Map(3, 6);
-        MapPosition tile = new MapPosition(3, 7);
+        MapPosition tile = new MapPosition(3, 7, map);
         assertThrows(IllegalArgumentException.class, () -> {
             map.put(tile, tile.getXPos(), tile.getYPos());
         });
@@ -53,7 +57,7 @@ class MapTest {
     @Test
     void tilePutWithinBounds() {
         Map map = new Map(3, 6);
-        MapPosition tile = new MapPosition(2, 3);
+        MapPosition tile = new MapPosition(2, 3, map);
         int xPos = tile.getXPos();
         int yPos = tile.getYPos();
         map.put(tile, xPos, yPos);
@@ -63,7 +67,7 @@ class MapTest {
     @Test
     void tileIsInCorrectPosition() {
         Map map = new Map(2, 3);
-        MapPosition tile = new MapPosition(1, 2);
+        MapPosition tile = new MapPosition(1, 2, map);
         int xPos = tile.getXPos();
         int yPos = tile.getYPos();
         map.put(tile, xPos, yPos);

@@ -44,7 +44,7 @@ public class Map {
          */
         int xPos = xfakeRandom;
         int yPos = yFakeRandom;
-        return new MapPosition(xPos, yPos);
+        return new MapPosition(xPos, yPos, this);
     }
 
 }

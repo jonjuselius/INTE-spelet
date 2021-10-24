@@ -1,5 +1,8 @@
 package Item;
 
+import Map.Map;
+import Map.MapPosition;
+
 public class Ring extends Item {
 	/**
 	 * Ring is a type of jewewllery, an instantiable item with a low weight and
@@ -15,19 +18,19 @@ public class Ring extends Item {
 	public static final String[] JOB_CERTIFICATIONS = {"Knight", "Magician", "Healer"};
 	public static final String[] RACE_CERTIFICATIONS = {"Human", "Ogre", "Elf"};
 	
-	public Ring() {
-		this(DEFAULT_CONDITION);
+	public Ring(MapPosition mapPosition) {
+		this(DEFAULT_CONDITION, mapPosition);
 	}
 	
-	public Ring(int condition) {
-		this(condition, DEFAULT_SIZE);
+	public Ring(int condition, MapPosition mapPosition) {
+		this(condition, DEFAULT_SIZE, mapPosition);
 	}
 	
-	public Ring(Size size) {
-		this(DEFAULT_CONDITION, size);
+	public Ring(Size size, MapPosition mapPosition) {
+		this(DEFAULT_CONDITION, size, mapPosition);
 	}
 	
-	public Ring(int condition, Size size) {
-		super(WEIGHT, VALUE, JOB_CERTIFICATIONS, RACE_CERTIFICATIONS, size, TYPE, condition);
+	public Ring(int condition, Size size, MapPosition mapPosition) {
+		super(WEIGHT, VALUE, JOB_CERTIFICATIONS, RACE_CERTIFICATIONS, size, TYPE, condition, mapPosition);
 	}
 }

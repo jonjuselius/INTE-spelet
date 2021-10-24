@@ -1,6 +1,9 @@
 package Item;
 
 import GameCharacters.Character;
+import Map.Map;
+import Map.MapPosition;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -38,8 +41,9 @@ public abstract class Item {
 	private int condition;
 	private List<String> jobCertifications; // ändra från list till set?
 	private List<String> raceCertifications;
+	private MapPosition mapPosition;
 	
-	public Item(int weight, int value, String[] jobCertifications, String[] raceCertifications, Size size, Type type, int condition) {
+	public Item(int weight, int value, String[] jobCertifications, String[] raceCertifications, Size size, Type type, int condition, MapPosition mapPosition) {
 		if (condition < MIN_CONDITION || condition > MAX_CONDITION) {
 			throw new IllegalArgumentException();
 		}
@@ -50,6 +54,7 @@ public abstract class Item {
 		this.size = size;
 		this.type = type;
 		this.condition = condition;
+		this.mapPosition = mapPosition;
 	}
 	
 	public int getWeight() {
