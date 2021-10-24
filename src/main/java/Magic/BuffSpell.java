@@ -7,6 +7,7 @@ public class BuffSpell extends Spell {
 
     private int spellStrength;
 
+
     public BuffSpell(String name, int manaCost, Element element, int spellStrength) {
         super(name, manaCost, element);
         this.spellStrength = spellStrength;
@@ -19,32 +20,46 @@ public class BuffSpell extends Spell {
     @Override
     public void cast(Character spellCaster, Character target){
 
+        long duration = calculateDuration(spellCaster);
+
+        cast(spellCaster, target, duration);
+
+    }
+
+    public void cast(Character spellCaster, Character target, long duration){
+
         switch (this.getElement()){
             case PHYSICAL -> {
-                physicalBuffSpell(spellCaster, target);
+                physicalBuffSpell(spellCaster, target, duration);
             }
         }
     }
 
-    public void physicalBuffSpell(Character spellCaster, Character target){
-        increaseStrength(target);
-        buffDuration(spellCaster);
-        target.setStrength(target.getRace().getStrength());
+    private long calculateDuration(Character spellcaster){
+        return (spellcaster.getMagicSkill() * 2L) * 1000;
     }
 
-    private void increaseStrength(Character target){
-        int strengthFactor = (int) Math.round(spellStrength * 1.5);
-        target.setStrength(target.getStrength() * strengthFactor);
-    }
-
-    private void buffDuration(Character spellcaster){
-        int durationInSeconds = spellcaster.getMagicSkill() * 2;
+    private void buffDuration(long duration){
         try {
-            Thread.sleep(durationInSeconds * 1000);
+            Thread.sleep(duration);
         } catch (InterruptedException ie) {
             Thread.currentThread().interrupt();
         }
     }
+
+    private void physicalBuffSpell(Character spellCaster, Character target, long duration){
+        increaseStrength(target);
+        buffDuration(duration);
+        target.setStrength(target.getRace().getStrength());
+    }
+
+    private void increaseStrength(Character target){
+        int strengthFactor = (int) Math.round(spellStrength * 0.3);
+        target.setStrength(target.getStrength() * strengthFactor);
+    }
+
+
+
 
 
 }

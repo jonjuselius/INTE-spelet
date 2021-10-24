@@ -5,6 +5,9 @@ import Jobs.Magician;
 import Races.Human;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class BuffSpellTest {
@@ -23,11 +26,42 @@ class BuffSpellTest {
     }
 
     @Test
-    void physicalBuffSpellIncreasesStrength(){
+    void physicalBuffSpellIncreasesAndDecreasesStrength(){
+        List<Integer> strengthStats = new ArrayList<>();
         BuffSpell bs = new BuffSpell("StrengthBuff", 10, Element.PHYSICAL, 5);
-        Player p = new Player("Player1", human, magician, true);
-        bs.in;
+        Player p = new Player("Player1", human, magician, true){
+            @Override
+            public void setStrength(int strength){
+                super.setStrength(strength);
+                strengthStats.add(strength);
+            }
+        };
+        bs.cast(p,p,1);
 
-        assertEquals(30, p.getStrength());
+        assertEquals(3, strengthStats.size());
+        assertEquals(20, strengthStats.get(0));
+        assertEquals(40, strengthStats.get(1));
+        assertEquals(20, strengthStats.get(2));
+    }
+
+    @Test
+    void buffSpellLastsCorrectDuration(){
+        List<Integer> strengthStats = new ArrayList<>();
+        BuffSpell bs = new BuffSpell("StrengthBuff", 10, Element.PHYSICAL, 5);
+        Player p = new Player("Player1", human, magician, true){
+            @Override
+            public void setStrength(int strength){
+                super.setStrength(strength);
+                strengthStats.add((int) System.nanoTime());
+            }
+        };
+        bs.cast(p,p,10);
+        long duration = (strengthStats.get(2) - strengthStats.get(0)) / 1000000;
+        System.out.println(strengthStats);
+        System.out.println(duration);
+
+        assertEquals(3, strengthStats.size());
+        assertTrue(duration > 8 && duration < 30);
+
     }
 }
