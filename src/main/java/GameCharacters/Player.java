@@ -82,6 +82,7 @@ public class Player extends Character {
         if (positionToMoveTo.getTerrain() == Terrain.LAVA) {
             if (player.getIfCanFly()) {
                 this.setPosition(positionToMoveTo);
+                return positionToMoveTo;
             } else {
                 player.die();
                 return positionToMoveTo;
@@ -94,7 +95,7 @@ public class Player extends Character {
         }
 
         if (positionToMoveTo.getTerrain() == Terrain.WATER) {
-            if (player.getIfCanSwim()) {
+            if (player.getIfCanSwim() || player.getIfCanFly()) {
                 this.setPosition(positionToMoveTo);
                 return positionToMoveTo;
             }

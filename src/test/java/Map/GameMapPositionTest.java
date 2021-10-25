@@ -24,16 +24,14 @@ class GameMapPositionTest {
 
     @Test
     void constructorThrowsIAENegativeXPOS() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            new GameMapPosition(-1, 3);
-        });
+        assertThrows(IllegalArgumentException.class, () ->
+            new GameMapPosition(-1, 3));
     }
 
     @Test
     void constructorThrowIAENegativeYPos() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            new GameMapPosition(3, -1);
-        });
+        assertThrows(IllegalArgumentException.class, () ->
+            new GameMapPosition(3, -1));
     }
 
 //    @Test
