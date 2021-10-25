@@ -1,7 +1,6 @@
 package Item;
 
-import Map.Map;
-import Map.MapPosition;
+import Map.GameMapPosition;
 
 public abstract class Food extends Item {
 	/**
@@ -16,7 +15,7 @@ public abstract class Food extends Item {
 	public static final Type TYPE = Type.FOOD;
 	private boolean consumed;
 
-	public Food(int weight, int value, String[] jobCertifications, String[] raceCerticiations, Size size, int condition, MapPosition mapPosition) {
+	public Food(int weight, int value, String[] jobCertifications, String[] raceCerticiations, Size size, int condition, GameMapPosition mapPosition) {
 		super(weight, value, jobCertifications, raceCerticiations, size, TYPE, condition, mapPosition);
 	}
 

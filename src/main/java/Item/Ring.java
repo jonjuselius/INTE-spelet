@@ -1,7 +1,6 @@
 package Item;
 
-import Map.Map;
-import Map.MapPosition;
+import Map.GameMapPosition;
 
 public class Ring extends Item {
 	/**
@@ -18,19 +17,19 @@ public class Ring extends Item {
 	public static final String[] JOB_CERTIFICATIONS = {"Knight", "Magician", "Healer"};
 	public static final String[] RACE_CERTIFICATIONS = {"Human", "Ogre", "Elf"};
 	
-	public Ring(MapPosition mapPosition) {
+	public Ring(GameMapPosition mapPosition) {
 		this(DEFAULT_CONDITION, mapPosition);
 	}
 	
-	public Ring(int condition, MapPosition mapPosition) {
+	public Ring(int condition, GameMapPosition mapPosition) {
 		this(condition, DEFAULT_SIZE, mapPosition);
 	}
 	
-	public Ring(Size size, MapPosition mapPosition) {
+	public Ring(Size size, GameMapPosition mapPosition) {
 		this(DEFAULT_CONDITION, size, mapPosition);
 	}
 	
-	public Ring(int condition, Size size, MapPosition mapPosition) {
+	public Ring(int condition, Size size, GameMapPosition mapPosition) {
 		super(WEIGHT, VALUE, JOB_CERTIFICATIONS, RACE_CERTIFICATIONS, size, TYPE, condition, mapPosition);
 	}
 }

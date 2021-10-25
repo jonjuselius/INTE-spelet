@@ -30,9 +30,9 @@ public abstract class Character {
 
 	private SpellCollection spellCollection;
 	private Inventory inventory;
-	private MapPosition position;
+	private GameMapPosition position;
 
-	public Character(String name, Race race, Job job, boolean isAlive, MapPosition position) {
+	public Character(String name, Race race, Job job, boolean isAlive, GameMapPosition position) {
 		this.name = name;
 		this.race = race;
 		this.job = job;
@@ -59,8 +59,12 @@ public abstract class Character {
 		return name;
 	}
 
-	public MapPosition getPosition() {
+	public GameMapPosition getPosition() {
 		return position;
+	}
+
+	public void setPosition(GameMapPosition position) {
+		this.position = position;
 	}
 
 	public void increaseHealth(int hp) {
@@ -81,6 +85,10 @@ public abstract class Character {
 
 	public boolean isAlive() {
 		return isAlive;
+	}
+
+	public void die() {
+		isAlive = false;
 	}
 
 	public int getStrength() {
@@ -284,8 +292,6 @@ public abstract class Character {
 	public Race getRace() {
 		return race;
 	}
+
 }
 
-// Level up if high attributes
-
-//	

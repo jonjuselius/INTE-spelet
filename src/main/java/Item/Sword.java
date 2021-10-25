@@ -1,7 +1,6 @@
 package Item;
 
-import Map.Map;
-import Map.MapPosition;
+import Map.GameMapPosition;
 
 public class Sword extends Item {
 	/**
@@ -19,19 +18,19 @@ public class Sword extends Item {
 	public static final String[] JOB_CERTIFICATIONS = {"Knight"};
 	public static final String[] RACE_CERTIFICATIONS = {"Human", "Ogre", "Elf"};
 	
-	public Sword(MapPosition mapPosition) {
+	public Sword(GameMapPosition mapPosition) {
 		this(DEFAULT_CONDITION, DEFAULT_SIZE, mapPosition);
 	}
 	
-	public Sword(int condition, MapPosition mapPosition) {
+	public Sword(int condition, GameMapPosition mapPosition) {
 		this(condition, DEFAULT_SIZE, mapPosition);
 	}
 	
-	public Sword(Size size, MapPosition mapPosition) {
+	public Sword(Size size, GameMapPosition mapPosition) {
 		this(DEFAULT_CONDITION, size, mapPosition);
 	}
 	
-	public Sword(int condition, Size size, MapPosition mapPosition) {
+	public Sword(int condition, Size size, GameMapPosition mapPosition) {
 		super(WEIGHT, VALUE, JOB_CERTIFICATIONS, RACE_CERTIFICATIONS, size, TYPE, condition, mapPosition);
 	}
 	

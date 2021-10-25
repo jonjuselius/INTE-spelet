@@ -1,7 +1,6 @@
 package Item;
 
-import Map.Map;
-import Map.MapPosition;
+import Map.GameMapPosition;
 
 public class Egg extends Food {
 	/**
@@ -18,19 +17,19 @@ public class Egg extends Food {
 	public static final String[] JOB_CERTIFICATIONS = {"Knight", "Magician", "Healer"};
 	public static final String[] RACE_CERTIFICATIONS = {"Human", "Ogre", "Elf"};
 	
-	public Egg(MapPosition mapPosition) {
+	public Egg(GameMapPosition mapPosition) {
 		this(DEFAULT_CONDITION, DEFAULT_SIZE, mapPosition);
 	}
 	
-	public Egg(int condition, MapPosition mapPosition) {
+	public Egg(int condition, GameMapPosition mapPosition) {
 		this(condition, DEFAULT_SIZE, mapPosition);
 	}
 	
-	public Egg(Size size, MapPosition mapPosition) {
+	public Egg(Size size, GameMapPosition mapPosition) {
 		this(DEFAULT_CONDITION, size, mapPosition);
 	}
 	
-	public Egg(int condition, Size size, MapPosition mapPosition) {
+	public Egg(int condition, Size size, GameMapPosition mapPosition) {
 		super(WEIGHT, VALUE, JOB_CERTIFICATIONS, RACE_CERTIFICATIONS, size, condition, mapPosition);
 	}
 }

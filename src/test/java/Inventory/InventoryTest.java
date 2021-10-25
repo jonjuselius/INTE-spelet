@@ -20,9 +20,9 @@ class InventoryTest {
 	/**
 	 * Tests for Inventory class
 	 */
-	private static final MapGenerator MAP_GENERATOR = new MapGenerator(4, 4);
-	public static final Map MAP = MAP_GENERATOR.generate(1);
-	private static final MapPosition MAP_POSITION = MAP.getMapTiles()[2][2];
+	private static final GameMapGenerator MAP_GENERATOR = new GameMapGenerator(4, 4);
+	public static final GameMap MAP = MAP_GENERATOR.generate(1);
+	private static final GameMapPosition MAP_POSITION = MAP.getMapTiles()[2][2];
 	public static final Item[] DEFAULT_ITEMSET = {new Sword(MAP_POSITION), new Wand(MAP_POSITION), new Egg(MAP_POSITION), new Shield(MAP_POSITION), new Ring(MAP_POSITION)};
 	public static final Inventory DEFAULT_INVENTORY = new Inventory(DEFAULT_ITEMSET);
 	public static final Item[] EMPTY_ITEMSET = {};
