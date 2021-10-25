@@ -1,7 +1,6 @@
 package Item;
 
-import Map.Map;
-import Map.MapPosition;
+import Map.GameMapPosition;
 
 public class Shield extends Item {
 	/**
@@ -23,19 +22,19 @@ public class Shield extends Item {
 	public static final String[] JOB_CERTIFICATIONS = {"Knight"};
 	public static final String[] RACE_CERTIFICATIONS = {"Human", "Ogre", "Elf"};
 	
-	public Shield(MapPosition mapPosition) {
+	public Shield(GameMapPosition mapPosition) {
 		this(DEFAULT_CONDITION, mapPosition);
 	}
 	
-	public Shield(int condition, MapPosition mapPosition) {
+	public Shield(int condition, GameMapPosition mapPosition) {
 		this(condition, DEFAULT_SIZE, mapPosition);
 	}
 	
-	public Shield(Size size, MapPosition mapPosition) {
+	public Shield(Size size, GameMapPosition mapPosition) {
 		this(DEFAULT_CONDITION, size, mapPosition);
 	}
 	
-	public Shield(int condition, Size size, MapPosition mapPosition) {
+	public Shield(int condition, Size size, GameMapPosition mapPosition) {
 		super(WEIGHT, VALUE, JOB_CERTIFICATIONS, RACE_CERTIFICATIONS, size, TYPE, condition, mapPosition);
 	}
 }

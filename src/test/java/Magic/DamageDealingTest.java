@@ -13,9 +13,9 @@ class DamageDealingTest {
 
     private Human human = new Human();
     private Magician magician = new Magician();
-    private MapGenerator MAP_GENERATOR = new MapGenerator(4, 4);
-    private Map MAP = MAP_GENERATOR.generate(1);
-    private MapPosition MAP_POSITION = MAP.getMapTiles()[2][2];
+    private GameMapGenerator MAP_GENERATOR = new GameMapGenerator(4, 4);
+    private GameMap MAP = MAP_GENERATOR.generate(1);
+    private GameMapPosition MAP_POSITION = MAP.getMapTiles()[2][2];
 
     @Test
     void damageDealingSpellConstructor(){

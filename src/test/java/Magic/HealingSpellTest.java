@@ -10,9 +10,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class HealingSpellTest {
-    private static final MapGenerator MAP_GENERATOR = new MapGenerator(4, 4);
-    public static final Map MAP = MAP_GENERATOR.generate(1);
-    private static final MapPosition MAP_POSITION = MAP.getMapTiles()[2][2];
+    private static final GameMapGenerator MAP_GENERATOR = new GameMapGenerator(4, 4);
+    public static final GameMap MAP = MAP_GENERATOR.generate(1);
+    private static final GameMapPosition MAP_POSITION = MAP.getMapTiles()[2][2];
     Human human = new Human();
     Magician magician = new Magician();
     Healer healer = new Healer();

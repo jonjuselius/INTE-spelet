@@ -25,9 +25,9 @@ class RingTest {
 	/**
 	 * Tests for Ring class
 	 */
-	private static final MapGenerator MAP_GENERATOR = new MapGenerator(4, 4);
-	public static final Map MAP = MAP_GENERATOR.generate(1);
-	public static final MapPosition MAP_POSITION = MAP.getMapTiles()[2][2];
+	private static final GameMapGenerator MAP_GENERATOR = new GameMapGenerator(4, 4);
+	public static final GameMap MAP = MAP_GENERATOR.generate(1);
+	public static final GameMapPosition MAP_POSITION = MAP.getMapTiles()[2][2];
 	public static final Ring DEFAULT_RING = new Ring(MAP_POSITION);
 	public static final String NAME = "Mr Default";
 	public static final Race[] RACES = {new Human(), new Ogre(), new Elf()};

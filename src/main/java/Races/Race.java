@@ -39,13 +39,8 @@ public abstract class Race {
 		this.canWalkThroughTerraign = canWalkThroughTerraign;
 	}
 
-
-
 	public abstract int getStrength();
 	public abstract int getIntelligence();
-
-
 	public abstract int getMaxHealth();
-	
-	
+
 }
