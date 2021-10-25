@@ -260,7 +260,7 @@ public abstract class Character {
 			levelUp = false;
 		}
 		return levelUp;
-	}
+	}//
 
 	private void increaseSkillWhenLevelingUp() {
 		swordSkill += 2;
