@@ -10,7 +10,9 @@ import Jobs.Healer;
 import Jobs.Job;
 import Jobs.Knight;
 import Jobs.Magician;
-import Map.*;
+import Map.Map;
+import Map.MapPosition;
+import Map.MapGenerator;
 import Races.Elf;
 import Races.Human;
 import Races.Ogre;
@@ -28,7 +30,7 @@ class RingTest {
 	private static final MapGenerator MAP_GENERATOR = new MapGenerator(4, 4);
 	public static final Map MAP = MAP_GENERATOR.generate(1);
 	public static final MapPosition MAP_POSITION = MAP.getMapTiles()[2][2];
-	public static final Ring DEFAULT_RING = new Ring(MAP_POSITION);
+	public static final Ring DEFAULT_RING = new Ring();
 	public static final String NAME = "Mr Default";
 	public static final Race[] RACES = {new Human(), new Ogre(), new Elf()};
 	public static final Job[] JOBS = {new Knight(), new Magician(), new Healer()};
@@ -91,27 +93,27 @@ class RingTest {
 	
 	@Test
 	void RI1_newRingHasDefaultWeight() {
-		assertThat(new Ring(MAP_POSITION).getWeight(), is(equalTo(Ring.WEIGHT)));
+		assertThat(new Ring().getWeight(), is(equalTo(Ring.WEIGHT)));
 	}
 	
 	@Test
 	void RI2_newRingHasDefaultValue() {
-		assertThat(new Ring(MAP_POSITION).getValue(), is(equalTo(Ring.VALUE)));
+		assertThat(new Ring().getValue(), is(equalTo(Ring.VALUE)));
 	}
 	
 	@Test
 	void RI3_newRingHasDefaultSize() {
-		assertThat(new Ring(MAP_POSITION).getSize(), is(equalTo(Ring.DEFAULT_SIZE)));
+		assertThat(new Ring().getSize(), is(equalTo(Ring.DEFAULT_SIZE)));
 	}
 	
 	@Test
 	void RI4_newRingHasDefaultType() {
-		assertThat(new Ring(MAP_POSITION).getType(), is(equalTo(Ring.TYPE)));
+		assertThat(new Ring().getType(), is(equalTo(Ring.TYPE)));
 	}
 	
 	@Test
 	void RI5_newRingHasDefaultCondition() {
-		assertThat(new Ring(MAP_POSITION).getCondition(), is(equalTo(Ring.DEFAULT_CONDITION)));
+		assertThat(new Ring().getCondition(), is(equalTo(Ring.DEFAULT_CONDITION)));
 	}
 	
 	@Test
@@ -134,31 +136,31 @@ class RingTest {
 	
 	@Test
 	void RI8_newRingWithSizeSpecifiedAsSmallInConstructorCreatesASmallRing() {
-		assertThat(new Ring(Size.SMALL, MAP_POSITION).getSize(), is(equalTo(Size.SMALL)));
+		assertThat(new Ring(Size.SMALL).getSize(), is(equalTo(Size.SMALL)));
 	}
 	
 	@Test
 	void RI9_newRingWithSizeSpecifiedAsMediumInConstructorCreatesAMediumRing() {
-		assertThat(new Ring(Size.MEDIUM, MAP_POSITION).getSize(), is(equalTo(Size.MEDIUM)));
+		assertThat(new Ring(Size.MEDIUM).getSize(), is(equalTo(Size.MEDIUM)));
 	}
 	
 	@Test
 	void RI10_newRingWithSizeSpecifiedAsLargeInConstructorCreatesALargeRing() {
-		assertThat(new Ring(Size.LARGE, MAP_POSITION).getSize(), is(equalTo(Size.LARGE)));
+		assertThat(new Ring(Size.LARGE).getSize(), is(equalTo(Size.LARGE)));
 	}
 	
 	@Test
 	void RI11_newRingWithConditionBetweenMinAndMaxSetsConditionInConstructor() {
-		assertThat(new Ring(50, MAP_POSITION).getCondition(), is(equalTo(50)));
+		assertThat(new Ring(50).getCondition(), is(equalTo(50)));
 	}
 	
 	@Test
 	void RI12_newRingWithConditionUnderMinimumThrowsIAE() {
-		assertThrows(IllegalArgumentException.class, () -> new Ring(Item.MIN_CONDITION - 1, MAP_POSITION));
+		assertThrows(IllegalArgumentException.class, () -> new Ring(Item.MIN_CONDITION - 1));
 	}
 	
 	@Test
 	void RI13_newRingWithConditionOverMaximumThrowsIAE() {
-		assertThrows(IllegalArgumentException.class, () -> new Ring(Item.MAX_CONDITION + 1, MAP_POSITION));
+		assertThrows(IllegalArgumentException.class, () -> new Ring(Item.MAX_CONDITION + 1));
 	}
 }

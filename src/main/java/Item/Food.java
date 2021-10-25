@@ -16,8 +16,8 @@ public abstract class Food extends Item {
 	public static final Type TYPE = Type.FOOD;
 	private boolean consumed;
 
-	public Food(int weight, int value, String[] jobCertifications, String[] raceCerticiations, Size size, int condition, MapPosition mapPosition) {
-		super(weight, value, jobCertifications, raceCerticiations, size, TYPE, condition, mapPosition);
+	public Food(int weight, int value, String[] jobCertifications, String[] raceCerticiations, Size size, int condition) {
+		super(weight, value, jobCertifications, raceCerticiations, size, TYPE, condition);
 	}
 
 	public boolean isConsumed() {

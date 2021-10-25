@@ -19,20 +19,20 @@ public class Sword extends Item {
 	public static final String[] JOB_CERTIFICATIONS = {"Knight"};
 	public static final String[] RACE_CERTIFICATIONS = {"Human", "Ogre", "Elf"};
 	
-	public Sword(MapPosition mapPosition) {
-		this(DEFAULT_CONDITION, DEFAULT_SIZE, mapPosition);
+	public Sword() {
+		this(DEFAULT_CONDITION, DEFAULT_SIZE);
 	}
 	
-	public Sword(int condition, MapPosition mapPosition) {
-		this(condition, DEFAULT_SIZE, mapPosition);
+	public Sword(int condition) {
+		this(condition, DEFAULT_SIZE);
 	}
 	
-	public Sword(Size size, MapPosition mapPosition) {
-		this(DEFAULT_CONDITION, size, mapPosition);
+	public Sword(Size size) {
+		this(DEFAULT_CONDITION, size);
 	}
 	
-	public Sword(int condition, Size size, MapPosition mapPosition) {
-		super(WEIGHT, VALUE, JOB_CERTIFICATIONS, RACE_CERTIFICATIONS, size, TYPE, condition, mapPosition);
+	public Sword(int condition, Size size) {
+		super(WEIGHT, VALUE, JOB_CERTIFICATIONS, RACE_CERTIFICATIONS, size, TYPE, condition);
 	}
 	
 }

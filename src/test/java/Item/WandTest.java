@@ -30,7 +30,7 @@ class WandTest {
 	private static final MapGenerator MAP_GENERATOR = new MapGenerator(4, 4);
 	public static final Map MAP = MAP_GENERATOR.generate(1);
 	public static final MapPosition MAP_POSITION = MAP.getMapTiles()[2][2];
-	public static final Wand DEFAULT_WAND = new Wand(MAP_POSITION);
+	public static final Wand DEFAULT_WAND = new Wand();
 	public static final String NAME = "Mr Default";
 	public static final Race[] RACES = {new Human(), new Ogre(), new Elf()};
 	public static final Job[] JOBS = {new Knight(), new Magician(), new Healer()};
@@ -93,27 +93,27 @@ class WandTest {
 	
 	@Test
 	void WA1_newWandHasDefaultWeight() {
-		assertThat(new Wand(MAP_POSITION).getWeight(), is(equalTo(Wand.WEIGHT)));
+		assertThat(new Wand().getWeight(), is(equalTo(Wand.WEIGHT)));
 	}
 	
 	@Test
 	void WA2_newWandHasDefaultValue() {
-		assertThat(new Wand(MAP_POSITION).getValue(), is(equalTo(Wand.VALUE)));
+		assertThat(new Wand().getValue(), is(equalTo(Wand.VALUE)));
 	}
 	
 	@Test
 	void WA3_newWandHasDefaultSize() {
-		assertThat(new Wand(MAP_POSITION).getSize(), is(equalTo(Wand.DEFAULT_SIZE)));
+		assertThat(new Wand().getSize(), is(equalTo(Wand.DEFAULT_SIZE)));
 	}
 	
 	@Test
 	void WA4_newWandHasDefaultType() {
-		assertThat(new Wand(MAP_POSITION).getType(), is(equalTo(Wand.TYPE)));
+		assertThat(new Wand().getType(), is(equalTo(Wand.TYPE)));
 	}
 	
 	@Test
 	void WA5_newWandHasDefaultCondition() {
-		assertThat(new Wand(MAP_POSITION).getCondition(), is(equalTo(Wand.DEFAULT_CONDITION)));
+		assertThat(new Wand().getCondition(), is(equalTo(Wand.DEFAULT_CONDITION)));
 	}
 	
 	@Test
@@ -136,31 +136,31 @@ class WandTest {
 	
 	@Test
 	void WA8_newWandWithSizeSpecifiedAsSmallInConstructorCreatesASmallWand() {
-		assertThat(new Wand(Size.SMALL, MAP_POSITION).getSize(), is(equalTo(Size.SMALL)));
+		assertThat(new Wand(Size.SMALL).getSize(), is(equalTo(Size.SMALL)));
 	}
 	
 	@Test
 	void WA9_newWandWithSizeSpecifiedAsMediumInConstructorCreatesAMediumWand() {
-		assertThat(new Wand(Size.MEDIUM, MAP_POSITION).getSize(), is(equalTo(Size.MEDIUM)));
+		assertThat(new Wand(Size.MEDIUM).getSize(), is(equalTo(Size.MEDIUM)));
 	}
 	
 	@Test
 	void WA10_newWandWithSizeSpecifiedAsLargeInConstructorCreatesALargeWand() {
-		assertThat(new Wand(Size.LARGE, MAP_POSITION).getSize(), is(equalTo(Size.LARGE)));
+		assertThat(new Wand(Size.LARGE).getSize(), is(equalTo(Size.LARGE)));
 	}
 	
 	@Test
 	void WA11_newWandWithConditionBetweenMinAndMaxSetsConditionInConstructor() {
-		assertThat(new Wand(50, MAP_POSITION).getCondition(), is(equalTo(50)));
+		assertThat(new Wand(50).getCondition(), is(equalTo(50)));
 	}
 	
 	@Test
 	void WA12_newWandWithConditionUnderMinimumThrowsIAE() {
-		assertThrows(IllegalArgumentException.class, () -> new Wand(Item.MIN_CONDITION - 1, MAP_POSITION));
+		assertThrows(IllegalArgumentException.class, () -> new Wand(Item.MIN_CONDITION - 1));
 	}
 	
 	@Test
 	void WA13_newWandWithConditionOverMaximumThrowsIAE() {
-		assertThrows(IllegalArgumentException.class, () -> new Wand(Item.MAX_CONDITION + 1, MAP_POSITION));
+		assertThrows(IllegalArgumentException.class, () -> new Wand(Item.MAX_CONDITION + 1));
 	}
 }

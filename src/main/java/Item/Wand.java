@@ -22,19 +22,19 @@ public class Wand extends Item {
 	public static final String[] JOB_CERTIFICATIONS = {"Magician", "Healer"};
 	public static final String[] RACE_CERTIFICATIONS = {"Human", "Ogre", "Elf"};
 	
-	public Wand(MapPosition mapPosition) {
-		this(DEFAULT_CONDITION, mapPosition);
+	public Wand() {
+		this(DEFAULT_CONDITION);
 	}
 	
-	public Wand(int condition, MapPosition mapPosition) {
-		this(condition, DEFAULT_SIZE, mapPosition);
+	public Wand(int condition) {
+		this(condition, DEFAULT_SIZE);
 	}
 	
-	public Wand(Size size, MapPosition mapPosition) {
-		this(DEFAULT_CONDITION, size, mapPosition);
+	public Wand(Size size) {
+		this(DEFAULT_CONDITION, size);
 	}
 	
-	public Wand(int condition, Size size, MapPosition mapPosition) {
-		super(WEIGHT, VALUE, JOB_CERTIFICATIONS, RACE_CERTIFICATIONS, size, TYPE, condition, mapPosition);
+	public Wand(int condition, Size size) {
+		super(WEIGHT, VALUE, JOB_CERTIFICATIONS, RACE_CERTIFICATIONS, size, TYPE, condition);
 	}
 }

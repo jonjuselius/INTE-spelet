@@ -23,19 +23,19 @@ public class Shield extends Item {
 	public static final String[] JOB_CERTIFICATIONS = {"Knight"};
 	public static final String[] RACE_CERTIFICATIONS = {"Human", "Ogre", "Elf"};
 	
-	public Shield(MapPosition mapPosition) {
-		this(DEFAULT_CONDITION, mapPosition);
+	public Shield() {
+		this(DEFAULT_CONDITION);
 	}
 	
-	public Shield(int condition, MapPosition mapPosition) {
-		this(condition, DEFAULT_SIZE, mapPosition);
+	public Shield(int condition) {
+		this(condition, DEFAULT_SIZE);
 	}
 	
-	public Shield(Size size, MapPosition mapPosition) {
-		this(DEFAULT_CONDITION, size, mapPosition);
+	public Shield(Size size) {
+		this(DEFAULT_CONDITION, size);
 	}
 	
-	public Shield(int condition, Size size, MapPosition mapPosition) {
-		super(WEIGHT, VALUE, JOB_CERTIFICATIONS, RACE_CERTIFICATIONS, size, TYPE, condition, mapPosition);
+	public Shield(int condition, Size size) {
+		super(WEIGHT, VALUE, JOB_CERTIFICATIONS, RACE_CERTIFICATIONS, size, TYPE, condition);
 	}
 }
