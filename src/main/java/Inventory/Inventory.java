@@ -33,7 +33,7 @@ public class Inventory {
 		this(new Item[0]);
 	}
 	
-	public Inventory(final Item... items) {
+	public Inventory(Item... items) {
 		if (items.length > CAPACITY) {
 			throw new IllegalArgumentException("Too many items specified in constructor");
 		}
@@ -62,10 +62,7 @@ public class Inventory {
 		return this.getSlots().size();
 	}
 	
-	public void add(final Item item) {
-		if (this.getItemSize() == CAPACITY) {
-			throw new IllegalArgumentException("Inventory is full!");
-		}
+	public void add(Item item) {
 		int position = -1;
 		for (int i = 0; i < slots.length; i++) {
 			if (slots[i] == null) {
@@ -76,7 +73,13 @@ public class Inventory {
 		add(item, position);
 	}
 	
-	public void add(final Item item, final int position) {
+	public void add(Item item, int position) {
+		if (item.isOwned()) {
+			throw new IllegalStateException("The item is already owned!");
+		}
+		if (isFull()) {
+			throw new IllegalArgumentException("Inventory is full!");
+		}
 		if (position < 0 || position >= CAPACITY) {
 			throw new IndexOutOfBoundsException("Position index is out of inventory boundaries");
 		}
@@ -84,9 +87,10 @@ public class Inventory {
 			throw new IllegalStateException("There is already an item on this slot");
 		}
 		slots[position] = item;
+		item.setOwned(true);
 	}
 	
-	public Item remove(final Item item) {
+	public Item remove(Item item) {
 		int position = -1;
 		for (int i = 0; i < slots.length; i++) {
 			if (slots[i] == item) {
@@ -100,7 +104,7 @@ public class Inventory {
 		return remove(position);
 	}
 	
-	public Item remove(final int position) {
+	public Item remove(int position) {
 		if (position < 0 || position >= CAPACITY) {
 			throw new IndexOutOfBoundsException("Position is out of inventory bounds!");
 		}
@@ -109,15 +113,24 @@ public class Inventory {
 		}
 		Item removedItem = slots[position];
 		slots[position] = null;
+		removedItem.setOwned(false);
 		return removedItem;
 	}
 	
-	public boolean contains(final Item item) {
+	public boolean contains(Item item) {
 		for (Item slot : slots) {
 			if (slot == item) {
 				return true;
 			}
 		}
 		return false;
+	}
+	
+	public boolean hasAvailableSpace() {
+		return getItemSize() < CAPACITY;
+	}
+	
+	public boolean isFull() {
+		return !hasAvailableSpace();
 	}
 }

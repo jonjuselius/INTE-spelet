@@ -41,6 +41,9 @@ public abstract class Item {
 	private List<String> jobCertifications; // ändra från list till set?
 	private List<String> raceCertifications;
 	private MapPosition mapPosition;
+	private boolean owned;
+	private boolean equipped;
+	private boolean enhanced;
 	
 	public Item(int weight, int value, String[] jobCertifications, String[] raceCertifications, Size size, Type type, int condition) {
 		if (condition < MIN_CONDITION || condition > MAX_CONDITION) {
@@ -95,5 +98,88 @@ public abstract class Item {
 		String race = character.getRace().getClass().getSimpleName();
 		String job = character.getJob().getClass().getSimpleName();
 		return getRaceCertifications().contains(race) && getJobCertifications().contains(job);
+	}
+	
+	public boolean isOwned() {
+		return owned;
+	}
+	
+	public boolean isEquipped() {
+		return equipped;
+	}
+	
+	public boolean isEnhanced() {
+		return enhanced;
+	}
+	
+	public void setOwned(boolean owned) {
+		this.owned = owned;
+	}
+	
+	public void setEquipped(boolean equipped) {
+		this.equipped = equipped;
+	}
+	
+	public void setEnhanced(boolean enhanced) {
+		this.enhanced = enhanced;
+	}
+	
+	public boolean isEquippable() {
+		return isOwned() && type == Type.WEAPON || type == Type.ARMOR || type == Type.JEWELLERY;
+	}
+	
+	public boolean isEnhancable() {
+		return size == Size.SMALL;
+	}
+	
+	public boolean canBeGiven(Character from, Character to) {
+		return from.canGive(this) && to.canReceive(this);
+	}
+	
+	public boolean canBeSold(Character seller, Character buyer) {
+		return seller.canSell(this) && buyer.canBuy(this);
+	}
+	
+	public boolean canBeEatenBy(Character character) {
+		return isFood() && canBeUsedBy(character);
+	}
+	
+	public boolean isDestroyable() {
+		return condition > MIN_CONDITION;
+	}
+	
+	public boolean isRecoverable() {
+		return condition < MAX_CONDITION;
+	}
+	
+	public void becomeDestroyed() {
+		condition = MIN_CONDITION;
+	}
+	
+	public void becomeRecovered() {
+		condition = MAX_CONDITION;
+	}
+	
+	public void becomeDamaged(int amount) {
+		condition -= amount;
+		if (condition < MIN_CONDITION) {
+			becomeDestroyed();
+		}
+	}
+	
+	public void becomeRestored(int amount) {
+		condition += amount;
+		if (condition > MAX_CONDITION) {
+			becomeRecovered();
+		}
+	}
+	
+	public boolean isFood() {
+		return type == Type.FOOD;
+	}
+	
+	@Override
+	public String toString() {
+		return this.getClass().getSimpleName().toString();
 	}
 }

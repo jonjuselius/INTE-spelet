@@ -1,14 +1,16 @@
 package GameCharacters;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
+import Item.*;
 import Jobs.Healer;
 import Jobs.Knight;
 import Jobs.Magician;
 import org.junit.jupiter.api.Test;
 import Races.*;
 import Map.*;
-
-//import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.*;
 
 class CharacterTest {
 	private Map testMap = createTestMap();
@@ -505,5 +507,148 @@ class CharacterTest {
 	void elfCanMoveOnLava() {
 
 	}
-
+	
+	@Test
+	void newCharacterHasNoMoney() {
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		assertThat(character.getMoney(), is(equalTo(0)));
+	}
+	
+	@Test
+	void characterCanGainMoney() {
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		character.gainMoney(1000);
+		assertThat(character.getMoney(), is(equalTo(1000)));
+	}
+	
+	@Test
+	void characterCanLoseMoney() {
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		character.gainMoney(1000);
+		character.loseMoney(500);
+		assertThat(character.getMoney(), is(equalTo(500)));
+	}
+	
+	@Test
+	void characterCanLoseMoreMoneyThanIsOwned() {
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		character.gainMoney(500);
+		character.loseMoney(1000);
+		assertThat(character.getMoney(), is(equalTo(-500)));
+	}
+	
+	@Test
+	void characterWithMoneyUnder5000CantAffordARing() {
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		character.gainMoney(4000);
+		assertFalse(character.canAfford(new Ring()));
+	}
+	
+	@Test
+	void characterWithMoneyOver5000CantAffordARing() {
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		character.gainMoney(6000);
+		assertTrue(character.canAfford(new Ring()));
+	}
+	
+	@Test
+	void characterCanEquipOwnedWeapon() {
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Item sword = new Sword();
+		character.gain(sword);
+		assertTrue(character.canEquip(sword));
+	}
+	
+	@Test
+	void characterCantEquipUnownedWeapon() {
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Item sword = new Sword();
+		assertFalse(character.canEquip(sword));
+	}
+	
+	@Test
+	void characterCantEquipFood() {
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Item egg = new Egg();
+		character.gain(egg);
+		assertFalse(character.canEquip(egg));
+	}
+	
+	@Test
+	void characterCantEatJewewllery() {
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Item ring = new Ring();
+		character.gain(ring);
+		assertFalse(character.canEat(ring));
+	}
+	
+	@Test
+	void characterCanEatFood() {
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Item egg = new Egg();
+		character.gain(egg);
+		assertTrue(character.canEat(egg));
+	}
+	
+	@Test
+	void usingWeaponMakesItDamaged() {
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Item sword = new Sword();
+		character.gain(sword);
+		character.use(sword);
+		assertThat(sword.getCondition(), is(equalTo(Item.MAX_CONDITION - 10)));
+	}
+	
+	@Test
+	void eatingFoodMakesItDestroyed() {
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Item egg = new Egg();
+		character.gain(egg);
+		character.eat(egg);
+		assertThat(egg.getCondition(), is(equalTo(Item.MIN_CONDITION)));
+	}
+	
+	@Test
+	void tryingToEatNonFoodThrowsException() {
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Item sword = new Sword();
+		character.gain(sword);
+		assertThrows(IllegalArgumentException.class, () -> {
+			character.eat(sword);
+		});
+	}
+	
+	@Test
+	void damagingAnItemDecreasesItsCondition() {
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Item sword = new Sword();
+		character.damage(sword, 10);
+		assertThat(sword.getCondition(), is(equalTo(Item.MAX_CONDITION - 10)));
+	}
+	
+	@Test
+	void restoringAnItemIncreasesItsCondition() {
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Item sword = new Sword();
+		character.destroy(sword);
+		character.restore(sword, 10);
+		assertThat(sword.getCondition(), is(equalTo(Item.MIN_CONDITION + 10)));
+	}
+	
+	@Test
+	void destroyingAnItemDecreasesItsConditionToMinCondition() {
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Item sword = new Sword();
+		character.destroy(sword);
+		assertThat(sword.getCondition(), is(equalTo(Item.MIN_CONDITION)));
+	}
+	
+	@Test
+	void recoveringAnItemIncreasesItsConditionToMaxCondition() {
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Item sword = new Sword();
+		character.destroy(sword);
+		character.recover(sword);
+		assertThat(sword.getCondition(), is(equalTo(Item.MAX_CONDITION)));
+	}
 }
