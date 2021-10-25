@@ -24,16 +24,14 @@ class GameMapTest {
 
     @Test
     void constructorThrowsIAEWhenNegativeWidth() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            new GameMap(-1, 5);
-        });
+        assertThrows(IllegalArgumentException.class, () ->
+            new GameMap(-1, 5));
     }
 
     @Test
     void constructorThrowsIAEWhenNegativeHeight() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            new GameMap(5, -1);
-        });
+        assertThrows(IllegalArgumentException.class, () ->
+            new GameMap(5, -1));
     }
 
     @Test
@@ -49,9 +47,9 @@ class GameMapTest {
         //Kolla både x och y?
         GameMap map = new GameMap(3, 6);
         GameMapPosition tile = new GameMapPosition(3, 7);
-        assertThrows(IllegalArgumentException.class, () -> {
-            map.putTileOnMap(tile, tile.getXPos(), tile.getYPos());
-        });
+        assertThrows(IllegalArgumentException.class, () ->
+            map.putTileOnMap(tile, tile.getXPos(), tile.getYPos())
+        );
     }
 
     @Test
