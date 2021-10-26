@@ -72,7 +72,7 @@ public abstract class Item {
 		return type;
 	}
 
-	public GameMapPosition getMapPosition() {
+	public GameMapPosition getPosition() {
 		return mapPosition;
 	}
 
