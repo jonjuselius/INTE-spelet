@@ -7,15 +7,17 @@ import Races.*;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Random;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class DamageDealingTest {
 
+    public static final GameMapGenerator MAP_GENERATOR = new GameMapGenerator(4, 4);
+    public static final GameMap MAP = MAP_GENERATOR.generate(1);
+    public static final GameMapPosition MAP_POSITION = MAP.generateRandomPos(new Random(), new Random());
     private Human human = new Human();
     private Magician magician = new Magician();
-    private MapGenerator MAP_GENERATOR = new MapGenerator(4, 4);
-    private Map MAP = MAP_GENERATOR.generate(1);
-    private MapPosition MAP_POSITION = MAP.getMapTiles()[2][2];
 
     @Test
     void damageDealingSpellConstructor(){
@@ -59,7 +61,7 @@ class DamageDealingTest {
     void castThrowsExceptionWhenManaTooLow() {
         DamageDealingSpell dd = new DamageDealingSpell("Implode", 305, Element.FIRE, 100);
         Player p = new Player("Player1", human, magician, true, MAP_POSITION);
-        Adversary a = new Adversary("Bandit", human, magician, true, 5, MAP.generateRandomPos(1, 1));
+        Adversary a = new Adversary("Bandit", human, magician, true, 5, MAP_POSITION);
 
         assertThrows(IllegalStateException.class, ()-> dd.cast(p,a));
     }
@@ -68,7 +70,7 @@ class DamageDealingTest {
     void castDecreasesCorrectMana() {
         DamageDealingSpell dd = new DamageDealingSpell("Stonefist", 25, Element.PHYSICAL, 5);
         Player p = new Player("Player1", human, magician, true, MAP_POSITION);
-        Adversary a = new Adversary("Bandit", human, magician, true, 5, MAP.generateRandomPos(1, 1));
+        Adversary a = new Adversary("Bandit", human, magician, true, 5, MAP_POSITION);
         dd.cast(p,a);
         assertEquals(275, p.getRemainingMana());
     }
@@ -77,7 +79,7 @@ class DamageDealingTest {
     void castDealsCorrectDamage(){
         DamageDealingSpell dd = new DamageDealingSpell("Stonefist", 25, Element.PHYSICAL, 5);
         Player p = new Player("Player1", human, magician, true, MAP_POSITION);
-        Adversary a = new Adversary("Bandit", human, magician, true, 1, MAP.generateRandomPos(1, 1));
+        Adversary a = new Adversary("Bandit", human, magician, true, 1, MAP_POSITION);
         dd.cast(p,a);
 
         assertEquals(95, a.getRemainingHealth());

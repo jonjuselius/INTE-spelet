@@ -3,18 +3,13 @@ package Jobs;
 //import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
-import Map.Map;
-import Map.MapGenerator;
+import Map.GameMap;
+import Map.GameMapGenerator;
 import org.junit.jupiter.api.Test;
 
-import GameCharacters.Player;
-import Races.Elf;
-import Races.Human;
-import Races.Ogre;
-
 class JobTest {
-	private static final MapGenerator MAP_GENERATOR = new MapGenerator(4, 4);
-	public static final Map MAP = MAP_GENERATOR.generate(1);
+	private static final GameMapGenerator MAP_GENERATOR = new GameMapGenerator(4, 4);
+	public static final GameMap MAP = MAP_GENERATOR.generate(1);
 
 	void knightConstructor() {
 

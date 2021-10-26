@@ -4,36 +4,34 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class MapPositionTest {
+class GameMapPositionTest {
     private static final int FAKE_RANDOM = 1;
-    private static final MapGenerator MAP_GENERATOR = new MapGenerator(4, 4);
-    private static final Map MAP = MAP_GENERATOR.generate(FAKE_RANDOM);
-    private static final MapPosition MAP_POSITION = MAP.getMapTiles()[2][2];
+    private static final GameMapGenerator MAP_GENERATOR = new GameMapGenerator(4, 4);
+    private static final GameMap MAP = MAP_GENERATOR.generate(FAKE_RANDOM);
+    private static final GameMapPosition MAP_POSITION = MAP.getMapTiles()[2][2];
 
     @Test
     void constructorSetsXPos() {
-        MapPosition position = new MapPosition(1, 2, MAP);
+        GameMapPosition position = new GameMapPosition(1, 2);
         assertEquals(1, position.getXPos());
     }
 
     @Test
     void constructorSetsYPos() {
-        MapPosition position = new MapPosition(2, 3, MAP);
+        GameMapPosition position = new GameMapPosition(2, 3);
         assertEquals(3, position.getYPos());
     }
 
     @Test
     void constructorThrowsIAENegativeXPOS() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            new MapPosition(-1, 3, MAP);
-        });
+        assertThrows(IllegalArgumentException.class, () ->
+            new GameMapPosition(-1, 3));
     }
 
     @Test
     void constructorThrowIAENegativeYPos() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            new MapPosition(3, -1, MAP);
-        });
+        assertThrows(IllegalArgumentException.class, () ->
+            new GameMapPosition(3, -1));
     }
 
 //    @Test
@@ -43,11 +41,11 @@ class MapPositionTest {
 //        assertEquals(Terrain.LAVA, position.getTerrain());
 //    }
 
-    @Test
-    void constructorSetsMap() {
-        MapPosition position = new MapPosition(0, 0, MAP);
-        assertEquals(MAP, position.getMap());
-    }
+//    @Test
+//    void constructorSetsMap() {
+//        MapPosition position = new MapPosition(0, 0, MAP);
+//        assertEquals(MAP, position.getMap());
+//    }
 
     @Test
     void setTerrainSetsTerrain() {
@@ -70,15 +68,15 @@ class MapPositionTest {
 
     @Test
     void neighborsSetCorrectly() {
-        MapPosition west = new MapPosition(0, 1, MAP);
-        MapPosition east = new MapPosition(1, 0, MAP);
-        MapPosition north = new MapPosition(1, 2, MAP);
-        MapPosition south = new MapPosition(2, 1, MAP);
+        GameMapPosition west = new GameMapPosition(0, 1);
+        GameMapPosition east = new GameMapPosition(1, 0);
+        GameMapPosition north = new GameMapPosition(1, 2);
+        GameMapPosition south = new GameMapPosition(2, 1);
         MAP_POSITION.setNeighbors(west, east, north, south);
-        assertEquals(west, MAP_POSITION.getNeighbors()[0]);
-        assertEquals(east, MAP_POSITION.getNeighbors()[1]);
-        assertEquals(north, MAP_POSITION.getNeighbors()[2]);
-        assertEquals(south, MAP_POSITION.getNeighbors()[3]);
+        assertEquals(west, MAP_POSITION.getWestNeighbor());
+        assertEquals(east, MAP_POSITION.getEastNeighbor());
+        assertEquals(north, MAP_POSITION.getNorthNeighbor());
+        assertEquals(south, MAP_POSITION.getSouthNeighbor());
     }
 
 

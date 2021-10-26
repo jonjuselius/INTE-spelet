@@ -1,4 +1,8 @@
 package GameCharacters;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -10,31 +14,42 @@ import Item.*;
 import Jobs.Healer;
 import Jobs.Knight;
 import Jobs.Magician;
-import org.junit.jupiter.api.Test;
 import Races.*;
 import Map.*;
 
 class CharacterTest {
-	private Map testMap = createTestMap();
+	private GameMap testMap = createTestMap();
 	private Human human = new Human();
 	private Magician magician = new Magician();
-	private MapPosition defaultPosition = new MapPosition(0, 0, testMap);
+	private GameMapPosition defaultPosition = testMap.getMapTiles()[0][0];
 
-	private Map createTestMap() {
-		Map map = new Map(2, 2);
-		MapPosition firstPos = new MapPosition(0, 0, map);
+	private GameMap createTestMap() {
+		GameMap map = new GameMap(2, 2);
+		GameMapPosition firstPos = new GameMapPosition(0, 0);
 		firstPos.setTerrain(Terrain.GRASS);
-		MapPosition secondPos = new MapPosition(0, 1, map);
+		GameMapPosition secondPos = new GameMapPosition(0, 1);
 		secondPos.setTerrain(Terrain.WATER);
-		MapPosition thirdPos = new MapPosition(1, 0, map);
+		GameMapPosition thirdPos = new GameMapPosition(1, 0);
 		thirdPos.setTerrain(Terrain.GRASS);
-		MapPosition fourthPos = new MapPosition(1, 1, map);
+		GameMapPosition fourthPos = new GameMapPosition(1, 1);
 		fourthPos.setTerrain(Terrain.LAVA);
-		map.put(firstPos, firstPos.getXPos(), firstPos.getXPos());
-		map.put(secondPos, secondPos.getXPos(), secondPos.getYPos());
-		map.put(thirdPos, thirdPos.getXPos(), thirdPos.getYPos());
-		map.put(fourthPos, fourthPos.getXPos(), fourthPos.getYPos());
-		return testMap;
+
+		firstPos.setNeighbors(null, thirdPos, secondPos, null);
+		secondPos.setNeighbors(null, fourthPos, null, firstPos);
+		thirdPos.setNeighbors(firstPos, null, fourthPos, null);
+		fourthPos.setNeighbors(secondPos, null, null, thirdPos);
+
+		map.putTileOnMap(firstPos, firstPos.getXPos(), firstPos.getYPos());
+		map.putTileOnMap(secondPos, secondPos.getXPos(), secondPos.getYPos());
+		map.putTileOnMap(thirdPos, thirdPos.getXPos(), thirdPos.getYPos());
+		map.putTileOnMap(fourthPos, fourthPos.getXPos(), fourthPos.getYPos());
+		return map;
+	}
+
+	@Test
+	void constructorSetsGameMapPosition() {
+		Player player = new Player("Player", human, magician, true, defaultPosition);
+		assertThat(player.getPosition(), equalTo(defaultPosition));
 	}
 
 	@Test
@@ -410,64 +425,91 @@ class CharacterTest {
 	 */
 	@Test
 	void positionChangesWhenPlayerMovesNorth() {
-
+		Player human_player = new Player("Human", human, magician, true, defaultPosition);
+		GameMapPosition newPos = testMap.getMapTiles()[0][1];
+		assertThat(newPos, equalTo(human_player.moveNorth()));
 	}
 
 	@Test
 	void positionChangesWhenPlayerMovesSouth() {
-
+		Player human_player = new Player("Human", human, magician, true, testMap.getMapTiles()[0][1]);
+		GameMapPosition newPos = testMap.getMapTiles()[0][0];
+		assertThat(newPos, equalTo(human_player.moveSouth()));
 	}
 
 	@Test
 	void positionChangesWhenPlayerMovesWest() {
-
+		Player human_player = new Player("Human", human, magician, true, testMap.getMapTiles()[1][0]);
+		GameMapPosition newPos = testMap.getMapTiles()[0][0];
+		assertThat(newPos, equalTo(human_player.moveWest()));
 	}
 
 	@Test
 	void positionChangesWhenPlayerMovesEast() {
-
+		Player human_player = new Player("Human", human, magician, true, defaultPosition);
+		GameMapPosition newPos = testMap.getMapTiles()[1][0];
+		assertThat(newPos, equalTo(human_player.moveEast()));
 	}
+
+//	public final class FailsWithException<Ex extends Throwable> {
+//
+//		private final Ex matcher;
+//
+//		public FailsWithException(final Ex matcher) {
+//			this.matcher = matcher;
+//		}
+//
+////		public Ex failsWith() {
+////			return new FailsWithException<Ex>(new IllegalArgumentException);
+////		}
+//
+//		public String message() {
+//			return "You can't move out of the map!";
+//		}
+//	}
 
 	@Test
 	void IAEThrownWhenTryingToWalkOutsideMapNorth() {
-
+		fail("Not implemented yet");
+		//Player human_player = new Player("Human", human, magician, true, testMap.getMapTiles()[0][1]);
+		//assertThat({human_player.moveNorth()}, throws());
 	}
 
 	@Test
 	void IAEThrownWhenTryingToWalkOutsideMapSouth() {
-
+		fail("Not implemented yet");
+		//Player human_player = new Player("Human", human, magician, true, defaultPosition);
 	}
 
 	@Test
 	void IAEThrownWhenTryingToWalkOutsideMapWest() {
-
+		fail("Not implemented yet");
+		//Player human_player = new Player("Human", human, magician, true, defaultPosition);
 	}
 
 	@Test
 	void IAEThrownWhenTryingToWalkOutsideMapEast() {
-
+		fail("Not implemented yet");
+		//Player human_player = new Player("Human", human, magician, true, defaultPosition);
 	}
 
 	@Test
 	void IAEThrownWhenTryingToWalkDeadPlayer() {
-
+		fail("Not implemented yet");
+		//Player human_player = new Player("Human", human, magician, true, defaultPosition);
 	}
 
 	@Test
 	void humanCanMoveOnGrass() {
 		Player human_player = new Player("Human", human, magician, true, defaultPosition);
-		MapPosition currentPos = human_player.getPosition();
-		MapPosition grassPosToVisit = testMap.getMapTiles()[1][0];
-
+		GameMapPosition grassPosToVisit = testMap.getMapTiles()[1][0];
 		assertEquals(grassPosToVisit, human_player.moveEast());
 	}
 
 	@Test
 	void humanCanMoveInWater() {
 		Player human_player = new Player("Human", human, magician, true, defaultPosition);
-		MapPosition currentPos = human_player.getPosition();
-		MapPosition waterPosToVisit = testMap.getMapTiles()[0][1];
-
+		GameMapPosition waterPosToVisit = testMap.getMapTiles()[0][1];
 		assertEquals(waterPosToVisit, human_player.moveNorth());
 	}
 
@@ -476,38 +518,50 @@ class CharacterTest {
 		Player human_player = new Player("Human", human, magician, true, defaultPosition);
 		human_player.moveEast();
 		human_player.moveNorth();
-
-		assertEquals(false, human_player.isAlive());
+		assertFalse(human_player.isAlive());
 	}
 
 	@Test
 	void ogreCanMoveOnGrass() {
-
+		Player ogre = new Player("Ogre", new Ogre(), magician, true, defaultPosition);
+		GameMapPosition grassPosToVisit = testMap.getMapTiles()[1][0];
+		assertEquals(grassPosToVisit, ogre.moveEast());
 	}
 
 	@Test
 	void ogreMovesOutOfWaterWhenInWater() {
-
+		Player ogre = new Player("Ogre", new Ogre(), magician, true, defaultPosition);
+		assertEquals(ogre.getPosition(), ogre.moveNorth());
 	}
 
 	@Test
 	void ogreDiesInLava() {
-
+		Player ogre = new Player("Ogre", new Ogre(), magician, true, defaultPosition);
+		ogre.moveEast();
+		ogre.moveNorth();
+		assertFalse(ogre.isAlive());
 	}
 
 	@Test
 	void elfCanMoveOnGrass() {
-
+		Player elf = new Player("Elf", new Elf(), magician, true, defaultPosition);
+		GameMapPosition grassPosToVisit = testMap.getMapTiles()[1][0];
+		assertEquals(grassPosToVisit, elf.moveEast());
 	}
 
 	@Test
 	void elfCanMoveOnWater() {
-
+		Player elf = new Player("Elf", new Elf(), magician, true, defaultPosition);
+		GameMapPosition waterPosToVisit = testMap.getMapTiles()[0][1];
+		assertEquals(waterPosToVisit, elf.moveNorth());
 	}
 
 	@Test
 	void elfCanMoveOnLava() {
-
+		Player elf = new Player("Elf", new Elf(), magician, true, defaultPosition);
+		GameMapPosition lavaPosToVisit = testMap.getMapTiles()[1][1];
+		elf.moveEast();
+		assertEquals(lavaPosToVisit, elf.moveNorth());
 	}
 	
 	@Test

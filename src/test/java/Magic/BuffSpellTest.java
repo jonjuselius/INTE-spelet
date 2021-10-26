@@ -2,22 +2,22 @@ package Magic;
 
 import GameCharacters.Player;
 import Jobs.Magician;
-import Map.Map;
+import Map.GameMap;
 import Races.Human;
 import Map.*;
 import org.junit.jupiter.api.Test;
-import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class BuffSpellTest {
 
-    private static final MapGenerator MAP_GENERATOR = new MapGenerator(4, 4);
-    public static final Map MAP = MAP_GENERATOR.generate(1);
-    private static final MapPosition MAP_POSITION = MAP.getMapTiles()[2][2];
+    public static final GameMapGenerator MAP_GENERATOR = new GameMapGenerator(4, 4);
+    public static final GameMap MAP = MAP_GENERATOR.generate(1);
+    public static final GameMapPosition MAP_POSITION = MAP.generateRandomPos(new Random(), new Random());
     Human human = new Human();
     Magician magician = new Magician();
 

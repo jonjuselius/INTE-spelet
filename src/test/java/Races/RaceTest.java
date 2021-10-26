@@ -1,19 +1,16 @@
 package Races;
 
-import Jobs.*;
-import GameCharacters.*;
-
 //import static org.junit.Assert.assertEquals;
 //import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.*;
 
-import Map.Map;
-import Map.MapGenerator;
+import Map.GameMap;
+import Map.GameMapGenerator;
 import org.junit.jupiter.api.Test;
 
 class RaceTest {
-	private static final MapGenerator MAP_GENERATOR = new MapGenerator(4, 4);
-	public static final Map MAP = MAP_GENERATOR.generate(1);
+	private static final GameMapGenerator MAP_GENERATOR = new GameMapGenerator(4, 4);
+	public static final GameMap MAP = MAP_GENERATOR.generate(1);
 	// human health 100, elf health 200, oger health 300, max �r + 100
 	@Test
 	void elfConstructor() {

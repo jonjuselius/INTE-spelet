@@ -1,17 +1,13 @@
 package GameCharacters;
 
 import Inventory.*;
-import Item.*;
 import Jobs.Job;
 import Magic.SpellCollection;
 import Map.*;
 import Races.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 public abstract class Character {
+
 	private String name;
 	private boolean isAlive;
 	private Race race;
@@ -33,20 +29,16 @@ public abstract class Character {
 	private int remainingMana;
 
 	private SpellCollection spellCollection;
-	private MapPosition position;
-	
 	private Inventory inventory;
-	private List<Item> equippedItems;
-	private int money;
+	private GameMapPosition position;
 
-	public Character(String name, Race race, Job job, boolean isAlive, MapPosition position) {
+	public Character(String name, Race race, Job job, boolean isAlive, GameMapPosition position) {
 		this.name = name;
 		this.race = race;
 		this.job = job;
 		isAlive = true;
+		this.inventory = inventory;
 		this.position = position;
-		this.inventory = new Inventory();
-		this.equippedItems = new ArrayList<>();
 
 		setRemainingHealth(race.getMaxHealth());
 		setStrength(race.getStrength());
@@ -67,8 +59,12 @@ public abstract class Character {
 		return name;
 	}
 
-	public MapPosition getPosition() {
+	public GameMapPosition getPosition() {
 		return position;
+	}
+
+	public void setPosition(GameMapPosition position) {
+		this.position = position;
 	}
 
 	public void increaseHealth(int hp) {
@@ -90,15 +86,11 @@ public abstract class Character {
 	public boolean isAlive() {
 		return isAlive;
 	}
-	
-	public Job getJob() {
-		return job;
+
+	public void die() {
+		isAlive = false;
 	}
-	
-	public Race getRace() {
-		return race;
-	}
-	
+
 	public int getStrength() {
 		return strength;
 	}
@@ -289,186 +281,17 @@ public abstract class Character {
 		this.level = level;
 	}
 
-	
-	
-	
-	
-	
 	public Inventory getInventory() {
 		return inventory;
 	}
-	
-	public List<Item> getItems() {
-		return Collections.unmodifiableList(inventory.getItems());
-	}
-	
-	public List<Item> getEquippedItems() {
-		return Collections.unmodifiableList(equippedItems);
-	}
-	
-	public int getMoney() {
-		return money;
-	}
-	
-	private void setMoney(int money) {
-		this.money = money;
-	}
-	
-	public void gainMoney(int money) {
-		setMoney(getMoney() + money);
-	}
-	
-	public void loseMoney(int money) {
-		setMoney(getMoney() - money);
-	}
-	
-	public boolean canAfford(Item item) {
-		return this.money >= item.getValue();
-	}
-	
-	public void gain(Item item) {
-		inventory.add(item);
-	}
-	
-	public void lose(Item item) {
-		if (hasEquipped(item)) {
-			unequip(item);
-		}
-		inventory.remove(item);
-	}
-	
-	public boolean owns(Item item) {
-		return inventory.contains(item);
-	}
-	
-	public boolean canEquip(Item item) {
-		return item.isEquippable();
-	}
-	
-	public void equip(Item item) {
-		if (!canEquip(item)) {
-			throw new IllegalArgumentException("The item can't be equipped!");
-		}
-		equippedItems.add(item);
-		item.setEquipped(true);
+
+	public Job getJob() {
+		return job;
 	}
 
-	public void unequip(Item item) {
-		if (!hasEquipped(item)) {
-			throw new IllegalArgumentException("Can't unequip an item that is not equipped!");
-		}
-		equippedItems.remove(item);
-		item.setEquipped(false);
+	public Race getRace() {
+		return race;
 	}
-	
-	public boolean hasEquipped(Item item) {
-		return equippedItems.contains(item);
-	}
-	
-	public void give(Item item, Character recipient) {
-		if (!item.canBeGiven(this, recipient)) {
-			throw new IllegalArgumentException("This item can't be given");
-		}
-		this.lose(item);
-		recipient.gain(item);
-	}
-	
-	public boolean canGive(Item item) {
-		return owns(item) && !hasEquipped(item);
-	}
-	
-	public boolean canReceive(Item item) {
-		return !owns(item) && getInventory().hasAvailableSpace();
-	}
-	
-	public void buy(Item item, Character other) {
-		int price = item.getValue();
-		Character buyer = this;
-		Character seller = other;
-		if (!item.canBeSold(seller, buyer)) {
-			throw new IllegalArgumentException("The item can't be bought");
-		}
-		seller.give(item, buyer);
-		seller.gainMoney(price);
-		buyer.loseMoney(price);
-	}
-	
-	public void sell(Item item, Character other) {
-		int price = item.getValue();
-		Character buyer = other;
-		Character seller = this;
-		if (!item.canBeSold(seller, buyer)) {
-			throw new IllegalArgumentException("The item can't be sold");
-		}
-		seller.give(item, buyer);
-		seller.gainMoney(price);
-		buyer.loseMoney(price);
-	}
-	
-	public boolean canBuy(Item item) {
-		return canReceive(item) && canAfford(item);
-	}
-	
-	public boolean canSell(Item item) {
-		return canGive(item);
-	}
-	
-	public boolean canUse(Item item) {
-		return item.canBeUsedBy(this);
-	}
-	
-	public boolean canEat(Item item) {
-		return item.canBeEatenBy(this);
-	}
-	
-	public void use(Item item) {
-		if (!item.canBeUsedBy(this)) {
-			throw new IllegalArgumentException("Item can't be used");
-		}
-		if (item.isFood()) {
-			destroy(item);
-		} else {
-			damage(item, 10);
-		}
-	}
-	
-	public void eat(Item item) {
-		if (!item.isFood()) {
-			throw new IllegalArgumentException("Item can't be eaten");
-		}
-		use(item);
-	}
-	
-	public void enhance(Item item) {
-		if (!item.isEnhancable()) {
-			throw new IllegalArgumentException();
-		}
-		item.setEnhanced(true);
-	}
-	
-	public void destroy(Item item) {
-		if (!item.isDestroyable()) {
-			throw new IllegalArgumentException();
-		}
-		item.becomeDestroyed();
-	}
-	
-	public void recover(Item item) {
-		if (!item.isRecoverable()) {
-			throw new IllegalArgumentException();
-		}
-		item.becomeRecovered();
-	}
-	
-	public void damage(Item item, int amount) {
-		item.becomeDamaged(10);
-	}
-	
-	public void restore(Item item, int amount) {
-		item.becomeRestored(10);
-	}
+
 }
 
-// Level up if high attributes
-
-//	
