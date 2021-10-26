@@ -5,24 +5,42 @@ import Jobs.Magician;
 import Map.GameMap;
 import Races.Human;
 import Map.*;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import org.mockito.ArgumentCaptor;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class BuffSpellTest {
 
     public static final GameMapGenerator MAP_GENERATOR = new GameMapGenerator(4, 4);
     public static final GameMap MAP = MAP_GENERATOR.generate(1);
     public static final GameMapPosition MAP_POSITION = MAP.generateRandomPos(new Random(), new Random());
-    Human human = new Human();
-    Magician magician = new Magician();
+    private static Human human;
+    private static Magician magician;
+    private static Player p;
+
+    @BeforeAll
+    static void setup(){
+        human = new Human();
+        magician = new Magician();
+        p = mock(Player.class);
+        //p.setIntelligence(20);
+
+        //when(p.getStrength()).thenReturn(p.getRace().getStrength());
+        when(p.getIntelligence()).thenReturn(20);
+        when(p.getMagicSkill()).thenReturn(10);
+        when(p.getRace()).thenReturn(human);
+        when(p.getJob()).thenReturn(magician);
+    }
+
 
     @Test
-    void buffSpellConstructor(){
+    public void buffSpellConstructor(){
         BuffSpell bs = new BuffSpell("StrengthBuff", 10, Element.PHYSICAL, 5);
 
         assertEquals("StrengthBuff", bs.getName());
@@ -32,7 +50,7 @@ class BuffSpellTest {
     }
 
     @Test
-    void physicalBuffSpellIncreasesAndDecreasesStrength(){
+    public void physicalBuffSpellIncreasesAndDecreasesStrength(){
         List<Integer> strengthStats = new ArrayList<>();
         BuffSpell bs = new BuffSpell("StrengthBuff", 10, Element.PHYSICAL, 5);
         Player p = new Player("Player1", human, magician, true, MAP_POSITION){
@@ -51,7 +69,7 @@ class BuffSpellTest {
     }
 
     @Test
-    void buffSpellLastsCorrectDuration(){
+    public void buffSpellLastsCorrectDuration(){
         List<Integer> strengthStats = new ArrayList<>();
         BuffSpell bs = new BuffSpell("StrengthBuff", 10, Element.PHYSICAL, 5);
         Player p = new Player("Player1", human, magician, true, MAP_POSITION){
@@ -63,11 +81,23 @@ class BuffSpellTest {
         };
         bs.cast(p,p,10);
         long duration = (strengthStats.get(2) - strengthStats.get(0)) / 1000000;
-        System.out.println(strengthStats);
-        System.out.println(duration);
 
         assertEquals(3, strengthStats.size());
         assertTrue(duration > 8 && duration < 30);
+
+    }
+
+    @Test
+    public void fireBuffSpellIncreasesAndDecreasesIntelligence(){
+        BuffSpell bs = new BuffSpell("IntelligenceBuff", 10, Element.FIRE, 5);
+        bs.cast(p,p,1);
+
+        ArgumentCaptor<Integer> argumentCaptor = ArgumentCaptor.forClass(int.class);
+        verify(p,times(2)).setIntelligence(argumentCaptor.capture());
+        List<Integer> intelligenceStats = argumentCaptor.getAllValues();
+
+        assertEquals(40, intelligenceStats.get(0));
+        assertEquals(20, intelligenceStats.get(1));
 
     }
 }

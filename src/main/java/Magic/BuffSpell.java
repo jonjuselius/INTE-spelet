@@ -29,14 +29,17 @@ public class BuffSpell extends Spell {
     public void cast(Character spellCaster, Character target, long duration){
 
         switch (this.getElement()){
-            case PHYSICAL -> {
-                physicalBuffSpell(spellCaster, target, duration);
-            }
+            case PHYSICAL -> physicalBuffSpell(spellCaster, target, duration);
+            case FIRE -> fireBuffSpell(spellCaster, target, duration);
         }
     }
 
-    private long calculateDuration(Character spellcaster){
-        return (spellcaster.getMagicSkill() * 2L) * 1000;
+    private long calculateDuration(Character spellCaster){
+        return (spellCaster.getMagicSkill() * 2L) * 1000;
+    }
+
+    private int calculateSpellStrength(Character spellCaster){
+        return (int) Math.round(spellStrength * 0.1 + (spellCaster.getMagicSkill() * 0.1));
     }
 
     private void buffDuration(long duration){
@@ -48,14 +51,23 @@ public class BuffSpell extends Spell {
     }
 
     private void physicalBuffSpell(Character spellCaster, Character target, long duration){
-        increaseStrength(target);
+        increaseStrength(spellCaster, target);
         buffDuration(duration);
         target.setStrength(target.getRace().getStrength());
     }
 
-    private void increaseStrength(Character target){
-        int strengthFactor = (int) Math.round(spellStrength * 0.3);
-        target.setStrength(target.getStrength() * strengthFactor);
+    private void increaseStrength(Character spellCaster, Character target){
+        target.setStrength(target.getStrength() * calculateSpellStrength(spellCaster));
+    }
+
+    private void fireBuffSpell(Character spellCaster, Character target, long duration){
+        increaseIntelligence(spellCaster, target);
+        buffDuration(duration);
+        target.setIntelligence(target.getRace().getIntelligence());
+    }
+
+    private void increaseIntelligence(Character spellCaster, Character target){
+        target.setIntelligence(target.getIntelligence() * calculateSpellStrength(spellCaster));
     }
 
 
