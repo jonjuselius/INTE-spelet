@@ -7,12 +7,14 @@ import Map.*;
 import Races.*;
 import org.junit.jupiter.api.Test;
 
+import java.util.Random;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class HealingSpellTest {
-    private static final GameMapGenerator MAP_GENERATOR = new GameMapGenerator(4, 4);
+    public static final GameMapGenerator MAP_GENERATOR = new GameMapGenerator(4, 4);
     public static final GameMap MAP = MAP_GENERATOR.generate(1);
-    private static final GameMapPosition MAP_POSITION = MAP.getMapTiles()[2][2];
+    public static final GameMapPosition MAP_POSITION = MAP.generateRealRandomPos(new Random(), new Random());
     Human human = new Human();
     Magician magician = new Magician();
     Healer healer = new Healer();
@@ -81,7 +83,7 @@ class HealingSpellTest {
     void exceptionThrownWhenNotEnoughManaForCast(){
         HealingSpell hs = new HealingSpell("Morphine-pill", 305, Element.PHYSICAL, 10);
         Player p = new Player("Player1", human, magician,true, MAP_POSITION);
-        Adversary a = new Adversary("Bandit", human, magician,true, 1, MAP.generateRandomPos(1, 1));
+        Adversary a = new Adversary("Bandit", human, magician,true, 1, MAP_POSITION);
 
         assertThrows(IllegalStateException.class, ()-> hs.cast(p,a));
     }
@@ -90,7 +92,7 @@ class HealingSpellTest {
     void castDepletesCorrectAmountOfMana(){
         HealingSpell hs = new HealingSpell("Band-aid", 5, Element.PHYSICAL, 1);
         Player p = new Player("Player1", human, magician,true, MAP_POSITION);
-        Adversary a = new Adversary("Bandit", human, magician,true, 1, MAP.generateRandomPos(1, 1));
+        Adversary a = new Adversary("Bandit", human, magician,true, 1, MAP_POSITION);
         hs.cast(p,a);
 
         assertEquals(295, p.getRemainingMana());
@@ -100,7 +102,7 @@ class HealingSpellTest {
     void castIncreasesHealthCorrectAmount(){
         HealingSpell hs = new HealingSpell("Band-aid", 5, Element.PHYSICAL, 1);
         Player p = new Player("Player1", human, magician,true, MAP_POSITION);
-        Adversary a = new Adversary("Bandit", human, magician,true, 1, MAP.generateRandomPos(1, 1));
+        Adversary a = new Adversary("Bandit", human, magician,true, 1, MAP_POSITION);
         p.setRemainingHealth(0);
         hs.cast(p,a);
 
@@ -111,7 +113,7 @@ class HealingSpellTest {
     void castIncreasesHealthToMaxIfHealAmountTooHigh(){
         HealingSpell hs = new HealingSpell("Band-aid", 5, Element.PHYSICAL, 1);
         Player p = new Player("Player1", human, magician,true, MAP_POSITION);
-        Adversary a = new Adversary("Bandit", human, magician,true, 1, MAP.generateRandomPos(1, 1));
+        Adversary a = new Adversary("Bandit", human, magician,true, 1, MAP_POSITION);
         p.setRemainingHealth(290);
         hs.cast(p,a);
 
