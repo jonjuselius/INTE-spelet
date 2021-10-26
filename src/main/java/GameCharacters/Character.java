@@ -12,7 +12,6 @@ import java.util.Collections;
 import java.util.List;
 
 public abstract class Character {
-
 	private String name;
 	private boolean isAlive;
 	private Race race;
@@ -332,6 +331,9 @@ public abstract class Character {
 	}
 	
 	public void lose(Item item) {
+		if (hasEquipped(item)) {
+			unequip(item);
+		}
 		inventory.remove(item);
 	}
 	
@@ -364,68 +366,51 @@ public abstract class Character {
 	}
 	
 	public void give(Item item, Character recipient) {
-		if (item.canBeGiven(this, recipient)) {
-			this.lose(item);
-			recipient.gain(item);
+		if (!item.canBeGiven(this, recipient)) {
+			throw new IllegalArgumentException("This item can't be given");
 		}
+		this.lose(item);
+		recipient.gain(item);
 	}
 	
 	public boolean canGive(Item item) {
-		//if (!owns(item)) {
-		//	throw new IllegalArgumentException("Item can't be given away because it is not owned by the character!");
-		//}
-		//if (hasEquipped(item)) {
-		//	throw new IllegalArgumentException("Item can't be given away because it is equipped by the character!");
-		//}
 		return owns(item) && !hasEquipped(item);
 	}
 	
 	public boolean canReceive(Item item) {
-		//if (owns(item)) {
-		//	throw new IllegalArgumentException("Item can't be given away because it is already owned by the character!");
-		//}
-		//if (!getInventory().hasAvailableSpace()) {
-		//	throw new IllegalArgumentException("Item can't be received because there are no free space in inventory");
-		//}
 		return !owns(item) && getInventory().hasAvailableSpace();
 	}
-
+	
 	public void buy(Item item, Character other) {
 		int price = item.getValue();
 		Character buyer = this;
 		Character seller = other;
-		
-		if (item.canBeSold(seller, buyer)) {
-			seller.give(item, buyer);
-			seller.gainMoney(price);
-			buyer.loseMoney(price);
+		if (!item.canBeSold(seller, buyer)) {
+			throw new IllegalArgumentException("The item can't be bought");
 		}
+		seller.give(item, buyer);
+		seller.gainMoney(price);
+		buyer.loseMoney(price);
 	}
 	
 	public void sell(Item item, Character other) {
-		other.buy(item, this);
+		int price = item.getValue();
+		Character buyer = other;
+		Character seller = this;
+		if (!item.canBeSold(seller, buyer)) {
+			throw new IllegalArgumentException("The item can't be sold");
+		}
+		seller.give(item, buyer);
+		seller.gainMoney(price);
+		buyer.loseMoney(price);
 	}
 	
 	public boolean canBuy(Item item) {
-		Character buyer = this;
-		//if (buyer.owns(item)) {
-		//	throw new IllegalArgumentException("Buyer can't buy an item that buyer already own!");
-		//}
-		//if (!buyer.canAfford(item)) {
-		//	throw new IllegalArgumentException("Buyer can't afford this item!");
-		//}
-		return !buyer.owns(item) && buyer.canAfford(item);
+		return canReceive(item) && canAfford(item);
 	}
 	
 	public boolean canSell(Item item) {
-		Character seller = this;
-		//if (!seller.owns(item)) {
-		//	throw new IllegalArgumentException("Seller can't sell an item that seller doesn't own!");
-		//}
-		//if (seller.hasEquipped(item)) {
-		//	throw new IllegalArgumentException("Seller can't sell an item that is equipped!");
-		//}
-		return seller.owns(item) && !seller.hasEquipped(item);
+		return canGive(item);
 	}
 	
 	public boolean canUse(Item item) {

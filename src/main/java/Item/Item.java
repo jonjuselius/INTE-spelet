@@ -1,36 +1,13 @@
 package Item;
 
 import GameCharacters.Character;
-import Map.Map;
 import Map.MapPosition;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 public abstract class Item {
-	/**
-	 * Item an abstract noninstantiable superclass for things such as food, weapon and armor.
-	 * Actual instantiable items include swords, wands, eggs, shields and rings.
-	 * Every item has a weight, a value, a size, a type, a condition, and more.
-	 *
-	 * The default condition for a new item is 100 %, which means that the item is in a perfect
-	 * condition, not destroyed or damaged in any way. An item with 0 % condition implies that
-	 * the item is in a very poor condition.
-	 *
-	 * An item can only be used by a character if the character has a race and a job that
-	 * qualifies the character for using the item. Every item stores information on which
-	 * race and job that it can be used by, e.g. a sword can be used by characters of any race,
-	 * but only if "knight" is their job.
-	 *
-	 * weight: How heavy an item is. Items with higher weight are heavier.
-	 * value: How expensive an item is. Items with higher valuer are more expensive.
-	 * size: How big an item is. Three size categories are present: small/medium/large.
-	 * type: What kind of item an item is. Five item types are: weapon, armor, food, jewellery
-	 * condition: How undamaged an item is. An item with max condition (100) is completely undamaged.
-	 * jobCertifications: Which jobs that are eligible for using an item, e.g. only knights.
-	 * raceCertifications: Which races that are eligible for using an item, e.g. only humans.
-	 * canBeUsedBy: Checks if a character can use the item or not, depending on its race and job.
-	 */
 	public static final int MAX_CONDITION = 100;
 	public static final int MIN_CONDITION = 0;
 	private int weight;
@@ -73,7 +50,7 @@ public abstract class Item {
 	public Type getType() {
 		return type;
 	}
-
+	
 	public MapPosition getMapPosition() {
 		return mapPosition;
 	}
@@ -117,15 +94,19 @@ public abstract class Item {
 	}
 	
 	public void setEquipped(boolean equipped) {
-		this.equipped = equipped;
+		if (isEquippable()) {
+			this.equipped = equipped;
+		}
 	}
 	
 	public void setEnhanced(boolean enhanced) {
-		this.enhanced = enhanced;
+		if (isEnhancable()) {
+			this.enhanced = enhanced;
+		}
 	}
 	
 	public boolean isEquippable() {
-		return isOwned() && type == Type.WEAPON || type == Type.ARMOR || type == Type.JEWELLERY;
+		return isOwned() && (type == Type.WEAPON || type == Type.ARMOR || type == Type.JEWELLERY);
 	}
 	
 	public boolean isEnhancable() {
@@ -174,12 +155,44 @@ public abstract class Item {
 		}
 	}
 	
+	public boolean isWeapon() {
+		return type == Type.WEAPON;
+	}
+	
+	public boolean isArmor() {
+		return type == Type.ARMOR;
+	}
+	
+	public boolean isJewewllery() {
+		return type == Type.JEWELLERY;
+	}
+	
 	public boolean isFood() {
 		return type == Type.FOOD;
 	}
 	
-	@Override
-	public String toString() {
-		return this.getClass().getSimpleName().toString();
+	public boolean isSmall() {
+		return size == Size.SMALL;
 	}
+	
+	public boolean isMedium() {
+		return size == Size.MEDIUM;
+	}
+	
+	public boolean isLarge() {
+		return size == Size.LARGE;
+	}
+	
+	public boolean isDestroyed() {
+		return condition == Item.MIN_CONDITION;
+	}
+	
+	public boolean isPerfect() {
+		return condition == Item.MAX_CONDITION;
+	}
+	
+	//@Override
+	//public String toString() {
+	//	return this.getClass().getSimpleName().toString();
+	//}
 }
