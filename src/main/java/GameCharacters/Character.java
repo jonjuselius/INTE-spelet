@@ -219,6 +219,13 @@ public abstract class Character {
 		}
 	}
 
+
+	public void loseMagicSkillFromLoss(int loss) {
+		if (magicSkill > 0) {
+			magicSkill = magicSkill - loss;
+		}
+	}
+
 	public void increaseIntelligenceFromWinningASpell() {
 		if (getIntelligence() < race.getIntelligence() + 15) {
 			intelligence += 3;
@@ -239,8 +246,8 @@ public abstract class Character {
 			level++;
 			strength += 3;
 			increaseSkillWhenLevelingUp();
-			if (level == 3) {
-				setIfCanSwim(true);//g�r test till dessa
+			if (level == 3 && magicSkill - job.getMagic() > 0) {
+				setIfCanSwim(true);
 			}
 
 		}
@@ -249,7 +256,7 @@ public abstract class Character {
 			level++;
 			intelligence += 3;
 			increaseSkillWhenLevelingUp();
-			if (level == 3) {
+			if (level == 3 && magicSkill - job.getMagic() > 0) {
 				setIfCanSwim(true);
 			}
 		}
@@ -258,7 +265,7 @@ public abstract class Character {
 			level++;
 			strength += 3;
 			increaseSkillWhenLevelingUp();
-			if (level == 3) {
+			if (level == 3 && magicSkill - job.getMagic() > 0) {
 				setIfCanFly(true);
 			}
 
@@ -284,6 +291,7 @@ public abstract class Character {
 		magicSkill += 2;
 
 	}
+
 
 	public void setLevel(int level) {
 		this.level = level;
