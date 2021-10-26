@@ -44,7 +44,7 @@ public abstract class Character {
 		this.name = name;
 		this.race = race;
 		this.job = job;
-		isAlive = true;
+		this.isAlive = isAlive;
 		this.position = position;
 		this.inventory = new Inventory();
 		this.equippedItems = new ArrayList<>();
@@ -215,7 +215,7 @@ public abstract class Character {
 
 		} else {
 			otherCharacter.setRemainingHealth(0);
-			isAlive= false;
+			otherCharacter.die();
 		}
 	}
 

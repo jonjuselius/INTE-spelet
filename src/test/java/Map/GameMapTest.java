@@ -1,7 +1,6 @@
 package Map;
 
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameMapTest {
@@ -43,8 +42,6 @@ class GameMapTest {
 
     @Test
     void throwsIAEWhenTilePutOutsideOfBounds() {
-        //Add utanför kartans storlek
-        //Kolla både x och y?
         GameMap map = new GameMap(3, 6);
         GameMapPosition tile = new GameMapPosition(3, 7);
         assertThrows(IllegalArgumentException.class, () ->
@@ -63,7 +60,7 @@ class GameMapTest {
     }
 
     @Test
-    void tileIsInCorrectPosition() {
+    void putTileIsInCorrectPosition() {
         GameMap map = new GameMap(2, 3);
         GameMapPosition tile = new GameMapPosition(1, 2);
         int xPos = tile.getXPos();

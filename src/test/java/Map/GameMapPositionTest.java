@@ -1,8 +1,5 @@
 package Map;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -18,27 +15,6 @@ class GameMapPositionTest {
     public static final GameMapPosition east = new GameMapPosition(1, 0);
     public static final GameMapPosition north = new GameMapPosition(1, 2);
     public static final GameMapPosition south = new GameMapPosition(2, 1);
-
-    public static class NoNeighborMatcher extends TypeSafeMatcher<GameMapPosition> {
-        private GameMapPosition noNeighbor = null;
-
-        @Override
-        public boolean matchesSafely(GameMapPosition neighbor) {
-            if (neighbor == noNeighbor) {
-                return true;
-            }
-            return false;
-        }
-
-        @Override
-        public void describeTo(Description description) {
-            description.appendText("This position was not expected to have a neighbor, but it had.");
-        }
-
-        public static Matcher<GameMapPosition> hasNoNeighborInThisDirection() {
-            return new NoNeighborMatcher();
-        }
-    }
 
     @Test
     void constructorSetsXPos() {
@@ -103,23 +79,27 @@ class GameMapPositionTest {
     }
 
     @Test
-    void positionInTheWestEndOfTheMapHasNoWestNeighbor() {
-
+    void positionInTheWestEndTheMapHasNoWestNeighbor() {
+        GameMapPosition posInTheWestEnd = MAP.getMapTiles()[0][0];
+        assertThat(posInTheWestEnd.getWestNeighbor(), sameInstance(null));
     }
 
     @Test
-    void positionInTheEastEndOfTheMapHasNoEastNeighbor() {
-
+    void positionInTheEastEndTheMapHasNoEastNeighbor() {
+        GameMapPosition posInTheEastEnd = MAP.getMapTiles()[3][0];
+        assertThat(posInTheEastEnd.getEastNeighbor(), sameInstance(null));
     }
 
     @Test
-    void positionInTheNorthEndOfTheMapHasNoNorthNeighbor() {
-
+    void positionInTheNorthEndTheMapHasNoNorthNeighbor() {
+        GameMapPosition posInTheNorthEnd = MAP.getMapTiles()[0][3];
+        assertThat(posInTheNorthEnd.getNorthNeighbor(), sameInstance(null));
     }
 
     @Test
-    void positionInTheSouthEndOfTheMapHasNoSouthNeighbor() {
-
+    void positionInTheSouthEndTheMapHasNoSouthNeighbor() {
+        GameMapPosition posInTheSouthEnd = MAP.getMapTiles()[0][0];
+        assertThat(posInTheSouthEnd.getSouthNeighbor(), sameInstance(null));
     }
 
 
