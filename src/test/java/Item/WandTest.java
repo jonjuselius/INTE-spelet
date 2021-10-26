@@ -22,14 +22,15 @@ import Races.Race;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 class WandTest {
 	/**
 	 * Tests for Wand class
 	 */
-	private static final GameMapGenerator MAP_GENERATOR = new GameMapGenerator(4, 4);
+	public static final GameMapGenerator MAP_GENERATOR = new GameMapGenerator(4, 4);
 	public static final GameMap MAP = MAP_GENERATOR.generate(1);
-	public static final GameMapPosition MAP_POSITION = MAP.getMapTiles()[2][2];
+	public static final GameMapPosition MAP_POSITION = MAP.generateRealRandomPos(new Random(), new Random());
 	public static final Wand DEFAULT_WAND = new Wand(MAP_POSITION);
 	public static final String NAME = "Mr Default";
 	public static final Race[] RACES = {new Human(), new Ogre(), new Elf()};

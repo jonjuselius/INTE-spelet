@@ -9,14 +9,15 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class BuffSpellTest {
 
-    private static final GameMapGenerator MAP_GENERATOR = new GameMapGenerator(4, 4);
+    public static final GameMapGenerator MAP_GENERATOR = new GameMapGenerator(4, 4);
     public static final GameMap MAP = MAP_GENERATOR.generate(1);
-    private static final GameMapPosition MAP_POSITION = MAP.getMapTiles()[2][2];
+    public static final GameMapPosition MAP_POSITION = MAP.generateRealRandomPos(new Random(), new Random());
     Human human = new Human();
     Magician magician = new Magician();
 
