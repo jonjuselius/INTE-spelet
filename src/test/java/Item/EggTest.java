@@ -10,9 +10,9 @@ import Jobs.Healer;
 import Jobs.Job;
 import Jobs.Knight;
 import Jobs.Magician;
-import Map.Map;
-import Map.MapPosition;
-import Map.MapGenerator;
+import Map.GameMap;
+import Map.GameMapPosition;
+import Map.GameMapGenerator;
 import Races.Elf;
 import Races.Human;
 import Races.Ogre;
@@ -25,12 +25,9 @@ import java.util.Arrays;
 import java.util.List;
 
 class EggTest {
-	/**
-	 * Tests for Egg class
-	 */
-	private static final MapGenerator MAP_GENERATOR = new MapGenerator(4, 4);
-	public static final Map MAP = MAP_GENERATOR.generate(1);
-	public static final MapPosition MAP_POSITION = MAP.getMapTiles()[2][2];
+	private static final GameMapGenerator MAP_GENERATOR = new GameMapGenerator(4, 4);
+	public static final GameMap MAP = MAP_GENERATOR.generate(1);
+	public static final GameMapPosition MAP_POSITION = MAP.getMapTiles()[2][2];
 	public static final Egg DEFAULT_EGG = new Egg();
 	public static final String NAME = "Mr Default";
 	public static final Race[] RACES = {new Human(), new Ogre(), new Elf()};
@@ -45,12 +42,6 @@ class EggTest {
 				DEFAULT_PLAYERS.add(new Player(NAME, race, job, ALIVE, MAP_POSITION));
 			}
 		}
-	}
-
-	@Test
-	void constructorSetsGameMapPosition() {
-		Egg egg = new Egg(3, Size.LARGE, MAP_POSITION);
-		assertThat(egg.getPosition(), Matchers.equalTo(MAP_POSITION));
 	}
 	
 	@Test

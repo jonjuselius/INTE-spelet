@@ -12,7 +12,6 @@ import Races.*;
 import org.junit.jupiter.api.Test;
 
 class ItemTest {
-	
 	GameMapPosition defaultMapPosition = (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2];
 	Character character = new Player("Default character", new Human(), new Knight(), true, defaultMapPosition);
 	

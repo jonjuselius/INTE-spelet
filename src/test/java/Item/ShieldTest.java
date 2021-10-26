@@ -4,9 +4,10 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
-import Map.Map;
-import Map.MapGenerator;
-import Map.MapPosition;
+
+import Map.GameMap;
+import Map.GameMapGenerator;
+import Map.GameMapPosition;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import GameCharacters.Character;
@@ -24,12 +25,9 @@ import java.util.Arrays;
 import java.util.List;
 
 class ShieldTest {
-	/**
-	 * Tests for Shield class
-	 */
-	private static final MapGenerator MAP_GENERATOR = new MapGenerator(4, 4);
-	public static final Map MAP = MAP_GENERATOR.generate(1);
-	public static final MapPosition MAP_POSITION = MAP.getMapTiles()[2][2];
+	private static final GameMapGenerator MAP_GENERATOR = new GameMapGenerator(4, 4);
+	public static final GameMap MAP = MAP_GENERATOR.generate(1);
+	public static final GameMapPosition MAP_POSITION = MAP.getMapTiles()[2][2];
 	public static final Shield DEFAULT_SHIELD = new Shield();
 	public static final String NAME = "Mr Default";
 	public static final Race[] RACES = {new Human(), new Ogre(), new Elf()};

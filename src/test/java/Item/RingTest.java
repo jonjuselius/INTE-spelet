@@ -25,9 +25,6 @@ import java.util.Arrays;
 import java.util.List;
 
 class RingTest {
-	/**
-	 * Tests for Ring class
-	 */
 	private static final GameMapGenerator MAP_GENERATOR = new GameMapGenerator(4, 4);
 	public static final GameMap MAP = MAP_GENERATOR.generate(1);
 	public static final GameMapPosition MAP_POSITION = MAP.getMapTiles()[2][2];
@@ -45,12 +42,6 @@ class RingTest {
 				DEFAULT_PLAYERS.add(new Player(NAME, race, job, ALIVE, MAP_POSITION));
 			}
 		}
-	}
-
-	@Test
-	void constructorSetsGameMapPosition() {
-		Ring ring = new Ring(3, Size.LARGE, MAP_POSITION);
-		assertThat(ring.getPosition(), Matchers.equalTo(MAP_POSITION));
 	}
 	
 	@Test
