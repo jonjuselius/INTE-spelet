@@ -17,6 +17,7 @@ import Races.Elf;
 import Races.Human;
 import Races.Ogre;
 import Races.Race;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
@@ -44,6 +45,12 @@ class EggTest {
 				DEFAULT_PLAYERS.add(new Player(NAME, race, job, ALIVE, MAP_POSITION));
 			}
 		}
+	}
+
+	@Test
+	void constructorSetsGameMapPosition() {
+		Egg egg = new Egg(3, Size.LARGE, MAP_POSITION);
+		assertThat(egg.getPosition(), Matchers.equalTo(MAP_POSITION));
 	}
 	
 	@Test
