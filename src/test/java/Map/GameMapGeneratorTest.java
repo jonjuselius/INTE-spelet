@@ -1,8 +1,10 @@
 package Map;
 
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+import java.util.Random;
 
 class GameMapGeneratorTest {
     private static final int FAKE_RANDOM = 1;
@@ -35,19 +37,19 @@ class GameMapGeneratorTest {
 //    }
 
     @Test
-    void generateGrassArea() {
+    void grassPutOnSpecificPosition() {
         fail("Not yet implemented");
         //TODO: Använd slumpen för att generera stor mängd
     }
 
     @Test
-    void generateWaterArea() {
+    void waterPutOnSpecificPosition() {
         //TODO: Använd slumpen för att generera stor mängd
 
     }
 
     @Test
-    void generateLavaArea() {
+    void lavaPutOnSpecificPosition() {
         fail("Not yet implemented");
         //TODO: Använd slumpen för att generera stor mängd
     }
@@ -55,6 +57,11 @@ class GameMapGeneratorTest {
     @Test
     void realRandomizedMapContainsAllTerrains() {
         fail("Not yet implemented");
+//        Random random = new Random();
+//        GameMapGenerator mapGenerator = new GameMapGenerator(20, 20);
+//        GameMap map = mapGenerator.generate(random.nextInt());
+//        GameMapPosition[][] tiles = map.getMapTiles();
+//        assertThat(tiles, hasItemInArray(GameMapPosition))
     }
 
     @Test

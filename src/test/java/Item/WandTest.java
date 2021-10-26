@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import Map.GameMap;
 import Map.GameMapGenerator;
 import Map.GameMapPosition;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import GameCharacters.Character;
@@ -45,6 +46,12 @@ class WandTest {
 				DEFAULT_PLAYERS.add(new Player(NAME, race, job, ALIVE, MAP_POSITION));
 			}
 		}
+	}
+
+	@Test
+	void constructorSetsGameMapPosition() {
+		Wand wand = new Wand(MAP_POSITION);
+		assertThat(wand.getPosition(), Matchers.equalTo(MAP_POSITION));
 	}
 	
 	@Test
