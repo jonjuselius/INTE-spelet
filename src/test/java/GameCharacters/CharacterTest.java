@@ -16,6 +16,10 @@ import Races.*;
 import Map.*;
 
 class CharacterTest {
+	public static final Character DEFAULT_CHARACTER = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+	public static final Item DEFAULT_SWORD = new Sword();
+	public static final Item DEFAULT_EGG = new Egg();
+	public static final Item DEFAULT_RING = new Ring();
 	private GameMap testMap = createTestMap();
 	private Human human = new Human();
 	private Magician magician = new Magician();
@@ -404,7 +408,7 @@ class CharacterTest {
 	}
 
 
-	// beslutstbell som täcker alla fallen om 
+	// beslutstbell som tï¿½cker alla fallen om 
 		@Test 
 		void HumanCanFlyAtLevelThreeMagicskillMoreThanInitial() {
 			Player c1 = new Player("Jasmyn", new Human(), new Magician(), true, defaultPosition);
@@ -659,86 +663,66 @@ class CharacterTest {
 	//Emma
 	
 	@Test
-	void newCharacterHasNoMoney() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
-		assertThat(character.getMoney(), is(equalTo(0)));
-	}
-
-	
-	@Test
-	void characterCanGainMoney() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
-		character.gainMoney(1000);
-		assertThat(character.getMoney(), is(equalTo(1000)));
+	void characterCanGainAndLoseMoney() {
+		assertThat(DEFAULT_CHARACTER.getMoney(), is(equalTo(0)));
+		DEFAULT_CHARACTER.gainMoney(1000);
+		assertThat(DEFAULT_CHARACTER.getMoney(), is(equalTo(1000)));
+		DEFAULT_CHARACTER.loseMoney(2000);
+		assertThat(DEFAULT_CHARACTER.getMoney(), is(equalTo(-1000)));
+		DEFAULT_CHARACTER.gainMoney(1000);
+		assertThat(DEFAULT_CHARACTER.getMoney(), is(equalTo(0)));
 	}
 	
 	@Test
-	void characterCanLoseMoney() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
-		character.gainMoney(1000);
-		character.loseMoney(500);
-		assertThat(character.getMoney(), is(equalTo(500)));
+	void characterCantAffordAnItemIfHasNotEnoughMoney() {
+		assertThat(DEFAULT_CHARACTER.getMoney(), is(equalTo(0)));
+		assertThat(DEFAULT_CHARACTER.canAfford(new Ring()), is(equalTo(false)));
 	}
 	
 	@Test
-	void characterCanLoseMoreMoneyThanIsOwned() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
-		character.gainMoney(500);
-		character.loseMoney(1000);
-		assertThat(character.getMoney(), is(equalTo(-500)));
+	void characterCanAffordARingIfHasEnoughMoney() {
+		assertThat(DEFAULT_CHARACTER.getMoney(), is(equalTo(0)));
+		DEFAULT_CHARACTER.gainMoney(5000);
+		assertThat(DEFAULT_CHARACTER.getMoney(), is(equalTo(5000)));
+		assertThat(DEFAULT_CHARACTER.canAfford(new Ring()), is(equalTo(true)));
+		DEFAULT_CHARACTER.loseMoney(5000);
 	}
 	
 	@Test
-	void characterWithMoneyUnder5000CantAffordARing() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
-		character.gainMoney(4000);
-		assertFalse(character.canAfford(new Ring()));
+	void characterCanEquipThatIsOwned() {
+		DEFAULT_CHARACTER.gain(DEFAULT_SWORD);
+		assertThat(DEFAULT_CHARACTER.owns(DEFAULT_SWORD), is(equalTo(true)));
+		assertThat(DEFAULT_CHARACTER.canEquip(DEFAULT_SWORD), is(equalTo(true)));
 	}
 	
 	@Test
-	void characterWithMoneyOver5000CantAffordARing() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
-		character.gainMoney(6000);
-		assertTrue(character.canAfford(new Ring()));
+	void characterCantEquipThatIsNotOwned() {
+		assertThat(DEFAULT_CHARACTER.owns(DEFAULT_SWORD), is(equalTo(false)));
+		assertThat(DEFAULT_CHARACTER.canEquip(DEFAULT_SWORD), is(equalTo(false)));
 	}
 	
 	@Test
-	void characterCanEquipOwnedWeapon() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
-		Item sword = new Sword();
-		character.gain(sword);
-		assertTrue(character.canEquip(sword));
+	void foodCantBeEquipped() {
+		assertThat(DEFAULT_CHARACTER.owns(DEFAULT_EGG), is(equalTo(false)));
+		assertThat(DEFAULT_CHARACTER.canEquip(DEFAULT_EGG), is(equalTo(false)));
+		DEFAULT_CHARACTER.gain(DEFAULT_EGG);
+		assertThat(DEFAULT_CHARACTER.owns(DEFAULT_EGG), is(equalTo(true)));
+		assertThat(DEFAULT_CHARACTER.canEquip(DEFAULT_EGG), is(equalTo(false)));
 	}
 	
 	@Test
-	void characterCantEquipUnownedWeapon() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
-		Item sword = new Sword();
-		assertFalse(character.canEquip(sword));
+	void characterCantEatNonFood() {
+		DEFAULT_CHARACTER.gain(DEFAULT_RING);
+		assertThat(DEFAULT_CHARACTER.canEat(DEFAULT_RING), is(equalTo(false)));
 	}
 	
 	@Test
-	void characterCantEquipFood() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
-		Item egg = new Egg();
-		character.gain(egg);
-		assertFalse(character.canEquip(egg));
-	}
-	
-	@Test
-	void characterCantEatJewewllery() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
-		Item ring = new Ring();
-		character.gain(ring);
-		assertFalse(character.canEat(ring));
-	}
-	
-	@Test
-	void characterCanEatFood() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
-		Item egg = new Egg();
-		character.gain(egg);
-		assertTrue(character.canEat(egg));
+	void characterCanEatFoodThatIsOwneAndFoodThatIsNotOwned() {
+		assertThat(DEFAULT_CHARACTER.owns(DEFAULT_EGG), is(equalTo(false)));
+		assertThat(DEFAULT_CHARACTER.canEat(DEFAULT_EGG), is(equalTo(true)));
+		DEFAULT_CHARACTER.gain(DEFAULT_EGG);
+		assertThat(DEFAULT_CHARACTER.owns(DEFAULT_EGG), is(equalTo(true)));
+		assertThat(DEFAULT_CHARACTER.canEat(DEFAULT_EGG), is(equalTo(true)));
 	}
 	
 	@Test
