@@ -405,35 +405,115 @@ class CharacterTest {
 	}
 
 
-	@Test 
-	void HumanCanFlyAtLevelFive() {
-		Player c1 = new Player("Jasmyn", new Human(), new Magician(), true, defaultPosition);
-		c1.increaseStrengthFromWinningASpell();//
-		c1.levelsUp();
-		c1.levelsUp();
-		c1.levelsUp();
-		assertTrue(c1.getIfCanFly());
-	}
+	// beslutstbell som täcker alla fallen om 
+		@Test 
+		void HumanCanFlyAtLevelThreeMagicskillMoreThanInitial() {
+			Player c1 = new Player("Jasmyn", new Human(), new Magician(), true, defaultPosition);
+			c1.increaseStrengthFromWinningASpell();//
+			c1.levelsUp();
+			c1.levelsUp();
+			assertTrue(c1.getIfCanFly());
+		}
+		
+		@Test 
+		void HumanCantFlyAtLevelThreeMagicskillNotMoreThanInitial() {
+			Player c1 = new Player("Jasmyn", new Human(), new Magician(), true, defaultPosition);
+			c1.increaseStrengthFromWinningASpell();//
+			c1.levelsUp();
+			c1.loseMagicSkillFromLoss(10);
+			c1.levelsUp();
+			assertFalse(c1.getIfCanFly());
+		}
+		
+		@Test 
+		void HumanCantFlyAtLevelUnderThreeMagicskillMoreThanInitial() {
+			Player c1 = new Player("Jasmyn", new Human(), new Magician(), true, defaultPosition);
+			c1.increaseStrengthFromWinningASpell();//
+			c1.levelsUp();
+			assertFalse(c1.getIfCanFly());
+		}
 
-	@Test 
-	void elfCanSwimAtLevelThree() {
-		Player c1 = new Player("Jasmyn", new Elf(), new Magician(), true, defaultPosition);
-		c1.increaseStrengthFromWinningASpell();//
-		c1.levelsUp();
-		c1.levelsUp();
-		c1.levelsUp();
-		assertTrue(c1.getIfCanSwim());
-	}
+		@Test 
+		void HumanCantFlyAtLevelUnderThreeMagicskillNotMoreThanInitial() {
+			Player c1 = new Player("Jasmyn", new Human(), new Magician(), true, defaultPosition);
+			c1.increaseStrengthFromWinningASpell();//
+			c1.loseMagicSkillFromLoss(10);
+			c1.levelsUp();
+			assertFalse(c1.getIfCanFly());
+		}
+		
+		@Test 
+		void elfCanSwimAtLevelThreeMagicskillMoreThanInitial() {
+			Player c1 = new Player("Jasmyn", new Elf(), new Magician(), true, defaultPosition);
+			c1.increaseStrengthFromWinningASpell();//
+			c1.levelsUp();
+			c1.levelsUp();
+			assertTrue(c1.getIfCanSwim());
+		}
+		
+		@Test 
+		void elfCantFlyAtLevelThreeMagicskillNotMoreThanInitial() {
+			Player c1 = new Player("Jasmyn", new Elf(), new Magician(), true, defaultPosition);
+			c1.increaseStrengthFromWinningASpell();//
+			c1.levelsUp();
+			c1.loseMagicSkillFromLoss(10);
+			c1.levelsUp();
+			assertFalse(c1.getIfCanSwim());
+		}
+		
+		@Test 
+		void elfCantFlyAtLevelUnderThreeMagicskillMoreThanInitial() {
+			Player c1 = new Player("Jasmyn", new Elf(), new Magician(), true, defaultPosition);
+			c1.increaseStrengthFromWinningASpell();//
+			c1.levelsUp();
+			assertFalse(c1.getIfCanSwim());
+		}
 
-	@Test 
-	void ogreCanSwimAtLevelThree() {
-		Player c1 = new Player("Jasmyn", new Ogre(), new Magician(), true, defaultPosition);
-		c1.increaseStrengthFromWinningASpell();//
-		c1.levelsUp();
-		c1.levelsUp();
-		c1.levelsUp();
-		assertTrue(c1.getIfCanSwim());
-	}
+		@Test 
+		void elfCantFlyAtLevelUnderThreeMagicskillNotMoreThanInitial() {
+			Player c1 = new Player("Jasmyn", new Elf(), new Magician(), true, defaultPosition);
+			c1.increaseStrengthFromWinningASpell();//
+			c1.loseMagicSkillFromLoss(10);
+			c1.levelsUp();
+			assertFalse(c1.getIfCanSwim());
+		}
+
+		@Test 
+		void ogreCanSwimAtLevelThreeMagicskillMoreThanInitial() {
+			Player c1 = new Player("Jasmyn", new Ogre(), new Magician(), true, defaultPosition);
+			c1.increaseStrengthFromWinningASpell();//
+			c1.levelsUp();
+			c1.levelsUp();
+			assertTrue(c1.getIfCanSwim());
+		}
+		
+		
+		@Test 
+		void ogreCantSwimAtLevelThreeMagicskillNotMoreThanInitial() {
+			Player c1 = new Player("Jasmyn", new Ogre(), new Magician(), true, defaultPosition);
+			c1.increaseStrengthFromWinningASpell();//
+			c1.levelsUp();
+			c1.loseMagicSkillFromLoss(10);
+			c1.levelsUp();
+			assertFalse(c1.getIfCanSwim());
+		}
+		
+		@Test 
+		void ogreCantSwimAtLevelUnderThreeMagicskillMoreThanInitial() {
+			Player c1 = new Player("Jasmyn", new Ogre(), new Magician(), true, defaultPosition);
+			c1.increaseStrengthFromWinningASpell();//
+			c1.levelsUp();
+			assertFalse(c1.getIfCanSwim());
+		}
+
+		@Test 
+		void ogreCantSwimAtLevelUnderThreeMagicskillNotMoreThanInitial() {
+			Player c1 = new Player("Jasmyn", new Ogre(), new Magician(), true, defaultPosition);
+			c1.increaseStrengthFromWinningASpell();//
+			c1.loseMagicSkillFromLoss(10);
+			c1.levelsUp();
+			assertFalse(c1.getIfCanSwim());
+		}
 
 
 	/*
