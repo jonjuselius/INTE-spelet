@@ -43,10 +43,11 @@ public class SpellLoader {
         boolean start = false;
         ArrayList<String> stringLines = new ArrayList<>();
         try {
-            File file = new File(spellDataPathName);
-            if (Files.notExists(Paths.get(spellDataPathName)))
+            if (Files.notExists(Paths.get(spellDataPathName))) {
+
                 throw new FileNotFoundException("could not locate file");
-            FileReader rd = new FileReader(file);
+            }
+            FileReader rd = new FileReader(spellDataPathName);
             BufferedReader br = new BufferedReader(rd);
 
             String line;

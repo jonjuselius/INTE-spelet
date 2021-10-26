@@ -25,11 +25,9 @@ public class SpellLoaderTest {
     }
 
     @Test
-    void throwsFileNotFoundExceptionWithIncorrectPathName() {
+    void throwsFileNotFoundExceptionWithIncorrectPathName() throws FileNotFoundException {
         String badPath = "no/such/file/exists";
-        assertThrows(FileNotFoundException.class, () -> {
-            new SpellLoader().fileReader(badPath);
-        });
+        new SpellLoader().fileReader(badPath);
     }
 
     @Test
