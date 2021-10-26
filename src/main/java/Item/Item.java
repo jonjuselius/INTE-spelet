@@ -1,7 +1,7 @@
 package Item;
 
 import GameCharacters.Character;
-import Map.MapPosition;
+import Map.GameMapPosition;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -17,7 +17,7 @@ public abstract class Item {
 	private int condition;
 	private List<String> jobCertifications; // ändra från list till set?
 	private List<String> raceCertifications;
-	private MapPosition mapPosition;
+	private GameMapPosition mapPosition;
 	private boolean owned;
 	private boolean equipped;
 	private boolean enhanced;
@@ -51,11 +51,11 @@ public abstract class Item {
 		return type;
 	}
 	
-	public MapPosition getMapPosition() {
+	public GameMapPosition getMapPosition() {
 		return mapPosition;
 	}
 	
-	public void setMapPosition(MapPosition mapPosition) {
+	public void setMapPosition(GameMapPosition mapPosition) {
 		this.mapPosition = mapPosition;
 	}
 	

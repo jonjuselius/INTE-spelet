@@ -1,8 +1,5 @@
 package Item;
 
-import Map.Map;
-import Map.MapPosition;
-
 public class Wand extends Item {
 	public static final int WEIGHT = 5;
 	public static final int VALUE = 500;

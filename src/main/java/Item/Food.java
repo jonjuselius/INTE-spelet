@@ -1,8 +1,5 @@
 package Item;
 
-import Map.Map;
-import Map.MapPosition;
-
 public abstract class Food extends Item {
 	public static final Type TYPE = Type.FOOD;
 	private boolean consumed;

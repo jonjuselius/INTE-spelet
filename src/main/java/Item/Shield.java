@@ -1,8 +1,5 @@
 package Item;
 
-import Map.Map;
-import Map.MapPosition;
-
 public class Shield extends Item {
 	public static final int WEIGHT = 100;
 	public static final int VALUE = 1000;

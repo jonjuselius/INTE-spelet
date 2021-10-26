@@ -566,20 +566,20 @@ class CharacterTest {
 	
 	@Test
 	void newCharacterHasNoMoney() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		assertThat(character.getMoney(), is(equalTo(0)));
 	}
 	
 	@Test
 	void characterCanGainMoney() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		character.gainMoney(1000);
 		assertThat(character.getMoney(), is(equalTo(1000)));
 	}
 	
 	@Test
 	void characterCanLoseMoney() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		character.gainMoney(1000);
 		character.loseMoney(500);
 		assertThat(character.getMoney(), is(equalTo(500)));
@@ -587,7 +587,7 @@ class CharacterTest {
 	
 	@Test
 	void characterCanLoseMoreMoneyThanIsOwned() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		character.gainMoney(500);
 		character.loseMoney(1000);
 		assertThat(character.getMoney(), is(equalTo(-500)));
@@ -595,21 +595,21 @@ class CharacterTest {
 	
 	@Test
 	void characterWithMoneyUnder5000CantAffordARing() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		character.gainMoney(4000);
 		assertFalse(character.canAfford(new Ring()));
 	}
 	
 	@Test
 	void characterWithMoneyOver5000CantAffordARing() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		character.gainMoney(6000);
 		assertTrue(character.canAfford(new Ring()));
 	}
 	
 	@Test
 	void characterCanEquipOwnedWeapon() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		Item sword = new Sword();
 		character.gain(sword);
 		assertTrue(character.canEquip(sword));
@@ -617,14 +617,14 @@ class CharacterTest {
 	
 	@Test
 	void characterCantEquipUnownedWeapon() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		Item sword = new Sword();
 		assertFalse(character.canEquip(sword));
 	}
 	
 	@Test
 	void characterCantEquipFood() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		Item egg = new Egg();
 		character.gain(egg);
 		assertFalse(character.canEquip(egg));
@@ -632,7 +632,7 @@ class CharacterTest {
 	
 	@Test
 	void characterCantEatJewewllery() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		Item ring = new Ring();
 		character.gain(ring);
 		assertFalse(character.canEat(ring));
@@ -640,7 +640,7 @@ class CharacterTest {
 	
 	@Test
 	void characterCanEatFood() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		Item egg = new Egg();
 		character.gain(egg);
 		assertTrue(character.canEat(egg));
@@ -648,7 +648,7 @@ class CharacterTest {
 	
 	@Test
 	void usingWeaponMakesItDamaged() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		Item sword = new Sword();
 		character.gain(sword);
 		character.use(sword);
@@ -657,7 +657,7 @@ class CharacterTest {
 	
 	@Test
 	void eatingFoodMakesItDestroyed() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		Item egg = new Egg();
 		character.gain(egg);
 		character.eat(egg);
@@ -666,7 +666,7 @@ class CharacterTest {
 	
 	@Test
 	void tryingToEatNonFoodThrowsException() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		Item sword = new Sword();
 		character.gain(sword);
 		assertThrows(IllegalArgumentException.class, () -> {
@@ -676,7 +676,7 @@ class CharacterTest {
 	
 	@Test
 	void damagingAnItemDecreasesItsCondition() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		Item sword = new Sword();
 		character.damage(sword, 10);
 		assertThat(sword.getCondition(), is(equalTo(Item.MAX_CONDITION - 10)));
@@ -684,7 +684,7 @@ class CharacterTest {
 	
 	@Test
 	void restoringAnItemIncreasesItsCondition() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		Item sword = new Sword();
 		character.destroy(sword);
 		character.restore(sword, 10);
@@ -693,7 +693,7 @@ class CharacterTest {
 	
 	@Test
 	void destroyingAnItemDecreasesItsConditionToMinCondition() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		Item sword = new Sword();
 		character.destroy(sword);
 		assertThat(sword.getCondition(), is(equalTo(Item.MIN_CONDITION)));
@@ -701,7 +701,7 @@ class CharacterTest {
 	
 	@Test
 	void recoveringAnItemIncreasesItsConditionToMaxCondition() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		Item sword = new Sword();
 		character.destroy(sword);
 		character.recover(sword);
@@ -710,7 +710,7 @@ class CharacterTest {
 	
 	@Test
 	void characterGainingAnItemsOwnsTheItem() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		Item sword = new Sword();
 		assertThat(character.owns(sword), is(equalTo(false)));
 		character.gain(sword);
@@ -719,7 +719,7 @@ class CharacterTest {
 	
 	@Test
 	void characterLosingAnItemsDoesntOwnTheItem() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		Item sword = new Sword();
 		character.gain(sword);
 		assertThat(character.owns(sword), is(equalTo(true)));
@@ -729,7 +729,7 @@ class CharacterTest {
 	
 	@Test
 	void characterLosingAnItemMakesItDisappearFromItsInventory() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		Item sword = new Sword();
 		assertThat(character.getItems().contains(sword), is(equalTo(false)));
 		assertThat(character.getInventory().contains(sword), is(equalTo(false)));
@@ -743,7 +743,7 @@ class CharacterTest {
 	
 	@Test
 	void characterLosingAnEquippedItemMakesItUnequipped() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		Item sword = new Sword();
 		character.gain(sword);
 		assertThat(character.owns(sword), is(equalTo(true)));
@@ -764,7 +764,7 @@ class CharacterTest {
 	
 	@Test
 	void characterEquippingASwordHasTheSwordEquipped() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		Item sword = new Sword();
 		assertThat(character.hasEquipped(sword), is(equalTo(false)));
 		assertThat(character.getEquippedItems().contains(sword), is(equalTo(false)));
@@ -781,7 +781,7 @@ class CharacterTest {
 	
 	@Test
 	void characterTryingToEquipAnItemThatCantBeEquippedThrowsIAE() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		Item sword = new Sword();
 		assertThrows(IllegalArgumentException.class, () -> {
 			character.equip(sword);
@@ -790,7 +790,7 @@ class CharacterTest {
 	
 	@Test
 	void characterUnequippingAnItemMakesItUnequipped() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		Item sword = new Sword();
 		character.gain(sword);
 		character.equip(sword);
@@ -805,7 +805,7 @@ class CharacterTest {
 	
 	@Test
 	void characterTryingToUnequipAnUnequippableItemThrowsIAE() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		Item sword = new Sword();
 		assertThat(character.hasEquipped(sword), is(equalTo(false)));
 		assertThat(character.getEquippedItems().contains(sword), is(equalTo(false)));
@@ -818,7 +818,7 @@ class CharacterTest {
 	
 	@Test
 	void characterCanGiveItemThatIsOwnedAndUnequipped() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		Item sword = new Sword();
 		character.gain(sword);
 		character.equip(sword);
@@ -830,7 +830,7 @@ class CharacterTest {
 	
 	@Test
 	void characterCantGiveItemThatIsNotOwned() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		Item sword = new Sword();
 		assertThat(character.owns(sword), is(equalTo(false)));
 		assertThat(character.canGive(sword), is(equalTo(false)));
@@ -838,7 +838,7 @@ class CharacterTest {
 	
 	@Test
 	void characterCantGiveItemThatIsEquipped() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		Item sword = new Sword();
 		character.gain(sword);
 		character.equip(sword);
@@ -849,7 +849,7 @@ class CharacterTest {
 	
 	@Test
 	void characterCantReceiveItemThatCharacterAlreadyOwns() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		Item sword = new Sword();
 		character.gain(sword);
 		assertThat(character.owns(sword), is(equalTo(true)));
@@ -859,7 +859,7 @@ class CharacterTest {
 	
 	@Test
 	void characterCantReceiveItemWhenInventoryIsFull() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		Item sword = new Sword();
 		while (character.getInventory().hasAvailableSpace()) {
 			character.getInventory().add(new Sword());
@@ -871,8 +871,8 @@ class CharacterTest {
 	
 	@Test
 	void characterGivingAnItemToAnotherCharacterMakesTheItemBecomeOwnedByTheOtherCharacter() {
-		Character player1 = new Player("Player 1", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
-		Character player2 = new Player("Player 2", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character player1 = new Player("Player 1", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character player2 = new Player("Player 2", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		Item sword = new Sword();
 		player1.gain(sword);
 		assertThat(player1.owns(sword), is(equalTo(true)));
@@ -885,8 +885,8 @@ class CharacterTest {
 	
 	@Test
 	void characterTryingToGiveAnItemThatCantBeGivenToAnotherCharacterThrowsIAE() {
-		Character player1 = new Player("Player 1", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
-		Character player2 = new Player("Player 2", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character player1 = new Player("Player 1", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character player2 = new Player("Player 2", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		Item sword = new Sword();
 		player2.gain(sword);
 		assertThat(player1.owns(sword), is(equalTo(false)));
@@ -899,8 +899,8 @@ class CharacterTest {
 	
 	@Test
 	void characterThatCanReceiveAndCanAffordItemCanBuyAnItem() {
-		Character player1 = new Player("Player 1", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
-		Character player2 = new Player("Player 2", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character player1 = new Player("Player 1", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character player2 = new Player("Player 2", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		Item sword = new Sword();
 		player2.gain(sword);
 		player1.gainMoney(1000);
@@ -911,8 +911,8 @@ class CharacterTest {
 	
 	@Test
 	void characterThatCanReceiveButCantAffordItemCantBuyAnItem() {
-		Character player1 = new Player("Player 1", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
-		Character player2 = new Player("Player 2", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character player1 = new Player("Player 1", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character player2 = new Player("Player 2", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		Item sword = new Sword();
 		player2.gain(sword);
 		player1.gainMoney(50);
@@ -923,8 +923,8 @@ class CharacterTest {
 	
 	@Test
 	void characterThatCanGiveAnItemCanSellTheItem() {
-		Character player1 = new Player("Player 1", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
-		Character player2 = new Player("Player 2", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character player1 = new Player("Player 1", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character player2 = new Player("Player 2", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		Item sword = new Sword();
 		player1.gain(sword);
 		assertThat(player1.canGive(sword), is(equalTo(true)));
@@ -933,8 +933,8 @@ class CharacterTest {
 	
 	@Test
 	void characterThatCantGiveAnItemCantSellTheItem() {
-		Character player1 = new Player("Player 1", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
-		Character player2 = new Player("Player 2", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character player1 = new Player("Player 1", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character player2 = new Player("Player 2", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		Item sword = new Sword();
 		player1.gain(sword);
 		player1.equip(sword);
@@ -944,8 +944,8 @@ class CharacterTest {
 	
 	@Test
 	void characterBuyingAnItemMakesBuyersAmountOfMoneyDecrease() {
-		Character player1 = new Player("Player 1", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
-		Character player2 = new Player("Player 2", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character player1 = new Player("Player 1", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character player2 = new Player("Player 2", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		Item sword = new Sword();
 		player1.gain(sword);
 		player1.gainMoney(5000);
@@ -957,8 +957,8 @@ class CharacterTest {
 	
 	@Test
 	void characterBuyingAnItemMakesSellersAmountOfMoneyIncrease() {
-		Character player1 = new Player("Player 1", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
-		Character player2 = new Player("Player 2", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character player1 = new Player("Player 1", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character player2 = new Player("Player 2", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		Item sword = new Sword();
 		player1.gain(sword);
 		player1.gainMoney(5000);
@@ -970,8 +970,8 @@ class CharacterTest {
 	
 	@Test
 	void characterSellingAnItemMakesSellersAmountOfMoneyIncrease() {
-		Character player1 = new Player("Player 1", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
-		Character player2 = new Player("Player 2", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character player1 = new Player("Player 1", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character player2 = new Player("Player 2", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		Item sword = new Sword();
 		player1.gain(sword);
 		player1.gainMoney(5000);
@@ -983,8 +983,8 @@ class CharacterTest {
 	
 	@Test
 	void characterSellingAnItemMakesBuyersAmountOfMoneyDecrease() {
-		Character player1 = new Player("Player 1", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
-		Character player2 = new Player("Player 2", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character player1 = new Player("Player 1", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character player2 = new Player("Player 2", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		Item sword = new Sword();
 		player1.gain(sword);
 		player1.gainMoney(5000);
@@ -996,8 +996,8 @@ class CharacterTest {
 	
 	@Test
 	void characterWhoHasBoughtAnItemOwnsTheItemAfterTransaction() {
-		Character player1 = new Player("Player 1", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
-		Character player2 = new Player("Player 2", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character player1 = new Player("Player 1", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character player2 = new Player("Player 2", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		Item sword = new Sword();
 		player1.gain(sword);
 		player1.gainMoney(5000);
@@ -1011,8 +1011,8 @@ class CharacterTest {
 	
 	@Test
 	void characterWhoHasSoldAnItemDoesntTheItemAfterTransaction() {
-		Character player1 = new Player("Player 1", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
-		Character player2 = new Player("Player 2", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character player1 = new Player("Player 1", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character player2 = new Player("Player 2", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		Item sword = new Sword();
 		player1.gain(sword);
 		player1.gainMoney(5000);
@@ -1026,8 +1026,8 @@ class CharacterTest {
 	
 	@Test
 	void characterTryingToBuyAnItemThatCantBeBoughtThrowsIAE() {
-		Character player1 = new Player("Player 1", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
-		Character player2 = new Player("Player 2", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character player1 = new Player("Player 1", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character player2 = new Player("Player 2", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		Item sword = new Sword();
 		player1.gain(sword);
 		player1.equip(sword);
@@ -1041,8 +1041,8 @@ class CharacterTest {
 	
 	@Test
 	void characterTryingToSellAnItemThatCantBeBoughtThrowsIAE() {
-		Character player1 = new Player("Player 1", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
-		Character player2 = new Player("Player 2", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character player1 = new Player("Player 1", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character player2 = new Player("Player 2", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		Item sword = new Sword();
 		player1.gain(sword);
 		player1.equip(sword);
@@ -1056,7 +1056,7 @@ class CharacterTest {
 	
 	@Test
 	void characterTryingToUseAnItemThatCantBeUsedThrowsIAE() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		Item wand = new Wand();
 		character.gain(wand);
 		assertThrows(IllegalArgumentException.class, () -> {
@@ -1066,7 +1066,7 @@ class CharacterTest {
 	
 	@Test
 	void characterTryingToEnhanceAnItemThatCantBeEnhancedThrowsIAE() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		Item sword = new Sword();
 		character.gain(sword);
 		assertThrows(IllegalArgumentException.class, () -> {
@@ -1076,7 +1076,7 @@ class CharacterTest {
 	
 	@Test
 	void characterTryingToDestroyAnItemThatIsntDestroyableThrowsIAE() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		Item sword = new Sword();
 		character.destroy(sword);
 		assertThat(sword.isDestroyable(), is(equalTo(false)));
@@ -1087,7 +1087,7 @@ class CharacterTest {
 	
 	@Test
 	void characterTryingToRecoverAnItemThatIsntRecoverableThrowsIAE() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		Item sword = new Sword();
 		assertThat(sword.isRecoverable(), is(equalTo(false)));
 		assertThrows(IllegalArgumentException.class, () -> {
@@ -1097,7 +1097,7 @@ class CharacterTest {
 	
 	@Test
 	void characterThatEnhancesAnEnhancableItemMakesTheItemEnhanced() {
-		Character character = new Player("Default character", new Human(), new Knight(), true, (new MapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+		Character character = new Player("Default character", new Human(), new Knight(), true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
 		Item sword = new Sword(Size.SMALL);
 		assertThat(sword.isEnhancable(), is(equalTo(true)));
 		assertThat(sword.isEnhanced(), is(equalTo(false)));

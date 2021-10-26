@@ -10,9 +10,9 @@ import Jobs.Healer;
 import Jobs.Job;
 import Jobs.Knight;
 import Jobs.Magician;
-import Map.Map;
-import Map.MapPosition;
-import Map.MapGenerator;
+import Map.GameMap;
+import Map.GameMapPosition;
+import Map.GameMapGenerator;
 import Races.Elf;
 import Races.Human;
 import Races.Ogre;
@@ -27,9 +27,9 @@ class RingTest {
 	/**
 	 * Tests for Ring class
 	 */
-	private static final MapGenerator MAP_GENERATOR = new MapGenerator(4, 4);
-	public static final Map MAP = MAP_GENERATOR.generate(1);
-	public static final MapPosition MAP_POSITION = MAP.getMapTiles()[2][2];
+	private static final GameMapGenerator MAP_GENERATOR = new GameMapGenerator(4, 4);
+	public static final GameMap MAP = MAP_GENERATOR.generate(1);
+	public static final GameMapPosition MAP_POSITION = MAP.getMapTiles()[2][2];
 	public static final Ring DEFAULT_RING = new Ring();
 	public static final String NAME = "Mr Default";
 	public static final Race[] RACES = {new Human(), new Ogre(), new Elf()};

@@ -1,8 +1,5 @@
 package Item;
 
-import Map.Map;
-import Map.MapPosition;
-
 public class Egg extends Food {
 	public static final int WEIGHT = 2;
 	public static final int VALUE = 10;

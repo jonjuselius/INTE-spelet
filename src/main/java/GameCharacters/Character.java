@@ -289,6 +289,14 @@ public abstract class Character {
 		this.level = level;
 	}
 	
+	public Race getRace() {
+		return race;
+	}
+	
+	public Job getJob() {
+		return job;
+	}
+	
 	public Inventory getInventory() {
 		return inventory;
 	}
