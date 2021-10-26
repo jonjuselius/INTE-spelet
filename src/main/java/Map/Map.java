@@ -11,7 +11,7 @@ public class Map {
         }
         this.width = width;
         if (height <= 0) {
-            throw new IllegalArgumentException("Width must be > 0");
+            throw new IllegalArgumentException("Height must be > 0");
         }
         this.height = height;
         this.mapTiles = new MapPosition[width][height];
@@ -37,12 +37,12 @@ public class Map {
         mapTiles[xPos][yPos] = tile;
     }
 
-    public MapPosition generateRandomPos(int xfakeRandom, int yFakeRandom) {
+    public MapPosition generateRandomPos(int xFakeRandom, int yFakeRandom) {
         /*Generates xPos and yPos inside of the interval for the Map's width and height.
         To make this method testable, an int called fakeRandom is used,
         instead of using e.g. random.nextInt(0, width - 1) for xPos. The same for yPos.
          */
-        int xPos = xfakeRandom;
+        int xPos = xFakeRandom;
         int yPos = yFakeRandom;
         return new MapPosition(xPos, yPos, this);
     }

@@ -1,9 +1,9 @@
 package Map;
 
 public class MapPosition {
-    private Map map;
-    private int xPos;
-    private int yPos;
+    private final Map map;
+    private final int xPos;
+    private final int yPos;
     private Terrain terrain;
     private MapPosition[] neighbors = new MapPosition[4];
 
