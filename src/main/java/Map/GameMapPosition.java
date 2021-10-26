@@ -1,7 +1,6 @@
 package Map;
 
 public class GameMapPosition {
-    //private Map map;
     private int xPos;
     private int yPos;
     private Terrain terrain;
@@ -13,18 +12,7 @@ public class GameMapPosition {
         }
         this.xPos = xPos;
         this.yPos = yPos;
-        //this.map = map;
-        //The standard terrain is grass
     }
-
-//    public MapPosition(int xPos, int yPos, Terrain terrain, Map map) {
-//        this(xPos, yPos, map);
-//        this.terrain = terrain;
-//    }
-
-//    public Map getMap() {
-//        return map;
-//    }
 
     public int getYPos() {
         return yPos;
