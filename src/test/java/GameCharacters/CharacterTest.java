@@ -1,4 +1,7 @@
 package GameCharacters;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -15,7 +18,6 @@ class CharacterTest {
 	private Human human = new Human();
 	private Magician magician = new Magician();
 	private GameMapPosition defaultPosition = testMap.getMapTiles()[0][0];
-
 	private GameMap createTestMap() {
 		GameMap map = new GameMap(2, 2);
 		GameMapPosition firstPos = new GameMapPosition(0, 0);
@@ -39,10 +41,31 @@ class CharacterTest {
 		return map;
 	}
 
+	public static class ExceptionMatcher extends TypeSafeMatcher<IllegalArgumentException> {
+		private String cantMoveOutOfTheMap = "Can't move out of the map";
+
+		@Override
+		public boolean matchesSafely(IllegalArgumentException exception) {
+			if (exception.equals(IllegalArgumentException.class) && exception.getMessage().equals(cantMoveOutOfTheMap)) {
+				return true;
+			}
+			return false;
+		}
+
+		@Override
+		public void describeTo(Description description) {
+			description.appendText("Didn't throw expected exception");
+		}
+
+		public static Matcher<IllegalArgumentException> throwsCantMoveOutOfTheMapException() {
+			return new ExceptionMatcher();
+		}
+	}
+
 	@Test
 	void constructorSetsGameMapPosition() {
 		Player player = new Player("Player", human, magician, true, defaultPosition);
-		assertThat(player.getPosition(), equalTo(defaultPosition));
+		assertThat(player.getPosition(), is(defaultPosition));
 	}
 
 	@Test
@@ -524,34 +547,24 @@ class CharacterTest {
 		assertThat(newPos, equalTo(human_player.moveEast()));
 	}
 
-//	public final class FailsWithException<Ex extends Throwable> {
-//
-//		private final Ex matcher;
-//
-//		public FailsWithException(final Ex matcher) {
-//			this.matcher = matcher;
-//		}
-//
-////		public Ex failsWith() {
-////			return new FailsWithException<Ex>(new IllegalArgumentException);
-////		}
-//
-//		public String message() {
-//			return "You can't move out of the map!";
-//		}
-//	}
-
 	@Test
 	void IAEThrownWhenTryingToWalkOutsideMapNorth() {
-		fail("Not implemented yet");
-		//Player human_player = new Player("Human", human, magician, true, testMap.getMapTiles()[0][1]);
-		//assertThat({human_player.moveNorth()}, throws());
+		Player human_player = new Player("Human", human, magician, true, testMap.getMapTiles()[0][1]);
+		try {
+			human_player.moveNorth();
+		} catch (IllegalArgumentException e) {
+			assertThat(e, ExceptionMatcher.throwsCantMoveOutOfTheMapException());
+		}
 	}
 
 	@Test
 	void IAEThrownWhenTryingToWalkOutsideMapSouth() {
-		fail("Not implemented yet");
-		//Player human_player = new Player("Human", human, magician, true, defaultPosition);
+		Player human_player = new Player("Human", human, magician, true, defaultPosition);
+		try {
+			human_player.moveNorth();
+		} catch (IllegalArgumentException e) {
+			assertThat(e, ExceptionMatcher.throwsCantMoveOutOfTheMapException());
+		}
 	}
 
 	@Test
@@ -576,14 +589,14 @@ class CharacterTest {
 	void humanCanMoveOnGrass() {
 		Player human_player = new Player("Human", human, magician, true, defaultPosition);
 		GameMapPosition grassPosToVisit = testMap.getMapTiles()[1][0];
-		assertEquals(grassPosToVisit, human_player.moveEast());
+		assertThat(grassPosToVisit, is(human_player.moveEast()));
 	}
 
 	@Test
 	void humanCanMoveInWater() {
 		Player human_player = new Player("Human", human, magician, true, defaultPosition);
 		GameMapPosition waterPosToVisit = testMap.getMapTiles()[0][1];
-		assertEquals(waterPosToVisit, human_player.moveNorth());
+		assertThat(waterPosToVisit, is(human_player.moveNorth()));
 	}
 
 	@Test
@@ -598,13 +611,13 @@ class CharacterTest {
 	void ogreCanMoveOnGrass() {
 		Player ogre = new Player("Ogre", new Ogre(), magician, true, defaultPosition);
 		GameMapPosition grassPosToVisit = testMap.getMapTiles()[1][0];
-		assertEquals(grassPosToVisit, ogre.moveEast());
+		assertThat(grassPosToVisit, is(ogre.moveEast()));
 	}
 
 	@Test
 	void ogreMovesOutOfWaterWhenInWater() {
 		Player ogre = new Player("Ogre", new Ogre(), magician, true, defaultPosition);
-		assertEquals(ogre.getPosition(), ogre.moveNorth());
+		assertThat(ogre.getPosition(), is(ogre.moveNorth()));
 	}
 
 	@Test
@@ -619,14 +632,14 @@ class CharacterTest {
 	void elfCanMoveOnGrass() {
 		Player elf = new Player("Elf", new Elf(), magician, true, defaultPosition);
 		GameMapPosition grassPosToVisit = testMap.getMapTiles()[1][0];
-		assertEquals(grassPosToVisit, elf.moveEast());
+		assertThat(grassPosToVisit, is(elf.moveEast()));
 	}
 
 	@Test
 	void elfCanMoveOnWater() {
 		Player elf = new Player("Elf", new Elf(), magician, true, defaultPosition);
 		GameMapPosition waterPosToVisit = testMap.getMapTiles()[0][1];
-		assertEquals(waterPosToVisit, elf.moveNorth());
+		assertThat(waterPosToVisit, is(elf.moveNorth()));
 	}
 
 	@Test
@@ -634,7 +647,7 @@ class CharacterTest {
 		Player elf = new Player("Elf", new Elf(), magician, true, defaultPosition);
 		GameMapPosition lavaPosToVisit = testMap.getMapTiles()[1][1];
 		elf.moveEast();
-		assertEquals(lavaPosToVisit, elf.moveNorth());
+		assertThat(lavaPosToVisit, is(elf.moveNorth()));
 	}
 
 }
