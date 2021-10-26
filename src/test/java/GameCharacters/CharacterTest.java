@@ -44,14 +44,11 @@ class CharacterTest {
 	}
 
 	public static class ExceptionMatcher extends TypeSafeMatcher<IllegalArgumentException> {
-		private String cantMoveOutOfTheMap = "Can't move out of the map";
+		private static final String cantMoveOutOfTheMap = "Can't move out of the map";
 
 		@Override
 		public boolean matchesSafely(IllegalArgumentException exception) {
-			if (exception.getClass().equals(IllegalArgumentException.class) && exception.getMessage().equals(cantMoveOutOfTheMap)) {
-				return true;
-			}
-			return false;
+			return exception.getClass().equals(IllegalArgumentException.class) && exception.getMessage().equals(cantMoveOutOfTheMap);
 		}
 
 		@Override
@@ -581,7 +578,7 @@ class CharacterTest {
 
 	@Test
 	void IAEThrownWhenTryingToWalkOutsideMapEast() {
-		Player human_player = new Player("Human", new Human(), new Magician(), true, testMap.getMapTiles()[0][1]);
+		Player human_player = new Player("Human", new Human(), new Magician(), true, testMap.getMapTiles()[1][0]);
 		try {
 			human_player.moveEast();
 		} catch (IllegalArgumentException e) {
@@ -592,9 +589,7 @@ class CharacterTest {
 	@Test
 	void IAEThrownWhenTryingToMoveDeadPlayer() {
 		Player human_player = new Player("Human", new Human(), new Magician(), false, defaultPosition);
-		assertThrows(IllegalArgumentException.class, () ->
-			human_player.moveEast()
-		);
+		assertThrows(IllegalArgumentException.class, human_player::moveEast);
 	}
 
 	@Test

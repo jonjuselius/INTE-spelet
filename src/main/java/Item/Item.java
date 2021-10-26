@@ -2,7 +2,6 @@ package Item;
 
 import GameCharacters.Character;
 import Map.GameMapPosition;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
