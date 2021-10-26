@@ -47,11 +47,15 @@ class GameMapPositionTest {
     }
 
     @Test
-    void neighborsSetCorrectly() {
-        assertEquals(west, MAP_POSITION.getWestNeighbor());
-        assertEquals(east, MAP_POSITION.getEastNeighbor());
-        assertEquals(north, MAP_POSITION.getNorthNeighbor());
-        assertEquals(south, MAP_POSITION.getSouthNeighbor());
+    void mapTilesPutCorrectly() {
+        GameMapPosition[] neighbors = new GameMapPosition[4];
+        neighbors[0] = west;
+        neighbors[1] = east;
+        neighbors[2] = north;
+        neighbors[3] = south;
+        GameMapPosition positionWithNeighbors = new GameMapPosition(0, 0);
+        positionWithNeighbors.setNeighbors(west, east, north, south);
+        assertThat(positionWithNeighbors.getNeighbors(), is(neighbors));
     }
 
     @Test
