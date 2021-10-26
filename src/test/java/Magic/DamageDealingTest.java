@@ -15,7 +15,7 @@ class DamageDealingTest {
 
     public static final GameMapGenerator MAP_GENERATOR = new GameMapGenerator(4, 4);
     public static final GameMap MAP = MAP_GENERATOR.generate(1);
-    public static final GameMapPosition MAP_POSITION = MAP.generateRealRandomPos(new Random(), new Random());
+    public static final GameMapPosition MAP_POSITION = MAP.generateRandomPos(new Random(), new Random());
     private Human human = new Human();
     private Magician magician = new Magician();
 

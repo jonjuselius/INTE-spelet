@@ -40,6 +40,12 @@ class CharacterTest {
 	}
 
 	@Test
+	void constructorSetsGameMapPosition() {
+		Player player = new Player("Player", human, magician, true, defaultPosition);
+		assertThat(player.getPosition(), equalTo(defaultPosition));
+	}
+
+	@Test
 	void takeDamageReducesCorrectHealth() {
 		Player p = new Player("Player1", human, magician, true, defaultPosition);
 		p.takeDamage(100);

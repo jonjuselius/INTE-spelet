@@ -30,7 +30,7 @@ class SwordTest {
 	 */
 	public static final GameMapGenerator MAP_GENERATOR = new GameMapGenerator(4, 4);
 	public static final GameMap MAP = MAP_GENERATOR.generate(1);
-	public static final GameMapPosition MAP_POSITION = MAP.generateRealRandomPos(new Random(), new Random());
+	public static final GameMapPosition MAP_POSITION = MAP.generateRandomPos(new Random(), new Random());
 	public static final Sword DEFAULT_SWORD = new Sword(MAP_POSITION);
 	public static final String NAME = "Mr Default";
 	public static final Race[] RACES = {new Human(), new Ogre(), new Elf()};

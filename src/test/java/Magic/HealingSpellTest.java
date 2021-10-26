@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class HealingSpellTest {
     public static final GameMapGenerator MAP_GENERATOR = new GameMapGenerator(4, 4);
     public static final GameMap MAP = MAP_GENERATOR.generate(1);
-    public static final GameMapPosition MAP_POSITION = MAP.generateRealRandomPos(new Random(), new Random());
+    public static final GameMapPosition MAP_POSITION = MAP.generateRandomPos(new Random(), new Random());
     Human human = new Human();
     Magician magician = new Magician();
     Healer healer = new Healer();
