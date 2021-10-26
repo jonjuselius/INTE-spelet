@@ -135,7 +135,7 @@ public abstract class Character {
 		return magicSkill;
 	}
 
-	protected void setMagicSkill(int magicSkill) {
+	public void setMagicSkill(int magicSkill) {
 		this.magicSkill = magicSkill;
 	}
 

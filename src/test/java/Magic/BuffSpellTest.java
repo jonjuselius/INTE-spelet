@@ -22,20 +22,20 @@ class BuffSpellTest {
     public static final GameMapPosition MAP_POSITION = MAP.generateRandomPos(new Random(), new Random());
     private static Human human;
     private static Magician magician;
-    private static Player p;
+    private static Player mockPlayer;
 
     @BeforeAll
     static void setup(){
         human = new Human();
         magician = new Magician();
-        p = mock(Player.class);
-        //p.setIntelligence(20);
+        mockPlayer = mock(Player.class);
 
         //when(p.getStrength()).thenReturn(p.getRace().getStrength());
-        when(p.getIntelligence()).thenReturn(20);
-        when(p.getMagicSkill()).thenReturn(10);
-        when(p.getRace()).thenReturn(human);
-        when(p.getJob()).thenReturn(magician);
+        when(mockPlayer.getIntelligence()).thenReturn(20);
+        when(mockPlayer.getMagicSkill()).thenReturn(10);
+        when(mockPlayer.getRemainingMana()).thenReturn(300);
+        when(mockPlayer.getRace()).thenReturn(human);
+        when(mockPlayer.getJob()).thenReturn(magician);
     }
 
 
@@ -50,6 +50,21 @@ class BuffSpellTest {
     }
 
     @Test
+    public void exceptionThrownWhenNotEnoughManaForCast(){
+        BuffSpell bs = new BuffSpell("StrengthBuff", 305, Element.PHYSICAL, 5);
+
+        assertThrows(IllegalStateException.class, ()-> bs.cast(mockPlayer,1));
+    }
+
+    @Test
+    void castDepletesCorrectAmountOfMana(){
+        BuffSpell bs = new BuffSpell("StrengthBuff", 10, Element.PHYSICAL, 5);
+        Player p = new Player("Player1", human, magician, true, MAP_POSITION);
+        bs.cast(p,1);
+        assertEquals(290, p.getRemainingMana());
+    }
+
+    @Test
     public void physicalBuffSpellIncreasesAndDecreasesStrength(){
         List<Integer> strengthStats = new ArrayList<>();
         BuffSpell bs = new BuffSpell("StrengthBuff", 10, Element.PHYSICAL, 5);
@@ -60,7 +75,7 @@ class BuffSpellTest {
                 strengthStats.add(strength);
             }
         };
-        bs.cast(p,p,1);
+        bs.cast(p,1);
 
         assertEquals(3, strengthStats.size());
         assertEquals(20, strengthStats.get(0));
@@ -79,7 +94,7 @@ class BuffSpellTest {
                 strengthStats.add((int) System.nanoTime());
             }
         };
-        bs.cast(p,p,10);
+        bs.cast(p,10);
         long duration = (strengthStats.get(2) - strengthStats.get(0)) / 1000000;
 
         assertEquals(3, strengthStats.size());
@@ -90,14 +105,27 @@ class BuffSpellTest {
     @Test
     public void fireBuffSpellIncreasesAndDecreasesIntelligence(){
         BuffSpell bs = new BuffSpell("IntelligenceBuff", 10, Element.FIRE, 5);
-        bs.cast(p,p,1);
+        bs.cast(mockPlayer,1);
 
         ArgumentCaptor<Integer> argumentCaptor = ArgumentCaptor.forClass(int.class);
-        verify(p,times(2)).setIntelligence(argumentCaptor.capture());
+        verify(mockPlayer,times(2)).setIntelligence(argumentCaptor.capture());
         List<Integer> intelligenceStats = argumentCaptor.getAllValues();
 
         assertEquals(40, intelligenceStats.get(0));
         assertEquals(20, intelligenceStats.get(1));
+    }
 
+    @Test
+    public void lightningBuffSpellIncreasesAndDecreasesMagicSkill(){
+        BuffSpell bs = new BuffSpell("MagicBuff", 10, Element.LIGHTNING, 5);
+        bs.cast(mockPlayer,1);
+
+        ArgumentCaptor<Integer> argumentCaptor = ArgumentCaptor.forClass(int.class);
+        verify(mockPlayer,times(2)).setMagicSkill(argumentCaptor.capture());
+        List<Integer> magicStats = argumentCaptor.getAllValues();
+        System.out.println(magicStats);
+
+        assertEquals(40, magicStats.get(0));
+        assertEquals(10, magicStats.get(1));
     }
 }

@@ -5,9 +5,9 @@ import GameCharacters.Character;
 
 public class BuffSpell extends Spell {
 
-    private int spellStrength;
+    private final int spellStrength;
 
-
+    //Spell that positively changes stats on a player
     public BuffSpell(String name, int manaCost, Element element, int spellStrength) {
         super(name, manaCost, element);
         this.spellStrength = spellStrength;
@@ -22,15 +22,23 @@ public class BuffSpell extends Spell {
 
         long duration = calculateDuration(spellCaster);
 
-        cast(spellCaster, target, duration);
+        cast(spellCaster, duration);
 
     }
 
-    public void cast(Character spellCaster, Character target, long duration){
+    //
+    public void cast(Character spellCaster, long duration){
+        if(getManaCost() > spellCaster.getRemainingMana()) {
+            throw new IllegalStateException("Not enough mana");
+        }else{
+            spellCaster.useMana(getManaCost());
 
-        switch (this.getElement()){
-            case PHYSICAL -> physicalBuffSpell(spellCaster, target, duration);
-            case FIRE -> fireBuffSpell(spellCaster, target, duration);
+            switch (this.getElement()) {
+                case PHYSICAL -> physicalBuffSpell(spellCaster, duration);
+                case FIRE -> fireBuffSpell(spellCaster, duration);
+                case LIGHTNING -> lightningBuffSpell(spellCaster, duration);
+
+            }
         }
     }
 
@@ -50,25 +58,37 @@ public class BuffSpell extends Spell {
         }
     }
 
-    private void physicalBuffSpell(Character spellCaster, Character target, long duration){
-        increaseStrength(spellCaster, target);
+    private void physicalBuffSpell(Character spellCaster, long duration){
+        increaseStrength(spellCaster);
         buffDuration(duration);
-        target.setStrength(target.getRace().getStrength());
+        spellCaster.setStrength(spellCaster.getRace().getStrength());
     }
 
-    private void increaseStrength(Character spellCaster, Character target){
-        target.setStrength(target.getStrength() * calculateSpellStrength(spellCaster));
+    private void increaseStrength(Character spellCaster){
+        spellCaster.setStrength(spellCaster.getStrength() * calculateSpellStrength(spellCaster));
     }
 
-    private void fireBuffSpell(Character spellCaster, Character target, long duration){
-        increaseIntelligence(spellCaster, target);
+    private void fireBuffSpell(Character spellCaster, long duration){
+        increaseIntelligence(spellCaster);
         buffDuration(duration);
-        target.setIntelligence(target.getRace().getIntelligence());
+        spellCaster.setIntelligence(spellCaster.getRace().getIntelligence());
     }
 
-    private void increaseIntelligence(Character spellCaster, Character target){
-        target.setIntelligence(target.getIntelligence() * calculateSpellStrength(spellCaster));
+    private void increaseIntelligence(Character spellCaster){
+        spellCaster.setIntelligence(spellCaster.getIntelligence() * calculateSpellStrength(spellCaster));
     }
+
+    private void lightningBuffSpell(Character spellCaster, long duration){
+        increaseMagicSkill(spellCaster);
+        buffDuration(duration);
+        spellCaster.setMagicSkill(spellCaster.getJob().getMagic());
+    }
+
+    private void increaseMagicSkill(Character spellCaster){
+        spellCaster.setMagicSkill(spellCaster.getIntelligence() * calculateSpellStrength(spellCaster));
+    }
+
+
 
 
 
