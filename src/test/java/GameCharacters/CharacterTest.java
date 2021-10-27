@@ -712,33 +712,6 @@ class CharacterTest {
 	}
 	//Emma
 	
-	/** Money **/
-	@Test
-	void characterCanGainAndLoseMoney() {
-		assertThat(character.getMoney(), is(equalTo(0)));
-		character.gainMoney(1000);
-		assertThat(character.getMoney(), is(equalTo(1000)));
-		character.loseMoney(2000);
-		assertThat(character.getMoney(), is(equalTo(-1000)));
-		character.gainMoney(1000);
-		assertThat(character.getMoney(), is(equalTo(0)));
-	}
-	
-	@Test
-	void characterCantAffordAnItemIfHasNotEnoughMoney() {
-		assertThat(character.getMoney(), is(equalTo(0)));
-		assertThat(character.canAfford(ring), is(false));
-	}
-	
-	@Test
-	void characterCanAffordARingIfHasEnoughMoney() {
-		assertThat(character.getMoney(), is(equalTo(0)));
-		character.gainMoney(5000);
-		assertThat(character.getMoney(), is(equalTo(5000)));
-		assertThat(character.canAfford(ring), is(true));
-		character.loseMoney(5000);
-	}
-	
 	/** Eat **/
 	@Test
 	void characterCantEatNonFood() {
@@ -1211,6 +1184,34 @@ class CharacterTest {
 			assertThat(e, ExceptionMatcher.isSellException());
 		}
 	}
+	
+	/** Money/Wallet **/
+	@Test
+	void characterCanGainAndLoseMoney() {
+		assertThat(character.getMoney(), is(equalTo(0)));
+		character.gainMoney(1000);
+		assertThat(character.getMoney(), is(equalTo(1000)));
+		character.loseMoney(2000);
+		assertThat(character.getMoney(), is(equalTo(-1000)));
+		character.gainMoney(1000);
+		assertThat(character.getMoney(), is(equalTo(0)));
+	}
+	
+	@Test
+	void characterCantAffordAnItemIfHasNotEnoughMoney() {
+		assertThat(character.getMoney(), is(equalTo(0)));
+		assertThat(character.canAfford(ring), is(false));
+	}
+	
+	@Test
+	void characterCanAffordARingIfHasEnoughMoney() {
+		assertThat(character.getMoney(), is(equalTo(0)));
+		character.gainMoney(5000);
+		assertThat(character.getMoney(), is(equalTo(5000)));
+		assertThat(character.canAfford(ring), is(true));
+		character.loseMoney(5000);
+	}
+	
 	//Jon
 
 }
