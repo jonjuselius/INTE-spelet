@@ -7,139 +7,147 @@ import static org.junit.jupiter.api.Assertions.*;
 import Map.GameMap;
 import Map.GameMapGenerator;
 import Map.GameMapPosition;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import GameCharacters.Character;
 import GameCharacters.Player;
-import Jobs.Healer;
 import Jobs.Job;
-import Jobs.Knight;
-import Jobs.Magician;
-import Races.Elf;
-import Races.Human;
-import Races.Ogre;
 import Races.Race;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 class WandTest {
-	private static final GameMapGenerator MAP_GENERATOR = new GameMapGenerator(4, 4);
-	public static final GameMap MAP = MAP_GENERATOR.generate(1);
-	public static final GameMapPosition MAP_POSITION = MAP.getMapTiles()[2][2];
-	public static final Wand DEFAULT_WAND = new Wand();
-	public static final String NAME = "Mr Default";
-	public static final Race[] RACES = {new Human(), new Ogre(), new Elf()};
-	public static final Job[] JOBS = {new Knight(), new Magician(), new Healer()};
-	public static final boolean ALIVE = true;
-	public static final List<Character> DEFAULT_PLAYERS = new ArrayList<>();
-	
-	@BeforeAll
-	static void beforeAll() {
-		for (Job job : JOBS) {
-			for (Race race : RACES) {
-				DEFAULT_PLAYERS.add(new Player(NAME, race, job, ALIVE, MAP_POSITION));
-			}
-		}
-	}
+	private Item wand = new Wand();
+	private GameMapGenerator mapGenerator = new GameMapGenerator(4, 4);
+	private GameMap defaultMap = mapGenerator.generate(1);
+	private GameMapPosition defaultMapPosition = defaultMap.getMapTiles()[2][2];
+	private List<Race> races = new ArrayList<>(Race.getAllRaces());
+	private List<Job> jobs = new ArrayList<>(Job.getAllJobs());
+	private Race human = races.get(0);
+	private Race ogre = races.get(1);
+	private Race elf = races.get(2);
+	private Job knight = jobs.get(0);
+	private Job magician = jobs.get(1);
+	private Job healer = jobs.get(2);
+	private Character[] characters = {
+			new Player("Player", human, knight, true, defaultMapPosition),
+			new Player("Player", ogre, knight, true, defaultMapPosition),
+			new Player("Player", elf, knight, true, defaultMapPosition),
+			new Player("Player", human, magician, true, defaultMapPosition),
+			new Player("Player", ogre, magician, true, defaultMapPosition),
+			new Player("Player", elf, magician, true, defaultMapPosition),
+			new Player("Player", human, healer, true, defaultMapPosition),
+			new Player("Player", ogre, healer, true, defaultMapPosition),
+			new Player("Player", elf, healer, true, defaultMapPosition),
+	};
+	private List<Character> players = Arrays.asList(characters);
+	private Character knightHuman = characters[0];
+	private Character knightOgre = characters[1];
+	private Character knightElf = characters[2];
+	private Character magicianHuman = characters[3];
+	private Character magicianOgre = characters[4];
+	private Character magicianElf = characters[5];
+	private Character healerHuman = characters[6];
+	private Character healerOgre = characters[7];
+	private Character healerElf = characters[8];
 	
 	@Test
 	void R10_canUse() {
-		assertFalse(DEFAULT_WAND.canBeUsedBy(DEFAULT_PLAYERS.get(0)));
+		assertThat(wand.canBeUsedBy(knightHuman), is(false));
 	}
 	
 	@Test
 	void R11_canUse() {
-		assertFalse(DEFAULT_WAND.canBeUsedBy(DEFAULT_PLAYERS.get(1)));
+		assertThat(wand.canBeUsedBy(knightOgre), is(false));
 	}
 	
 	@Test
 	void R12_canUse() {
-		assertFalse(DEFAULT_WAND.canBeUsedBy(DEFAULT_PLAYERS.get(2)));
+		assertThat(wand.canBeUsedBy(knightElf), is(false));
 	}
 	
 	@Test
 	void R13_canUse() {
-		assertTrue(DEFAULT_WAND.canBeUsedBy(DEFAULT_PLAYERS.get(3)));
+		assertThat(wand.canBeUsedBy(magicianHuman), is(true));
 	}
 	
 	@Test
 	void R14_canUse() {
-		assertTrue(DEFAULT_WAND.canBeUsedBy(DEFAULT_PLAYERS.get(4)));
+		assertThat(wand.canBeUsedBy(magicianOgre), is(true));
 	}
 	
 	@Test
 	void R15_canUse() {
-		assertTrue(DEFAULT_WAND.canBeUsedBy(DEFAULT_PLAYERS.get(5)));
+		assertThat(wand.canBeUsedBy(magicianElf), is(true));
 	}
 	
 	@Test
 	void R16_canUse() {
-		assertTrue(DEFAULT_WAND.canBeUsedBy(DEFAULT_PLAYERS.get(6)));
+		assertThat(wand.canBeUsedBy(healerHuman), is(true));
 	}
 	
 	@Test
 	void R17_canUse() {
-		assertTrue(DEFAULT_WAND.canBeUsedBy(DEFAULT_PLAYERS.get(7)));
+		assertThat(wand.canBeUsedBy(healerOgre), is(true));
 	}
 	
 	@Test
 	void R18_canUse() {
-		assertTrue(DEFAULT_WAND.canBeUsedBy(DEFAULT_PLAYERS.get(8)));
+		assertThat(wand.canBeUsedBy(healerElf), is(true));
 	}
 	
 	@Test
-	void WA1_newWandHasDefaultWeight() {
+	void newWandHasDefaultWeight() {
 		assertThat(new Wand().getWeight(), is(equalTo(Wand.WEIGHT)));
 	}
 	
 	@Test
-	void WA2_newWandHasDefaultValue() {
+	void newWandHasDefaultValue() {
 		assertThat(new Wand().getValue(), is(equalTo(Wand.VALUE)));
 	}
 	
 	@Test
-	void WA3_newWandHasDefaultSize() {
+	void newWandHasDefaultSize() {
 		assertThat(new Wand().getSize(), is(equalTo(Wand.DEFAULT_SIZE)));
 	}
 	
 	@Test
-	void WA4_newWandHasDefaultType() {
+	void newWandHasDefaultType() {
 		assertThat(new Wand().getType(), is(equalTo(Wand.TYPE)));
 	}
 	
 	@Test
-	void WA5_newWandHasDefaultCondition() {
+	void newWandHasDefaultCondition() {
 		assertThat(new Wand().getCondition(), is(equalTo(Wand.DEFAULT_CONDITION)));
 	}
 	
 	@Test
-	void WA8_newWandWithSizeSpecifiedAsSmallInConstructorCreatesASmallWand() {
+	void ewWandWithSizeSpecifiedAsSmallInConstructorCreatesASmallWand() {
 		assertThat(new Wand(Size.SMALL).getSize(), is(equalTo(Size.SMALL)));
 	}
 	
 	@Test
-	void WA9_newWandWithSizeSpecifiedAsMediumInConstructorCreatesAMediumWand() {
+	void newWandWithSizeSpecifiedAsMediumInConstructorCreatesAMediumWand() {
 		assertThat(new Wand(Size.MEDIUM).getSize(), is(equalTo(Size.MEDIUM)));
 	}
 	
 	@Test
-	void WA10_newWandWithSizeSpecifiedAsLargeInConstructorCreatesALargeWand() {
+	void newWandWithSizeSpecifiedAsLargeInConstructorCreatesALargeWand() {
 		assertThat(new Wand(Size.LARGE).getSize(), is(equalTo(Size.LARGE)));
 	}
 	
 	@Test
-	void WA11_newWandWithConditionBetweenMinAndMaxSetsConditionInConstructor() {
+	void newWandWithConditionBetweenMinAndMaxSetsConditionInConstructor() {
 		assertThat(new Wand(50).getCondition(), is(equalTo(50)));
 	}
 	
 	@Test
-	void WA12_newWandWithConditionUnderMinimumThrowsIAE() {
+	void newWandWithConditionUnderMinimumThrowsIAE() {
 		assertThrows(IllegalArgumentException.class, () -> new Wand(Item.MIN_CONDITION - 1));
 	}
 	
 	@Test
-	void WA13_newWandWithConditionOverMaximumThrowsIAE() {
+	void newWandWithConditionOverMaximumThrowsIAE() {
 		assertThrows(IllegalArgumentException.class, () -> new Wand(Item.MAX_CONDITION + 1));
 	}
 }

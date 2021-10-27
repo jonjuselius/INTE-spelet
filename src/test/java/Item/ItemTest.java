@@ -3,7 +3,6 @@ package Item;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-
 import GameCharacters.*;
 import GameCharacters.Character;
 import Jobs.*;
@@ -14,15 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 class ItemTest {
-	private GameMapPosition defaultMapPosition = (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2];
-	private Character character = new Player("Default character", new Human(), new Knight(), true, defaultMapPosition);
-	private List<Race> races = new ArrayList<>(Race.getAllRaces());
-	private List<Job> jobs = new ArrayList<>(Job.getAllJobs());
-	private Character[] defaultPlayers = {
-			new Player("Player 1", races.get(0), jobs.get(0), true, defaultMapPosition),
-			new Player("Player 2", races.get(0), jobs.get(0), true, defaultMapPosition)
-	};
-	private Item[] items = {new Sword(), new Wand(), new Egg(), new Shield(), new Ring()};
+	private Item[] items = {new Sword(), new Wand(), new Potion(), new Shield(), new Ring()};
 	private Item[] swordSizes = {new Sword(Size.SMALL), new Sword(Size.MEDIUM), new Sword(Size.LARGE)};
 	private Item sword = items[0];
 	private Item wand = items[1];
@@ -32,6 +23,14 @@ class ItemTest {
 	private Item smallSword = swordSizes[0];
 	private Item mediumSword = swordSizes[1];
 	private Item largeSword = swordSizes[2];
+	private GameMapPosition defaultMapPosition = (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2];
+	private Character character = new Player("Default character", new Human(), new Knight(), true, defaultMapPosition);
+	private List<Race> races = new ArrayList<>(Race.getAllRaces());
+	private List<Job> jobs = new ArrayList<>(Job.getAllJobs());
+	private Character[] defaultPlayers = {
+			new Player("Player 1", races.get(0), jobs.get(0), true, defaultMapPosition),
+			new Player("Player 2", races.get(0), jobs.get(0), true, defaultMapPosition)
+	};
 	
 	@Test
 	void newItemIsNotOwned() {

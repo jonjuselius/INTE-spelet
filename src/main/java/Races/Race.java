@@ -2,9 +2,7 @@ package Races;
 
 import GameCharacters.*;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public abstract class Race {
 
@@ -47,8 +45,8 @@ public abstract class Race {
 	public abstract int getIntelligence();
 	public abstract int getMaxHealth();
 	
-	public static Set<Race> getAllRaces() {
-		Set<Race> allRaces = new HashSet<>();
+	public static List<Race> getAllRaces() {
+		List<Race> allRaces = new ArrayList<>();
 		allRaces.add(new Human());
 		allRaces.add(new Ogre());
 		allRaces.add(new Elf());

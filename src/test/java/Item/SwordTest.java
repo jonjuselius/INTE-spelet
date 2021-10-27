@@ -7,85 +7,98 @@ import static org.junit.jupiter.api.Assertions.*;
 import Map.GameMap;
 import Map.GameMapGenerator;
 import Map.GameMapPosition;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import GameCharacters.Character;
 import GameCharacters.Player;
 import Jobs.Job;
-import Jobs.Knight;
-import Jobs.Magician;
-import Jobs.Healer;
 import Races.Race;
-import Races.Human;
-import Races.Ogre;
-import Races.Elf;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 class SwordTest {
-	private static final GameMapGenerator MAP_GENERATOR = new GameMapGenerator(4, 4);
-	public static final GameMap MAP = MAP_GENERATOR.generate(1);
-	public static final GameMapPosition MAP_POSITION = MAP.getMapTiles()[2][2];
-	public static final Sword DEFAULT_SWORD = new Sword();
-	public static final String NAME = "Mr Default";
-	public static final Race[] RACES = {new Human(), new Ogre(), new Elf()};
-	public static final Job[] JOBS = {new Knight(), new Magician(), new Healer()};
-	public static final boolean ALIVE = true;
-	public static final List<Character> DEFAULT_PLAYERS = new ArrayList<>();
-	
-	@BeforeAll
-	static void beforeAll() {
-		for (Job job : JOBS) {
-			for (Race race : RACES) {
-				DEFAULT_PLAYERS.add(new Player(NAME, race, job, ALIVE, MAP_POSITION));
-			}
-		}
-	}
+	private Item sword = new Sword();
+	private Item wand = new Wand();
+	private Item potion = new Potion();
+	private Item shield = new Shield();
+	private Item ring = new Ring();
+	private GameMapGenerator mapGenerator = new GameMapGenerator(4, 4);
+	private GameMap defaultMap = mapGenerator.generate(1);
+	private GameMapPosition defaultMapPosition = defaultMap.getMapTiles()[2][2];
+	private List<Race> races = new ArrayList<>(Race.getAllRaces());
+	private List<Job> jobs = new ArrayList<>(Job.getAllJobs());
+	private Race human = races.get(0);
+	private Race ogre = races.get(1);
+	private Race elf = races.get(2);
+	private Job knight = jobs.get(0);
+	private Job magician = jobs.get(1);
+	private Job healer = jobs.get(2);
+	private Character[] characters = {
+			new Player("Player", human, knight, true, defaultMapPosition),
+			new Player("Player", ogre, knight, true, defaultMapPosition),
+			new Player("Player", elf, knight, true, defaultMapPosition),
+			new Player("Player", human, magician, true, defaultMapPosition),
+			new Player("Player", ogre, magician, true, defaultMapPosition),
+			new Player("Player", elf, magician, true, defaultMapPosition),
+			new Player("Player", human, healer, true, defaultMapPosition),
+			new Player("Player", ogre, healer, true, defaultMapPosition),
+			new Player("Player", elf, healer, true, defaultMapPosition),
+	};
+	private List<Character> players = Arrays.asList(characters);
+	private Character knightHuman = characters[0];
+	private Character knightOgre = characters[1];
+	private Character knightElf = characters[2];
+	private Character magicianHuman = characters[3];
+	private Character magicianOgre = characters[4];
+	private Character magicianElf = characters[5];
+	private Character healerHuman = characters[6];
+	private Character healerOgre = characters[7];
+	private Character healerElf = characters[8];
 	
 	@Test
 	void R1_canUse() {
-		assertTrue(DEFAULT_SWORD.canBeUsedBy(DEFAULT_PLAYERS.get(0)));
+		assertThat(sword.canBeUsedBy(knightHuman), is(true));
 	}
 	
 	@Test
 	void R2_canUse() {
-		assertTrue(DEFAULT_SWORD.canBeUsedBy(DEFAULT_PLAYERS.get(1)));
+		assertThat(sword.canBeUsedBy(knightOgre), is(true));
 	}
 	
 	@Test
 	void R3_canUse() {
-		assertTrue(DEFAULT_SWORD.canBeUsedBy(DEFAULT_PLAYERS.get(2)));
+		assertThat(sword.canBeUsedBy(knightElf), is(true));
 	}
 	
 	@Test
 	void R4_canUse() {
-		assertFalse(DEFAULT_SWORD.canBeUsedBy(DEFAULT_PLAYERS.get(3)));
+		assertThat(sword.canBeUsedBy(magicianHuman), is(false));
 	}
 	
 	@Test
 	void R5_canUse() {
-		assertFalse(DEFAULT_SWORD.canBeUsedBy(DEFAULT_PLAYERS.get(4)));
+		assertThat(sword.canBeUsedBy(magicianOgre), is(false));
 	}
 	
 	@Test
 	void R6_canUse() {
-		assertFalse(DEFAULT_SWORD.canBeUsedBy(DEFAULT_PLAYERS.get(5)));
+		assertThat(sword.canBeUsedBy(magicianElf), is(false));
 	}
 	
 	@Test
 	void R7_canUse() {
-		assertFalse(DEFAULT_SWORD.canBeUsedBy(DEFAULT_PLAYERS.get(6)));
+		assertThat(sword.canBeUsedBy(healerHuman), is(false));
 	}
 	
 	@Test
 	void R8_canUse() {
-		assertFalse(DEFAULT_SWORD.canBeUsedBy(DEFAULT_PLAYERS.get(7)));
+		assertThat(sword.canBeUsedBy(healerOgre), is(false));
 	}
 	
 	@Test
 	void R9_canUse() {
-		assertFalse(DEFAULT_SWORD.canBeUsedBy(DEFAULT_PLAYERS.get(8)));
+		assertThat(sword.canBeUsedBy(healerElf), is(false));
 	}
 	
 	@Test

@@ -4,9 +4,7 @@ import Races.Human;
 import Races.Ogre;
 import Races.Race;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public abstract class Job {
 
@@ -51,8 +49,8 @@ public abstract class Job {
 		this.maxMana = maxMana;
 	}
 	
-	public static Set<Job> getAllJobs() {
-		Set<Job> allJobs = new HashSet<>();
+	public static List<Job> getAllJobs() {
+		List<Job> allJobs = new ArrayList<>();
 		allJobs.add(new Knight());
 		allJobs.add(new Healer());
 		allJobs.add(new Magician());

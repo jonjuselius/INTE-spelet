@@ -10,18 +10,12 @@ import org.hamcrest.MatcherAssert;
 import Item.Item;
 import Item.Sword;
 import Item.Wand;
-import Item.Egg;
+import Item.Potion;
 import Item.Shield;
 import Item.Ring;
 
 class InventoryTest {
-	/**
-	 * Tests for Inventory class
-	 */
-	//private static final MapGenerator MAP_GENERATOR = new MapGenerator(4, 4);
-	//public static final Map MAP = MAP_GENERATOR.generate(1);
-	//private static final MapPosition MAP_POSITION = MAP.getMapTiles()[2][2];
-	public static final Item[] DEFAULT_ITEMSET = {new Sword(), new Wand(), new Egg(), new Shield(), new Ring()};
+	public static final Item[] DEFAULT_ITEMSET = {new Sword(), new Wand(), new Potion(), new Shield(), new Ring()};
 	public static final Inventory DEFAULT_INVENTORY = new Inventory(DEFAULT_ITEMSET);
 	public static final Item[] EMPTY_ITEMSET = {};
 	public static final Inventory EMPTY_INVENTORY = new Inventory();
@@ -148,7 +142,7 @@ class InventoryTest {
 		Inventory inventory = new Inventory();
 		Item sword = new Sword();
 		Item wand = new Wand();
-		Item egg = new Egg();
+		Item egg = new Potion();
 		Item shield = new Shield();
 		Item ring = new Ring();
 		inventory.add(sword);

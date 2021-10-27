@@ -48,11 +48,11 @@ class CharacterTest {
 			new Player("Player 1", human, knight, true, defaultPosition),
 			new Player("Player 2", human, knight, true, defaultPosition)
 	};
-	private Item[] defaultItems = {new Sword(), new Wand(), new Egg(), new Shield(), new Ring()};
+	private Item[] defaultItems = {new Sword(), new Wand(), new Potion(), new Shield(), new Ring()};
 	private Item[] swordSizes = {new Sword(Size.SMALL), new Sword(Size.MEDIUM), new Sword(Size.LARGE)};
 	private Item sword = defaultItems[0];
 	private Item wand = defaultItems[1];
-	private Item egg = defaultItems[2];
+	private Item potion = defaultItems[2];
 	private Item shield = defaultItems[3];
 	private Item ring = defaultItems[4];
 	private Item smallSword = swordSizes[0];
@@ -746,9 +746,9 @@ class CharacterTest {
 	
 	@Test
 	void characterCanEatFoodThatIsOwneAndFoodThatIsNotOwned() {
-		assertThat(character.owns(egg), is(false));
-		assertThat(egg.isFood(), is(true));
-		assertThat(character.canEat(egg), is(true));
+		assertThat(character.owns(potion), is(false));
+		assertThat(potion.isFood(), is(true));
+		assertThat(character.canEat(potion), is(true));
 		//character.gain(egg);
 		//assertThat(character.owns(egg), is(equalTo(true)));
 		//assertThat(character.canEat(egg), is(equalTo(true)));
@@ -756,7 +756,7 @@ class CharacterTest {
 	
 	@Test
 	void eatingFoodMakesItDestroyed() {
-		Item egg = new Egg();
+		Item egg = new Potion();
 		character.gain(egg);
 		character.eat(egg);
 		assertThat(egg.getCondition(), is(equalTo(Item.MIN_CONDITION)));
@@ -978,11 +978,11 @@ class CharacterTest {
 	
 	@Test
 	void foodCantBeEquipped() {
-		assertThat(character.owns(egg), is(equalTo(false)));
-		assertThat(character.canEquip(egg), is(equalTo(false)));
-		character.gain(egg);
-		assertThat(character.owns(egg), is(equalTo(true)));
-		assertThat(character.canEquip(egg), is(equalTo(false)));
+		assertThat(character.owns(potion), is(equalTo(false)));
+		assertThat(character.canEquip(potion), is(equalTo(false)));
+		character.gain(potion);
+		assertThat(character.owns(potion), is(equalTo(true)));
+		assertThat(character.canEquip(potion), is(equalTo(false)));
 	}
 	
 	/** Give/receive **/
