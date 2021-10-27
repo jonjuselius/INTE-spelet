@@ -374,7 +374,7 @@ public abstract class Character {
 	
 	public void unequip(Item item) {
 		if (!hasEquipped(item)) {
-			throw new IllegalArgumentException("Can't unequip an item that is not equipped!");
+			throw new IllegalArgumentException("The item can't be unequipped!");
 		}
 		equippedItems.remove(item);
 		item.setEquipped(false);
@@ -386,7 +386,7 @@ public abstract class Character {
 	
 	public void give(Item item, Character recipient) {
 		if (!item.canBeGiven(this, recipient)) {
-			throw new IllegalArgumentException("This item can't be given");
+			throw new IllegalArgumentException("The item can't be given!");
 		}
 		this.lose(item);
 		recipient.gain(item);
@@ -405,7 +405,7 @@ public abstract class Character {
 		Character buyer = this;
 		Character seller = other;
 		if (!item.canBeSold(seller, buyer)) {
-			throw new IllegalArgumentException("The item can't be bought");
+			throw new IllegalArgumentException("The item can't be bought!");
 		}
 		seller.give(item, buyer);
 		seller.gainMoney(price);
@@ -417,7 +417,7 @@ public abstract class Character {
 		Character buyer = other;
 		Character seller = this;
 		if (!item.canBeSold(seller, buyer)) {
-			throw new IllegalArgumentException("The item can't be sold");
+			throw new IllegalArgumentException("The item can't be sold!");
 		}
 		seller.give(item, buyer);
 		seller.gainMoney(price);
@@ -442,7 +442,7 @@ public abstract class Character {
 	
 	public void use(Item item) {
 		if (!item.canBeUsedBy(this)) {
-			throw new IllegalArgumentException("Item can't be used");
+			throw new IllegalArgumentException("Item can't be used!");
 		}
 		if (item.isFood()) {
 			destroy(item);
@@ -453,7 +453,7 @@ public abstract class Character {
 	
 	public void eat(Item item) {
 		if (!item.isFood()) {
-			throw new IllegalArgumentException("Item can't be eaten");
+			throw new IllegalArgumentException("Item can't be eaten!");
 		}
 		use(item);
 	}

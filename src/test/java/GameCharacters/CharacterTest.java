@@ -43,18 +43,20 @@ class CharacterTest {
 		map.putTileOnMap(fourthPos, fourthPos.getXPos(), fourthPos.getYPos());
 		return map;
 	}
-	private Character character = new Player("Default character", human, knight, true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+	private Character character = new Player("Default character", human, knight, true, defaultPosition);
 	private Character[] players = {
-			new Player("Player 1", human, knight, true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]),
-			new Player("Player 2", human, knight, true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2])
+			new Player("Player 1", human, knight, true, defaultPosition),
+			new Player("Player 2", human, knight, true, defaultPosition)
 	};
-	
-	private Item sword = new Sword();
-	private Item smallSword = new Sword(Size.SMALL);
-	private Item wand = new Wand();
-	private Item egg = new Egg();
-	private Item shield = new Shield();
-	private Item ring = new Ring();
+	private Item[] defaultItems = {new Sword(), new Wand(), new Egg(), new Shield(), new Ring(), new Sword(Size.SMALL), new Sword(Size.MEDIUM), new Sword(Size.LARGE)};
+	private Item sword = defaultItems[0];
+	private Item wand = defaultItems[1];
+	private Item egg = defaultItems[2];
+	private Item shield = defaultItems[3];
+	private Item ring = defaultItems[4];
+	private Item smallSword = defaultItems[5];
+	private Item mediumSword = defaultItems[6];
+	private Item largeSword = defaultItems[7];
 	
 	public static class ExceptionMatcher extends TypeSafeMatcher<IllegalArgumentException> {
 		private String errorMessage;
@@ -77,8 +79,36 @@ class CharacterTest {
 			return new ExceptionMatcher("Can't move out of the map");
 		}
 		
-		public static Matcher<IllegalArgumentException> isItemCantBeEatenException() {
-			return new ExceptionMatcher("Item can't be eaten");
+		public static Matcher<IllegalArgumentException> isEatException() {
+			return new ExceptionMatcher("Item can't be eaten!");
+		}
+		
+		public static Matcher<IllegalArgumentException> isEquipException() {
+			return new ExceptionMatcher("The item can't be equipped!");
+		}
+		
+		public static Matcher<IllegalArgumentException> isUnequipException() {
+			return new ExceptionMatcher("The item can't be unequipped!");
+		}
+		
+		public static Matcher<IllegalArgumentException> isGiveException() {
+			return new ExceptionMatcher("The item can't be given!");
+		}
+		
+		public static Matcher<IllegalArgumentException> isSellException() {
+			return new ExceptionMatcher("The item can't be sold!");
+		}
+		
+		public static Matcher<IllegalArgumentException> isBuyException() {
+			return new ExceptionMatcher("The item can't be bought!");
+		}
+		
+		public static Matcher<IllegalArgumentException> isUseException() {
+			return new ExceptionMatcher("Item can't be used!");
+		}
+		
+		public static Matcher<IllegalArgumentException> isEnhanceException() {
+			return new ExceptionMatcher("Item can't be enhanced!");
 		}
 	}
 	
@@ -679,6 +709,7 @@ class CharacterTest {
 	}
 	//Emma
 	
+	/** Money **/
 	@Test
 	void characterCanGainAndLoseMoney() {
 		assertThat(character.getMoney(), is(equalTo(0)));
@@ -693,7 +724,7 @@ class CharacterTest {
 	@Test
 	void characterCantAffordAnItemIfHasNotEnoughMoney() {
 		assertThat(character.getMoney(), is(equalTo(0)));
-		assertThat(character.canAfford(new Ring()), is(equalTo(false)));
+		assertThat(character.canAfford(ring), is(equalTo(false)));
 	}
 	
 	@Test
@@ -701,32 +732,11 @@ class CharacterTest {
 		assertThat(character.getMoney(), is(equalTo(0)));
 		character.gainMoney(5000);
 		assertThat(character.getMoney(), is(equalTo(5000)));
-		assertThat(character.canAfford(new Ring()), is(equalTo(true)));
+		assertThat(character.canAfford(ring), is(equalTo(true)));
 		character.loseMoney(5000);
 	}
 	
-	@Test
-	void characterCanEquipThatIsOwned() {
-		character.gain(sword);
-		assertThat(character.owns(sword), is(equalTo(true)));
-		assertThat(character.canEquip(sword), is(equalTo(true)));
-	}
-	
-	@Test
-	void characterCantEquipThatIsNotOwned() {
-		assertThat(character.owns(sword), is(equalTo(false)));
-		assertThat(character.canEquip(sword), is(equalTo(false)));
-	}
-	
-	@Test
-	void foodCantBeEquipped() {
-		assertThat(character.owns(egg), is(equalTo(false)));
-		assertThat(character.canEquip(egg), is(equalTo(false)));
-		character.gain(egg);
-		assertThat(character.owns(egg), is(equalTo(true)));
-		assertThat(character.canEquip(egg), is(equalTo(false)));
-	}
-	
+	/** Eat **/
 	@Test
 	void characterCantEatNonFood() {
 		character.gain(ring);
@@ -743,13 +753,6 @@ class CharacterTest {
 	}
 	
 	@Test
-	void usingWeaponMakesItDamaged() {
-		character.gain(sword);
-		character.use(sword);
-		assertThat(sword.getCondition(), is(equalTo(Item.MAX_CONDITION - 10)));
-	}
-	
-	@Test
 	void eatingFoodMakesItDestroyed() {
 		Item egg = new Egg();
 		character.gain(egg);
@@ -763,10 +766,61 @@ class CharacterTest {
 		try {
 			character.eat(sword);
 		} catch (IllegalArgumentException exception) {
-			assertThat(exception, ExceptionMatcher.isItemCantBeEatenException());
+			assertThat(exception, ExceptionMatcher.isEatException());
 		}
 	}
 	
+	/** Use **/
+	@Test
+	void usingWeaponMakesItDamaged() {
+		character.gain(sword);
+		character.use(sword);
+		assertThat(sword.getCondition(), is(equalTo(Item.MAX_CONDITION - 10)));
+	}
+	
+	
+	@Test
+	void characterTryingToUseAnItemThatCantBeUsedThrowsIAE() {
+		character.gain(wand);
+		try {
+			character.use(wand);
+		} catch (IllegalArgumentException e) {
+			assertThat(e, ExceptionMatcher.isUseException());
+		}
+	}
+	
+	/** Enhance **/
+	@Test
+	void characterThatEnhancesSmallSwordMakesTheItemEnhanced() {
+		assertThat(smallSword.isEnhancable(), is(true));
+		assertThat(smallSword.isEnhanced(), is(false));
+		character.enhance(smallSword);
+		assertThat(smallSword.isEnhanced(), is(true));
+	}
+	
+	@Test
+	void characterTryingToEnhanceMediumSwordThrowsIAE() {
+		character.gain(mediumSword);
+		assertThat(mediumSword.isEnhancable(), is(false));
+		try {
+			character.enhance(mediumSword);
+		} catch (IllegalArgumentException e) {
+			assertThat(e, ExceptionMatcher.isEnhanceException());
+		}
+	}
+	
+	@Test
+	void characterTryingToEnhanceLargeSwordThrowsIAE() {
+		character.gain(largeSword);
+		assertThat(largeSword.isEnhancable(), is(false));
+		try {
+			character.enhance(largeSword);
+		} catch (IllegalArgumentException e) {
+			assertThat(e, ExceptionMatcher.isEnhanceException());
+		}
+	}
+	
+	/** Damage, destroy, recover, restore **/
 	@Test
 	void damagingAnItemDecreasesItsCondition() {
 		character.damage(sword, 10);
@@ -793,6 +847,24 @@ class CharacterTest {
 		assertThat(sword.getCondition(), is(equalTo(Item.MAX_CONDITION)));
 	}
 	
+	@Test
+	void characterTryingToDestroyAnItemThatIsntDestroyableThrowsIAE() {
+		character.destroy(sword);
+		assertThat(sword.isDestroyable(), is(equalTo(false)));
+		assertThrows(IllegalArgumentException.class, () -> {
+			character.destroy(sword);
+		});
+	}
+	
+	@Test
+	void characterTryingToRecoverAnItemThatIsntRecoverableThrowsIAE() {
+		assertThat(sword.isRecoverable(), is(equalTo(false)));
+		assertThrows(IllegalArgumentException.class, () -> {
+			character.recover(sword);
+		});
+	}
+	
+	/** Gain/lose **/
 	@Test
 	void characterGainingAnItemsOwnsTheItem() {
 		assertThat(character.owns(sword), is(equalTo(false)));
@@ -839,26 +911,30 @@ class CharacterTest {
 		assertThat(sword.isEquipped(), is(equalTo(false)));
 	}
 	
+	/** Equip/unequip **/
 	@Test
 	void characterEquippingASwordHasTheSwordEquipped() {
-		assertThat(character.hasEquipped(sword), is(equalTo(false)));
-		assertThat(character.getEquippedItems().contains(sword), is(equalTo(false)));
-		assertThat(sword.isEquipped(), is(equalTo(false)));
+		assertThat(character.hasEquipped(sword), is(false));
+		assertThat(character.getEquippedItems().contains(sword), is(false));
+		assertThat(sword.isEquipped(), is(false));
 		character.gain(sword);
 		assertThat(character.hasEquipped(sword), is(equalTo(false)));
-		assertThat(character.getEquippedItems().contains(sword), is(equalTo(false)));
-		assertThat(sword.isEquipped(), is(equalTo(false)));
+		assertThat(character.getEquippedItems().contains(sword), is(false));
+		assertThat(sword.isEquipped(), is(false));
 		character.equip(sword);
-		assertThat(character.hasEquipped(sword), is(equalTo(true)));
-		assertThat(character.getEquippedItems().contains(sword), is(equalTo(true)));
-		assertThat(sword.isEquipped(), is(equalTo(true)));
+		assertThat(character.hasEquipped(sword), is(true));
+		assertThat(character.getEquippedItems().contains(sword), is(true));
+		assertThat(sword.isEquipped(), is(true));
 	}
 	
 	@Test
 	void characterTryingToEquipAnItemThatCantBeEquippedThrowsIAE() {
-		assertThrows(IllegalArgumentException.class, () -> {
+		assertThat(character.owns(sword), is(false));
+		try {
 			character.equip(sword);
-		});
+		} catch (IllegalArgumentException e) {
+			assertThat(e, ExceptionMatcher.isEquipException());
+		}
 	}
 	
 	@Test
@@ -875,16 +951,39 @@ class CharacterTest {
 	}
 	
 	@Test
-	void characterTryingToUnequipAnUnequippableItemThrowsIAE() {
+	void characterTryingToUnequipAnItemThatIsNotEquippedThrowsIAE() {
+		assertThat(character.owns(sword), is(equalTo(false)));
 		assertThat(character.hasEquipped(sword), is(equalTo(false)));
-		assertThat(character.getEquippedItems().contains(sword), is(equalTo(false)));
-		assertThat(sword.isEquipped(), is(equalTo(false)));
-		assertThat(sword.isEquippable(), is(equalTo(false)));
-		assertThrows(IllegalArgumentException.class, () -> {
+		try {
 			character.unequip(sword);
-		});
+		} catch(IllegalArgumentException e) {
+			assertThat(e, ExceptionMatcher.isUnequipException());
+		}
 	}
 	
+	@Test
+	void characterCanEquipThatIsOwned() {
+		character.gain(sword);
+		assertThat(character.owns(sword), is(equalTo(true)));
+		assertThat(character.canEquip(sword), is(equalTo(true)));
+	}
+	
+	@Test
+	void characterCantEquipThatIsNotOwned() {
+		assertThat(character.owns(sword), is(equalTo(false)));
+		assertThat(character.canEquip(sword), is(equalTo(false)));
+	}
+	
+	@Test
+	void foodCantBeEquipped() {
+		assertThat(character.owns(egg), is(equalTo(false)));
+		assertThat(character.canEquip(egg), is(equalTo(false)));
+		character.gain(egg);
+		assertThat(character.owns(egg), is(equalTo(true)));
+		assertThat(character.canEquip(egg), is(equalTo(false)));
+	}
+	
+	/** Give/receive **/
 	@Test
 	void characterCanGiveItemThatIsOwnedAndUnequipped() {
 		character.gain(sword);
@@ -930,39 +1029,42 @@ class CharacterTest {
 	
 	@Test
 	void characterGivingAnItemToAnotherCharacterMakesTheItemBecomeOwnedByTheOtherCharacter() {
-		Character player1 = players[0];
-		Character player2 = players[1];
-		player1.gain(sword);
-		assertThat(player1.owns(sword), is(equalTo(true)));
-		assertThat(player2.owns(sword), is(equalTo(false)));
-		assertThat(sword.canBeGiven(player1, player2), is(equalTo(true)));
-		player1.give(sword, player2);
-		assertThat(player1.owns(sword), is(equalTo(false)));
-		assertThat(player2.owns(sword), is(equalTo(true)));
+		Character giver = players[0];
+		Character receiver = players[1];
+		giver.gain(sword);
+		assertThat(giver.owns(sword), is(equalTo(true)));
+		assertThat(receiver.owns(sword), is(equalTo(false)));
+		assertThat(sword.canBeGiven(giver, receiver), is(equalTo(true)));
+		giver.give(sword, receiver);
+		assertThat(giver.owns(sword), is(equalTo(false)));
+		assertThat(receiver.owns(sword), is(equalTo(true)));
 	}
 	
 	@Test
 	void characterTryingToGiveAnItemThatCantBeGivenToAnotherCharacterThrowsIAE() {
-		Character player1 = players[0];
-		Character player2 = players[1];
-		player2.gain(sword);
-		assertThat(player1.owns(sword), is(equalTo(false)));
-		assertThat(player2.owns(sword), is(equalTo(true)));
-		assertThat(sword.canBeGiven(player1, player2), is(equalTo(false)));
-		assertThrows(IllegalArgumentException.class, () -> {
-			player1.give(sword, player2);
-		});
+		Character giver = players[0];
+		Character receiver = players[1];
+		receiver.gain(sword);
+		assertThat(giver.owns(sword), is(equalTo(false)));
+		assertThat(receiver.owns(sword), is(equalTo(true)));
+		assertThat(sword.canBeGiven(giver, receiver), is(equalTo(false)));
+		try {
+			giver.give(sword, receiver);
+		} catch (IllegalArgumentException e) {
+			assertThat(e, ExceptionMatcher.isGiveException());
+		}
 	}
 	
+	/** Buy/sell **/
 	@Test
 	void characterThatCanReceiveAndCanAffordItemCanBuyAnItem() {
-		Character player1 = players[0];
-		Character player2 = players[1];
-		player2.gain(sword);
-		player1.gainMoney(1000);
-		assertThat(player1.canReceive(sword), is(equalTo(true)));
-		assertThat(player1.canAfford(sword), is(equalTo(true)));
-		assertThat(player1.canBuy(sword), is(equalTo(true)));
+		Character seller = players[0];
+		Character buyer = players[1];
+		seller.gain(sword);
+		buyer.gainMoney(1000);
+		assertThat(buyer.canReceive(sword), is(equalTo(true)));
+		assertThat(buyer.canAfford(sword), is(equalTo(true)));
+		assertThat(buyer.canBuy(sword), is(equalTo(true)));
 	}
 	
 	@Test
@@ -1078,9 +1180,11 @@ class CharacterTest {
 		seller.gainMoney(5000);
 		buyer.gainMoney(1000);
 		assertThat(sword.canBeSold(seller, buyer), is(equalTo(false)));
-		assertThrows(IllegalArgumentException.class, () -> {
+		try {
 			buyer.buy(sword, seller);
-		});
+		} catch (IllegalArgumentException e) {
+			assertThat(e, ExceptionMatcher.isBuyException());
+		}
 	}
 	
 	@Test
@@ -1092,49 +1196,12 @@ class CharacterTest {
 		seller.gainMoney(5000);
 		buyer.gainMoney(1000);
 		assertThat(sword.canBeSold(seller, buyer), is(equalTo(false)));
-		assertThrows(IllegalArgumentException.class, () -> {
+		try {
 			seller.sell(sword, buyer);
-		});
+		} catch (IllegalArgumentException e) {
+			assertThat(e, ExceptionMatcher.isSellException());
+		}
 	}
-	
-	@Test
-	void characterTryingToUseAnItemThatCantBeUsedThrowsIAE() {
-		character.gain(wand);
-		assertThrows(IllegalArgumentException.class, () -> {
-			character.use(wand);
-		});
-	}
-	
-	@Test
-	void characterTryingToEnhanceAnItemThatCantBeEnhancedThrowsIAE() {
-		character.gain(sword);
-		assertThrows(IllegalArgumentException.class, () -> {
-			character.enhance(sword);
-		});
-	}
-	
-	@Test
-	void characterTryingToDestroyAnItemThatIsntDestroyableThrowsIAE() {
-		character.destroy(sword);
-		assertThat(sword.isDestroyable(), is(equalTo(false)));
-		assertThrows(IllegalArgumentException.class, () -> {
-			character.destroy(sword);
-		});
-	}
-	
-	@Test
-	void characterTryingToRecoverAnItemThatIsntRecoverableThrowsIAE() {
-		assertThat(sword.isRecoverable(), is(equalTo(false)));
-		assertThrows(IllegalArgumentException.class, () -> {
-			character.recover(sword);
-		});
-	}
-	
-	@Test
-	void characterThatEnhancesAnEnhancableItemMakesTheItemEnhanced() {
-		assertThat(smallSword.isEnhancable(), is(equalTo(true)));
-		assertThat(smallSword.isEnhanced(), is(equalTo(false)));
-		character.enhance(smallSword);
-		assertThat(smallSword.isEnhanced(), is(equalTo(true)));
-	}
+	//Jon
+
 }
