@@ -460,7 +460,7 @@ public abstract class Character {
 	
 	public void enhance(Item item) {
 		if (!item.isEnhancable()) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Item can't be enhanced!");
 		}
 		item.setEnhanced(true);
 	}

@@ -160,21 +160,4 @@ class EggTest {
 	void EG13_newEggWithConditionOverMaximumThrowsIAE() {
 		assertThrows(IllegalArgumentException.class, () -> new Egg(Item.MAX_CONDITION + 1));
 	}
-	
-	@Test
-	void eatingFoodMakesItConsumed() {
-		Food egg = new Egg();
-		assertThat(egg.isConsumed(), is(equalTo(false)));
-		egg.consume();
-		assertThat(egg.isConsumed(), is(equalTo(true)));
-	}
-	
-	@Test
-	void eatingConsumedFoodThrowsISE() {
-		Food egg = new Egg();
-		assertThat(egg.isConsumed(), is(equalTo(false)));
-		egg.consume();
-		assertThat(egg.isConsumed(), is(equalTo(true)));
-		assertThrows(IllegalStateException.class, egg::consume);
-	}
 }

@@ -1,8 +1,9 @@
 package Item;
 
-public class Egg extends Food {
+public class Egg extends Item {
 	public static final int WEIGHT = 2;
 	public static final int VALUE = 10;
+	public static final Type TYPE = Type.FOOD;
 	public static final Size DEFAULT_SIZE = Size.MEDIUM;
 	public static final int DEFAULT_CONDITION = Item.MAX_CONDITION;
 	public static final String[] JOB_CERTIFICATIONS = {"Knight", "Magician", "Healer"};
@@ -21,6 +22,6 @@ public class Egg extends Food {
 	}
 	
 	public Egg(int condition, Size size) {
-		super(WEIGHT, VALUE, JOB_CERTIFICATIONS, RACE_CERTIFICATIONS, size, condition);
+		super(WEIGHT, VALUE, JOB_CERTIFICATIONS, RACE_CERTIFICATIONS, size, TYPE, condition);
 	}
 }
