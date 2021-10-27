@@ -1,13 +1,19 @@
 package Item;
 
+import Jobs.*;
+import Races.*;
+import Races.Elf;
+import Races.Human;
+import Races.Ogre;
+
 public class Egg extends Item {
 	public static final int WEIGHT = 2;
 	public static final int VALUE = 10;
 	public static final Type TYPE = Type.FOOD;
 	public static final Size DEFAULT_SIZE = Size.MEDIUM;
 	public static final int DEFAULT_CONDITION = Item.MAX_CONDITION;
-	public static final String[] JOB_CERTIFICATIONS = {"Knight", "Magician", "Healer"};
-	public static final String[] RACE_CERTIFICATIONS = {"Human", "Ogre", "Elf"};
+	public static final Job[] JOB_CERTIFICATIONS = {new Knight(), new Magician(), new Healer()};
+	public static final Race[] RACE_CERTIFICATIONS = {new Human(), new Ogre(), new Elf()};
 	
 	public Egg() {
 		this(DEFAULT_CONDITION, DEFAULT_SIZE);

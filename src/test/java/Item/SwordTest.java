@@ -89,75 +89,57 @@ class SwordTest {
 	}
 	
 	@Test
-	void SW1_newSwordHasDefaultWeight() {
+	void newSwordHasDefaultWeight() {
 		assertThat(new Sword().getWeight(), is(equalTo(Sword.WEIGHT)));
 	}
 	
 	@Test
-	void SW2_newSwordHasDefaultValue() {
+	void newSwordHasDefaultValue() {
 		assertThat(new Sword().getValue(), is(equalTo(Sword.VALUE)));
 	}
 	
 	@Test
-	void SW3_newSwordHasDefaultSize() {
+	void newSwordHasDefaultSize() {
 		assertThat(new Sword().getSize(), is(equalTo(Sword.DEFAULT_SIZE)));
 	}
 	
 	@Test
-	void SW4_newSwordHasDefaultType() {
+	void newSwordHasDefaultType() {
 		assertThat(new Sword().getType(), is(equalTo(Sword.TYPE)));
 	}
 	
 	@Test
-	void SW5_newSwordHasDefaultCondition() {
+	void newSwordHasDefaultCondition() {
 		assertThat(new Sword().getCondition(), is(equalTo(Sword.DEFAULT_CONDITION)));
 	}
 	
 	@Test
-	void SW6_swordCanOnlyBeUsedByKnight() {
-		List<String> jobs = Arrays.asList("Knight");
-		List<String> jobCertifications = DEFAULT_SWORD.getJobCertifications();
-		String[] jobsArr = jobs.toArray(new String[jobs.size()]);
-		String[] jobCertificationsArr = jobCertifications.toArray(new String[jobCertifications.size()]);
-		assertArrayEquals(jobsArr, jobCertificationsArr);
-	}
-	
-	@Test
-	void SW7_swordCanBeUsedByAllRaces() {
-		List<String> races = Arrays.asList("Human", "Ogre", "Elf");
-		List<String> raceCertifications = DEFAULT_SWORD.getRaceCertifications();
-		String[] racesArr = races.toArray(new String[races.size()]);
-		String[] raceCertificationsArr = raceCertifications.toArray(new String[raceCertifications.size()]);
-		assertArrayEquals(racesArr, raceCertificationsArr);
-	}
-	
-	@Test
-	void SW8_newSwordWithSizeSpecifiedAsSmallInConstructorCreatesASmallSword() {
+	void newSwordWithSizeSpecifiedAsSmallInConstructorCreatesASmallSword() {
 		assertThat(new Sword(Size.SMALL).getSize(), is(equalTo(Size.SMALL)));
 	}
 	
 	@Test
-	void SW9_newSwordWithSizeSpecifiedAsMediumInConstructorCreatesAMediumSword() {
+	void newSwordWithSizeSpecifiedAsMediumInConstructorCreatesAMediumSword() {
 		assertThat(new Sword(Size.MEDIUM).getSize(), is(equalTo(Size.MEDIUM)));
 	}
 	
 	@Test
-	void SW10_newSwordWithSizeSpecifiedAsLargeInConstructorCreatesALargeSword() {
+	void newSwordWithSizeSpecifiedAsLargeInConstructorCreatesALargeSword() {
 		assertThat(new Sword(Size.LARGE).getSize(), is(equalTo(Size.LARGE)));
 	}
 	
 	@Test
-	void SW11_newSwordWithConditionBetweenMinAndMaxSetsConditionInConstructor() {
+	void newSwordWithConditionBetweenMinAndMaxSetsConditionInConstructor() {
 		assertThat(new Sword(50).getCondition(), is(equalTo(50)));
 	}
 	
 	@Test
-	void SW12_newSwordWithConditionUnderMinimumThrowsIAE() {
+	void newSwordWithConditionUnderMinimumThrowsIAE() {
 		assertThrows(IllegalArgumentException.class, () -> new Sword(Item.MIN_CONDITION - 1));
 	}
 	
 	@Test
-	void SW13_newSwordWithConditionOverMaximumThrowsIAE() {
+	void newSwordWithConditionOverMaximumThrowsIAE() {
 		assertThrows(IllegalArgumentException.class, () -> new Sword(Item.MAX_CONDITION + 1));
 	}
 	

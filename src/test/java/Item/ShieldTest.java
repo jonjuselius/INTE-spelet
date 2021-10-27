@@ -115,24 +115,6 @@ class ShieldTest {
 	}
 	
 	@Test
-	void SH6_shieldCanOnlyBeUsedByKnight() {
-		List<String> jobs = Arrays.asList("Knight");
-		List<String> jobCertifications = DEFAULT_SHIELD.getJobCertifications();
-		String[] jobsArr = jobs.toArray(new String[jobs.size()]);
-		String[] jobCertificationsArr = jobCertifications.toArray(new String[jobCertifications.size()]);
-		assertArrayEquals(jobsArr, jobCertificationsArr);
-	}
-	
-	@Test
-	void SH7_shieldCanBeUsedByAllRaces() {
-		List<String> races = Arrays.asList("Human", "Ogre", "Elf");
-		List<String> raceCertifications = DEFAULT_SHIELD.getRaceCertifications();
-		String[] racesArr = races.toArray(new String[races.size()]);
-		String[] raceCertificationsArr = raceCertifications.toArray(new String[raceCertifications.size()]);
-		assertArrayEquals(racesArr, raceCertificationsArr);
-	}
-	
-	@Test
 	void SH8_newShieldWithSizeSpecifiedAsSmallInConstructorCreatesASmallShield() {
 		assertThat(new Shield(Size.SMALL).getSize(), is(equalTo(Size.SMALL)));
 	}

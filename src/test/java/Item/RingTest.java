@@ -115,24 +115,6 @@ class RingTest {
 	}
 	
 	@Test
-	void RI6_ringCanBeUsedByAllJobs() {
-		List<String> jobs = Arrays.asList("Knight", "Magician", "Healer");
-		List<String> jobCertifications = DEFAULT_RING.getJobCertifications();
-		String[] jobsArr = jobs.toArray(new String[jobs.size()]);
-		String[] jobCertificationsArr = jobCertifications.toArray(new String[jobCertifications.size()]);
-		assertArrayEquals(jobsArr, jobCertificationsArr);
-	}
-	
-	@Test
-	void RI7_ringCanBeUsedByAllRaces() {
-		List<String> races = Arrays.asList("Human", "Ogre", "Elf");
-		List<String> raceCertifications = DEFAULT_RING.getRaceCertifications();
-		String[] racesArr = races.toArray(new String[races.size()]);
-		String[] raceCertificationsArr = raceCertifications.toArray(new String[raceCertifications.size()]);
-		assertArrayEquals(racesArr, raceCertificationsArr);
-	}
-	
-	@Test
 	void RI8_newRingWithSizeSpecifiedAsSmallInConstructorCreatesASmallRing() {
 		assertThat(new Ring(Size.SMALL).getSize(), is(equalTo(Size.SMALL)));
 	}

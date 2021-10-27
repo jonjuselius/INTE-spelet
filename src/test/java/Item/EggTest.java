@@ -89,75 +89,57 @@ class EggTest {
 	}
 	
 	@Test
-	void EG1_newEggHasDefaultWeight() {
+	void newEggHasDefaultWeight() {
 		assertThat(new Egg().getWeight(), is(equalTo(Egg.WEIGHT)));
 	}
 	
 	@Test
-	void EG2_newEggHasDefaultValue() {
+	void newEggHasDefaultValue() {
 		assertThat(new Egg().getValue(), is(equalTo(Egg.VALUE)));
 	}
 	
 	@Test
-	void EG3_newEggHasDefaultSize() {
+	void newEggHasDefaultSize() {
 		assertThat(new Egg().getSize(), is(equalTo(Egg.DEFAULT_SIZE)));
 	}
 	
 	@Test
-	void EG4_newEggHasDefaultType() {
+	void newEggHasDefaultType() {
 		assertThat(new Egg().getType(), is(equalTo(Egg.TYPE)));
 	}
 	
 	@Test
-	void EG5_newEggHasDefaultCondition() {
+	void newEggHasDefaultCondition() {
 		assertThat(new Egg().getCondition(), is(equalTo(Egg.DEFAULT_CONDITION)));
 	}
 	
 	@Test
-	void EG6_eggCanBeUsedByAllJobs() {
-		List<String> jobs = Arrays.asList("Knight", "Magician", "Healer");
-		List<String> jobCertifications = DEFAULT_EGG.getJobCertifications();
-		String[] jobsArr = jobs.toArray(new String[jobs.size()]);
-		String[] jobCertificationsArr = jobCertifications.toArray(new String[jobCertifications.size()]);
-		assertArrayEquals(jobsArr, jobCertificationsArr);
-	}
-	
-	@Test
-	void EG7_eggCanBeUsedByAllRaces() {
-		List<String> races = Arrays.asList("Human", "Ogre", "Elf");
-		List<String> raceCertifications = DEFAULT_EGG.getRaceCertifications();
-		String[] racesArr = races.toArray(new String[races.size()]);
-		String[] raceCertificationsArr = raceCertifications.toArray(new String[raceCertifications.size()]);
-		assertArrayEquals(racesArr, raceCertificationsArr);
-	}
-	
-	@Test
-	void EG8_newEggWithSizeSpecifiedAsSmallInConstructorCreatesASmallEgg() {
+	void newEggWithSizeSpecifiedAsSmallInConstructorCreatesASmallEgg() {
 		assertThat(new Egg(Size.SMALL).getSize(), is(equalTo(Size.SMALL)));
 	}
 	
 	@Test
-	void EG9_newEggWithSizeSpecifiedAsMediumInConstructorCreatesAMediumEgg() {
+	void newEggWithSizeSpecifiedAsMediumInConstructorCreatesAMediumEgg() {
 		assertThat(new Egg(Size.MEDIUM).getSize(), is(equalTo(Size.MEDIUM)));
 	}
 	
 	@Test
-	void EG10_newEggWithSizeSpecifiedAsLargeInConstructorCreatesALargeEgg() {
+	void newEggWithSizeSpecifiedAsLargeInConstructorCreatesALargeEgg() {
 		assertThat(new Egg(Size.LARGE).getSize(), is(equalTo(Size.LARGE)));
 	}
 	
 	@Test
-	void EG11_newEggWithConditionBetweenMinAndMaxSetsConditionInConstructor() {
+	void newEggWithConditionBetweenMinAndMaxSetsConditionInConstructor() {
 		assertThat(new Egg(50).getCondition(), is(equalTo(50)));
 	}
 	
 	@Test
-	void EG12_newEggWithConditionUnderMinimumThrowsIAE() {
+	void newEggWithConditionUnderMinimumThrowsIAE() {
 		assertThrows(IllegalArgumentException.class, () -> new Egg(Item.MIN_CONDITION - 1));
 	}
 	
 	@Test
-	void EG13_newEggWithConditionOverMaximumThrowsIAE() {
+	void newEggWithConditionOverMaximumThrowsIAE() {
 		assertThrows(IllegalArgumentException.class, () -> new Egg(Item.MAX_CONDITION + 1));
 	}
 }
