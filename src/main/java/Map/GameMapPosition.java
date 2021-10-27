@@ -1,8 +1,9 @@
 package Map;
 
 public class GameMapPosition {
-    private int xPos;
-    private int yPos;
+
+    private final int xPos;
+    private final int yPos;
     private Terrain terrain;
     private GameMapPosition[] neighbors = new GameMapPosition[4];
 
@@ -12,7 +13,15 @@ public class GameMapPosition {
         }
         this.xPos = xPos;
         this.yPos = yPos;
+        //this.gameMap = gameMap;
+        //The standard terrain is grass
     }
+
+//    public MapPosition(int xPos, int yPos, Terrain terrain, Map map) {
+//        this(xPos, yPos, map);
+//        this.terrain = terrain;
+//    }
+
 
     public int getYPos() {
         return yPos;

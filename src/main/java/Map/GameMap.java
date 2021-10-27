@@ -48,7 +48,7 @@ public class GameMap {
 //    }
 
     public GameMapPosition generateRandomPos(Random xRandom, Random yRandom) {
-        /*Generates xPos and yPos inside the interval for the Map's width and height.
+            /*Generates xPos and yPos inside the interval for the Map's width and height.
         Uses real randoms.
          */
         int generatedXPos = xRandom.nextInt(0, this.width - 1);

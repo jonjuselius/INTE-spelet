@@ -72,9 +72,6 @@ public class DamageDealingSpell extends Spell {
         return baseDamage;
     }
 
-
-
-
     @Override
     public boolean equals(Object o) {
         if (o instanceof DamageDealingSpell) {
