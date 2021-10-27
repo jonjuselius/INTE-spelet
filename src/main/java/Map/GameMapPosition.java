@@ -1,17 +1,29 @@
 package Map;
 
-public class GameMapPosition {
-    private int xPos;
-    private int yPos;
+public class MapPosition {
+    private final Map map;
+    private final int xPos;
+    private final int yPos;
     private Terrain terrain;
-    private GameMapPosition[] neighbors = new GameMapPosition[4];
+    private MapPosition[] neighbors = new MapPosition[4];
 
-    public GameMapPosition(int xPos, int yPos) {
+    public MapPosition(int xPos, int yPos, Map map) {
         if (xPos < 0 || yPos < 0) {
             throw new IllegalArgumentException("Coordinates must be > 0");
         }
         this.xPos = xPos;
         this.yPos = yPos;
+        this.map = map;
+        //The standard terrain is grass
+    }
+
+//    public MapPosition(int xPos, int yPos, Terrain terrain, Map map) {
+//        this(xPos, yPos, map);
+//        this.terrain = terrain;
+//    }
+
+    public Map getMap() {
+        return map;
     }
 
     public int getYPos() {
@@ -30,31 +42,15 @@ public class GameMapPosition {
         return terrain;
     }
 
-    public void setNeighbors(GameMapPosition west, GameMapPosition east, GameMapPosition north, GameMapPosition south) {
+    public void setNeighbors(MapPosition west, MapPosition east, MapPosition north, MapPosition south) {
         neighbors[0] = west;
         neighbors[1] = east;
         neighbors[2] = north;
         neighbors[3] = south;
     }
 
-    public GameMapPosition getWestNeighbor() {
-        return neighbors[0];
-    }
-
-    public GameMapPosition getEastNeighbor() {
-        return neighbors[1];
-    }
-
-    public GameMapPosition getNorthNeighbor() {
-        return neighbors[2];
-    }
-
-    public GameMapPosition getSouthNeighbor() {
-        return neighbors[3];
-    }
-
-    public GameMapPosition[] getNeighbors() {
-        GameMapPosition[] copyOfNeighbors = neighbors;
+    public MapPosition[] getNeighbors() {
+        MapPosition[] copyOfNeighbors = neighbors;
         return copyOfNeighbors;
     }
 }
