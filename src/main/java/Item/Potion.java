@@ -1,37 +1,33 @@
 package Item;
 
-import Jobs.Healer;
-import Jobs.Job;
-import Jobs.Knight;
-import Jobs.Magician;
+import Jobs.*;
+import Races.*;
 import Races.Elf;
 import Races.Human;
 import Races.Ogre;
-import Races.Race;
 
-public class Sword extends Item {
-	public static final int WEIGHT = 10;
-	public static final int VALUE = 200;
-	public static final Type TYPE = Type.WEAPON;
+public class Potion extends Item {
+	public static final int WEIGHT = 2;
+	public static final int VALUE = 10;
+	public static final Type TYPE = Type.FOOD;
 	public static final Size DEFAULT_SIZE = Size.MEDIUM;
 	public static final int DEFAULT_CONDITION = Item.MAX_CONDITION;
-	public static final Job[] JOB_CERTIFICATIONS = {new Knight()};
+	public static final Job[] JOB_CERTIFICATIONS = {new Knight(), new Magician(), new Healer()};
 	public static final Race[] RACE_CERTIFICATIONS = {new Human(), new Ogre(), new Elf()};
 	
-	public Sword() {
+	public Potion() {
 		this(DEFAULT_CONDITION, DEFAULT_SIZE);
 	}
 	
-	public Sword(int condition) {
+	public Potion(int condition) {
 		this(condition, DEFAULT_SIZE);
 	}
 	
-	public Sword(Size size) {
+	public Potion(Size size) {
 		this(DEFAULT_CONDITION, size);
 	}
 	
-	public Sword(int condition, Size size) {
+	public Potion(int condition, Size size) {
 		super(WEIGHT, VALUE, JOB_CERTIFICATIONS, RACE_CERTIFICATIONS, size, TYPE, condition);
 	}
-	
 }

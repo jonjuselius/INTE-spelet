@@ -40,5 +40,4 @@ public class Elf extends Race {
 		return intelligence;
 	}
 
-
 }

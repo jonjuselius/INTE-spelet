@@ -1,5 +1,11 @@
 package Jobs;
 
+import Races.Human;
+import Races.Ogre;
+import Races.Race;
+
+import java.util.*;
+
 public abstract class Job {
 
 	protected int magicSkill;
@@ -41,5 +47,26 @@ public abstract class Job {
 
 	protected void setMaxMana(int maxMana) {
 		this.maxMana = maxMana;
+	}
+	
+	public static List<Job> getAllJobs() {
+		List<Job> allJobs = new ArrayList<>();
+		allJobs.add(new Knight());
+		allJobs.add(new Healer());
+		allJobs.add(new Magician());
+		return allJobs;
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Job job = (Job) o;
+		return magicSkill == job.magicSkill && healingSkill == job.healingSkill && swordSkill == job.swordSkill && maxMana == job.maxMana;
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(magicSkill, healingSkill, swordSkill, maxMana);
 	}
 }
