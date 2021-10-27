@@ -29,12 +29,12 @@ class DebuffSpellTest {
 
     @Test
     public void debuffSpellConstructor(){
-        BuffSpell bs = new BuffSpell("StrengthDebuff", 10, Element.PHYSICAL, 5);
+        DebuffSpell ds = new DebuffSpell("StrengthDebuff", 10, Element.PHYSICAL, 5);
 
-        assertEquals("StrengthDebuff", bs.getName());
-        assertEquals(10, bs.getManaCost());
-        assertEquals(Element.PHYSICAL, bs.getElement());
-        assertEquals(5, bs.getSpellStrength());
+        assertEquals("StrengthDebuff", ds.getName());
+        assertEquals(10, ds.getManaCost());
+        assertEquals(Element.PHYSICAL, ds.getElement());
+        assertEquals(5, ds.getSpellStrength());
     }
 
     @Test
