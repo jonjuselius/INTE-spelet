@@ -10,16 +10,12 @@ import org.mockito.ArgumentCaptor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class BuffSpellTest {
 
-    public static final GameMapGenerator MAP_GENERATOR = new GameMapGenerator(4, 4);
-    public static final GameMap MAP = MAP_GENERATOR.generate(1);
-    public static final GameMapPosition MAP_POSITION = MAP.generateRandomPos(new Random(), new Random());
     private static final int HUMAN_INTELLIGENCE = 20;
     private static final int MAGICIAN_MAGICSKILL = 10;
     private static final int MAGICIAN_MANA = 300;
@@ -27,6 +23,7 @@ class BuffSpellTest {
     private static Human human;
     private static Magician magician;
     private static Player mockPlayer;
+    private static GameMapPosition mockMapPosition;
 
     @BeforeAll
     static void setup(){
@@ -41,6 +38,9 @@ class BuffSpellTest {
         when(mockPlayer.getHealingSkill()).thenReturn(MAGICIAN_HEALINGSKILL);
         when(mockPlayer.getRace()).thenReturn(human);
         when(mockPlayer.getJob()).thenReturn(magician);
+
+        mockMapPosition = mock(GameMapPosition.class);
+
     }
 
 
@@ -64,7 +64,7 @@ class BuffSpellTest {
     @Test
     void castDepletesCorrectAmountOfMana(){
         BuffSpell bs = new BuffSpell("StrengthBuff", 10, Element.PHYSICAL, 5);
-        Player p = new Player("Player1", human, magician, true, MAP_POSITION);
+        Player p = new Player("Player1", human, magician, true, mockMapPosition);
         bs.cast(p,1);
         assertEquals(290, p.getRemainingMana());
     }
@@ -73,7 +73,7 @@ class BuffSpellTest {
     public void physicalBuffSpellIncreasesAndDecreasesStrength(){
         List<Integer> strengthStats = new ArrayList<>();
         BuffSpell bs = new BuffSpell("StrengthBuff", 10, Element.PHYSICAL, 5);
-        Player p = new Player("Player1", human, magician, true, MAP_POSITION){
+        Player p = new Player("Player1", human, magician, true, mockMapPosition){
             @Override
             public void setStrength(int strength){
                 super.setStrength(strength);
@@ -92,7 +92,7 @@ class BuffSpellTest {
     public void buffSpellLastsCorrectDuration(){
         List<Integer> strengthStats = new ArrayList<>();
         BuffSpell bs = new BuffSpell("StrengthBuff", 10, Element.PHYSICAL, 5);
-        Player p = new Player("Player1", human, magician, true, MAP_POSITION){
+        Player p = new Player("Player1", human, magician, true, mockMapPosition){
             @Override
             public void setStrength(int strength){
                 super.setStrength(strength);

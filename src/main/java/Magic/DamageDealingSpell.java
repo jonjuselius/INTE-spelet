@@ -7,7 +7,7 @@ import java.util.Objects;
 
 public class DamageDealingSpell extends Spell {
 
-    private int baseDamage;
+    private final int baseDamage;
     private int initialDamage;
     private int damageOverTime;
     private int duration;

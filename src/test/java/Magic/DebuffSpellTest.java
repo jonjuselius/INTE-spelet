@@ -12,24 +12,24 @@ import java.util.List;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 class DebuffSpellTest {
 
-    private static final GameMapGenerator MAP_GENERATOR = new GameMapGenerator(4, 4);
-    private static final GameMap MAP = MAP_GENERATOR.generate(1);
-    private static final GameMapPosition MAP_POSITION = MAP.generateRandomPos(new Random(), new Random());
     private static Player player;
     private static Adversary target;
     private static Human human;
     private static Magician magician;
+    private static GameMapPosition mockMapPosition;
 
     @BeforeAll
     public static void setup(){
         human = new Human();
         magician = new Magician();
 
-        player = new Player("Player1", human, magician, true, MAP_POSITION);
-        target = new Adversary("Bandit", human, magician,true, 1, MAP_POSITION);
+        player = new Player("Player1", human, magician, true, mockMapPosition);
+        target = new Adversary("Bandit", human, magician,true, 1, mockMapPosition);
+        mockMapPosition = mock(GameMapPosition.class);
     }
 
     @Test
@@ -52,6 +52,7 @@ class DebuffSpellTest {
     @Test
     void castDepletesCorrectAmountOfMana(){
         DebuffSpell ds = new DebuffSpell("StrengthDebuff", 10, Element.PHYSICAL, 5);
+        player = new Player("Player1", human, magician, true, mockMapPosition);
         ds.cast(player, target, 1);
         assertEquals(290, player.getRemainingMana());
     }
@@ -60,7 +61,7 @@ class DebuffSpellTest {
     void debuffSpellLastsCorrectDuration(){
         List<Integer> strengthStats = new ArrayList<>();
         DebuffSpell ds = new DebuffSpell("StrengthDebuff", 10, Element.PHYSICAL, 5);
-        target = new Adversary("Bandit", human, magician,true, 1, MAP_POSITION){
+        target = new Adversary("Bandit", human, magician,true, 1, mockMapPosition){
             @Override
             public void setStrength(int strength){
                 super.setStrength(strength);
@@ -79,7 +80,7 @@ class DebuffSpellTest {
     public void physicalDebuffDecreasesAndIncreasesStrength(){
         List<Integer> strengthStats = new ArrayList<>();
         DebuffSpell ds = new DebuffSpell("StrengthDebuff", 10, Element.PHYSICAL, 5);
-        target = new Adversary("Bandit", human, magician,true, 1, MAP_POSITION){
+        target = new Adversary("Bandit", human, magician,true, 1, mockMapPosition){
             @Override
             public void setStrength(int strength){
                 super.setStrength(strength);
@@ -98,7 +99,7 @@ class DebuffSpellTest {
     public void fireDebuffDecreasesAndIncreasesIntelligence(){
         List<Integer> intelligenceStats = new ArrayList<>();
         DebuffSpell ds = new DebuffSpell("IntelligenceDebuff", 10, Element.FIRE, 5);
-        target = new Adversary("Bandit", human, magician,true, 1, MAP_POSITION){
+        target = new Adversary("Bandit", human, magician,true, 1, mockMapPosition){
             @Override
             public void setIntelligence(int intelligence){
                 super.setIntelligence(intelligence);
@@ -117,7 +118,7 @@ class DebuffSpellTest {
     public void lightningDebuffDecreasesAndIncreasesMagicSkill(){
         List<Integer> magicSkillStats = new ArrayList<>();
         DebuffSpell ds = new DebuffSpell("MagicDebuff", 10, Element.LIGHTNING, 5);
-        target = new Adversary("Bandit", human, magician,true, 1, MAP_POSITION){
+        target = new Adversary("Bandit", human, magician,true, 1, mockMapPosition){
             @Override
             public void setMagicSkill(int magicSkill){
                 super.setMagicSkill(magicSkill);
@@ -136,7 +137,7 @@ class DebuffSpellTest {
     public void waterDebuffDecreasesAndIncreasesHealingSkill(){
         List<Integer> healingSkillStats = new ArrayList<>();
         DebuffSpell ds = new DebuffSpell("HealingDebuff", 10, Element.WATER, 5);
-        target = new Adversary("Bandit", human, magician,true, 1, MAP_POSITION){
+        target = new Adversary("Bandit", human, magician,true, 1, mockMapPosition){
             @Override
             public void setHealingSkill(int healingSkill){
                 super.setHealingSkill(healingSkill);
@@ -155,7 +156,7 @@ class DebuffSpellTest {
     public void windDebuffDecreasesAndIncreasesMaxMana(){
         List<Integer> maxManaSkillStats = new ArrayList<>();
         DebuffSpell ds = new DebuffSpell("ManaDebuff", 10, Element.WIND, 5);
-        target = new Adversary("Bandit", human, magician,true, 1, MAP_POSITION){
+        target = new Adversary("Bandit", human, magician,true, 1, mockMapPosition){
             @Override
             public void setMaxMana(int maxMana){
                 super.setMaxMana(maxMana);
