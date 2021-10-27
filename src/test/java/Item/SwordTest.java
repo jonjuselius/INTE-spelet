@@ -58,47 +58,47 @@ class SwordTest {
 	
 	@Test
 	void R1_canUse() {
-		assertThat(sword.canBeUsedBy(knightHuman), is(true));
+		assertThat(knightHuman.canUse(sword), is(true));
 	}
 	
 	@Test
 	void R2_canUse() {
-		assertThat(sword.canBeUsedBy(knightOgre), is(true));
+		assertThat(knightOgre.canUse(sword), is(true));
 	}
 	
 	@Test
 	void R3_canUse() {
-		assertThat(sword.canBeUsedBy(knightElf), is(true));
+		assertThat(knightElf.canUse(sword), is(true));
 	}
 	
 	@Test
 	void R4_canUse() {
-		assertThat(sword.canBeUsedBy(magicianHuman), is(false));
+		assertThat(magicianHuman.canUse(sword), is(false));
 	}
 	
 	@Test
 	void R5_canUse() {
-		assertThat(sword.canBeUsedBy(magicianOgre), is(false));
+		assertThat(magicianOgre.canUse(sword), is(false));
 	}
 	
 	@Test
 	void R6_canUse() {
-		assertThat(sword.canBeUsedBy(magicianElf), is(false));
+		assertThat(magicianElf.canUse(sword), is(false));
 	}
 	
 	@Test
 	void R7_canUse() {
-		assertThat(sword.canBeUsedBy(healerHuman), is(false));
+		assertThat(healerHuman.canUse(sword), is(false));
 	}
 	
 	@Test
 	void R8_canUse() {
-		assertThat(sword.canBeUsedBy(healerOgre), is(false));
+		assertThat(healerOgre.canUse(sword), is(false));
 	}
 	
 	@Test
 	void R9_canUse() {
-		assertThat(sword.canBeUsedBy(healerElf), is(false));
+		assertThat(healerElf.canUse(sword), is(false));
 	}
 	
 	@Test

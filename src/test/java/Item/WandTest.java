@@ -53,47 +53,47 @@ class WandTest {
 	
 	@Test
 	void R10_canUse() {
-		assertThat(wand.canBeUsedBy(knightHuman), is(false));
+		assertThat(knightHuman.canUse(wand), is(false));
 	}
 	
 	@Test
 	void R11_canUse() {
-		assertThat(wand.canBeUsedBy(knightOgre), is(false));
+		assertThat(knightOgre.canUse(wand), is(false));
 	}
 	
 	@Test
 	void R12_canUse() {
-		assertThat(wand.canBeUsedBy(knightElf), is(false));
+		assertThat(knightElf.canUse(wand), is(false));
 	}
 	
 	@Test
 	void R13_canUse() {
-		assertThat(wand.canBeUsedBy(magicianHuman), is(true));
+		assertThat(magicianHuman.canUse(wand), is(true));
 	}
 	
 	@Test
 	void R14_canUse() {
-		assertThat(wand.canBeUsedBy(magicianOgre), is(true));
+		assertThat(magicianOgre.canUse(wand), is(true));
 	}
 	
 	@Test
 	void R15_canUse() {
-		assertThat(wand.canBeUsedBy(magicianElf), is(true));
+		assertThat(magicianElf.canUse(wand), is(true));
 	}
 	
 	@Test
 	void R16_canUse() {
-		assertThat(wand.canBeUsedBy(healerHuman), is(true));
+		assertThat(healerHuman.canUse(wand), is(true));
 	}
 	
 	@Test
 	void R17_canUse() {
-		assertThat(wand.canBeUsedBy(healerOgre), is(true));
+		assertThat(healerOgre.canUse(wand), is(true));
 	}
 	
 	@Test
 	void R18_canUse() {
-		assertThat(wand.canBeUsedBy(healerElf), is(true));
+		assertThat(healerElf.canUse(wand), is(true));
 	}
 	
 	@Test

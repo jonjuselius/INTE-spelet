@@ -142,16 +142,16 @@ class InventoryTest {
 		Inventory inventory = new Inventory();
 		Item sword = new Sword();
 		Item wand = new Wand();
-		Item egg = new Potion();
+		Item potion = new Potion();
 		Item shield = new Shield();
 		Item ring = new Ring();
 		inventory.add(sword);
 		inventory.add(wand);
-		inventory.add(egg);
+		inventory.add(potion);
 		inventory.add(shield);
 		inventory.add(ring);
 		
-		Item[] predicted = {sword, wand, egg, ring};
+		Item[] predicted = {sword, wand, potion, ring};
 		inventory.remove(shield);
 		Item[] actual = inventory.getItems().toArray(new Item[inventory.getItemSize()]);
 		assertArrayEquals(predicted, actual);

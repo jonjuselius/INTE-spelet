@@ -38,7 +38,7 @@ public abstract class Character {
 	
 	private Inventory inventory;
 	private List<Item> equippedItems;
-	private int money;
+	private Wallet wallet;
 
 	public Character(String name, Race race, Job job, boolean isAlive, GameMapPosition position) {
 		this.name = name;
@@ -47,6 +47,7 @@ public abstract class Character {
 		this.isAlive = isAlive;
 		this.position = position;
 		this.inventory = new Inventory();
+		this.wallet = new Wallet();
 		this.equippedItems = new ArrayList<>();
 
 		setRemainingHealth(race.getMaxHealth());
@@ -325,24 +326,24 @@ public abstract class Character {
 		return Collections.unmodifiableList(equippedItems);
 	}
 	
-	public int getMoney() {
-		return money;
+	public Wallet getWallet() {
+		return wallet;
 	}
 	
-	private void setMoney(int money) {
-		this.money = money;
+	public int getMoney() {
+		return wallet.getAmount();
 	}
 	
 	public void gainMoney(int money) {
-		setMoney(getMoney() + money);
+		wallet.gain(money);
 	}
 	
 	public void loseMoney(int money) {
-		setMoney(getMoney() - money);
+		wallet.lose(money);
 	}
 	
 	public boolean canAfford(Item item) {
-		return this.money >= item.getValue();
+		return wallet.getAmount() >= item.getValue();
 	}
 	
 	public void gain(Item item) {

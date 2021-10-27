@@ -17,7 +17,7 @@ class ItemTest {
 	private Item[] swordSizes = {new Sword(Size.SMALL), new Sword(Size.MEDIUM), new Sword(Size.LARGE)};
 	private Item sword = items[0];
 	private Item wand = items[1];
-	private Item egg = items[2];
+	private Item potion = items[2];
 	private Item shield = items[3];
 	private Item ring = items[4];
 	private Item smallSword = swordSizes[0];
@@ -151,8 +151,8 @@ class ItemTest {
 	
 	@Test
 	void foodCanBeEatenByACharacter() {
-		assertThat(egg.isFood(), is(equalTo(true)));
-		assertThat(egg.canBeEatenBy(character), is(equalTo(true)));
+		assertThat(potion.isFood(), is(equalTo(true)));
+		assertThat(potion.canBeEatenBy(character), is(equalTo(true)));
 	}
 	
 	@Test
@@ -196,15 +196,15 @@ class ItemTest {
 	
 	@Test
 	void foodThatIsOwnedIsNotEquippable() {
-		character.gain(egg);
-		assertThat(egg.isFood(), is(equalTo(true)));
-		assertThat(egg.isEquippable(), is(equalTo(false)));
+		character.gain(potion);
+		assertThat(potion.isFood(), is(equalTo(true)));
+		assertThat(potion.isEquippable(), is(equalTo(false)));
 	}
 	
 	@Test
 	void foodThatIsNotOwnedIsNotEquippable() {
-		assertThat(egg.isFood(), is(equalTo(true)));
-		assertThat(egg.isEquippable(), is(equalTo(false)));
+		assertThat(potion.isFood(), is(equalTo(true)));
+		assertThat(potion.isEquippable(), is(equalTo(false)));
 	}
 	
 	@Test

@@ -57,101 +57,101 @@ class PotionTest {
 
 	@Test
 	void R19_canUse() {
-		assertThat(potion.canBeUsedBy(knightHuman), is(true));
+		assertThat(knightHuman.canUse(potion), is(true));
 	}
 	
 	@Test
 	void R20_canUse() {
-		assertThat(potion.canBeUsedBy(knightOgre), is(true));
+		assertThat(knightOgre.canUse(potion), is(true));
 	}
 	
 	@Test
 	void R21_canUse() {
-		assertThat(potion.canBeUsedBy(knightElf), is(true));
+		assertThat(knightElf.canUse(potion), is(true));
 	}
 	
 	@Test
 	void R22_canUse() {
-		assertThat(potion.canBeUsedBy(magicianHuman), is(true));
+		assertThat(magicianHuman.canUse(potion), is(true));
 	}
 	
 	@Test
 	void R23_canUse() {
-		assertThat(potion.canBeUsedBy(magicianOgre), is(true));
+		assertThat(magicianOgre.canUse(potion), is(true));
 	}
 	
 	@Test
 	void R24_canUse() {
-		assertThat(potion.canBeUsedBy(magicianElf), is(true));
+		assertThat(magicianElf.canUse(potion), is(true));
 	}
 	
 	@Test
 	void R25_canUse() {
-		assertThat(potion.canBeUsedBy(healerHuman), is(true));
+		assertThat(healerHuman.canUse(potion), is(true));
 	}
 	
 	@Test
 	void R26_canUse() {
-		assertThat(potion.canBeUsedBy(healerOgre), is(true));
+		assertThat(healerOgre.canUse(potion), is(true));
 	}
 	
 	@Test
 	void R27_canUse() {
-		assertThat(potion.canBeUsedBy(healerElf), is(true));
+		assertThat(healerElf.canUse(potion), is(true));
 	}
 	
 	@Test
-	void newEggHasDefaultWeight() {
+	void newPotionHasDefaultWeight() {
 		assertThat(new Potion().getWeight(), is(equalTo(Potion.WEIGHT)));
 	}
 	
 	@Test
-	void newEggHasDefaultValue() {
+	void newPotionHasDefaultValue() {
 		assertThat(new Potion().getValue(), is(equalTo(Potion.VALUE)));
 	}
 	
 	@Test
-	void newEggHasDefaultSize() {
+	void newPotionHasDefaultSize() {
 		assertThat(new Potion().getSize(), is(equalTo(Potion.DEFAULT_SIZE)));
 	}
 	
 	@Test
-	void newEggHasDefaultType() {
+	void newPotionHasDefaultType() {
 		assertThat(new Potion().getType(), is(equalTo(Potion.TYPE)));
 	}
 	
 	@Test
-	void newEggHasDefaultCondition() {
+	void newPotionHasDefaultCondition() {
 		assertThat(new Potion().getCondition(), is(equalTo(Potion.DEFAULT_CONDITION)));
 	}
 	
 	@Test
-	void newEggWithSizeSpecifiedAsSmallInConstructorCreatesASmallEgg() {
+	void newPotionWithSizeSpecifiedAsSmallInConstructorCreatesASmallEgg() {
 		assertThat(new Potion(Size.SMALL).getSize(), is(equalTo(Size.SMALL)));
 	}
 	
 	@Test
-	void newEggWithSizeSpecifiedAsMediumInConstructorCreatesAMediumEgg() {
+	void newPotionWithSizeSpecifiedAsMediumInConstructorCreatesAMediumEgg() {
 		assertThat(new Potion(Size.MEDIUM).getSize(), is(equalTo(Size.MEDIUM)));
 	}
 	
 	@Test
-	void newEggWithSizeSpecifiedAsLargeInConstructorCreatesALargeEgg() {
+	void newPotionWithSizeSpecifiedAsLargeInConstructorCreatesALargeEgg() {
 		assertThat(new Potion(Size.LARGE).getSize(), is(equalTo(Size.LARGE)));
 	}
 	
 	@Test
-	void newEggWithConditionBetweenMinAndMaxSetsConditionInConstructor() {
+	void newPotionWithConditionBetweenMinAndMaxSetsConditionInConstructor() {
 		assertThat(new Potion(50).getCondition(), is(equalTo(50)));
 	}
 	
 	@Test
-	void newEggWithConditionUnderMinimumThrowsIAE() {
+	void newPotionWithConditionUnderMinimumThrowsIAE() {
 		assertThrows(IllegalArgumentException.class, () -> new Potion(Item.MIN_CONDITION - 1));
 	}
 	
 	@Test
-	void newEggWithConditionOverMaximumThrowsIAE() {
+	void newPotionWithConditionOverMaximumThrowsIAE() {
 		assertThrows(IllegalArgumentException.class, () -> new Potion(Item.MAX_CONDITION + 1));
 	}
 }

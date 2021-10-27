@@ -190,9 +190,4 @@ public abstract class Item {
 	public boolean isPerfect() {
 		return condition == Item.MAX_CONDITION;
 	}
-	
-	//@Override
-	//public String toString() {
-	//	return this.getClass().getSimpleName().toString();
-	//}
 }

@@ -61,47 +61,47 @@ class ShieldTest {
 	
 	@Test
 	void R28_canUse() {
-		assertThat(shield.canBeUsedBy(knightHuman), is(true));
+		assertThat(knightHuman.canUse(shield), is(true));
 	}
 	
 	@Test
 	void R29_canUse() {
-		assertThat(shield.canBeUsedBy(knightOgre), is(true));
+		assertThat(knightOgre.canUse(shield), is(true));
 	}
 	
 	@Test
 	void R30_canUse() {
-		assertThat(shield.canBeUsedBy(knightElf), is(true));
+		assertThat(knightElf.canUse(shield), is(true));
 	}
 	
 	@Test
 	void R31_canUse() {
-		assertThat(shield.canBeUsedBy(magicianHuman), is(false));
+		assertThat(magicianHuman.canUse(shield), is(false));
 	}
 	
 	@Test
 	void R32_canUse() {
-		assertThat(shield.canBeUsedBy(magicianOgre), is(false));
+		assertThat(magicianOgre.canUse(shield), is(false));
 	}
 	
 	@Test
 	void R33_canUse() {
-		assertThat(shield.canBeUsedBy(magicianElf), is(false));
+		assertThat(magicianElf.canUse(shield), is(false));
 	}
 	
 	@Test
 	void R34_canUse() {
-		assertThat(shield.canBeUsedBy(healerHuman), is(false));
+		assertThat(healerHuman.canUse(shield), is(false));
 	}
 	
 	@Test
 	void R35_canUse() {
-		assertThat(shield.canBeUsedBy(healerOgre), is(false));
+		assertThat(healerOgre.canUse(shield), is(false));
 	}
 	
 	@Test
 	void R36_canUse() {
-		assertThat(shield.canBeUsedBy(healerElf), is(false));
+		assertThat(healerElf.canUse(shield), is(false));
 	}
 	
 	@Test

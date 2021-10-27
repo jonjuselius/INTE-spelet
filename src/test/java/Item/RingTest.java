@@ -53,47 +53,47 @@ class RingTest {
 	
 	@Test
 	void R38_canUse() {
-		assertThat(ring.canBeUsedBy(knightHuman), is(true));
+		assertThat(knightHuman.canUse(ring), is(true));
 	}
 	
 	@Test
 	void R39_canUse() {
-		assertThat(ring.canBeUsedBy(knightOgre), is(true));
+		assertThat(knightOgre.canUse(ring), is(true));
 	}
 	
 	@Test
 	void R40_canUse() {
-		assertThat(ring.canBeUsedBy(knightElf), is(true));
+		assertThat(knightElf.canUse(ring), is(true));
 	}
 	
 	@Test
 	void R41_canUse() {
-		assertThat(ring.canBeUsedBy(magicianHuman), is(true));
+		assertThat(magicianHuman.canUse(ring), is(true));
 	}
 	
 	@Test
 	void R42_canUse() {
-		assertThat(ring.canBeUsedBy(magicianOgre), is(true));
+		assertThat(magicianOgre.canUse(ring), is(true));
 	}
 	
 	@Test
 	void R43_canUse() {
-		assertThat(ring.canBeUsedBy(magicianElf), is(true));
+		assertThat(magicianElf.canUse(ring), is(true));
 	}
 	
 	@Test
 	void R44_canUse() {
-		assertThat(ring.canBeUsedBy(healerHuman), is(true));
+		assertThat(healerHuman.canUse(ring), is(true));
 	}
 	
 	@Test
 	void R45_canUse() {
-		assertThat(ring.canBeUsedBy(healerOgre), is(true));
+		assertThat(healerOgre.canUse(ring), is(true));
 	}
 	
 	@Test
 	void R46_canUse() {
-		assertThat(ring.canBeUsedBy(healerElf), is(true));
+		assertThat(healerElf.canUse(ring), is(true));
 	}
 	
 	@Test
