@@ -200,7 +200,7 @@ class CharacterTest {
 	}
 
 	@Test
-
+	// Humans initial intelligence = 20
 	void increaseIntelligenceFromWinningASpellByThree() {
 		Player p = new Player("Player1", human, magician, true, defaultPosition);
 
@@ -208,7 +208,8 @@ class CharacterTest {
 
 		assertEquals(23, p.getIntelligence());
 	}
-
+	
+	//Can't increase more than 15 over initial intelligence
 	@Test
 	void increaseIntelligenceFromWinningASpellByThreeOverMethodBoundary() {
 		Player p = new Player("Player1", human, magician, true, defaultPosition);
@@ -222,7 +223,8 @@ class CharacterTest {
 		assertEquals(35, p.getIntelligence());
 
 	}
-
+	
+	// Humans initial strength = 20
 	@Test
 	void increaseStrengthFromWinningASpellByThree() {
 		Player p = new Player("Player1", human, magician, true, defaultPosition);
@@ -342,20 +344,18 @@ class CharacterTest {
 
 	}
 
-	// Tdd jas
 	@Test
 	void humanLevelsTriesToLevelUpToLevelTwoButCant() {
-		Player x = new Player("Jasmyn", new Human(), new Knight(), true, defaultPosition);
+		Player x = new Player("Player1", new Human(), new Knight(), true, defaultPosition);
 
 		x.levelsUp();
 
 		assertEquals(1, x.getLevel());
 	}
 
-	// Tdd jas
 	@Test
 	void humanLevelsUpTwoTimesFromLevelOneToLevelThreeFomIntelligence() {
-		Player c1 = new Player("Jasmyn", new Human(), new Knight(), true, defaultPosition);
+		Player c1 = new Player("Player1", new Human(), new Knight(), true, defaultPosition);
 
 		c1.increaseIntelligenceFromWinningASpell();
 		c1.levelsUp();
@@ -368,7 +368,7 @@ class CharacterTest {
 	@Test
 
 	void humanLevelsUpTwoTimesFromLevelOneToLevelThreeFomStrength() {
-		Player c1 = new Player("Jasmyn", new Human(), new Knight(), true, defaultPosition);
+		Player c1 = new Player("Player1", new Human(), new Knight(), true, defaultPosition);
 		c1.increaseStrengthFromWinningASpell();
 		c1.levelsUp();
 		c1.levelsUp();
@@ -512,7 +512,7 @@ class CharacterTest {
 		
 		@Test 
 		void elfCanSwimAtLevelThreeMagicskillMoreThanInitial() {
-			Player c1 = new Player("Jasmyn", new Elf(), new Magician(), true, defaultPosition);
+			Player c1 = new Player("elfOne", new Elf(), new Magician(), true, defaultPosition);
 			c1.increaseStrengthFromWinningASpell();//
 			c1.levelsUp();
 			c1.levelsUp();
@@ -520,8 +520,8 @@ class CharacterTest {
 		}
 		
 		@Test 
-		void elfCantFlyAtLevelThreeMagicskillNotMoreThanInitial() {
-			Player c1 = new Player("Jasmyn", new Elf(), new Magician(), true, defaultPosition);
+		void elfCantSwimAtLevelThreeMagicskillNotMoreThanInitial() {
+			Player c1 = new Player("elfOne", new Elf(), new Magician(), true, defaultPosition);
 			c1.increaseStrengthFromWinningASpell();//
 			c1.levelsUp();
 			c1.loseMagicSkillFromLoss(10);
@@ -530,16 +530,16 @@ class CharacterTest {
 		}
 		
 		@Test 
-		void elfCantFlyAtLevelUnderThreeMagicskillMoreThanInitial() {
-			Player c1 = new Player("Jasmyn", new Elf(), new Magician(), true, defaultPosition);
+		void elfCantSwimAtLevelUnderThreeMagicskillMoreThanInitial() {
+			Player c1 = new Player("elfOne", new Elf(), new Magician(), true, defaultPosition);
 			c1.increaseStrengthFromWinningASpell();//
 			c1.levelsUp();
 			assertFalse(c1.getIfCanSwim());
 		}
 
 		@Test 
-		void elfCantFlyAtLevelUnderThreeMagicskillNotMoreThanInitial() {
-			Player c1 = new Player("Jasmyn", new Elf(), new Magician(), true, defaultPosition);
+		void elfCantSwimAtLevelUnderThreeMagicskillNotMoreThanInitial() {
+			Player c1 = new Player("elfOne", new Elf(), new Magician(), true, defaultPosition);
 			c1.increaseStrengthFromWinningASpell();//
 			c1.loseMagicSkillFromLoss(10);
 			c1.levelsUp();
