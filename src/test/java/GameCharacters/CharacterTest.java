@@ -1219,30 +1219,30 @@ class CharacterTest {
 	
 	@Test
 	void TF1_itemsCanBeGainedLostEquippedUnequippedWhenStateIsCorrect() {
-		assertTrue(!sword.isOwned() && !sword.isEquipped() && !character.owns(sword) && !character.hasEquipped(sword));
+		assertTrue(!sword.isOwned() && !sword.isEquipped());
 		character.gain(sword);
-		assertTrue(sword.isOwned() && !sword.isEquipped() && character.owns(sword) && !character.hasEquipped(sword));
+		assertTrue(sword.isOwned() && !sword.isEquipped());
 		character.give(sword, otherCharacter);
-		assertTrue(sword.isOwned() && !sword.isEquipped() && otherCharacter.owns(sword) && !otherCharacter.hasEquipped(sword));
+		assertTrue(sword.isOwned() && !sword.isEquipped());
 		otherCharacter.give(sword, character);
-		assertTrue(sword.isOwned() && !sword.isEquipped() && character.owns(sword) && !character.hasEquipped(sword));
+		assertTrue(sword.isOwned() && !sword.isEquipped());
 		character.equip(sword);
-		assertTrue(sword.isOwned() && sword.isEquipped() && character.owns(sword) && character.hasEquipped(sword));
+		assertTrue(sword.isOwned() && sword.isEquipped());
 		character.unequip(sword);
-		assertTrue(sword.isOwned() && !sword.isEquipped() && character.owns(sword) && !character.hasEquipped(sword));
+		assertTrue(sword.isOwned() && !sword.isEquipped());
 		character.lose(sword);
-		assertTrue(!sword.isOwned() && !sword.isEquipped() && !character.owns(sword) && !character.hasEquipped(sword));
+		assertTrue(!sword.isOwned() && !sword.isEquipped());
 		character.gain(sword);
-		assertTrue(sword.isOwned() && !sword.isEquipped() && character.owns(sword) && !character.hasEquipped(sword));
+		assertTrue(sword.isOwned() && !sword.isEquipped());
 		character.equip(sword);
-		assertTrue(sword.isOwned() && sword.isEquipped() && character.owns(sword) && character.hasEquipped(sword));
+		assertTrue(sword.isOwned() && sword.isEquipped());
 		character.lose(sword);
-		assertTrue(!sword.isOwned() && !sword.isEquipped() && !character.owns(sword) && !character.hasEquipped(sword));
+		assertTrue(!sword.isOwned() && !sword.isEquipped());
 	}
 	
 	@Test
 	void TF2_unownedItemsCantBeLost() {
-		assertTrue(!sword.isOwned() && !sword.isEquipped() && !character.owns(sword) && !character.hasEquipped(sword));
+		assertTrue(!sword.isOwned() && !sword.isEquipped());
 		try {
 			character.lose(sword);
 		} catch(LoseException e) {
@@ -1252,7 +1252,7 @@ class CharacterTest {
 	
 	@Test
 	void TF3_unownedItemsCantBeEquipped() {
-		assertTrue(!sword.isOwned() && !sword.isEquipped() && !character.owns(sword) && !character.hasEquipped(sword));
+		assertTrue(!sword.isOwned() && !sword.isEquipped());
 		try {
 			character.equip(sword);
 		} catch(EquipException e) {
@@ -1262,7 +1262,7 @@ class CharacterTest {
 	
 	@Test
 	void TF4_unownedItemsCantBeUnequipped() {
-		assertTrue(!sword.isOwned() && !sword.isEquipped() && !character.owns(sword) && !character.hasEquipped(sword));
+		assertTrue(!sword.isOwned() && !sword.isEquipped());
 		try {
 			character.unequip(sword);
 		} catch(UnequipException e) {
@@ -1272,7 +1272,7 @@ class CharacterTest {
 	
 	@Test
 	void TF5_unownedItemsCantBeGivenAway() {
-		assertTrue(!sword.isOwned() && !sword.isEquipped() && !character.owns(sword) && !character.hasEquipped(sword));
+		assertTrue(!sword.isOwned() && !sword.isEquipped());
 		try {
 			character.give(sword, otherCharacter);
 		} catch(GiveException e) {
@@ -1282,9 +1282,9 @@ class CharacterTest {
 	
 	@Test
 	void TF6_ownedItemsCantBeGained() {
-		assertTrue(!sword.isOwned() && !sword.isEquipped() && !character.owns(sword) && !character.hasEquipped(sword));
+		assertTrue(!sword.isOwned() && !sword.isEquipped());
 		character.gain(sword);
-		assertTrue(sword.isOwned() && !sword.isEquipped() && character.owns(sword) && !character.hasEquipped(sword));
+		assertTrue(sword.isOwned() && !sword.isEquipped());
 		try {
 			character.gain(sword);
 		} catch(GainException e) {
@@ -1294,9 +1294,9 @@ class CharacterTest {
 	
 	@Test
 	void TF7_unequippedItemsCantBeUnequippedAgain() {
-		assertTrue(!sword.isOwned() && !sword.isEquipped() && !character.owns(sword) && !character.hasEquipped(sword));
+		assertTrue(!sword.isOwned() && !sword.isEquipped());
 		character.gain(sword);
-		assertTrue(sword.isOwned() && !sword.isEquipped() && character.owns(sword) && !character.hasEquipped(sword));
+		assertTrue(sword.isOwned() && !sword.isEquipped());
 		try {
 			character.unequip(sword);
 		} catch(UnequipException e) {
@@ -1306,11 +1306,11 @@ class CharacterTest {
 	
 	@Test
 	void TF8_equippedItemsCantBeGained() {
-		assertTrue(!sword.isOwned() && !sword.isEquipped() && !character.owns(sword) && !character.hasEquipped(sword));
+		assertTrue(!sword.isOwned() && !sword.isEquipped());
 		character.gain(sword);
-		assertTrue(sword.isOwned() && !sword.isEquipped() && character.owns(sword) && !character.hasEquipped(sword));
+		assertTrue(sword.isOwned() && !sword.isEquipped());
 		character.equip(sword);
-		assertTrue(sword.isOwned() && sword.isEquipped() && character.owns(sword) && character.hasEquipped(sword));
+		assertTrue(sword.isOwned() && sword.isEquipped());
 		try {
 			character.gain(sword);
 		} catch(GainException e) {
@@ -1320,11 +1320,11 @@ class CharacterTest {
 	
 	@Test
 	void TF9_equippedItemsCantBeEquippedAgain() {
-		assertTrue(!sword.isOwned() && !sword.isEquipped() && !character.owns(sword) && !character.hasEquipped(sword));
+		assertTrue(!sword.isOwned() && !sword.isEquipped());
 		character.gain(sword);
-		assertTrue(sword.isOwned() && !sword.isEquipped() && character.owns(sword) && !character.hasEquipped(sword));
+		assertTrue(sword.isOwned() && !sword.isEquipped());
 		character.equip(sword);
-		assertTrue(sword.isOwned() && sword.isEquipped() && character.owns(sword) && character.hasEquipped(sword));
+		assertTrue(sword.isOwned() && sword.isEquipped());
 		try {
 			character.equip(sword);
 		} catch(EquipException e) {
@@ -1334,11 +1334,11 @@ class CharacterTest {
 	
 	@Test
 	void TF10_equippedItemsCantBeGivenAway() {
-		assertTrue(!sword.isOwned() && !sword.isEquipped() && !character.owns(sword) && !character.hasEquipped(sword));
+		assertTrue(!sword.isOwned() && !sword.isEquipped());
 		character.gain(sword);
-		assertTrue(sword.isOwned() && !sword.isEquipped() && character.owns(sword) && !character.hasEquipped(sword));
+		assertTrue(sword.isOwned() && !sword.isEquipped());
 		character.equip(sword);
-		assertTrue(sword.isOwned() && sword.isEquipped() && character.owns(sword) && character.hasEquipped(sword));
+		assertTrue(sword.isOwned() && sword.isEquipped());
 		try {
 			character.give(sword, otherCharacter);
 		} catch(GiveException e) {
