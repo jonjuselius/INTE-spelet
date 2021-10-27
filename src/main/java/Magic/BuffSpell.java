@@ -34,10 +34,12 @@ public class BuffSpell extends Spell {
             spellCaster.useMana(getManaCost());
 
             switch (this.getElement()) {
-                case PHYSICAL -> physicalBuffSpell(spellCaster, duration);
+                //case PHYSICAL -> physicalBuffSpell(spellCaster, duration);
                 case FIRE -> fireBuffSpell(spellCaster, duration);
                 case LIGHTNING -> lightningBuffSpell(spellCaster, duration);
-
+                case WATER -> waterBuffSpell(spellCaster, duration);
+                case WIND -> windBuffSpell(spellCaster, duration);
+                default -> physicalBuffSpell(spellCaster,duration);
             }
         }
     }
@@ -46,8 +48,8 @@ public class BuffSpell extends Spell {
         return (spellCaster.getMagicSkill() * 2L) * 1000;
     }
 
-    private int calculateSpellStrength(Character spellCaster){
-        return (int) Math.round(spellStrength * 0.1 + (spellCaster.getMagicSkill() * 0.1));
+    private double calculateSpellStrength(Character spellCaster){
+        return ((double)(spellCaster.getMagicSkill() + spellStrength) / 100);
     }
 
     private void buffDuration(long duration){
@@ -65,7 +67,9 @@ public class BuffSpell extends Spell {
     }
 
     private void increaseStrength(Character spellCaster){
-        spellCaster.setStrength(spellCaster.getStrength() * calculateSpellStrength(spellCaster));
+        spellCaster.setStrength(
+                (int) Math.round(spellCaster.getStrength() * (1.0 + calculateSpellStrength(spellCaster)))
+        );
     }
 
     private void fireBuffSpell(Character spellCaster, long duration){
@@ -75,7 +79,9 @@ public class BuffSpell extends Spell {
     }
 
     private void increaseIntelligence(Character spellCaster){
-        spellCaster.setIntelligence(spellCaster.getIntelligence() * calculateSpellStrength(spellCaster));
+        spellCaster.setIntelligence(
+                (int) Math.round(spellCaster.getIntelligence() * (1.0 + calculateSpellStrength(spellCaster)))
+        );
     }
 
     private void lightningBuffSpell(Character spellCaster, long duration){
@@ -85,10 +91,34 @@ public class BuffSpell extends Spell {
     }
 
     private void increaseMagicSkill(Character spellCaster){
-        spellCaster.setMagicSkill(spellCaster.getIntelligence() * calculateSpellStrength(spellCaster));
+        spellCaster.setMagicSkill(
+                (int) Math.round(spellCaster.getMagicSkill() * (1.0 + calculateSpellStrength(spellCaster)))
+        );
     }
 
+    private void waterBuffSpell(Character spellCaster, long duration){
+        increaseHealingSkill(spellCaster);
+        buffDuration(duration);
+        spellCaster.setHealingSkill(spellCaster.getJob().getHealing());
+    }
 
+    private void increaseHealingSkill(Character spellCaster){
+        spellCaster.setHealingSkill(
+                (int) Math.round(spellCaster.getHealingSkill() * (1.0 + calculateSpellStrength(spellCaster)))
+        );
+    }
+
+    private void windBuffSpell(Character spellCaster, long duration){
+        increaseMaxMana(spellCaster);
+        buffDuration(duration);
+        spellCaster.setMaxMana(spellCaster.getJob().getMaxMana());
+    }
+
+    private void increaseMaxMana(Character spellCaster){
+        spellCaster.setMaxMana(
+                (int) Math.round(spellCaster.getMaxMana() * (1.0 + calculateSpellStrength(spellCaster)))
+        );
+    }
 
 
 

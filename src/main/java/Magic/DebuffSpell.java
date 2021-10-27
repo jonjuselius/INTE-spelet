@@ -6,6 +6,7 @@ public class DebuffSpell extends Spell{
 
     private final int spellStrength;
 
+    //Spell that negatively impacts a targets stats
     public DebuffSpell(String name, int manaCost, Element element, int spellStrength) {
         super(name, manaCost, element);
         this.spellStrength = spellStrength;
@@ -43,11 +44,13 @@ public class DebuffSpell extends Spell{
     }
 
     private void decreaseStrength(Character spellCaster,Character target){
-        target.setStrength(target.getStrength() * calculateSpellStrength(spellCaster));
+        target.setStrength(
+                (int) Math.round(target.getStrength() * (1.0 - calculateSpellStrength(spellCaster)))
+        );
     }
 
-    private int calculateSpellStrength(Character spellCaster){
-        return (int) Math.round((double)(spellCaster.getMagicSkill() + spellStrength) / 100);
+    private double calculateSpellStrength(Character spellCaster){
+        return ((double)(spellCaster.getMagicSkill() + spellStrength) / 100);
     }
 
     private long calculateDuration(Character spellCaster){

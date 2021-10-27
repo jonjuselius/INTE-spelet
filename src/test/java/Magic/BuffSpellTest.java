@@ -20,6 +20,10 @@ class BuffSpellTest {
     public static final GameMapGenerator MAP_GENERATOR = new GameMapGenerator(4, 4);
     public static final GameMap MAP = MAP_GENERATOR.generate(1);
     public static final GameMapPosition MAP_POSITION = MAP.generateRandomPos(new Random(), new Random());
+    private static final int HUMAN_INTELLIGENCE = 20;
+    private static final int MAGICIAN_MAGICSKILL = 10;
+    private static final int MAGICIAN_MANA = 300;
+    private static final int MAGICIAN_HEALINGSKILL = 7;
     private static Human human;
     private static Magician magician;
     private static Player mockPlayer;
@@ -31,9 +35,11 @@ class BuffSpellTest {
         mockPlayer = mock(Player.class);
 
         //when(p.getStrength()).thenReturn(p.getRace().getStrength());
-        when(mockPlayer.getIntelligence()).thenReturn(20);
-        when(mockPlayer.getMagicSkill()).thenReturn(10);
-        when(mockPlayer.getRemainingMana()).thenReturn(300);
+        when(mockPlayer.getIntelligence()).thenReturn(HUMAN_INTELLIGENCE);
+        when(mockPlayer.getMagicSkill()).thenReturn(MAGICIAN_MAGICSKILL);
+        when(mockPlayer.getRemainingMana()).thenReturn(MAGICIAN_MANA);
+        when(mockPlayer.getMaxMana()).thenReturn(MAGICIAN_MANA);
+        when(mockPlayer.getHealingSkill()).thenReturn(MAGICIAN_HEALINGSKILL);
         when(mockPlayer.getRace()).thenReturn(human);
         when(mockPlayer.getJob()).thenReturn(magician);
     }
@@ -79,7 +85,7 @@ class BuffSpellTest {
 
         assertEquals(3, strengthStats.size());
         assertEquals(20, strengthStats.get(0));
-        assertEquals(40, strengthStats.get(1));
+        assertEquals(23, strengthStats.get(1));
         assertEquals(20, strengthStats.get(2));
     }
 
@@ -111,7 +117,7 @@ class BuffSpellTest {
         verify(mockPlayer,times(2)).setIntelligence(argumentCaptor.capture());
         List<Integer> intelligenceStats = argumentCaptor.getAllValues();
 
-        assertEquals(40, intelligenceStats.get(0));
+        assertEquals(23, intelligenceStats.get(0));
         assertEquals(20, intelligenceStats.get(1));
     }
 
@@ -123,9 +129,36 @@ class BuffSpellTest {
         ArgumentCaptor<Integer> argumentCaptor = ArgumentCaptor.forClass(int.class);
         verify(mockPlayer,times(2)).setMagicSkill(argumentCaptor.capture());
         List<Integer> magicStats = argumentCaptor.getAllValues();
-        System.out.println(magicStats);
 
-        assertEquals(40, magicStats.get(0));
+        assertEquals(12, magicStats.get(0));
         assertEquals(10, magicStats.get(1));
     }
+
+    @Test
+    public void waterBuffSpellIncreasesAndDecreasesHealingSkill(){
+        BuffSpell bs = new BuffSpell("HealingBuff", 10, Element.WATER, 5);
+        bs.cast(mockPlayer,1);
+
+        ArgumentCaptor<Integer> argumentCaptor = ArgumentCaptor.forClass(int.class);
+        verify(mockPlayer,times(2)).setHealingSkill(argumentCaptor.capture());
+        List<Integer> healingStats = argumentCaptor.getAllValues();
+
+        assertEquals(8, healingStats.get(0));
+        assertEquals(7, healingStats.get(1));
+    }
+
+    @Test
+    public void windBuffSpellIncreasesAndDecreasesMaxMana(){
+        BuffSpell bs = new BuffSpell("ManaBuff", 10, Element.WIND, 5);
+        bs.cast(mockPlayer,1);
+
+        ArgumentCaptor<Integer> argumentCaptor = ArgumentCaptor.forClass(int.class);
+        verify(mockPlayer,times(2)).setMaxMana(argumentCaptor.capture());
+        List<Integer> manaStats = argumentCaptor.getAllValues();
+
+        assertEquals(345, manaStats.get(0));
+        assertEquals(300, manaStats.get(1));
+    }
+
+
 }

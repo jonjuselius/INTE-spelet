@@ -91,6 +91,14 @@ public abstract class Character {
 		isAlive = false;
 	}
 
+	public int getMaxMana() {
+		return maxMana;
+	}
+
+	public void setMaxMana(int maxMana) {
+		this.maxMana = maxMana;
+	}
+
 	public int getStrength() {
 		return strength;
 	}
@@ -143,7 +151,7 @@ public abstract class Character {
 		return healingSkill;
 	}
 
-	protected void setHealingSkill(int healingSkill) {
+	public void setHealingSkill(int healingSkill) {
 		this.healingSkill = healingSkill;
 	}
 

@@ -23,7 +23,7 @@ public abstract class Job {
 		return healingSkill;
 	}
 
-	protected void setHealing(int healingSkill) {
+	public void setHealing(int healingSkill) {
 		this.healingSkill = healingSkill;
 	}
 
