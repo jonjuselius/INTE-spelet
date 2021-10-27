@@ -44,8 +44,11 @@ class CharacterTest {
 		return map;
 	}
 	private Character character = new Player("Default character", human, knight, true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
-	private Character player1 = new Player("Player 1", human, knight, true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
-	private Character player2 = new Player("Player 2", human, knight, true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]);
+	private Character[] players = {
+			new Player("Player 1", human, knight, true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2]),
+			new Player("Player 2", human, knight, true, (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2])
+	};
+	
 	private Item sword = new Sword();
 	private Item smallSword = new Sword(Size.SMALL);
 	private Item wand = new Wand();
@@ -70,7 +73,7 @@ class CharacterTest {
 			description.appendText("Didn't throw expected exception");
 		}
 		
-		public static Matcher<IllegalArgumentException> isCantMoveOutOfTheMapException() {
+		public static Matcher<IllegalArgumentException> isCantWalkOutsideMapException() {
 			return new ExceptionMatcher("Can't move out of the map");
 		}
 		
@@ -570,7 +573,7 @@ class CharacterTest {
 		try {
 			human_player.moveNorth();
 		} catch (IllegalArgumentException e) {
-			assertThat(e, ExceptionMatcher.isCantMoveOutOfTheMapException());
+			assertThat(e, new ExceptionMatcher(e.getMessage()));
 		}
 	}
 
@@ -580,7 +583,7 @@ class CharacterTest {
 		try {
 			human_player.moveSouth();
 		} catch (IllegalArgumentException e) {
-			assertThat(e, ExceptionMatcher.isCantMoveOutOfTheMapException());
+			assertThat(e, ExceptionMatcher.isCantWalkOutsideMapException());
 		}
 	}
 
@@ -590,7 +593,7 @@ class CharacterTest {
 		try {
 			human_player.moveWest();
 		} catch (IllegalArgumentException e) {
-			assertThat(e, ExceptionMatcher.isCantMoveOutOfTheMapException());
+			assertThat(e, ExceptionMatcher.isCantWalkOutsideMapException());
 		}
 	}
 
@@ -600,7 +603,7 @@ class CharacterTest {
 		try {
 			human_player.moveEast();
 		} catch (IllegalArgumentException e) {
-			assertThat(e, ExceptionMatcher.isCantMoveOutOfTheMapException());
+			assertThat(e, ExceptionMatcher.isCantWalkOutsideMapException());
 		}
 	}
 
@@ -759,8 +762,8 @@ class CharacterTest {
 		character.gain(sword);
 		try {
 			character.eat(sword);
-		} catch (IllegalArgumentException e) {
-			assertThat(e, ExceptionMatcher.isItemCantBeEatenException());
+		} catch (IllegalArgumentException exception) {
+			assertThat(exception, ExceptionMatcher.isItemCantBeEatenException());
 		}
 	}
 	
@@ -927,6 +930,8 @@ class CharacterTest {
 	
 	@Test
 	void characterGivingAnItemToAnotherCharacterMakesTheItemBecomeOwnedByTheOtherCharacter() {
+		Character player1 = players[0];
+		Character player2 = players[1];
 		player1.gain(sword);
 		assertThat(player1.owns(sword), is(equalTo(true)));
 		assertThat(player2.owns(sword), is(equalTo(false)));
@@ -938,6 +943,8 @@ class CharacterTest {
 	
 	@Test
 	void characterTryingToGiveAnItemThatCantBeGivenToAnotherCharacterThrowsIAE() {
+		Character player1 = players[0];
+		Character player2 = players[1];
 		player2.gain(sword);
 		assertThat(player1.owns(sword), is(equalTo(false)));
 		assertThat(player2.owns(sword), is(equalTo(true)));
@@ -949,6 +956,8 @@ class CharacterTest {
 	
 	@Test
 	void characterThatCanReceiveAndCanAffordItemCanBuyAnItem() {
+		Character player1 = players[0];
+		Character player2 = players[1];
 		player2.gain(sword);
 		player1.gainMoney(1000);
 		assertThat(player1.canReceive(sword), is(equalTo(true)));
@@ -958,113 +967,133 @@ class CharacterTest {
 	
 	@Test
 	void characterThatCanReceiveButCantAffordItemCantBuyAnItem() {
-		player2.gain(sword);
-		player1.gainMoney(50);
-		assertThat(player1.canReceive(sword), is(equalTo(true)));
-		assertThat(player1.canAfford(sword), is(equalTo(false)));
-		assertThat(player1.canBuy(sword), is(equalTo(false)));
+		Character seller = players[0];
+		Character buyer = players[1];
+		seller.gain(sword);
+		buyer.gainMoney(50);
+		assertThat(buyer.canReceive(sword), is(equalTo(true)));
+		assertThat(buyer.canAfford(sword), is(equalTo(false)));
+		assertThat(buyer.canBuy(sword), is(equalTo(false)));
 	}
 	
 	@Test
 	void characterThatCanGiveAnItemCanSellTheItem() {
-		player1.gain(sword);
-		assertThat(player1.canGive(sword), is(equalTo(true)));
-		assertThat(player1.canSell(sword), is(equalTo(true)));
+		Character seller = players[0];
+		seller.gain(sword);
+		assertThat(seller.canGive(sword), is(equalTo(true)));
+		assertThat(seller.canSell(sword), is(equalTo(true)));
 	}
 	
 	@Test
 	void characterThatCantGiveAnItemCantSellTheItem() {
-		player1.gain(sword);
-		player1.equip(sword);
-		assertThat(player1.canGive(sword), is(equalTo(false)));
-		assertThat(player1.canSell(sword), is(equalTo(false)));
+		Character seller = players[0];
+		seller.gain(sword);
+		seller.equip(sword);
+		assertThat(seller.canGive(sword), is(equalTo(false)));
+		assertThat(seller.canSell(sword), is(equalTo(false)));
 	}
 	
 	@Test
 	void characterBuyingAnItemMakesBuyersAmountOfMoneyDecrease() {
-		player1.gain(sword);
-		player1.gainMoney(5000);
-		player2.gainMoney(1000);
-		assertThat(sword.canBeSold(player1, player2), is(equalTo(true)));
-		player2.buy(sword, player1);
-		assertThat(player2.getMoney(), is(equalTo(1000 - sword.getValue())));
+		Character seller = players[0];
+		Character buyer = players[1];
+		seller.gain(sword);
+		seller.gainMoney(5000);
+		buyer.gainMoney(1000);
+		assertThat(sword.canBeSold(seller, buyer), is(equalTo(true)));
+		buyer.buy(sword, seller);
+		assertThat(buyer.getMoney(), is(equalTo(1000 - sword.getValue())));
 	}
 	
 	@Test
 	void characterBuyingAnItemMakesSellersAmountOfMoneyIncrease() {
-		player1.gain(sword);
-		player1.gainMoney(5000);
-		player2.gainMoney(1000);
-		assertThat(sword.canBeSold(player1, player2), is(equalTo(true)));
-		player2.buy(sword, player1);
-		assertThat(player1.getMoney(), is(equalTo(5000 + sword.getValue())));
+		Character seller = players[0];
+		Character buyer = players[1];
+		seller.gain(sword);
+		seller.gainMoney(5000);
+		buyer.gainMoney(1000);
+		assertThat(sword.canBeSold(seller, buyer), is(equalTo(true)));
+		buyer.buy(sword, seller);
+		assertThat(seller.getMoney(), is(equalTo(5000 + sword.getValue())));
 	}
 	
 	@Test
 	void characterSellingAnItemMakesSellersAmountOfMoneyIncrease() {
-		player1.gain(sword);
-		player1.gainMoney(5000);
-		player2.gainMoney(1000);
-		assertThat(sword.canBeSold(player1, player2), is(equalTo(true)));
-		player1.sell(sword, player2);
-		assertThat(player1.getMoney(), is(equalTo(5000 + sword.getValue())));
+		Character seller = players[0];
+		Character buyer = players[1];
+		seller.gain(sword);
+		seller.gainMoney(5000);
+		buyer.gainMoney(1000);
+		assertThat(sword.canBeSold(seller, buyer), is(equalTo(true)));
+		seller.sell(sword, buyer);
+		assertThat(seller.getMoney(), is(equalTo(5000 + sword.getValue())));
 	}
 	
 	@Test
 	void characterSellingAnItemMakesBuyersAmountOfMoneyDecrease() {
-		player1.gain(sword);
-		player1.gainMoney(5000);
-		player2.gainMoney(1000);
-		assertThat(sword.canBeSold(player1, player2), is(equalTo(true)));
-		player1.sell(sword, player2);
-		assertThat(player2.getMoney(), is(equalTo(1000 - sword.getValue())));
+		Character seller = players[0];
+		Character buyer = players[1];
+		seller.gain(sword);
+		seller.gainMoney(5000);
+		buyer.gainMoney(1000);
+		assertThat(sword.canBeSold(seller, buyer), is(equalTo(true)));
+		seller.sell(sword, buyer);
+		assertThat(buyer.getMoney(), is(equalTo(1000 - sword.getValue())));
 	}
 	
 	@Test
 	void characterWhoHasBoughtAnItemOwnsTheItemAfterTransaction() {
-		player1.gain(sword);
-		player1.gainMoney(5000);
-		player2.gainMoney(1000);
-		assertThat(player1.owns(sword), is(equalTo(true)));
-		assertThat(player2.owns(sword), is(equalTo(false)));
-		player2.buy(sword, player1);
-		assertThat(player1.owns(sword), is(equalTo(false)));
-		assertThat(player2.owns(sword), is(equalTo(true)));
+		Character seller = players[0];
+		Character buyer = players[1];
+		seller.gain(sword);
+		seller.gainMoney(5000);
+		buyer.gainMoney(1000);
+		assertThat(seller.owns(sword), is(equalTo(true)));
+		assertThat(buyer.owns(sword), is(equalTo(false)));
+		buyer.buy(sword, seller);
+		assertThat(seller.owns(sword), is(equalTo(false)));
+		assertThat(buyer.owns(sword), is(equalTo(true)));
 	}
 	
 	@Test
 	void characterWhoHasSoldAnItemDoesntTheItemAfterTransaction() {
-		player1.gain(sword);
-		player1.gainMoney(5000);
-		player2.gainMoney(1000);
-		assertThat(player2.owns(sword), is(equalTo(false)));
-		assertThat(player1.owns(sword), is(equalTo(true)));
-		player1.sell(sword, player2);
-		assertThat(player2.owns(sword), is(equalTo(true)));
-		assertThat(player1.owns(sword), is(equalTo(false)));
+		Character seller = players[0];
+		Character buyer = players[1];
+		seller.gain(sword);
+		seller.gainMoney(5000);
+		buyer.gainMoney(1000);
+		assertThat(buyer.owns(sword), is(equalTo(false)));
+		assertThat(seller.owns(sword), is(equalTo(true)));
+		seller.sell(sword, buyer);
+		assertThat(buyer.owns(sword), is(equalTo(true)));
+		assertThat(seller.owns(sword), is(equalTo(false)));
 	}
 	
 	@Test
 	void characterTryingToBuyAnItemThatCantBeBoughtThrowsIAE() {
-		player1.gain(sword);
-		player1.equip(sword);
-		player1.gainMoney(5000);
-		player2.gainMoney(1000);
-		assertThat(sword.canBeSold(player1, player2), is(equalTo(false)));
+		Character seller = players[0];
+		Character buyer = players[1];
+		seller.gain(sword);
+		seller.equip(sword);
+		seller.gainMoney(5000);
+		buyer.gainMoney(1000);
+		assertThat(sword.canBeSold(seller, buyer), is(equalTo(false)));
 		assertThrows(IllegalArgumentException.class, () -> {
-			player2.buy(sword, player1);
+			buyer.buy(sword, seller);
 		});
 	}
 	
 	@Test
 	void characterTryingToSellAnItemThatCantBeBoughtThrowsIAE() {
-		player1.gain(sword);
-		player1.equip(sword);
-		player1.gainMoney(5000);
-		player2.gainMoney(1000);
-		assertThat(sword.canBeSold(player1, player2), is(equalTo(false)));
+		Character seller = players[0];
+		Character buyer = players[1];
+		seller.gain(sword);
+		seller.equip(sword);
+		seller.gainMoney(5000);
+		buyer.gainMoney(1000);
+		assertThat(sword.canBeSold(seller, buyer), is(equalTo(false)));
 		assertThrows(IllegalArgumentException.class, () -> {
-			player1.sell(sword, player2);
+			seller.sell(sword, buyer);
 		});
 	}
 	
