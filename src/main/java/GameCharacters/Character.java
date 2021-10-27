@@ -60,6 +60,7 @@ public abstract class Character {
 		setHealingSkill(job.getHealing());
 		setSwordSkill(job.getSwordSkill());
 		setRemainingMana(job.getMaxMana());
+		setMaxMana(job.getMaxMana());
 		setLevel(level);
 	}
 

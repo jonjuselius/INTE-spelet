@@ -106,6 +106,20 @@ class BuffSpellTest {
         assertTrue(duration > 8 && duration < 30);
 
     }
+    //Unsuccessful attempt at checking duration with a mock
+   /* @Test
+    public void buffSpellLastsCorrectDurationMock(){
+        BuffSpell bs = new BuffSpell("IntelligenceBuff", 10, Element.FIRE, 5);
+        bs.cast(mockPlayer,10);
+
+        ArgumentCaptor<Long> argumentCaptor = ArgumentCaptor.forClass(long.class);
+        verify(mockPlayer,times(2)).setIntelligence((int) System.nanoTime().argumentCaptor.capture());
+
+        List<Integer> intelligenceStats = argumentCaptor.getAllValues();
+        long startTime = intelligenceStats.get(1) ;
+
+
+    }*/
 
     @Test
     public void fireBuffSpellIncreasesAndDecreasesIntelligence(){
