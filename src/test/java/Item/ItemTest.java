@@ -1,272 +1,244 @@
 package Item;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import Exceptions.*;
 import GameCharacters.*;
 import GameCharacters.Character;
 import Jobs.*;
 import Map.*;
 import Races.*;
 import org.junit.jupiter.api.Test;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 class ItemTest {
-	GameMapPosition defaultMapPosition = (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2];
-	Character character = new Player("Default character", new Human(), new Knight(), true, defaultMapPosition);
-
+	private Item[] items = {new Sword(), new Wand(), new Potion(), new Shield(), new Ring()};
+	private Item[] swordSizes = {new Sword(Size.SMALL), new Sword(Size.MEDIUM), new Sword(Size.LARGE)};
+	private Item sword = items[0];
+	private Item wand = items[1];
+	private Item potion = items[2];
+	private Item shield = items[3];
+	private Item ring = items[4];
+	private Item smallSword = swordSizes[0];
+	private Item mediumSword = swordSizes[1];
+	private Item largeSword = swordSizes[2];
+	private List<Race> races = new ArrayList<>(Race.getAllRaces());
+	private List<Job> jobs = new ArrayList<>(Job.getAllJobs());
+	private Race human = races.get(0);
+	private Race ogre = races.get(1);
+	private Race elf = races.get(2);
+	private Job knight = jobs.get(0);
+	private Job magician = jobs.get(1);
+	private Job healer = jobs.get(2);
+	private GameMapPosition defaultMapPosition = (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2];
+	private Character character = new Player("Default character", human, knight, true, defaultMapPosition);
+	private Character otherCharacter = new Player("Other character", human, knight, true, defaultMapPosition);
+	private Character[] defaultCharacters = {
+			new Player("Player 1", races.get(0), jobs.get(0), true, defaultMapPosition),
+			new Player("Player 2", races.get(0), jobs.get(0), true, defaultMapPosition)
+	};
+	private Character[] characters = {
+			new Player("Player", human, knight, true, defaultMapPosition),
+			new Player("Player", ogre, knight, true, defaultMapPosition),
+			new Player("Player", elf, knight, true, defaultMapPosition),
+			new Player("Player", human, magician, true, defaultMapPosition),
+			new Player("Player", ogre, magician, true, defaultMapPosition),
+			new Player("Player", elf, magician, true, defaultMapPosition),
+			new Player("Player", human, healer, true, defaultMapPosition),
+			new Player("Player", ogre, healer, true, defaultMapPosition),
+			new Player("Player", elf, healer, true, defaultMapPosition),
+	};
+	private List<Character> players = Arrays.asList(characters);
+	private Character knightHuman = characters[0];
+	private Character knightOgre = characters[1];
+	private Character knightElf = characters[2];
+	private Character magicianHuman = characters[3];
+	private Character magicianOgre = characters[4];
+	private Character magicianElf = characters[5];
+	private Character healerHuman = characters[6];
+	private Character healerOgre = characters[7];
+	private Character healerElf = characters[8];
+	
 	@Test
-	void newItemIsNotOwned() {
-		Item sword = new Sword();
-		assertThat(sword.isOwned(), is(equalTo(false)));
+	void BT1_knightsCanUseSwords() {
+		assertThat(knightHuman.canUse(sword), is(true));
 	}
 	
 	@Test
-	void newItemIsNotEquipped() {
-		Item sword = new Sword();
-		assertThat(sword.isEquipped(), is(equalTo(false)));
+	void BT2_otherJobsThanKnightsCantUseSwords() {
+		assertThat(magicianHuman.canUse(sword), is(false));
 	}
 	
 	@Test
-	void newItemIsNotEnhanced() {
-		Item sword = new Sword();
-		assertThat(sword.isEnhanced(), is(equalTo(false)));
+	void BT3_magiciansAndHealersCanUseWands() {
+		assertThat(healerHuman.canUse(wand), is(true));
+	}
+	
+	@Test
+	void BT4_otherJobsThanMagiciansOrHealersCantUseWands() {
+		assertThat(knightOgre.canUse(wand), is(false));
+	}
+	
+	@Test
+	void BT5_everyJobCanUsePotions() {
+		assertThat(healerElf.canUse(potion), is(true));
+	}
+	
+	@Test
+	void BT6_knightsCanUseShields() {
+		assertThat(knightElf.canUse(shield), is(true));
+	}
+	
+	@Test
+	void BT7_otherJobsThanKnightsCantUseShields() {
+		assertThat(healerOgre.canUse(shield), is(false));
+	}
+	
+	@Test
+	void BT8_everyJobCanUseRings() {
+		assertThat(magicianOgre.canUse(ring), is(true));
 	}
 	
 	@Test
 	void settingMapPositionToAnItemWorks() {
-		Item sword = new Sword();
 		sword.setMapPosition(defaultMapPosition);
 		assertThat(sword.getMapPosition(), is(equalTo(defaultMapPosition)));
 	}
 	
 	@Test
-	void characterGainingAnItemMakesTheItemOwned() {
-		Item sword = new Sword();
-		character.gain(sword);
-		assertThat(sword.isOwned(), is(equalTo(true)));
-	}
-	
-	@Test
-	void destroyedSwordHasMinimumCondition() {
-		Item sword = new Sword();
-		sword.becomeDestroyed();
-		assertThat(sword.getCondition(), is(equalTo(Item.MIN_CONDITION)));
-	}
-	
-	@Test
-	void recoveredSwordHasMaximumCondition() {
-		Item sword = new Sword();
-		sword.becomeDestroyed();
-		sword.becomeRecovered();
-		assertThat(sword.getCondition(), is(equalTo(Item.MAX_CONDITION)));
-	}
-	
-	@Test
-	void damagedSwordHasDecreasedCondition() {
-		Item sword = new Sword();
-		sword.becomeDamaged(10);
-		assertThat(sword.getCondition(), is(equalTo(Item.MAX_CONDITION - 10)));
-	}
-	
-	@Test
-	void restoredSwordHasIncreasedCondition() {
-		Item sword = new Sword();
-		sword.becomeDestroyed();
-		sword.becomeRestored(10);
-		assertThat(sword.getCondition(), is(equalTo(Item.MIN_CONDITION + 10)));
-	}
-	
-	@Test
 	void smallItemIsEnhancable() {
-		Item sword = new Sword(Size.SMALL);
-		assertThat(sword.isSmall(), is(equalTo(true)));
-		assertThat(sword.isEnhancable(), is(equalTo(true)));
+		assertThat(smallSword.isSmall(), is(true));
+		assertThat(smallSword.isEnhancable(), is(true));
 	}
 	
 	@Test
 	void mediumItemIsNotEnhancable() {
-		Item sword = new Sword(Size.MEDIUM);
-		assertThat(sword.isMedium(), is(equalTo(true)));
-		assertThat(sword.isEnhancable(), is(equalTo(false)));
+		assertThat(mediumSword.isMedium(), is(true));
+		assertThat(mediumSword.isEnhancable(), is(false));
 	}
 	
 	@Test
 	void largeItemIsNotEnhancable() {
-		Item sword = new Sword(Size.LARGE);
-		assertThat(sword.isLarge(), is(equalTo(true)));
-		assertThat(sword.isEnhancable(), is(equalTo(false)));
-	}
-	
-	@Test
-	void destroyedItemIsNotDestroyable() {
-		Item sword = new Sword();
-		sword.becomeDestroyed();
-		assertThat(sword.isDestroyable(), is(equalTo(false)));
-	}
-	
-	@Test
-	void undestroyedItemIsDestroyable() {
-		Item sword = new Sword();
-		assertThat(sword.isDestroyable(), is(equalTo(true)));
-	}
-	
-	@Test
-	void restoringAnItemWithPerfectConditionDoesntIncreaseItsCondition() {
-		Item sword = new Sword();
-		sword.becomeRestored(10);
-		assertThat(sword.getCondition(), is(equalTo(Item.MAX_CONDITION)));
-		assertThat(sword.isPerfect(), is(equalTo(true)));
-	}
-	
-	@Test
-	void itemWithMaxConditionIsNotRecoverable() {
-		Item sword = new Sword();
-		assertThat(sword.isRecoverable(), is(equalTo(false)));
-	}
-	
-	@Test
-	void itemWithConditionLessThanMaxConditionIsRecoverable() {
-		Item sword = new Sword();
-		sword.becomeDamaged(10);
-		assertThat(sword.isRecoverable(), is(equalTo(true)));
+		assertThat(largeSword.isLarge(), is(true));
+		assertThat(largeSword.isEnhancable(), is(false));
 	}
 	
 	@Test
 	void itemThatIsOwnedByOneCharacterCanBeGivenToAnotherCharacter() {
-		Character player1 = new Player("Player 1", new Human(), new Knight(), true, defaultMapPosition);
-		Character player2 = new Player("Player 2", new Human(), new Knight(), true, defaultMapPosition);
-		Item sword = new Sword();
+		Character player1 = defaultCharacters[0];
+		Character player2 = defaultCharacters[1];
 		player1.gain(sword);
-		assertThat(sword.canBeGiven(player1, player2), is(equalTo(true)));
+		assertThat(sword.canBeGiven(player1, player2), is(true));
 	}
 	
 	@Test
 	void itemThatIsOwnedByOneCharacterCanBeSoldToAnotherCharacter() {
-		Character player1 = new Player("Player 1", new Human(), new Knight(), true, defaultMapPosition);
-		Character player2 = new Player("Player 2", new Human(), new Knight(), true, defaultMapPosition);
-		Item sword = new Sword();
+		Character player1 = defaultCharacters[0];
+		Character player2 = defaultCharacters[1];
 		player1.gain(sword);
 		player2.gainMoney(1000);
-		assertThat(sword.canBeSold(player1, player2), is(equalTo(true)));
-	}
-	
-	@Test
-	void foodCanBeEatenByACharacter() {
-		Character character = new Player("Player 1", new Human(), new Knight(), true, defaultMapPosition);
-		Item egg = new Egg();
-		assertThat(egg.isFood(), is(equalTo(true)));
-		assertThat(egg.canBeEatenBy(character), is(equalTo(true)));
+		assertThat(sword.canBeSold(player1, player2), is(true));
 	}
 	
 	@Test
 	void weaponThatIsOwnedIsEquippable() {
-		Character character = new Player("Player 1", new Human(), new Knight(), true, defaultMapPosition);
-		Item sword = new Sword();
 		character.gain(sword);
-		assertThat(sword.isWeapon(), is(equalTo(true)));
-		assertThat(sword.isOwned(), is(equalTo(true)));
-		assertThat(sword.isEquippable(), is(equalTo(true)));
+		assertThat(sword.isWeapon(), is(true));
+		assertThat(sword.isOwned(), is(true));
+		assertThat(sword.isEquippable(), is(true));
 	}
 	
 	@Test
 	void weaponThatIsNotOwnedIsNotEquippable() {
-		Character character = new Player("Player 1", new Human(), new Knight(), true, defaultMapPosition);
-		Item sword = new Sword();
 		character.gain(sword);
 		character.lose(sword);
-		assertThat(sword.isWeapon(), is(equalTo(true)));
-		assertThat(sword.isOwned(), is(equalTo(false)));
-		assertThat(sword.isEquippable(), is(equalTo(false)));
+		assertThat(sword.isWeapon(), is(true));
+		assertThat(sword.isOwned(), is(false));
+		assertThat(sword.isEquippable(), is(false));
 	}
 	
 	@Test
 	void armorThatIsOwnedIsEquippable() {
-		Character character = new Player("Player 1", new Human(), new Knight(), true, defaultMapPosition);
-		Item shield = new Shield();
 		character.gain(shield);
-		assertThat(shield.isArmor(), is(equalTo(true)));
-		assertThat(shield.isOwned(), is(equalTo(true)));
-		assertThat(shield.isEquippable(), is(equalTo(true)));
+		assertThat(shield.isArmor(), is(true));
+		assertThat(shield.isOwned(), is(true));
+		assertThat(shield.isEquippable(), is(true));
 	}
 	
 	@Test
 	void jewelleryThatIsOwnedIsEquippable() {
-		Character character = new Player("Player 1", new Human(), new Knight(), true, defaultMapPosition);
-		Item ring = new Ring();
 		character.gain(ring);
-		assertThat(ring.isJewewllery(), is(equalTo(true)));
-		assertThat(ring.isOwned(), is(equalTo(true)));
-		assertThat(ring.isEquippable(), is(equalTo(true)));
+		assertThat(ring.isJewewllery(), is(true));
+		assertThat(ring.isOwned(), is(true));
+		assertThat(ring.isEquippable(), is(true));
 	}
 	
 	@Test
 	void jewelleryThatIsNotOwnedIsEquippable() {
-		Item ring = new Ring();
-		assertThat(ring.isOwned(), is(equalTo(false)));
-		assertThat(ring.isEquippable(), is(equalTo(false)));
+		assertThat(ring.isOwned(), is(false));
+		assertThat(ring.isEquippable(), is(false));
 	}
 	
 	@Test
 	void foodThatIsOwnedIsNotEquippable() {
-		Character character = new Player("Player 1", new Human(), new Knight(), true, defaultMapPosition);
-		Item egg = new Egg();
-		character.gain(egg);
-		assertThat(egg.isFood(), is(equalTo(true)));
-		assertThat(egg.isEquippable(), is(equalTo(false)));
+		character.gain(potion);
+		assertThat(potion.isFood(), is(true));
+		assertThat(potion.isEquippable(), is(false));
 	}
 	
 	@Test
 	void foodThatIsNotOwnedIsNotEquippable() {
-		Item egg = new Egg();
-		assertThat(egg.isFood(), is(equalTo(true)));
-		assertThat(egg.isEquippable(), is(equalTo(false)));
+		assertThat(potion.isFood(), is(true));
+		assertThat(potion.isEquippable(), is(false));
 	}
 	
 	@Test
 	void settingAnEnhancableItemAsEnhancedMakesItEnhanced() {
-		Item sword = new Sword(Size.SMALL);
-		assertThat(sword.isSmall(), is(equalTo(true)));
-		assertThat(sword.isEnhancable(), is(equalTo(true)));
-		sword.setEnhanced(true);
-		assertThat(sword.isEnhanced(), is(equalTo(true)));
+		assertThat(smallSword.isSmall(), is(true));
+		assertThat(smallSword.isEnhancable(), is(true));
+		smallSword.setEnhanced(true);
+		assertThat(smallSword.isEnhanced(), is(true));
 	}
 	
 	@Test
 	void settingAnUnenhancableItemAsEnhancedDoesntMakeItEnhanced() {
-		Item sword = new Sword(Size.MEDIUM);
-		assertThat(sword.isMedium(), is(equalTo(true)));
-		assertThat(sword.isEnhancable(), is(equalTo(false)));
-		sword.setEnhanced(true);
-		assertThat(sword.isEnhanced(), is(equalTo(false)));
+		assertThat(mediumSword.isMedium(), is(equalTo(true)));
+		assertThat(mediumSword.isEnhancable(), is(false));
+		mediumSword.setEnhanced(true);
+		assertThat(mediumSword.isEnhanced(), is(false));
 	}
 	
 	@Test
 	void settingAnEquippableItemAsEquippedMakesItEquipped() {
-		Character character = new Player("Player 1", new Human(), new Knight(), true, defaultMapPosition);
-		Item sword = new Sword();
 		character.gain(sword);
-		assertThat(sword.isEquippable(), is(equalTo(true)));
+		assertThat(sword.isEquippable(), is(true));
 		sword.setEquipped(true);
-		assertThat(sword.isEquipped(), is(equalTo(true)));
+		assertThat(sword.isEquipped(), is(true));
 	}
 	
 	@Test
 	void settingAnUnequippableItemAsEquippedMakesItNotEquipped() {
-		Item sword = new Sword();
-		assertThat(sword.isEquippable(), is(equalTo(false)));
+		assertThat(sword.isEquippable(), is(false));
 		sword.setEquipped(true);
-		assertThat(sword.isEquipped(), is(equalTo(false)));
+		assertThat(sword.isEquipped(), is(false));
 	}
 	
 	@Test
-	void damagingADestroyedItemDoesntDecreaseItsCondition() {
-		Item sword = new Sword();
-		sword.becomeDestroyed();
-		assertThat(sword.isDestroyed(), is(equalTo(true)));
-		assertThat(sword.getCondition(), is(equalTo(Item.MIN_CONDITION)));
-		sword.becomeDamaged(10);
-		assertThat(sword.isDestroyed(), is(equalTo(true)));
-		assertThat(sword.getCondition(), is(equalTo(Item.MIN_CONDITION)));
+	void itemThatBecomesDamagedWithANegativeAmountThrowsException() {
+		assertThrows(DamageException.class, () -> {
+			sword.becomeDamaged(-10);
+		});
+	}
+	
+	@Test
+	void itemThatBecomesRestoredWithANegativeAmountThrowsException() {
+		assertThrows(RestoreException.class, () -> {
+			sword.becomeRestored(-10);
+		});
 	}
 }

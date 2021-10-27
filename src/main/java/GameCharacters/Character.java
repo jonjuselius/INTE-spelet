@@ -1,5 +1,6 @@
 package GameCharacters;
 
+import Exceptions.*;
 import Inventory.*;
 import Item.Item;
 import Jobs.Job;
@@ -38,7 +39,7 @@ public abstract class Character {
 	
 	private Inventory inventory;
 	private List<Item> equippedItems;
-	private int money;
+	private Wallet wallet;
 
 	public Character(String name, Race race, Job job, boolean isAlive, GameMapPosition position) {
 		this.name = name;
@@ -47,6 +48,7 @@ public abstract class Character {
 		this.isAlive = isAlive;
 		this.position = position;
 		this.inventory = new Inventory();
+		this.wallet = new Wallet();
 		this.equippedItems = new ArrayList<>();
 
 		setRemainingHealth(race.getMaxHealth());
@@ -326,31 +328,37 @@ public abstract class Character {
 		return Collections.unmodifiableList(equippedItems);
 	}
 	
-	public int getMoney() {
-		return money;
+	public Wallet getWallet() {
+		return wallet;
 	}
 	
-	private void setMoney(int money) {
-		this.money = money;
+	public int getMoney() {
+		return wallet.getAmount();
 	}
 	
 	public void gainMoney(int money) {
-		setMoney(getMoney() + money);
+		wallet.gain(money);
 	}
 	
 	public void loseMoney(int money) {
-		setMoney(getMoney() - money);
+		wallet.lose(money);
 	}
 	
 	public boolean canAfford(Item item) {
-		return this.money >= item.getValue();
+		return wallet.getAmount() >= item.getValue();
 	}
 	
 	public void gain(Item item) {
+		if (owns(item)) {
+			throw new GainException();
+		}
 		inventory.add(item);
 	}
 	
 	public void lose(Item item) {
+		if (!owns(item)) {
+			throw new LoseException();
+		}
 		if (hasEquipped(item)) {
 			unequip(item);
 		}
@@ -362,12 +370,12 @@ public abstract class Character {
 	}
 	
 	public boolean canEquip(Item item) {
-		return item.isEquippable();
+		return owns(item) && !hasEquipped(item) && item.isEquippable();
 	}
 	
 	public void equip(Item item) {
 		if (!canEquip(item)) {
-			throw new IllegalArgumentException("The item can't be equipped!");
+			throw new EquipException();
 		}
 		equippedItems.add(item);
 		item.setEquipped(true);
@@ -375,7 +383,7 @@ public abstract class Character {
 	
 	public void unequip(Item item) {
 		if (!hasEquipped(item)) {
-			throw new IllegalArgumentException("Can't unequip an item that is not equipped!");
+			throw new UnequipException();
 		}
 		equippedItems.remove(item);
 		item.setEquipped(false);
@@ -387,7 +395,7 @@ public abstract class Character {
 	
 	public void give(Item item, Character recipient) {
 		if (!item.canBeGiven(this, recipient)) {
-			throw new IllegalArgumentException("This item can't be given");
+			throw new GiveException();
 		}
 		this.lose(item);
 		recipient.gain(item);
@@ -406,7 +414,7 @@ public abstract class Character {
 		Character buyer = this;
 		Character seller = other;
 		if (!item.canBeSold(seller, buyer)) {
-			throw new IllegalArgumentException("The item can't be bought");
+			throw new BuyException();
 		}
 		seller.give(item, buyer);
 		seller.gainMoney(price);
@@ -418,7 +426,7 @@ public abstract class Character {
 		Character buyer = other;
 		Character seller = this;
 		if (!item.canBeSold(seller, buyer)) {
-			throw new IllegalArgumentException("The item can't be sold");
+			throw new SellException();
 		}
 		seller.give(item, buyer);
 		seller.gainMoney(price);
@@ -433,60 +441,40 @@ public abstract class Character {
 		return canGive(item);
 	}
 	
+	public void enhance(Item item) {
+		if (!item.isEnhancable()) {
+			throw new EnhanceException();
+		}
+		item.setEnhanced(true);
+	}
+	
 	public boolean canUse(Item item) {
 		return item.canBeUsedBy(this);
 	}
 	
-	public boolean canEat(Item item) {
-		return item.canBeEatenBy(this);
-	}
-	
 	public void use(Item item) {
 		if (!item.canBeUsedBy(this)) {
-			throw new IllegalArgumentException("Item can't be used");
+			throw new UseException();
 		}
 		if (item.isFood()) {
-			destroy(item);
+			damage(item, item.getCondition());
 		} else {
 			damage(item, 10);
 		}
 	}
 	
-	public void eat(Item item) {
-		if (!item.isFood()) {
-			throw new IllegalArgumentException("Item can't be eaten");
-		}
-		use(item);
-	}
-	
-	public void enhance(Item item) {
-		if (!item.isEnhancable()) {
-			throw new IllegalArgumentException();
-		}
-		item.setEnhanced(true);
-	}
-	
-	public void destroy(Item item) {
-		if (!item.isDestroyable()) {
-			throw new IllegalArgumentException();
-		}
-		item.becomeDestroyed();
-	}
-	
-	public void recover(Item item) {
-		if (!item.isRecoverable()) {
-			throw new IllegalArgumentException();
-		}
-		item.becomeRecovered();
-	}
-	
 	public void damage(Item item, int amount) {
-		item.becomeDamaged(10);
+		if (amount < 0) {
+			throw new DamageException();
+		}
+		item.becomeDamaged(amount);
 	}
 	
 	public void restore(Item item, int amount) {
-		item.becomeRestored(10);
+		if (amount < 0) {
+			throw new RestoreException();
+		}
+		item.becomeRestored(amount);
 	}
-
 }
 

@@ -1,10 +1,13 @@
 package Item;
 
+import Exceptions.DamageException;
+import Exceptions.RestoreException;
 import GameCharacters.Character;
+import Jobs.Job;
 import Map.GameMapPosition;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import Races.Race;
+
+import java.util.*;
 
 public abstract class Item {
 	public static final int MAX_CONDITION = 100;
@@ -14,21 +17,21 @@ public abstract class Item {
 	private Size size;
 	private Type type;
 	private int condition;
-	private List<String> jobCertifications; // ändra från list till set?
-	private List<String> raceCertifications;
+	private Set<Job> jobCertifications;
+	private Set<Race> raceCertifications;
 	private GameMapPosition mapPosition;
 	private boolean owned;
 	private boolean equipped;
 	private boolean enhanced;
 	
-	public Item(int weight, int value, String[] jobCertifications, String[] raceCertifications, Size size, Type type, int condition) {
+	public Item(int weight, int value, Job[] jobCertifications, Race[] raceCertifications, Size size, Type type, int condition) {
 		if (condition < MIN_CONDITION || condition > MAX_CONDITION) {
 			throw new IllegalArgumentException();
 		}
 		this.weight = weight;
 		this.value = value;
-		this.jobCertifications = Arrays.asList(jobCertifications);
-		this.raceCertifications = Arrays.asList(raceCertifications);
+		this.jobCertifications = new HashSet<>(Arrays.asList(jobCertifications));
+		this.raceCertifications = new HashSet<>(Arrays.asList(raceCertifications));
 		this.size = size;
 		this.type = type;
 		this.condition = condition;
@@ -58,12 +61,12 @@ public abstract class Item {
 		this.mapPosition = mapPosition;
 	}
 	
-	public List<String> getJobCertifications() {
-		return Collections.unmodifiableList(jobCertifications);
+	public Set<Job> getJobCertifications() {
+		return Collections.unmodifiableSet(jobCertifications);
 	}
 	
-	public List<String> getRaceCertifications() {
-		return Collections.unmodifiableList(raceCertifications);
+	public Set<Race> getRaceCertifications() {
+		return Collections.unmodifiableSet(raceCertifications);
 	}
 	
 	public Size getSize() {
@@ -71,8 +74,8 @@ public abstract class Item {
 	}
 	
 	public boolean canBeUsedBy(Character character) {
-		String race = character.getRace().getClass().getSimpleName();
-		String job = character.getJob().getClass().getSimpleName();
+		Race race = character.getRace();
+		Job job = character.getJob();
 		return getRaceCertifications().contains(race) && getJobCertifications().contains(job);
 	}
 	
@@ -120,40 +123,6 @@ public abstract class Item {
 		return seller.canSell(this) && buyer.canBuy(this);
 	}
 	
-	public boolean canBeEatenBy(Character character) {
-		return isFood() && canBeUsedBy(character);
-	}
-	
-	public boolean isDestroyable() {
-		return condition > MIN_CONDITION;
-	}
-	
-	public boolean isRecoverable() {
-		return condition < MAX_CONDITION;
-	}
-	
-	public void becomeDestroyed() {
-		condition = MIN_CONDITION;
-	}
-	
-	public void becomeRecovered() {
-		condition = MAX_CONDITION;
-	}
-	
-	public void becomeDamaged(int amount) {
-		condition -= amount;
-		if (condition < MIN_CONDITION) {
-			becomeDestroyed();
-		}
-	}
-	
-	public void becomeRestored(int amount) {
-		condition += amount;
-		if (condition > MAX_CONDITION) {
-			becomeRecovered();
-		}
-	}
-	
 	public boolean isWeapon() {
 		return type == Type.WEAPON;
 	}
@@ -182,16 +151,23 @@ public abstract class Item {
 		return size == Size.LARGE;
 	}
 	
-	public boolean isDestroyed() {
-		return condition == Item.MIN_CONDITION;
+	public void becomeDamaged(int amount) {
+		if (amount < 0) {
+			throw new DamageException();
+		}
+		condition -= amount;
+		if (condition < MIN_CONDITION) {
+			condition = MIN_CONDITION;
+		}
 	}
 	
-	public boolean isPerfect() {
-		return condition == Item.MAX_CONDITION;
+	public void becomeRestored(int amount) {
+		if (amount < 0) {
+			throw new RestoreException();
+		}
+		condition += amount;
+		if (condition > MAX_CONDITION) {
+			condition = MAX_CONDITION;
+		}
 	}
-	
-	//@Override
-	//public String toString() {
-	//	return this.getClass().getSimpleName().toString();
-	//}
 }
