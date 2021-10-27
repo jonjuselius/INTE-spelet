@@ -27,17 +27,6 @@ public class Player extends Character {
         return level;
     }
 
-    //TDD Emma
-//    public GameMapPosition moveNorth() {
-//        GameMapPosition currentPos = this.getPosition();
-//        GameMapPosition northNeighbor = currentPos.getNorthNeighbor();
-//        if (northNeighbor == null) {
-//            throw new IllegalArgumentException("Can't move out of the map");
-//        }
-//        if (northNeighbor.getTerrain() == Terrain.LAVA)
-//
-//    }
-
     public GameMapPosition moveNorth() {
         GameMapPosition currentPos = this.getPosition();
         GameMapPosition northNeighbor = currentPos.getNorthNeighbor();
@@ -79,6 +68,10 @@ public class Player extends Character {
     }
 
     private GameMapPosition tryToMoveHere(Player player, GameMapPosition currentPos, GameMapPosition positionToMoveTo) {
+        if (!player.isAlive()) {
+            throw new IllegalArgumentException("Can't move dead player");
+        }
+
         if (positionToMoveTo.getTerrain() == Terrain.LAVA) {
             if (player.getIfCanFly()) {
                 this.setPosition(positionToMoveTo);

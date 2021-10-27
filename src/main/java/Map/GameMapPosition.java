@@ -64,6 +64,6 @@ public class GameMapPosition {
 
     public GameMapPosition[] getNeighbors() {
         GameMapPosition[] copyOfNeighbors = neighbors;
-        return copyOfNeighbors;
+        return neighbors;
     }
 }
