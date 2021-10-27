@@ -126,17 +126,17 @@ class PotionTest {
 	}
 	
 	@Test
-	void newPotionWithSizeSpecifiedAsSmallInConstructorCreatesASmallEgg() {
+	void newPotionWithSizeSpecifiedAsSmallInConstructorCreatesASmallPotion() {
 		assertThat(new Potion(Size.SMALL).getSize(), is(equalTo(Size.SMALL)));
 	}
 	
 	@Test
-	void newPotionWithSizeSpecifiedAsMediumInConstructorCreatesAMediumEgg() {
+	void newPotionWithSizeSpecifiedAsMediumInConstructorCreatesAMediumPotion() {
 		assertThat(new Potion(Size.MEDIUM).getSize(), is(equalTo(Size.MEDIUM)));
 	}
 	
 	@Test
-	void newPotionWithSizeSpecifiedAsLargeInConstructorCreatesALargeEgg() {
+	void newPotionWithSizeSpecifiedAsLargeInConstructorCreatesALargePotion() {
 		assertThat(new Potion(Size.LARGE).getSize(), is(equalTo(Size.LARGE)));
 	}
 	

@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
+
+import Exceptions.*;
 import Inventory.Inventory;
 import Inventory.Wallet;
 import org.hamcrest.Description;
@@ -46,6 +48,7 @@ class CharacterTest {
 		return map;
 	}
 	private Character character = new Player("Default character", human, knight, true, defaultPosition);
+	private Character otherCharacter = new Player("Other character", human, knight, true, defaultPosition);
 	private Character[] players = {
 			new Player("Player 1", human, knight, true, defaultPosition),
 			new Player("Player 2", human, knight, true, defaultPosition)
@@ -70,7 +73,7 @@ class CharacterTest {
 		
 		@Override
 		public boolean matchesSafely(IllegalArgumentException exception) {
-			return exception.getClass().equals(IllegalArgumentException.class) && exception.getMessage().equals(errorMessage);
+			return (exception.getClass().equals(IllegalArgumentException.class) || exception instanceof IllegalArgumentException) && exception.getMessage().equals(errorMessage);
 		}
 
 		@Override
@@ -83,35 +86,47 @@ class CharacterTest {
 		}
 		
 		public static Matcher<IllegalArgumentException> isUseException() {
-			return new ExceptionMatcher("Item can't be used!");
-		}
-		
-		public static Matcher<IllegalArgumentException> isEquipException() {
-			return new ExceptionMatcher("The item can't be equipped!");
-		}
-		
-		public static Matcher<IllegalArgumentException> isUnequipException() {
-			return new ExceptionMatcher("The item can't be unequipped!");
+			return new ExceptionMatcher((new UseException()).getMessage());
 		}
 		
 		public static Matcher<IllegalArgumentException> isGiveException() {
-			return new ExceptionMatcher("The item can't be given!");
+			return new ExceptionMatcher((new GiveException()).getMessage());
 		}
 		
 		public static Matcher<IllegalArgumentException> isSellException() {
-			return new ExceptionMatcher("The item can't be sold!");
+			return new ExceptionMatcher((new SellException()).getMessage());
 		}
 		
 		public static Matcher<IllegalArgumentException> isBuyException() {
-			return new ExceptionMatcher("The item can't be bought!");
-		}
-		
-		public static Matcher<IllegalArgumentException> isEatException() {
-			return new ExceptionMatcher("Item can't be eaten!");
+			return new ExceptionMatcher((new BuyException()).getMessage());
 		}
 		
 		public static Matcher<IllegalArgumentException> isEnhanceException() {
-			return new ExceptionMatcher("Item can't be enhanced!");
+			return new ExceptionMatcher((new EnhanceException()).getMessage());
+		}
+		
+		public static Matcher<IllegalArgumentException> isDamageException() {
+			return new ExceptionMatcher((new DamageException()).getMessage());
+		}
+		
+		public static Matcher<IllegalArgumentException> isRestoreException() {
+			return new ExceptionMatcher((new RestoreException()).getMessage());
+		}
+		
+		public static Matcher<IllegalArgumentException> isGainException() {
+			return new ExceptionMatcher((new GainException()).getMessage());
+		}
+		
+		public static Matcher<IllegalArgumentException> isLoseException() {
+			return new ExceptionMatcher((new LoseException()).getMessage());
+		}
+		
+		public static Matcher<IllegalArgumentException> isEquipException() {
+			return new ExceptionMatcher((new EquipException()).getMessage());
+		}
+		
+		public static Matcher<IllegalArgumentException> isUnequipException() {
+			return new ExceptionMatcher((new UnequipException()).getMessage());
 		}
 	}
 	
@@ -712,45 +727,22 @@ class CharacterTest {
 	}
 	//Emma
 	
-	/** Eat **/
-	@Test
-	void characterCantEatNonFood() {
-		character.gain(ring);
-		assertThat(character.canEat(ring), is(false));
-	}
-	
-	@Test
-	void characterCanEatFoodThatIsOwneAndFoodThatIsNotOwned() {
-		assertThat(character.owns(potion), is(false));
-		assertThat(potion.isFood(), is(true));
-		assertThat(character.canEat(potion), is(true));
-	}
-	
-	@Test
-	void eatingFoodMakesItDestroyed() {
-		character.gain(potion);
-		character.eat(potion);
-		assertThat(potion.getCondition(), is(equalTo(Item.MIN_CONDITION)));
-	}
-	
-	@Test
-	void tryingToEatNonFoodThrowsException() {
-		character.gain(sword);
-		try {
-			character.eat(sword);
-		} catch (IllegalArgumentException exception) {
-			assertThat(exception, ExceptionMatcher.isEatException());
-		}
-	}
-	
 	/** Use **/
 	@Test
 	void usingWeaponMakesItDamaged() {
 		character.gain(sword);
 		character.use(sword);
+		assertThat(character.canUse(sword), is(true));
 		assertThat(sword.getCondition(), is(equalTo(Item.MAX_CONDITION - 10)));
 	}
 	
+	@Test
+	void usingFoodMakesItDestroyed() {
+		character.gain(potion);
+		character.use(potion);
+		assertThat(character.canUse(potion), is(true));
+		assertThat(potion.getCondition(), is(equalTo(Item.MIN_CONDITION)));
+	}
 	
 	@Test
 	void characterTryingToUseAnItemThatCantBeUsedThrowsIAE() {
@@ -788,12 +780,12 @@ class CharacterTest {
 		assertThat(largeSword.isEnhancable(), is(false));
 		try {
 			character.enhance(largeSword);
-		} catch (IllegalArgumentException e) {
+		} catch (EnhanceException e) {
 			assertThat(e, ExceptionMatcher.isEnhanceException());
 		}
 	}
 	
-	/** Damage, destroy, recover, restore **/
+	/** Damage, restore **/
 	@Test
 	void damagingAnItemDecreasesItsCondition() {
 		character.damage(sword, 10);
@@ -802,39 +794,39 @@ class CharacterTest {
 	
 	@Test
 	void restoringAnItemIncreasesItsCondition() {
-		character.destroy(sword);
+		character.damage(sword, 100);
 		character.restore(sword, 10);
 		assertThat(sword.getCondition(), is(equalTo(Item.MIN_CONDITION + 10)));
 	}
 	
 	@Test
-	void destroyingAnItemDecreasesItsConditionToMinCondition() {
-		character.destroy(sword);
+	void damagingAnItemNeverMakesTheConditionOfTheItemGoBelowMinimumCondition() {
+		character.damage(sword, 110);
 		assertThat(sword.getCondition(), is(equalTo(Item.MIN_CONDITION)));
 	}
 	
 	@Test
-	void recoveringAnItemIncreasesItsConditionToMaxCondition() {
-		character.destroy(sword);
-		character.recover(sword);
+	void restoringAnItemNeverMakesTheConditionOfTheItemGoOverMaximumCondition() {
+		character.restore(sword, 10);
 		assertThat(sword.getCondition(), is(equalTo(Item.MAX_CONDITION)));
 	}
 	
 	@Test
-	void characterTryingToDestroyAnItemThatIsntDestroyableThrowsIAE() {
-		character.destroy(sword);
-		assertThat(sword.isDestroyable(), is(false));
-		assertThrows(IllegalArgumentException.class, () -> {
-			character.destroy(sword);
-		});
+	void damagingAnItemWithANegativeAmountThrowsException() {
+		try {
+			character.damage(sword, -10);
+		} catch(DamageException e) {
+			assertThat(e, ExceptionMatcher.isDamageException());
+		}
 	}
 	
 	@Test
-	void characterTryingToRecoverAnItemThatIsntRecoverableThrowsIAE() {
-		assertThat(sword.isRecoverable(), is(false));
-		assertThrows(IllegalArgumentException.class, () -> {
-			character.recover(sword);
-		});
+	void restoringAnItemWithANegativeAmountThrowsException() {
+		try {
+			character.restore(sword, -10);
+		} catch(RestoreException e) {
+			assertThat(e, ExceptionMatcher.isRestoreException());
+		}
 	}
 	
 	/** Gain/lose **/
@@ -1163,9 +1155,10 @@ class CharacterTest {
 		seller.equip(sword);
 		buyer.gainMoney(1000);
 		assertThat(sword.canBeSold(seller, buyer), is(false));
+		
 		try {
 			buyer.buy(sword, seller);
-		} catch (IllegalArgumentException e) {
+		} catch (BuyException e) {
 			assertThat(e, ExceptionMatcher.isBuyException());
 		}
 	}
@@ -1187,14 +1180,26 @@ class CharacterTest {
 	
 	/** Money/Wallet **/
 	@Test
-	void characterCanGainAndLoseMoney() {
-		assertThat(character.getMoney(), is(equalTo(0)));
+	void characterGainingAndLosingMoneyUpdatesContentInWallet() {
+		Wallet wallet = character.getWallet();
 		character.gainMoney(1000);
-		assertThat(character.getMoney(), is(equalTo(1000)));
+		assertThat(wallet.getAmount(), is(equalTo(1000)));
 		character.loseMoney(2000);
-		assertThat(character.getMoney(), is(equalTo(-1000)));
-		character.gainMoney(1000);
-		assertThat(character.getMoney(), is(equalTo(0)));
+		assertThat(wallet.getAmount(), is(equalTo(-1000)));
+	}
+	
+	@Test
+	void characterGainingNegativeAmountOfMoneyThrowsIAE() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			character.gainMoney(-1000);
+		});
+	}
+	
+	@Test
+	void characterLosingNegativeAmountOfMoneyThrowsIAE() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			character.loseMoney(-1000);
+		});
 	}
 	
 	@Test
@@ -1210,6 +1215,135 @@ class CharacterTest {
 		assertThat(character.getMoney(), is(equalTo(5000)));
 		assertThat(character.canAfford(ring), is(true));
 		character.loseMoney(5000);
+	}
+	
+	@Test
+	void TF1_itemsCanBeGainedLostEquippedUnequippedWhenStateIsCorrect() {
+		assertTrue(!sword.isOwned() && !sword.isEquipped() && !character.owns(sword) && !character.hasEquipped(sword));
+		character.gain(sword);
+		assertTrue(sword.isOwned() && !sword.isEquipped() && character.owns(sword) && !character.hasEquipped(sword));
+		character.give(sword, otherCharacter);
+		assertTrue(sword.isOwned() && !sword.isEquipped() && otherCharacter.owns(sword) && !otherCharacter.hasEquipped(sword));
+		otherCharacter.give(sword, character);
+		assertTrue(sword.isOwned() && !sword.isEquipped() && character.owns(sword) && !character.hasEquipped(sword));
+		character.equip(sword);
+		assertTrue(sword.isOwned() && sword.isEquipped() && character.owns(sword) && character.hasEquipped(sword));
+		character.unequip(sword);
+		assertTrue(sword.isOwned() && !sword.isEquipped() && character.owns(sword) && !character.hasEquipped(sword));
+		character.lose(sword);
+		assertTrue(!sword.isOwned() && !sword.isEquipped() && !character.owns(sword) && !character.hasEquipped(sword));
+		character.gain(sword);
+		assertTrue(sword.isOwned() && !sword.isEquipped() && character.owns(sword) && !character.hasEquipped(sword));
+		character.equip(sword);
+		assertTrue(sword.isOwned() && sword.isEquipped() && character.owns(sword) && character.hasEquipped(sword));
+		character.lose(sword);
+		assertTrue(!sword.isOwned() && !sword.isEquipped() && !character.owns(sword) && !character.hasEquipped(sword));
+	}
+	
+	@Test
+	void TF2_unownedItemsCantBeLost() {
+		assertTrue(!sword.isOwned() && !sword.isEquipped() && !character.owns(sword) && !character.hasEquipped(sword));
+		try {
+			character.lose(sword);
+		} catch(LoseException e) {
+			assertThat(e, ExceptionMatcher.isLoseException());
+		}
+	}
+	
+	@Test
+	void TF3_unownedItemsCantBeEquipped() {
+		assertTrue(!sword.isOwned() && !sword.isEquipped() && !character.owns(sword) && !character.hasEquipped(sword));
+		try {
+			character.equip(sword);
+		} catch(EquipException e) {
+			assertThat(e, ExceptionMatcher.isEquipException());
+		}
+	}
+	
+	@Test
+	void TF4_unownedItemsCantBeUnequipped() {
+		assertTrue(!sword.isOwned() && !sword.isEquipped() && !character.owns(sword) && !character.hasEquipped(sword));
+		try {
+			character.unequip(sword);
+		} catch(UnequipException e) {
+			assertThat(e, ExceptionMatcher.isUnequipException());
+		}
+	}
+	
+	@Test
+	void TF5_unownedItemsCantBeGivenAway() {
+		assertTrue(!sword.isOwned() && !sword.isEquipped() && !character.owns(sword) && !character.hasEquipped(sword));
+		try {
+			character.give(sword, otherCharacter);
+		} catch(GiveException e) {
+			assertThat(e, ExceptionMatcher.isGiveException());
+		}
+	}
+	
+	@Test
+	void TF6_ownedItemsCantBeGained() {
+		assertTrue(!sword.isOwned() && !sword.isEquipped() && !character.owns(sword) && !character.hasEquipped(sword));
+		character.gain(sword);
+		assertTrue(sword.isOwned() && !sword.isEquipped() && character.owns(sword) && !character.hasEquipped(sword));
+		try {
+			character.gain(sword);
+		} catch(GainException e) {
+			assertThat(e, ExceptionMatcher.isGainException());
+		}
+	}
+	
+	@Test
+	void TF7_unequippedItemsCantBeUnequippedAgain() {
+		assertTrue(!sword.isOwned() && !sword.isEquipped() && !character.owns(sword) && !character.hasEquipped(sword));
+		character.gain(sword);
+		assertTrue(sword.isOwned() && !sword.isEquipped() && character.owns(sword) && !character.hasEquipped(sword));
+		try {
+			character.unequip(sword);
+		} catch(UnequipException e) {
+			assertThat(e, ExceptionMatcher.isUnequipException());
+		}
+	}
+	
+	@Test
+	void TF8_equippedItemsCantBeGained() {
+		assertTrue(!sword.isOwned() && !sword.isEquipped() && !character.owns(sword) && !character.hasEquipped(sword));
+		character.gain(sword);
+		assertTrue(sword.isOwned() && !sword.isEquipped() && character.owns(sword) && !character.hasEquipped(sword));
+		character.equip(sword);
+		assertTrue(sword.isOwned() && sword.isEquipped() && character.owns(sword) && character.hasEquipped(sword));
+		try {
+			character.gain(sword);
+		} catch(GainException e) {
+			assertThat(e, ExceptionMatcher.isGainException());
+		}
+	}
+	
+	@Test
+	void TF9_equippedItemsCantBeEquippedAgain() {
+		assertTrue(!sword.isOwned() && !sword.isEquipped() && !character.owns(sword) && !character.hasEquipped(sword));
+		character.gain(sword);
+		assertTrue(sword.isOwned() && !sword.isEquipped() && character.owns(sword) && !character.hasEquipped(sword));
+		character.equip(sword);
+		assertTrue(sword.isOwned() && sword.isEquipped() && character.owns(sword) && character.hasEquipped(sword));
+		try {
+			character.equip(sword);
+		} catch(EquipException e) {
+			assertThat(e, ExceptionMatcher.isEquipException());
+		}
+	}
+	
+	@Test
+	void TF10_equippedItemsCantBeGivenAway() {
+		assertTrue(!sword.isOwned() && !sword.isEquipped() && !character.owns(sword) && !character.hasEquipped(sword));
+		character.gain(sword);
+		assertTrue(sword.isOwned() && !sword.isEquipped() && character.owns(sword) && !character.hasEquipped(sword));
+		character.equip(sword);
+		assertTrue(sword.isOwned() && sword.isEquipped() && character.owns(sword) && character.hasEquipped(sword));
+		try {
+			character.give(sword, otherCharacter);
+		} catch(GiveException e) {
+			assertThat(e, ExceptionMatcher.isGiveException());
+		}
 	}
 	
 	//Jon

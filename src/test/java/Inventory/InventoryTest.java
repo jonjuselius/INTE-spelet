@@ -15,67 +15,72 @@ import Item.Shield;
 import Item.Ring;
 
 class InventoryTest {
-	public static final Item[] DEFAULT_ITEMSET = {new Sword(), new Wand(), new Potion(), new Shield(), new Ring()};
-	public static final Inventory DEFAULT_INVENTORY = new Inventory(DEFAULT_ITEMSET);
-	public static final Item[] EMPTY_ITEMSET = {};
-	public static final Inventory EMPTY_INVENTORY = new Inventory();
-	public static Inventory FULL_INVENTORY;
-	
-	@BeforeAll
-	static void beforeAll() {
-		Item[] swords = new Item[Inventory.CAPACITY];
-		for (int i = 0; i < swords.length; i++) {
-			swords[i] = new Sword();
-		}
-		FULL_INVENTORY = new Inventory(swords);
-	}
+	private Item[] defaultItemset = {new Sword(), new Wand(), new Potion(), new Shield(), new Ring()};
+	private Inventory defaultInventory = new Inventory(defaultItemset);
+	private Item[] emptyItemset = {};
+	private Inventory emptyInventory = new Inventory();
 	
 	@Test
 	void emptyInventoryHasItemSizeEqualToZero() {
-		MatcherAssert.assertThat(EMPTY_INVENTORY.getItemSize(), is(equalTo(0)));
+		MatcherAssert.assertThat(emptyInventory.getItemSize(), is(equalTo(0)));
 	}
 	
 	@Test
 	void fullInventoryHasItemSizeEqualToMaximumCapacity() {
-		MatcherAssert.assertThat(FULL_INVENTORY.getItemSize(), is(equalTo(Inventory.CAPACITY)));
+		Item[] swords = new Item[Inventory.CAPACITY];
+		for (int i = 0; i < swords.length; i++) {
+			swords[i] = new Sword();
+		}
+		Inventory fullInventory = new Inventory(swords);
+		MatcherAssert.assertThat(fullInventory.getItemSize(), is(equalTo(Inventory.CAPACITY)));
 	}
 	
 	@Test
 	void inventoryFilledWithExampleItemsetHasInventorySizeEqualToSizeOfExampleItemset() {
-		MatcherAssert.assertThat(DEFAULT_INVENTORY.getItemSize(), is(equalTo(DEFAULT_ITEMSET.length)));
+		MatcherAssert.assertThat(defaultInventory.getItemSize(), is(equalTo(defaultItemset.length)));
 	}
 	
 	@Test
 	void inventoryConstructorWithEmptyItemsetHasItemSizeEqualToZero() {
-		MatcherAssert.assertThat(new Inventory(EMPTY_ITEMSET).getItemSize(), is(equalTo(0)));
+		MatcherAssert.assertThat(new Inventory(emptyItemset).getItemSize(), is(equalTo(0)));
 	}
 	
 	@Test
 	void inventoryConstructorWithTooManyItemsThrowsIAE() {
-		Item[] itemset = FULL_INVENTORY.getItems().toArray(new Item[FULL_INVENTORY.getItemSize() + 1]);
+		Item[] swords = new Item[Inventory.CAPACITY];
+		for (int i = 0; i < swords.length; i++) {
+			swords[i] = new Sword();
+		}
+		Inventory fullInventory = new Inventory(swords);
+		Item[] itemset = fullInventory.getItems().toArray(new Item[fullInventory.getItemSize() + 1]);
 		itemset[itemset.length - 1] = new Sword();
 		assertThrows(IllegalArgumentException.class, () -> new Inventory(itemset));
 	}
 	
 	@Test
 	void inventorySlotSizeReturnsDefaultInventoryCapacity() {
-		assertThat(DEFAULT_INVENTORY.getSlotSize(), is(equalTo(Inventory.CAPACITY)));
+		assertThat(defaultInventory.getSlotSize(), is(equalTo(Inventory.CAPACITY)));
 	}
 	
 	@Test
 	void inventoryConstructorWithDefaultItemsetsCreatesInventoryWithItemsEqualToItemsInTheDefaultItemsets() {
-		Item[] actualItems = DEFAULT_INVENTORY.getItems().toArray(new Item[DEFAULT_INVENTORY.getItemSize()]);
-		assertArrayEquals(actualItems, DEFAULT_ITEMSET);
+		Item[] actualItems = defaultInventory.getItems().toArray(new Item[defaultInventory.getItemSize()]);
+		assertArrayEquals(actualItems, defaultItemset);
 	}
 	
 	@Test
 	void addingItemToFullInventoryThrowsIAE() {
-		assertThrows(IllegalArgumentException.class, () -> FULL_INVENTORY.add(new Sword()));
+		Item[] swords = new Item[Inventory.CAPACITY];
+		for (int i = 0; i < swords.length; i++) {
+			swords[i] = new Sword();
+		}
+		Inventory fullInventory = new Inventory(swords);
+		assertThrows(IllegalArgumentException.class, () -> fullInventory.add(new Sword()));
 	}
 	
 	@Test
 	void emptyInventoryHasDefaultCapacity() {
-		MatcherAssert.assertThat(EMPTY_INVENTORY.getSlots().size(), is(equalTo(Inventory.CAPACITY)));
+		MatcherAssert.assertThat(emptyInventory.getSlots().size(), is(equalTo(Inventory.CAPACITY)));
 	}
 	
 	@Test
@@ -205,5 +210,15 @@ class InventoryTest {
 		Inventory inventory = new Inventory();
 		inventory.add(new Wand());
 		assertThrows(IllegalArgumentException.class, () -> inventory.remove(1));
+	}
+	
+	@Test
+	void addingItemToInventoryThatIsAlreadyOwnedThrowsISE() {
+		Inventory inventory = new Inventory();
+		Sword sword = new Sword();
+		inventory.add(sword);
+		assertThrows(IllegalStateException.class, () -> {
+			inventory.add(sword);
+		});
 	}
 }

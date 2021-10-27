@@ -1,13 +1,19 @@
 package Item;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import Exceptions.*;
 import GameCharacters.*;
 import GameCharacters.Character;
 import Jobs.*;
 import Map.*;
 import Races.*;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,66 +29,26 @@ class ItemTest {
 	private Item smallSword = swordSizes[0];
 	private Item mediumSword = swordSizes[1];
 	private Item largeSword = swordSizes[2];
-	private GameMapPosition defaultMapPosition = (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2];
-	private Character character = new Player("Default character", new Human(), new Knight(), true, defaultMapPosition);
 	private List<Race> races = new ArrayList<>(Race.getAllRaces());
 	private List<Job> jobs = new ArrayList<>(Job.getAllJobs());
-	private Character[] defaultPlayers = {
+	private Race human = races.get(0);
+	private Race ogre = races.get(1);
+	private Race elf = races.get(2);
+	private Job knight = jobs.get(0);
+	private Job magician = jobs.get(1);
+	private Job healer = jobs.get(2);
+	private GameMapPosition defaultMapPosition = (new GameMapGenerator(4, 4)).generate(1).getMapTiles()[2][2];
+	private Character character = new Player("Default character", human, knight, true, defaultMapPosition);
+	private Character otherCharacter = new Player("Other character", human, knight, true, defaultMapPosition);
+	private Character[] defaultCharacters = {
 			new Player("Player 1", races.get(0), jobs.get(0), true, defaultMapPosition),
 			new Player("Player 2", races.get(0), jobs.get(0), true, defaultMapPosition)
 	};
 	
 	@Test
-	void newItemIsNotOwned() {
-		assertThat(sword.isOwned(), is(equalTo(false)));
-	}
-	
-	@Test
-	void newItemIsNotEquipped() {
-		assertThat(sword.isEquipped(), is(equalTo(false)));
-	}
-	
-	@Test
-	void newItemIsNotEnhanced() {
-		assertThat(sword.isEnhanced(), is(equalTo(false)));
-	}
-	
-	@Test
 	void settingMapPositionToAnItemWorks() {
 		sword.setMapPosition(defaultMapPosition);
 		assertThat(sword.getMapPosition(), is(equalTo(defaultMapPosition)));
-	}
-	
-	@Test
-	void characterGainingAnItemMakesTheItemOwned() {
-		character.gain(sword);
-		assertThat(sword.isOwned(), is(equalTo(true)));
-	}
-	
-	@Test
-	void destroyedSwordHasMinimumCondition() {
-		sword.becomeDestroyed();
-		assertThat(sword.getCondition(), is(equalTo(Item.MIN_CONDITION)));
-	}
-	
-	@Test
-	void recoveredSwordHasMaximumCondition() {
-		sword.becomeDestroyed();
-		sword.becomeRecovered();
-		assertThat(sword.getCondition(), is(equalTo(Item.MAX_CONDITION)));
-	}
-	
-	@Test
-	void damagedSwordHasDecreasedCondition() {
-		sword.becomeDamaged(10);
-		assertThat(sword.getCondition(), is(equalTo(Item.MAX_CONDITION - 10)));
-	}
-	
-	@Test
-	void restoredSwordHasIncreasedCondition() {
-		sword.becomeDestroyed();
-		sword.becomeRestored(10);
-		assertThat(sword.getCondition(), is(equalTo(Item.MIN_CONDITION + 10)));
 	}
 	
 	@Test
@@ -104,55 +70,20 @@ class ItemTest {
 	}
 	
 	@Test
-	void destroyedItemIsNotDestroyable() {
-		sword.becomeDestroyed();
-		assertThat(sword.isDestroyable(), is(equalTo(false)));
-	}
-	
-	@Test
-	void undestroyedItemIsDestroyable() {
-		assertThat(sword.isDestroyable(), is(equalTo(true)));
-	}
-	
-	@Test
-	void restoringAnItemWithPerfectConditionDoesntIncreaseItsCondition() {
-		sword.becomeRestored(10);
-		assertThat(sword.getCondition(), is(equalTo(Item.MAX_CONDITION)));
-		assertThat(sword.isPerfect(), is(equalTo(true)));
-	}
-	
-	@Test
-	void itemWithMaxConditionIsNotRecoverable() {
-		assertThat(sword.isRecoverable(), is(equalTo(false)));
-	}
-	
-	@Test
-	void itemWithConditionLessThanMaxConditionIsRecoverable() {
-		sword.becomeDamaged(10);
-		assertThat(sword.isRecoverable(), is(equalTo(true)));
-	}
-	
-	@Test
 	void itemThatIsOwnedByOneCharacterCanBeGivenToAnotherCharacter() {
-		Character player1 = defaultPlayers[0];
-		Character player2 = defaultPlayers[1];
+		Character player1 = defaultCharacters[0];
+		Character player2 = defaultCharacters[1];
 		player1.gain(sword);
 		assertThat(sword.canBeGiven(player1, player2), is(equalTo(true)));
 	}
 	
 	@Test
 	void itemThatIsOwnedByOneCharacterCanBeSoldToAnotherCharacter() {
-		Character player1 = defaultPlayers[0];
-		Character player2 = defaultPlayers[1];
+		Character player1 = defaultCharacters[0];
+		Character player2 = defaultCharacters[1];
 		player1.gain(sword);
 		player2.gainMoney(1000);
 		assertThat(sword.canBeSold(player1, player2), is(equalTo(true)));
-	}
-	
-	@Test
-	void foodCanBeEatenByACharacter() {
-		assertThat(potion.isFood(), is(equalTo(true)));
-		assertThat(potion.canBeEatenBy(character), is(equalTo(true)));
 	}
 	
 	@Test
@@ -239,12 +170,16 @@ class ItemTest {
 	}
 	
 	@Test
-	void damagingADestroyedItemDoesntDecreaseItsCondition() {
-		sword.becomeDestroyed();
-		assertThat(sword.isDestroyed(), is(equalTo(true)));
-		assertThat(sword.getCondition(), is(equalTo(Item.MIN_CONDITION)));
-		sword.becomeDamaged(10);
-		assertThat(sword.isDestroyed(), is(equalTo(true)));
-		assertThat(sword.getCondition(), is(equalTo(Item.MIN_CONDITION)));
+	void itemThatBecomesDamagedWithANegativeAmountThrowsException() {
+		assertThrows(DamageException.class, () -> {
+			sword.becomeDamaged(-10);
+		});
+	}
+	
+	@Test
+	void itemThatBecomesRestoredWithANegativeAmountThrowsException() {
+		assertThrows(RestoreException.class, () -> {
+			sword.becomeRestored(-10);
+		});
 	}
 }

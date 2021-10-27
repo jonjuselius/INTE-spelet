@@ -1,5 +1,7 @@
 package Item;
 
+import Exceptions.DamageException;
+import Exceptions.RestoreException;
 import GameCharacters.Character;
 import Jobs.Job;
 import Map.GameMapPosition;
@@ -121,40 +123,6 @@ public abstract class Item {
 		return seller.canSell(this) && buyer.canBuy(this);
 	}
 	
-	public boolean canBeEatenBy(Character character) {
-		return isFood() && canBeUsedBy(character);
-	}
-	
-	public boolean isDestroyable() {
-		return condition > MIN_CONDITION;
-	}
-	
-	public boolean isRecoverable() {
-		return condition < MAX_CONDITION;
-	}
-	
-	public void becomeDestroyed() {
-		condition = MIN_CONDITION;
-	}
-	
-	public void becomeRecovered() {
-		condition = MAX_CONDITION;
-	}
-	
-	public void becomeDamaged(int amount) {
-		condition -= amount;
-		if (condition < MIN_CONDITION) {
-			becomeDestroyed();
-		}
-	}
-	
-	public void becomeRestored(int amount) {
-		condition += amount;
-		if (condition > MAX_CONDITION) {
-			becomeRecovered();
-		}
-	}
-	
 	public boolean isWeapon() {
 		return type == Type.WEAPON;
 	}
@@ -183,11 +151,23 @@ public abstract class Item {
 		return size == Size.LARGE;
 	}
 	
-	public boolean isDestroyed() {
-		return condition == Item.MIN_CONDITION;
+	public void becomeDamaged(int amount) {
+		if (amount < 0) {
+			throw new DamageException();
+		}
+		condition -= amount;
+		if (condition < MIN_CONDITION) {
+			condition = MIN_CONDITION;
+		}
 	}
 	
-	public boolean isPerfect() {
-		return condition == Item.MAX_CONDITION;
+	public void becomeRestored(int amount) {
+		if (amount < 0) {
+			throw new RestoreException();
+		}
+		condition += amount;
+		if (condition > MAX_CONDITION) {
+			condition = MAX_CONDITION;
+		}
 	}
 }
