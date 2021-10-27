@@ -34,7 +34,6 @@ class BuffSpellTest {
         magician = new Magician();
         mockPlayer = mock(Player.class);
 
-        //when(p.getStrength()).thenReturn(p.getRace().getStrength());
         when(mockPlayer.getIntelligence()).thenReturn(HUMAN_INTELLIGENCE);
         when(mockPlayer.getMagicSkill()).thenReturn(MAGICIAN_MAGICSKILL);
         when(mockPlayer.getRemainingMana()).thenReturn(MAGICIAN_MANA);

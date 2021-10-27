@@ -3,12 +3,9 @@ package Magic;
 import GameCharacters.Adversary;
 import GameCharacters.Player;
 import Jobs.Magician;
-import Map.GameMap;
-import Map.GameMapGenerator;
-import Map.GameMapPosition;
+import Map.*;
 import Races.Human;
 import org.junit.jupiter.api.*;
-
 
 import java.util.Random;
 
