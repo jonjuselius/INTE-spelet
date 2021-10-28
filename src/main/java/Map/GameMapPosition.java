@@ -8,20 +8,12 @@ public class GameMapPosition {
     private GameMapPosition[] neighbors = new GameMapPosition[4];
 
     public GameMapPosition(int xPos, int yPos) {
-        if (xPos < 0 || yPos < 0) {
+        if (0 > xPos || 0 > yPos) {
             throw new IllegalArgumentException("Coordinates must be > 0");
         }
         this.xPos = xPos;
         this.yPos = yPos;
-        //this.gameMap = gameMap;
-        //The standard terrain is grass
     }
-
-//    public MapPosition(int xPos, int yPos, Terrain terrain, Map map) {
-//        this(xPos, yPos, map);
-//        this.terrain = terrain;
-//    }
-
 
     public int getYPos() {
         return yPos;
@@ -64,6 +56,6 @@ public class GameMapPosition {
 
     public GameMapPosition[] getNeighbors() {
         GameMapPosition[] copyOfNeighbors = neighbors;
-        return neighbors;
+        return copyOfNeighbors;
     }
 }
