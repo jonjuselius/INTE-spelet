@@ -4,6 +4,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class SpellLoader {
 
@@ -26,12 +27,12 @@ public class SpellLoader {
                 }
             }
             case "BuffSpell" -> {
-                if (spellArguments.length != 4) {
+                if (spellArguments.length != 5) {
                     throw new IllegalStateException("wrong number of arguments for BuffSpell");
                 }
             }
             case "DebuffSpell" -> {
-                if (spellArguments.length != 3) {
+                if (spellArguments.length != 5) {
                     throw new IllegalStateException("wrong number of arguments for DebuffSpell");
                 }
             }
@@ -89,14 +90,16 @@ public class SpellLoader {
 
     //loads spells from textfile in the following format:
     //<spellType>,<mana cost>,<Element>,<baseDamage/Heal>(for damage or healing spells)
-    public ArrayList<Spell> loadSpells(String spellDataPathName) {
+    public HashMap<String, Spell> loadSpells(String spellDataPathName) {
 
-        ArrayList<Spell> spells = new ArrayList<>();
+        HashMap<String, Spell> spells = new HashMap<>();
 
         ArrayList<String> spellDataLines = spellFileReader(spellDataPathName);
 
+        Spell temp;
         for (String spellDataLine : spellDataLines) {
-            constructSpell(spellDataLine);
+            temp = constructSpell(spellDataLine);
+            spells.put((temp.getName()), temp);
         }
         return spells;
     }
