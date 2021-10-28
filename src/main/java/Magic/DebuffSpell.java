@@ -121,8 +121,8 @@ public class DebuffSpell extends Spell{
 
     @Override
     public boolean equals(Object o) {
-        if (o instanceof HealingSpell) {
-            return super.equals(o) && spellStrength == ((HealingSpell) o).getBaseHeal();
+        if (o instanceof DebuffSpell) {
+            return super.equals(o) && spellStrength == ((DebuffSpell) o).getSpellStrength();
         }
         return false;
     }

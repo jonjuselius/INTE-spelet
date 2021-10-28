@@ -5,6 +5,7 @@ import GameCharacters.Player;
 import Jobs.Magician;
 import Map.*;
 import Races.Human;
+import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
@@ -189,6 +190,14 @@ class DebuffSpellTest {
         assertEquals(255, maxManaSkillStats.get(1));
         assertEquals(300, maxManaSkillStats.get(2));
     }
+
+    @Test
+    public void equalsContract() {
+        EqualsVerifier.simple()
+                .forClass(DebuffSpell.class).withIgnoredFields()
+                .verify();
+    }
+
 
 
 }

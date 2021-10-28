@@ -195,7 +195,7 @@ class BuffSpellTest {
     @Test
     public void equalsContract() {
         EqualsVerifier.simple()
-                .forClass(BuffSpell.class).withIgnoredFields("spellStrength")
+                .forClass(BuffSpell.class).withIgnoredFields()
                 .verify();
     }
 

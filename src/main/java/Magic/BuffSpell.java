@@ -123,8 +123,8 @@ public class BuffSpell extends Spell {
 
     @Override
     public boolean equals(Object o) {
-        if (o instanceof HealingSpell) {
-            return super.equals(o) && spellStrength == ((HealingSpell) o).getBaseHeal();
+        if (o instanceof BuffSpell) {
+            return super.equals(o) && spellStrength == ((BuffSpell) o).getSpellStrength();
         }
         return false;
     }
