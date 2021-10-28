@@ -2,11 +2,13 @@ package Magic;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class SpellLoaderTest {
 
@@ -59,24 +61,16 @@ public class SpellLoaderTest {
     }
 
     @Test
-    void
-
-    //Tests the Loader from the txt-file SpellDataTest.txt which reads:
-    //Spells:
-    //DamageDealingSpell,Fireball,25,Fire,50
-    //HealingSpell,Band-Aid,10,physical,15
-
-    @Test
-    void correctlyLoadingDamageDealingSpell() {
+    void correctlyConstructingDamageDealingSpell() {
         Spell spell = new DamageDealingSpell("Fireball", 25, Element.FIRE, 50);
-        Spell actualSpell = testSpells.get(0);
+        Spell actualSpell = new SpellLoader().constructSpell("DamageDealingSpell,Fireball,25,fire,50");
         assertEquals(spell, actualSpell);
     }
 
     @Test
-    void correctlyLoadingHealingSpell() {
-        HealingSpell spell = new HealingSpell("Band-Aid", 10, Element.PHYSICAL, 15);
-        Spell actualSpell = testSpells.get(1);
+    void correctlyConstructingHealingSpell() {
+        Spell spell = new HealingSpell("Band-Aid", 10, Element.PHYSICAL, 10);
+        Spell actualSpell = new SpellLoader().constructSpell("HealingSpell,10,physical,10");
         assertEquals(spell, actualSpell);
     }
 

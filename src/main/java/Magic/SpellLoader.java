@@ -79,7 +79,7 @@ public class SpellLoader {
                 spell = new BuffSpell(arguments[1], Integer.parseInt(arguments[2]), Element.valueOf(arguments[3].toUpperCase()), Integer.parseInt(arguments[4]));
                 break;
             case "DebuffSpell":
-                spell = new DebuffSpell(arguments[1], Integer.parseInt(arguments[2]), Element.valueOf(arguments[3].toUpperCase()));
+                spell = new DebuffSpell(arguments[1], Integer.parseInt(arguments[2]), Element.valueOf(arguments[3].toUpperCase()), Integer.parseInt(arguments[4]));
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + arguments[0]);
@@ -96,23 +96,7 @@ public class SpellLoader {
         ArrayList<String> spellDataLines = spellFileReader(spellDataPathName);
 
         for (String spellDataLine : spellDataLines) {
-            String[] tokens = stringToSpellArguments(spellDataLine);
-
-            switch (tokens[0]) {
-                case "DamageDealingSpell" -> {
-                    spells.add(new DamageDealingSpell(tokens[1], Integer.parseInt(tokens[2]), Element.valueOf(tokens[3].toUpperCase()), Integer.parseInt(tokens[4])));
-                }
-                case "HealingSpell" -> {
-                    spells.add(new HealingSpell(tokens[1], Integer.parseInt(tokens[2]), Element.valueOf(tokens[3].toUpperCase()), Integer.parseInt(tokens[4])));
-                }
-                case "BuffSpell" -> {
-                    spells.add(new BuffSpell(tokens[1], Integer.parseInt(tokens[2]), Element.valueOf(tokens[3].toUpperCase()), Integer.parseInt(tokens[4])));
-                }
-                case "DebuffSpell" -> {
-                    spells.add(new DebuffSpell(tokens[1], Integer.parseInt(tokens[2]), Element.valueOf(tokens[3].toUpperCase())));
-                }
-                default -> throw new IllegalStateException("Unexpected value: " + tokens[0]);
-            }
+            constructSpell(spellDataLine);
         }
         return spells;
     }
