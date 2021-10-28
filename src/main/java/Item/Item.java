@@ -1,37 +1,15 @@
 package Item;
 
+import Exceptions.DamageException;
+import Exceptions.RestoreException;
 import GameCharacters.Character;
-import Map.Map;
-import Map.MapPosition;
+import Jobs.Job;
+import Map.GameMapPosition;
+import Races.Race;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public abstract class Item {
-	/**
-	 * Item an abstract noninstantiable superclass for things such as food, weapon and armor.
-	 * Actual instantiable items include swords, wands, eggs, shields and rings.
-	 * Every item has a weight, a value, a size, a type, a condition, and more.
-	 *
-	 * The default condition for a new item is 100 %, which means that the item is in a perfect
-	 * condition, not destroyed or damaged in any way. An item with 0 % condition implies that
-	 * the item is in a very poor condition.
-	 *
-	 * An item can only be used by a character if the character has a race and a job that
-	 * qualifies the character for using the item. Every item stores information on which
-	 * race and job that it can be used by, e.g. a sword can be used by characters of any race,
-	 * but only if "knight" is their job.
-	 *
-	 * weight: How heavy an item is. Items with higher weight are heavier.
-	 * value: How expensive an item is. Items with higher valuer are more expensive.
-	 * size: How big an item is. Three size categories are present: small/medium/large.
-	 * type: What kind of item an item is. Five item types are: weapon, armor, food, jewellery
-	 * condition: How undamaged an item is. An item with max condition (100) is completely undamaged.
-	 * jobCertifications: Which jobs that are eligible for using an item, e.g. only knights.
-	 * raceCertifications: Which races that are eligible for using an item, e.g. only humans.
-	 * canBeUsedBy: Checks if a character can use the item or not, depending on its race and job.
-	 */
 	public static final int MAX_CONDITION = 100;
 	public static final int MIN_CONDITION = 0;
 	private int weight;
@@ -39,22 +17,24 @@ public abstract class Item {
 	private Size size;
 	private Type type;
 	private int condition;
-	private List<String> jobCertifications; // ändra från list till set?
-	private List<String> raceCertifications;
-	private MapPosition mapPosition;
+	private Set<Job> jobCertifications;
+	private Set<Race> raceCertifications;
+	private GameMapPosition mapPosition;
+	private boolean owned;
+	private boolean equipped;
+	private boolean enhanced;
 	
-	public Item(int weight, int value, String[] jobCertifications, String[] raceCertifications, Size size, Type type, int condition, MapPosition mapPosition) {
+	public Item(int weight, int value, Job[] jobCertifications, Race[] raceCertifications, Size size, Type type, int condition) {
 		if (condition < MIN_CONDITION || condition > MAX_CONDITION) {
 			throw new IllegalArgumentException();
 		}
 		this.weight = weight;
 		this.value = value;
-		this.jobCertifications = Arrays.asList(jobCertifications);
-		this.raceCertifications = Arrays.asList(raceCertifications);
+		this.jobCertifications = new HashSet<>(Arrays.asList(jobCertifications));
+		this.raceCertifications = new HashSet<>(Arrays.asList(raceCertifications));
 		this.size = size;
 		this.type = type;
 		this.condition = condition;
-		this.mapPosition = mapPosition;
 	}
 	
 	public int getWeight() {
@@ -72,17 +52,21 @@ public abstract class Item {
 	public Type getType() {
 		return type;
 	}
-
-	public MapPosition getMapPosition() {
+	
+	public GameMapPosition getMapPosition() {
 		return mapPosition;
 	}
-
-	public List<String> getJobCertifications() {
-		return Collections.unmodifiableList(jobCertifications);
+	
+	public void setMapPosition(GameMapPosition mapPosition) {
+		this.mapPosition = mapPosition;
 	}
 	
-	public List<String> getRaceCertifications() {
-		return Collections.unmodifiableList(raceCertifications);
+	public Set<Job> getJobCertifications() {
+		return Collections.unmodifiableSet(jobCertifications);
+	}
+	
+	public Set<Race> getRaceCertifications() {
+		return Collections.unmodifiableSet(raceCertifications);
 	}
 	
 	public Size getSize() {
@@ -90,8 +74,100 @@ public abstract class Item {
 	}
 	
 	public boolean canBeUsedBy(Character character) {
-		String race = character.getRace().getClass().getSimpleName();
-		String job = character.getJob().getClass().getSimpleName();
+		Race race = character.getRace();
+		Job job = character.getJob();
 		return getRaceCertifications().contains(race) && getJobCertifications().contains(job);
+	}
+	
+	public boolean isOwned() {
+		return owned;
+	}
+	
+	public boolean isEquipped() {
+		return equipped;
+	}
+	
+	public boolean isEnhanced() {
+		return enhanced;
+	}
+	
+	public void setOwned(boolean owned) {
+		this.owned = owned;
+	}
+	
+	public void setEquipped(boolean equipped) {
+		if (isEquippable()) {
+			this.equipped = equipped;
+		}
+	}
+	
+	public void setEnhanced(boolean enhanced) {
+		if (isEnhancable()) {
+			this.enhanced = enhanced;
+		}
+	}
+	
+	public boolean isEquippable() {
+		return isOwned() && (type == Type.WEAPON || type == Type.ARMOR || type == Type.JEWELLERY);
+	}
+	
+	public boolean isEnhancable() {
+		return size == Size.SMALL;
+	}
+	
+	public boolean canBeGiven(Character from, Character to) {
+		return from.canGive(this) && to.canReceive(this);
+	}
+	
+	public boolean canBeSold(Character seller, Character buyer) {
+		return seller.canSell(this) && buyer.canBuy(this);
+	}
+	
+	public boolean isWeapon() {
+		return type == Type.WEAPON;
+	}
+	
+	public boolean isArmor() {
+		return type == Type.ARMOR;
+	}
+	
+	public boolean isJewewllery() {
+		return type == Type.JEWELLERY;
+	}
+	
+	public boolean isFood() {
+		return type == Type.FOOD;
+	}
+	
+	public boolean isSmall() {
+		return size == Size.SMALL;
+	}
+	
+	public boolean isMedium() {
+		return size == Size.MEDIUM;
+	}
+	
+	public boolean isLarge() {
+		return size == Size.LARGE;
+	}
+	
+	public void becomeDamaged(int amount) {
+		if (amount < 0) {
+			throw new DamageException();
+		}
+		condition -= amount;
+		if (condition < MIN_CONDITION) {
+			condition = MIN_CONDITION;
+		}
+	}
+	
+	public void becomeRestored(int amount) {
+		if (amount < 0) {
+			throw new RestoreException();
+		}
+		condition += amount;
+		if (condition > MAX_CONDITION) {
+			condition = MAX_CONDITION;
+		}
 	}
 }

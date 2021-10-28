@@ -7,7 +7,7 @@ import java.util.Objects;
 
 public class DamageDealingSpell extends Spell {
 
-    private int baseDamage;
+    private final int baseDamage;
     private int initialDamage;
     private int damageOverTime;
     private int duration;
@@ -37,7 +37,7 @@ public class DamageDealingSpell extends Spell {
         }
     }
 
-    private void setDamageOverTime(int damageOverTime) {
+    public void setDamageOverTime(int damageOverTime) {
         this.damageOverTime = damageOverTime;
     }
 
@@ -45,7 +45,7 @@ public class DamageDealingSpell extends Spell {
         return duration;
     }
 
-    private void setDuration(int duration){
+    public void setDuration(int duration){
         this.duration = duration;
     }
 
@@ -71,9 +71,6 @@ public class DamageDealingSpell extends Spell {
     public int getBaseDamage() {
         return baseDamage;
     }
-
-
-
 
     @Override
     public boolean equals(Object o) {

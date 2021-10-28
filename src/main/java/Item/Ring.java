@@ -1,36 +1,36 @@
 package Item;
 
-import Map.Map;
-import Map.MapPosition;
+import Jobs.Healer;
+import Jobs.Job;
+import Jobs.Knight;
+import Jobs.Magician;
+import Races.Elf;
+import Races.Human;
+import Races.Ogre;
+import Races.Race;
 
 public class Ring extends Item {
-	/**
-	 * Ring is a type of jewewllery, an instantiable item with a low weight and
-	 * high value. Rings can be used by every race and every job, i.e. there are
-	 * no restrictions for who can use a ring. Rings are by default medium in size,
-	 * but there are also small and large rings. A new ring has perfect condition.
-	 */
 	public static final int WEIGHT = 5;
 	public static final int VALUE = 5000;
 	public static final Type TYPE = Type.JEWELLERY;
 	public static final Size DEFAULT_SIZE = Size.MEDIUM;
 	public static final int DEFAULT_CONDITION = Item.MAX_CONDITION;
-	public static final String[] JOB_CERTIFICATIONS = {"Knight", "Magician", "Healer"};
-	public static final String[] RACE_CERTIFICATIONS = {"Human", "Ogre", "Elf"};
+	public static final Job[] JOB_CERTIFICATIONS = {new Knight(), new Magician(), new Healer()};
+	public static final Race[] RACE_CERTIFICATIONS = {new Human(), new Ogre(), new Elf()};
 	
-	public Ring(MapPosition mapPosition) {
-		this(DEFAULT_CONDITION, mapPosition);
+	public Ring() {
+		this(DEFAULT_CONDITION);
 	}
 	
-	public Ring(int condition, MapPosition mapPosition) {
-		this(condition, DEFAULT_SIZE, mapPosition);
+	public Ring(int condition) {
+		this(condition, DEFAULT_SIZE);
 	}
 	
-	public Ring(Size size, MapPosition mapPosition) {
-		this(DEFAULT_CONDITION, size, mapPosition);
+	public Ring(Size size) {
+		this(DEFAULT_CONDITION, size);
 	}
 	
-	public Ring(int condition, Size size, MapPosition mapPosition) {
-		super(WEIGHT, VALUE, JOB_CERTIFICATIONS, RACE_CERTIFICATIONS, size, TYPE, condition, mapPosition);
+	public Ring(int condition, Size size) {
+		super(WEIGHT, VALUE, JOB_CERTIFICATIONS, RACE_CERTIFICATIONS, size, TYPE, condition);
 	}
 }

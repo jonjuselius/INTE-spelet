@@ -16,7 +16,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-class RingTest {
+class PotionTest {
+	private Item sword = new Sword();
+	private Item wand = new Wand();
+	private Item potion = new Potion();
+	private Item shield = new Shield();
 	private Item ring = new Ring();
 	private GameMapGenerator mapGenerator = new GameMapGenerator(4, 4);
 	private GameMap defaultMap = mapGenerator.generate(1);
@@ -50,104 +54,104 @@ class RingTest {
 	private Character healerHuman = characters[6];
 	private Character healerOgre = characters[7];
 	private Character healerElf = characters[8];
-	
+
 	@Test
-	void R38_canUse() {
-		assertThat(knightHuman.canUse(ring), is(true));
+	void R19_canUse() {
+		assertThat(knightHuman.canUse(potion), is(true));
 	}
 	
 	@Test
-	void R39_canUse() {
-		assertThat(knightOgre.canUse(ring), is(true));
+	void R20_canUse() {
+		assertThat(knightOgre.canUse(potion), is(true));
 	}
 	
 	@Test
-	void R40_canUse() {
-		assertThat(knightElf.canUse(ring), is(true));
+	void R21_canUse() {
+		assertThat(knightElf.canUse(potion), is(true));
 	}
 	
 	@Test
-	void R41_canUse() {
-		assertThat(magicianHuman.canUse(ring), is(true));
+	void R22_canUse() {
+		assertThat(magicianHuman.canUse(potion), is(true));
 	}
 	
 	@Test
-	void R42_canUse() {
-		assertThat(magicianOgre.canUse(ring), is(true));
+	void R23_canUse() {
+		assertThat(magicianOgre.canUse(potion), is(true));
 	}
 	
 	@Test
-	void R43_canUse() {
-		assertThat(magicianElf.canUse(ring), is(true));
+	void R24_canUse() {
+		assertThat(magicianElf.canUse(potion), is(true));
 	}
 	
 	@Test
-	void R44_canUse() {
-		assertThat(healerHuman.canUse(ring), is(true));
+	void R25_canUse() {
+		assertThat(healerHuman.canUse(potion), is(true));
 	}
 	
 	@Test
-	void R45_canUse() {
-		assertThat(healerOgre.canUse(ring), is(true));
+	void R26_canUse() {
+		assertThat(healerOgre.canUse(potion), is(true));
 	}
 	
 	@Test
-	void R46_canUse() {
-		assertThat(healerElf.canUse(ring), is(true));
+	void R27_canUse() {
+		assertThat(healerElf.canUse(potion), is(true));
 	}
 	
 	@Test
-	void newRingHasDefaultWeight() {
-		assertThat(new Ring().getWeight(), is(equalTo(Ring.WEIGHT)));
+	void newPotionHasDefaultWeight() {
+		assertThat(new Potion().getWeight(), is(equalTo(Potion.WEIGHT)));
 	}
 	
 	@Test
-	void newRingHasDefaultValue() {
-		assertThat(new Ring().getValue(), is(equalTo(Ring.VALUE)));
+	void newPotionHasDefaultValue() {
+		assertThat(new Potion().getValue(), is(equalTo(Potion.VALUE)));
 	}
 	
 	@Test
-	void newRingHasDefaultSize() {
-		assertThat(new Ring().getSize(), is(equalTo(Ring.DEFAULT_SIZE)));
+	void newPotionHasDefaultSize() {
+		assertThat(new Potion().getSize(), is(equalTo(Potion.DEFAULT_SIZE)));
 	}
 	
 	@Test
-	void newRingHasDefaultType() {
-		assertThat(new Ring().getType(), is(equalTo(Ring.TYPE)));
+	void newPotionHasDefaultType() {
+		assertThat(new Potion().getType(), is(equalTo(Potion.TYPE)));
 	}
 	
 	@Test
-	void newRingHasDefaultCondition() {
-		assertThat(new Ring().getCondition(), is(equalTo(Ring.DEFAULT_CONDITION)));
+	void newPotionHasDefaultCondition() {
+		assertThat(new Potion().getCondition(), is(equalTo(Potion.DEFAULT_CONDITION)));
 	}
 	
 	@Test
-	void newRingWithSizeSpecifiedAsSmallInConstructorCreatesASmallRing() {
-		assertThat(new Ring(Size.SMALL).getSize(), is(equalTo(Size.SMALL)));
+	void newPotionWithSizeSpecifiedAsSmallInConstructorCreatesASmallPotion() {
+		assertThat(new Potion(Size.SMALL).getSize(), is(equalTo(Size.SMALL)));
 	}
 	
 	@Test
-	void newRingWithSizeSpecifiedAsMediumInConstructorCreatesAMediumRing() {
-		assertThat(new Ring(Size.MEDIUM).getSize(), is(equalTo(Size.MEDIUM)));
+	void newPotionWithSizeSpecifiedAsMediumInConstructorCreatesAMediumPotion() {
+		assertThat(new Potion(Size.MEDIUM).getSize(), is(equalTo(Size.MEDIUM)));
 	}
 	
 	@Test
-	void newRingWithSizeSpecifiedAsLargeInConstructorCreatesALargeRing() {
-		assertThat(new Ring(Size.LARGE).getSize(), is(equalTo(Size.LARGE)));
+	void newPotionWithSizeSpecifiedAsLargeInConstructorCreatesALargePotion() {
+		assertThat(new Potion(Size.LARGE).getSize(), is(equalTo(Size.LARGE)));
 	}
 	
 	@Test
-	void newRingWithConditionBetweenMinAndMaxSetsConditionInConstructor() {
-		assertThat(new Ring(50).getCondition(), is(equalTo(50)));
+	void newPotionWithConditionBetweenMinAndMaxSetsConditionInConstructor() {
+		assertThat(new Potion(50).getCondition(), is(equalTo(50)));
 	}
 	
 	@Test
-	void newRingWithConditionUnderMinimumThrowsIAE() {
-		assertThrows(IllegalArgumentException.class, () -> new Ring(Item.MIN_CONDITION - 1));
+	void newPotionWithConditionUnderMinimumThrowsIAE() {
+		assertThrows(IllegalArgumentException.class, () -> new Potion(Item.MIN_CONDITION - 1));
 	}
 	
 	@Test
-	void newRingWithConditionOverMaximumThrowsIAE() {
-		assertThrows(IllegalArgumentException.class, () -> new Ring(Item.MAX_CONDITION + 1));
+	void newPotionWithConditionOverMaximumThrowsIAE() {
+		assertThrows(IllegalArgumentException.class, () -> new Potion(Item.MAX_CONDITION + 1));
 	}
 }

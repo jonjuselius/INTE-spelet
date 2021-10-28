@@ -2,36 +2,36 @@ package Map;
 
 import java.util.HashMap;
 
-public class MapGenerator {
-    private Map map;
+public class GameMapGenerator {
+    private GameMap gameMap;
 
-    public MapGenerator(int width, int height) {
-        this.map = new Map(width, height);
+    public GameMapGenerator(int width, int height) {
+        this.gameMap = new GameMap(width, height);
     }
 
-    public Map generate(int fakeRandom) {
+    public GameMap generate(int fakeRandom) {
         //The value of how the probability increases for a tile being of the same terrain as its neighbors
         final int probabilityIncreaser = 50;
 
-        for (int x = 0; x < map.getWidth(); x++) {
-            for (int y = 0; y < map.getHeight(); y++) {
-                MapPosition tile = new MapPosition(x, y, map);
-                map.put(tile, x, y);
+        for (int x = 0; x < gameMap.getWidth(); x++) {
+            for (int y = 0; y < gameMap.getHeight(); y++) {
+                GameMapPosition tile = new GameMapPosition(x, y);
+                gameMap.putTileOnMap(tile, x, y);
 
-                setNeighbors(tile, map);
+                findNeighbors(tile, gameMap);
 
                 //Check the terrain of the south and west neighbor & increase the probability of this tile getting the same terrain
                 Terrain terrain = getTerrainOfNeighbors(tile);
                 tile.setTerrain(terrainGenerator(terrain, probabilityIncreaser, fakeRandom));
             }
         }
-        return map;
+        return gameMap;
     }
 
-    public Terrain getTerrainOfNeighbors(MapPosition tile) {
-        MapPosition southNeighbor = tile.getNeighbors()[3];
-        MapPosition westNeighbor = tile.getNeighbors()[0];
-        MapPosition[][] tiles = map.getMapTiles();
+    public Terrain getTerrainOfNeighbors(GameMapPosition tile) {
+        GameMapPosition southNeighbor = tile.getNeighbors()[3];
+        GameMapPosition westNeighbor = tile.getNeighbors()[0];
+        GameMapPosition[][] tiles = gameMap.getMapTiles();
 
         if (southNeighbor != null) {
             return tiles[southNeighbor.getXPos()][southNeighbor.getYPos()].getTerrain();
@@ -76,41 +76,41 @@ public class MapGenerator {
         return chosenTerrain;
     }
 
-    private void setNeighbors(MapPosition tile, Map map) {
+    private void findNeighbors(GameMapPosition tile, GameMap gameMap) {
         int xPos = tile.getXPos();
         int yPos = tile.getYPos();
 
-        MapPosition westNeighbor;
-        MapPosition eastNeighbor;
-        MapPosition northNeighbor;
-        MapPosition southNeighbor;
+        GameMapPosition westNeighbor;
+        GameMapPosition eastNeighbor;
+        GameMapPosition northNeighbor;
+        GameMapPosition southNeighbor;
 
         //Set west neighbor
         if (xPos - 1 < 0 ) {
             westNeighbor = null;
         } else {
-            westNeighbor = new MapPosition(xPos - 1, yPos, map);
+            westNeighbor = new GameMapPosition(xPos - 1, yPos);
         }
 
         //Set east neighbor
-        if (xPos + 1 > map.getWidth() - 1) {
+        if (xPos + 1 > gameMap.getWidth() - 1) {
             eastNeighbor = null;
         } else {
-            eastNeighbor = new MapPosition(xPos + 1, yPos, map);
+            eastNeighbor = new GameMapPosition(xPos + 1, yPos);
         }
 
         //Set north neighbor
-        if (yPos + 1 > map.getHeight() - 1) {
+        if (yPos + 1 > gameMap.getHeight() - 1) {
             northNeighbor = null;
         } else {
-            northNeighbor = new MapPosition(xPos, yPos + 1, map);
+            northNeighbor = new GameMapPosition(xPos, yPos + 1);
         }
 
         //Set south neighbor
         if (yPos - 1 < 0) {
             southNeighbor = null;
         } else {
-            southNeighbor = new MapPosition(xPos, yPos - 1, map);
+            southNeighbor = new GameMapPosition(xPos, yPos - 1);
         }
 
         tile.setNeighbors(westNeighbor, eastNeighbor, northNeighbor, southNeighbor);

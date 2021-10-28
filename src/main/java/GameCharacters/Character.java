@@ -1,10 +1,16 @@
 package GameCharacters;
 
+import Exceptions.*;
 import Inventory.*;
+import Item.Item;
 import Jobs.Job;
 import Magic.SpellCollection;
 import Map.*;
 import Races.*;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public abstract class Character {
 
@@ -29,16 +35,21 @@ public abstract class Character {
 	private int remainingMana;
 
 	private SpellCollection spellCollection;
+	private GameMapPosition position;
+	
 	private Inventory inventory;
-	private MapPosition position;
+	private List<Item> equippedItems;
+	private Wallet wallet;
 
-	public Character(String name, Race race, Job job, boolean isAlive, MapPosition position) {
+	public Character(String name, Race race, Job job, boolean isAlive, GameMapPosition position) {
 		this.name = name;
 		this.race = race;
 		this.job = job;
-		isAlive = true;
-		this.inventory = inventory;
+		this.isAlive = isAlive;
 		this.position = position;
+		this.inventory = new Inventory();
+		this.wallet = new Wallet();
+		this.equippedItems = new ArrayList<>();
 
 		setRemainingHealth(race.getMaxHealth());
 		setStrength(race.getStrength());
@@ -51,36 +62,40 @@ public abstract class Character {
 		setHealingSkill(job.getHealing());
 		setSwordSkill(job.getSwordSkill());
 		setRemainingMana(job.getMaxMana());
+		setMaxMana(job.getMaxMana());
 		setLevel(level);
-
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public MapPosition getPosition() {
+	public GameMapPosition getPosition() {
 		return position;
 	}
 
-	public void increaseHealth(int hp) {
-		if (remainingHealth + hp < getMaxHealth()) {
-			remainingHealth += hp;
-			return;
-		}
-
-		remainingHealth= getMaxHealth();
-		
-	}// increase
+	public void setPosition(GameMapPosition position) {
+		this.position = position;
+	}
 
 	public int getLevel() {
 		return level;
 	}
 
-	// Lagt health i character
-
 	public boolean isAlive() {
 		return isAlive;
+	}
+
+	public void die() {
+		isAlive = false;
+	}
+
+	public int getMaxMana() {
+		return maxMana;
+	}
+
+	public void setMaxMana(int maxMana) {
+		this.maxMana = maxMana;
 	}
 
 	public int getStrength() {
@@ -127,7 +142,7 @@ public abstract class Character {
 		return magicSkill;
 	}
 
-	protected void setMagicSkill(int magicSkill) {
+	public void setMagicSkill(int magicSkill) {
 		this.magicSkill = magicSkill;
 	}
 
@@ -135,7 +150,7 @@ public abstract class Character {
 		return healingSkill;
 	}
 
-	protected void setHealingSkill(int healingSkill) {
+	public void setHealingSkill(int healingSkill) {
 		this.healingSkill = healingSkill;
 	}
 
@@ -167,6 +182,40 @@ public abstract class Character {
 		this.remainingMana = remainingMana;
 	}
 
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
+	public Race getRace() {
+		return race;
+	}
+
+	public Job getJob() {
+		return job;
+	}
+
+	public Inventory getInventory() {
+		return inventory;
+	}
+
+	public List<Item> getItems() {
+		return Collections.unmodifiableList(inventory.getItems());
+	}
+
+	public List<Item> getEquippedItems() {
+		return Collections.unmodifiableList(equippedItems);
+	}
+
+	public Wallet getWallet() {
+		return wallet;
+	}
+
+	public int getMoney() {
+		return wallet.getAmount();
+	}
+
+	//Lena
+
 	public void takeDamage(int damage) {
 		remainingHealth = remainingHealth - damage;
 		if (remainingHealth <= 0) {
@@ -182,6 +231,8 @@ public abstract class Character {
 		int healTotal = remainingHealth + healPoints;
 		remainingHealth = Math.min(healTotal, race.getMaxHealth());
 	}
+
+	//Jasmyn
 
 	public void healDependingOnYourOwnHealSkill(Character otherCharacter) {
 		if (otherCharacter.getMaxHealth() > otherCharacter.getRemainingHealth()) {
@@ -199,7 +250,13 @@ public abstract class Character {
 
 		} else {
 			otherCharacter.setRemainingHealth(0);
-			isAlive= false;
+			otherCharacter.die();
+		}
+	}
+
+	public void loseMagicSkillFromLoss(int loss) {
+		if (magicSkill > 0) {
+			magicSkill = magicSkill - loss;
 		}
 	}
 
@@ -223,8 +280,8 @@ public abstract class Character {
 			level++;
 			strength += 3;
 			increaseSkillWhenLevelingUp();
-			if (level == 3) {
-				setIfCanSwim(true);//g�r test till dessa
+			if (level == 3 && magicSkill - job.getMagic() > 0) {
+				setIfCanSwim(true);
 			}
 
 		}
@@ -233,7 +290,7 @@ public abstract class Character {
 			level++;
 			intelligence += 3;
 			increaseSkillWhenLevelingUp();
-			if (level == 3) {
+			if (level == 3 && magicSkill - job.getMagic() > 0) {
 				setIfCanSwim(true);
 			}
 		}
@@ -242,7 +299,7 @@ public abstract class Character {
 			level++;
 			strength += 3;
 			increaseSkillWhenLevelingUp();
-			if (level == 3) {
+			if (level == 3 && magicSkill - job.getMagic() > 0) {
 				setIfCanFly(true);
 			}
 
@@ -269,23 +326,157 @@ public abstract class Character {
 
 	}
 
-	public void setLevel(int level) {
-		this.level = level;
+	public void increaseHealth(int hp) {
+		if (remainingHealth + hp < getMaxHealth()) {
+			remainingHealth += hp;
+			return;
+		}
+
+		remainingHealth= getMaxHealth();
+
 	}
 
-	public Inventory getInventory() {
-		return inventory;
+	//Jon
+	
+	public void gainMoney(int money) {
+		wallet.gain(money);
 	}
-
-	public Job getJob() {
-		return job;
+	
+	public void loseMoney(int money) {
+		wallet.lose(money);
 	}
-
-	public Race getRace() {
-		return race;
+	
+	public boolean canAfford(Item item) {
+		return wallet.getAmount() >= item.getValue();
+	}
+	
+	public void gain(Item item) {
+		if (owns(item)) {
+			throw new GainException();
+		}
+		inventory.add(item);
+	}
+	
+	public void lose(Item item) {
+		if (!owns(item)) {
+			throw new LoseException();
+		}
+		if (hasEquipped(item)) {
+			unequip(item);
+		}
+		inventory.remove(item);
+	}
+	
+	public boolean owns(Item item) {
+		return inventory.contains(item);
+	}
+	
+	public boolean canEquip(Item item) {
+		return owns(item) && !hasEquipped(item) && item.isEquippable();
+	}
+	
+	public void equip(Item item) {
+		if (!canEquip(item)) {
+			throw new EquipException();
+		}
+		equippedItems.add(item);
+		item.setEquipped(true);
+	}
+	
+	public void unequip(Item item) {
+		if (!hasEquipped(item)) {
+			throw new UnequipException();
+		}
+		equippedItems.remove(item);
+		item.setEquipped(false);
+	}
+	
+	public boolean hasEquipped(Item item) {
+		return equippedItems.contains(item);
+	}
+	
+	public void give(Item item, Character recipient) {
+		if (!item.canBeGiven(this, recipient)) {
+			throw new GiveException();
+		}
+		this.lose(item);
+		recipient.gain(item);
+	}
+	
+	public boolean canGive(Item item) {
+		return owns(item) && !hasEquipped(item);
+	}
+	
+	public boolean canReceive(Item item) {
+		return !owns(item) && getInventory().hasAvailableSpace();
+	}
+	
+	public void buy(Item item, Character other) {
+		int price = item.getValue();
+		Character buyer = this;
+		Character seller = other;
+		if (!item.canBeSold(seller, buyer)) {
+			throw new BuyException();
+		}
+		seller.give(item, buyer);
+		seller.gainMoney(price);
+		buyer.loseMoney(price);
+	}
+	
+	public void sell(Item item, Character other) {
+		int price = item.getValue();
+		Character buyer = other;
+		Character seller = this;
+		if (!item.canBeSold(seller, buyer)) {
+			throw new SellException();
+		}
+		seller.give(item, buyer);
+		seller.gainMoney(price);
+		buyer.loseMoney(price);
+	}
+	
+	public boolean canBuy(Item item) {
+		return canReceive(item) && canAfford(item);
+	}
+	
+	public boolean canSell(Item item) {
+		return canGive(item);
+	}
+	
+	public void enhance(Item item) {
+		if (!item.isEnhancable()) {
+			throw new EnhanceException();
+		}
+		item.setEnhanced(true);
+	}
+	
+	public boolean canUse(Item item) {
+		return item.canBeUsedBy(this);
+	}
+	
+	public void use(Item item) {
+		if (!item.canBeUsedBy(this)) {
+			throw new UseException();
+		}
+		if (item.isFood()) {
+			damage(item, item.getCondition());
+		} else {
+			damage(item, 10);
+		}
+	}
+	
+	public void damage(Item item, int amount) {
+		if (amount < 0) {
+			throw new DamageException();
+		}
+		item.becomeDamaged(amount);
+	}
+	
+	public void restore(Item item, int amount) {
+		if (amount < 0) {
+			throw new RestoreException();
+		}
+		item.becomeRestored(amount);
 	}
 }
 
-// Level up if high attributes
-
-//	

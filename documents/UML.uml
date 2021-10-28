@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>/Users/Jon/Programmering/GitHub/INTE-spelet/src/main/java/Races</OriginalElement>
+  <nodes>
+    <node x="498.5" y="0.0">Item.Item</node>
+    <node x="0.0" y="1607.0">Jobs.Knight</node>
+    <node x="1324.0" y="1436.0">Map.Terrain</node>
+    <node x="566.0" y="1682.0">Magic.SpellCollection</node>
+    <node x="405.0" y="998.0">Magic.BuffSpell</node>
+    <node x="123.0" y="1607.0">Jobs.Magician</node>
+    <node x="583.0" y="1436.0">Map.GameMapPosition</node>
+    <node x="151.0" y="1682.0">Magic.SpellLoader</node>
+    <node x="40.5" y="424.0">Item.Food</node>
+    <node x="0.0" y="606.0">Item.Egg</node>
+    <node x="388.0" y="1682.0">Inventory.Inventory</node>
+    <node x="742.0" y="965.0">Magic.HealingSpell</node>
+    <node x="0.0" y="1361.0">GameCharacters.Player</node>
+    <node x="414.0" y="1436.0">Magic.Element</node>
+    <node x="866.0" y="1436.0">Item.Type</node>
+    <node x="121.0" y="1361.0">GameCharacters.Adversary</node>
+    <node x="273.0" y="1361.0">GameCharacters.NPC</node>
+    <node x="657.5" y="816.0">Magic.Spell</node>
+    <node x="265.0" y="1607.0">Jobs.Healer</node>
+    <node x="905.0" y="1682.0">Map.GameMapGenerator</node>
+    <node x="763.5" y="369.0">Item.Wand</node>
+    <node x="1039.0" y="1436.0">Map.GameMap</node>
+    <node x="577.0" y="1010.5">Magic.DebuffSpell</node>
+    <node x="227.5" y="369.0">Item.Shield</node>
+    <node x="0.0" y="1682.0">Item.Size</node>
+    <node x="114.5" y="1436.0">Jobs.Job</node>
+    <node x="1185.5" y="816.0">Races.Race</node>
+    <node x="915.0" y="965.0">Magic.DamageDealingSpell</node>
+    <node x="1174.0" y="1031.0">Races.Elf</node>
+    <node x="1378.0" y="1031.0">Races.Human</node>
+    <node x="1031.5" y="369.0">Item.Ring</node>
+    <node x="495.5" y="369.0">Item.Sword</node>
+    <node x="60.0" y="816.0">GameCharacters.Character</node>
+    <node x="1267.0" y="1031.0">Races.Ogre</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="Magic.DebuffSpell" target="Magic.Spell" relationship="GENERALIZATION">
+      <point x="0.0" y="-15.0" />
+      <point x="649.5" y="940.0" />
+      <point x="734.0" y="940.0" />
+      <point x="0.0" y="49.5" />
+    </edge>
+    <edge source="Magic.HealingSpell" target="Magic.Spell" relationship="GENERALIZATION">
+      <point x="0.0" y="-60.5" />
+      <point x="818.5" y="940.0" />
+      <point x="734.0" y="940.0" />
+      <point x="0.0" y="49.5" />
+    </edge>
+    <edge source="GameCharacters.Player" target="GameCharacters.Character" relationship="GENERALIZATION">
+      <point x="0.0" y="-15.0" />
+      <point x="50.5" y="1336.0" />
+      <point x="187.0" y="1336.0" />
+      <point x="0.0" y="247.5" />
+    </edge>
+    <edge source="GameCharacters.NPC" target="GameCharacters.Character" relationship="GENERALIZATION">
+      <point x="0.0" y="-15.0" />
+      <point x="316.5" y="1336.0" />
+      <point x="187.0" y="1336.0" />
+      <point x="0.0" y="247.5" />
+    </edge>
+    <edge source="Jobs.Knight" target="Jobs.Job" relationship="GENERALIZATION">
+      <point x="0.0" y="-15.0" />
+      <point x="51.5" y="1582.0" />
+      <point x="184.0" y="1582.0" />
+      <point x="0.0" y="60.5" />
+    </edge>
+    <edge source="Item.Food" target="Item.Item" relationship="GENERALIZATION">
+      <point x="0.0" y="-38.5" />
+      <point x="124.0" y="344.0" />
+      <point x="619.5" y="344.0" />
+      <point x="0.0" y="159.5" />
+    </edge>
+    <edge source="GameCharacters.Adversary" target="GameCharacters.Character" relationship="GENERALIZATION">
+      <point x="0.0" y="-15.0" />
+      <point x="0.0" y="247.5" />
+    </edge>
+    <edge source="Item.Wand" target="Item.Item" relationship="GENERALIZATION">
+      <point x="0.0" y="-93.5" />
+      <point x="887.5" y="344.0" />
+      <point x="619.5" y="344.0" />
+      <point x="0.0" y="159.5" />
+    </edge>
+    <edge source="Jobs.Magician" target="Jobs.Job" relationship="GENERALIZATION">
+      <point x="0.0" y="-15.0" />
+      <point x="0.0" y="60.5" />
+    </edge>
+    <edge source="Item.Shield" target="Item.Item" relationship="GENERALIZATION">
+      <point x="0.0" y="-93.5" />
+      <point x="351.5" y="344.0" />
+      <point x="619.5" y="344.0" />
+      <point x="0.0" y="159.5" />
+    </edge>
+    <edge source="Jobs.Healer" target="Jobs.Job" relationship="GENERALIZATION">
+      <point x="0.0" y="-15.0" />
+      <point x="317.0" y="1582.0" />
+      <point x="184.0" y="1582.0" />
+      <point x="0.0" y="60.5" />
+    </edge>
+    <edge source="Magic.BuffSpell" target="Magic.Spell" relationship="GENERALIZATION">
+      <point x="0.0" y="-27.5" />
+      <point x="481.0" y="940.0" />
+      <point x="734.0" y="940.0" />
+      <point x="0.0" y="49.5" />
+    </edge>
+    <edge source="Item.Egg" target="Item.Food" relationship="GENERALIZATION">
+      <point x="0.0" y="-82.5" />
+      <point x="0.0" y="38.5" />
+    </edge>
+    <edge source="Races.Human" target="Races.Race" relationship="GENERALIZATION">
+      <point x="0.0" y="-15.0" />
+      <point x="1432.0" y="1006.0" />
+      <point x="1312.5" y="1006.0" />
+      <point x="0.0" y="82.5" />
+    </edge>
+    <edge source="Races.Elf" target="Races.Race" relationship="GENERALIZATION">
+      <point x="0.0" y="-15.0" />
+      <point x="1210.5" y="1006.0" />
+      <point x="1312.5" y="1006.0" />
+      <point x="0.0" y="82.5" />
+    </edge>
+    <edge source="Races.Ogre" target="Races.Race" relationship="GENERALIZATION">
+      <point x="0.0" y="-15.0" />
+      <point x="0.0" y="82.5" />
+    </edge>
+    <edge source="Item.Sword" target="Item.Item" relationship="GENERALIZATION">
+      <point x="0.0" y="-93.5" />
+      <point x="0.0" y="159.5" />
+    </edge>
+    <edge source="Magic.DamageDealingSpell" target="Magic.Spell" relationship="GENERALIZATION">
+      <point x="0.0" y="-60.5" />
+      <point x="1022.0" y="940.0" />
+      <point x="734.0" y="940.0" />
+      <point x="0.0" y="49.5" />
+    </edge>
+    <edge source="Item.Ring" target="Item.Item" relationship="GENERALIZATION">
+      <point x="0.0" y="-93.5" />
+      <point x="1155.5" y="344.0" />
+      <point x="619.5" y="344.0" />
+      <point x="0.0" y="159.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.4035226681161462" showDependencies="false" x="1269.725714562859" y="938.5242999189553" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
