@@ -36,7 +36,7 @@ public abstract class Character {
 
 	private SpellCollection spellCollection;
 	private GameMapPosition position;
-	
+
 	private Inventory inventory;
 	private List<Item> equippedItems;
 	private Wallet wallet;
@@ -84,15 +84,13 @@ public abstract class Character {
 			return;
 		}
 
-		remainingHealth= getMaxHealth();
-		
+		remainingHealth = getMaxHealth();
+
 	}// increase
 
 	public int getLevel() {
 		return level;
 	}
-
-	// Lagt health i character
 
 	public boolean isAlive() {
 		return isAlive;
@@ -221,7 +219,7 @@ public abstract class Character {
 
 		int increasedDamage = getSwordSkill() * getLevel() + getStrength() + damage;
 		int otherCharacterNewHealth = otherCharacter.getRemainingHealth() - increasedDamage;
-		if (otherCharacter.getRemainingHealth() > 0 && otherCharacterNewHealth >0) {
+		if (otherCharacter.getRemainingHealth() > 0 && otherCharacterNewHealth > 0) {
 			otherCharacter.setRemainingHealth(Math.min(otherCharacterNewHealth, otherCharacter.getMaxHealth()));
 
 		} else {
@@ -230,12 +228,32 @@ public abstract class Character {
 		}
 	}
 
+	public void fight(Character otherCharacter) {
+		if (strength >= otherCharacter.getStrength()) {
+			otherCharacter.setRemainingHealth(otherCharacter.getRemainingHealth() - getLevel() * strength);
+		} else {
+			setRemainingHealth(remainingHealth - otherCharacter.getLevel() * otherCharacter.getStrength() + 10);
+
+		}
+
+	}
+
+	public void steal(Character otherCharacter) {
+		if (strength >= otherCharacter.getStrength()) {
+			otherCharacter.loseMoney(10);
+			gainMoney(10);
+			//hårkodat för getMoney funkade inte
+		} else {
+			remainingHealth -= 10;
+
+		}
+	}
 
 	public void loseMagicSkillFromLoss(int loss) {
-		
-			magicSkill = magicSkill - loss;
-			Math.max(magicSkill, 0);
-		
+
+		magicSkill = magicSkill - loss;
+		Math.max(magicSkill, 0);
+
 	}
 
 	public void increaseIntelligenceFromWinningASpell() {
@@ -304,58 +322,57 @@ public abstract class Character {
 
 	}
 
-
 	public void setLevel(int level) {
 		this.level = level;
 	}
-	
+
 	public Race getRace() {
 		return race;
 	}
-	
+
 	public Job getJob() {
 		return job;
 	}
-	
+
 	public Inventory getInventory() {
 		return inventory;
 	}
-	
+
 	public List<Item> getItems() {
 		return Collections.unmodifiableList(inventory.getItems());
 	}
-	
+
 	public List<Item> getEquippedItems() {
 		return Collections.unmodifiableList(equippedItems);
 	}
-	
+
 	public Wallet getWallet() {
 		return wallet;
 	}
-	
+
 	public int getMoney() {
 		return wallet.getAmount();
 	}
-	
+
 	public void gainMoney(int money) {
 		wallet.gain(money);
 	}
-	
+
 	public void loseMoney(int money) {
 		wallet.lose(money);
 	}
-	
+
 	public boolean canAfford(Item item) {
 		return wallet.getAmount() >= item.getValue();
 	}
-	
+
 	public void gain(Item item) {
 		if (owns(item)) {
 			throw new GainException();
 		}
 		inventory.add(item);
 	}
-	
+
 	public void lose(Item item) {
 		if (!owns(item)) {
 			throw new LoseException();
@@ -365,15 +382,15 @@ public abstract class Character {
 		}
 		inventory.remove(item);
 	}
-	
+
 	public boolean owns(Item item) {
 		return inventory.contains(item);
 	}
-	
+
 	public boolean canEquip(Item item) {
 		return owns(item) && !hasEquipped(item) && item.isEquippable();
 	}
-	
+
 	public void equip(Item item) {
 		if (!canEquip(item)) {
 			throw new EquipException();
@@ -381,7 +398,7 @@ public abstract class Character {
 		equippedItems.add(item);
 		item.setEquipped(true);
 	}
-	
+
 	public void unequip(Item item) {
 		if (!hasEquipped(item)) {
 			throw new UnequipException();
@@ -389,12 +406,11 @@ public abstract class Character {
 		equippedItems.remove(item);
 		item.setEquipped(false);
 	}
-	
+
 	public boolean hasEquipped(Item item) {
 		return equippedItems.contains(item);
 	}
-	
-	
+
 	public void give(Item item, Character recipient) {
 		if (!item.canBeGiven(this, recipient)) {
 			throw new GiveException();
@@ -402,15 +418,15 @@ public abstract class Character {
 		this.lose(item);
 		recipient.gain(item);
 	}
-	
+
 	public boolean canGive(Item item) {
 		return owns(item) && !hasEquipped(item);
 	}
-	
+
 	public boolean canReceive(Item item) {
 		return !owns(item) && getInventory().hasAvailableSpace();
 	}
-	
+
 	public void buy(Item item, Character other) {
 		int price = item.getValue();
 		Character buyer = this;
@@ -422,7 +438,7 @@ public abstract class Character {
 		seller.gainMoney(price);
 		buyer.loseMoney(price);
 	}
-	
+
 	public void sell(Item item, Character other) {
 		int price = item.getValue();
 		Character buyer = other;
@@ -434,26 +450,26 @@ public abstract class Character {
 		seller.gainMoney(price);
 		buyer.loseMoney(price);
 	}
-	
+
 	public boolean canBuy(Item item) {
 		return canReceive(item) && canAfford(item);
 	}
-	
+
 	public boolean canSell(Item item) {
 		return canGive(item);
 	}
-	
+
 	public void enhance(Item item) {
 		if (!item.isEnhancable()) {
 			throw new EnhanceException();
 		}
 		item.setEnhanced(true);
 	}
-	
+
 	public boolean canUse(Item item) {
 		return item.canBeUsedBy(this);
 	}
-	
+
 	public void use(Item item) {
 		if (!item.canBeUsedBy(this)) {
 			throw new UseException();
@@ -464,14 +480,14 @@ public abstract class Character {
 			damage(item, 10);
 		}
 	}
-	
+
 	public void damage(Item item, int amount) {
 		if (amount < 0) {
 			throw new DamageException();
 		}
 		item.becomeDamaged(amount);
 	}
-	
+
 	public void restore(Item item, int amount) {
 		if (amount < 0) {
 			throw new RestoreException();
@@ -479,4 +495,3 @@ public abstract class Character {
 		item.becomeRestored(amount);
 	}
 }
-

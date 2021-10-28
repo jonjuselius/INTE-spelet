@@ -582,6 +582,67 @@ class CharacterTest {
 			c1.levelsUp();
 			assertFalse(c1.getIfCanSwim());
 		}
+		
+		@Test
+		void fightWithStrongerCharacter() {
+			Player h = new Player("Human", new Human(), new Magician(), true, defaultPosition);
+			Player e = new Player("Human", new Elf(), new Magician(), true, defaultPosition);
+			
+			h.fight(e);
+
+			assertThat(h.getRemainingHealth(), equalTo(300));
+			assertThat(e.getRemainingHealth(), equalTo(180));
+
+		}
+		
+		@Test
+		void fightWithWeakerCharacter() {
+			Player h = new Player("Human", new Human(), new Magician(), true, defaultPosition);
+			Player e = new Player("Human", new Elf(), new Magician(), true, defaultPosition);
+			e.fight(h);
+
+			assertThat(h.getRemainingHealth(), equalTo(300));
+			assertThat(e.getRemainingHealth(), equalTo(190));
+
+		}
+		
+		@Test
+		void stealFromWeakerCharacter() {
+			Player h = new Player("Human", new Human(), new Magician(), true, defaultPosition);
+			Player e = new Player("Elf", new Elf(), new Magician(), true, defaultPosition);
+			
+
+			e.gainMoney(10);
+			assertThat(e.getMoney(), equalTo(10));
+			assertThat(h.getMoney(), equalTo(0));
+
+			h.steal(e);
+			assertThat(e.getMoney(), equalTo(0));
+			assertThat(h.getMoney(), equalTo(10));
+
+
+
+		}
+		
+		@Test
+		void stealFromStrongerCharacter() {
+			Player h = new Player("Human", new Human(), new Magician(), true, defaultPosition);
+			Player e = new Player("Elf", new Elf(), new Magician(), true, defaultPosition);
+			
+			h.gainMoney(10);
+			
+			assertThat(h.getMoney(), equalTo(10));
+			assertThat(e.getMoney(), equalTo(0));
+
+			
+			e.steal(h);
+			assertThat(h.getMoney(), equalTo(10));
+			assertThat(e.getMoney(), equalTo(0));
+			assertThat(e.getRemainingHealth(), equalTo(190));
+
+
+		}
+
 
 
 	/*
