@@ -39,12 +39,11 @@ public class SpellLoader {
         return spellArguments;
     }
 
-    public ArrayList<String> fileReader(String spellDataPathName) {
+    public ArrayList<String> spellFileReader(String spellDataPathName) {
         boolean start = false;
         ArrayList<String> stringLines = new ArrayList<>();
         try {
             if (Files.notExists(Paths.get(spellDataPathName))) {
-
                 throw new FileNotFoundException("could not locate file");
             }
             FileReader rd = new FileReader(spellDataPathName);
@@ -66,26 +65,38 @@ public class SpellLoader {
         return stringLines;
     }
 
+    public Spell constructSpell(String spellDataLine) {
+        Spell spell;
+        String[] arguments = stringToSpellArguments(spellDataLine);
+        switch (arguments[0]) {
+            case "DamageDealingSpell":
+                spell = new DamageDealingSpell(arguments[1], Integer.parseInt(arguments[2]), Element.valueOf(arguments[3].toUpperCase()), Integer.parseInt(arguments[4]));
+                break;
+            case "HealingSpell":
+                spell = new HealingSpell(arguments[1], Integer.parseInt(arguments[2]), Element.valueOf(arguments[3].toUpperCase()), Integer.parseInt(arguments[4]));
+                break;
+            case "BuffSpell":
+                spell = new BuffSpell(arguments[1], Integer.parseInt(arguments[2]), Element.valueOf(arguments[3].toUpperCase()), Integer.parseInt(arguments[4]));
+                break;
+            case "DebuffSpell":
+                spell = new DebuffSpell(arguments[1], Integer.parseInt(arguments[2]), Element.valueOf(arguments[3].toUpperCase()), Integer.parseInt(arguments[4]));
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + arguments[0]);
+        }
+        return spell;
+    }
+
     //loads spells from textfile in the following format:
     //<spellType>,<mana cost>,<Element>,<baseDamage/Heal>(for damage or healing spells)
     public ArrayList<Spell> loadSpells(String spellDataPathName) {
 
         ArrayList<Spell> spells = new ArrayList<>();
 
-        ArrayList<String> spellDataLines = fileReader(spellDataPathName);
+        ArrayList<String> spellDataLines = spellFileReader(spellDataPathName);
 
         for (String spellDataLine : spellDataLines) {
-            String[] tokens = stringToSpellArguments(spellDataLine);
-
-            switch (tokens[0]) {
-                case "DamageDealingSpell" -> {
-                    spells.add(new DamageDealingSpell(tokens[1], Integer.parseInt(tokens[2]), Element.valueOf(tokens[3].toUpperCase()), Integer.parseInt(tokens[4])));
-                }
-                case "HealingSpell" -> {
-                    spells.add(new HealingSpell(tokens[1], Integer.parseInt(tokens[2]), Element.valueOf(tokens[3].toUpperCase()), Integer.parseInt(tokens[4])));
-                }
-                default -> throw new IllegalStateException("Unexpected value: " + tokens[0]);
-            }
+            constructSpell(spellDataLine);
         }
         return spells;
     }

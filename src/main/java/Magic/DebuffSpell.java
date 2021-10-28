@@ -2,6 +2,8 @@ package Magic;
 
 import GameCharacters.Character;
 
+import java.util.Objects;
+
 public class DebuffSpell extends Spell{
 
     private final int spellStrength;
@@ -116,4 +118,18 @@ public class DebuffSpell extends Spell{
             Thread.currentThread().interrupt();
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof HealingSpell) {
+            return super.equals(o) && spellStrength == ((HealingSpell) o).getBaseHeal();
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), spellStrength);
+    }
+
 }
