@@ -34,7 +34,6 @@ public abstract class Character {
 
 	private int remainingHealth;
 	private int remainingMana;
-
 	private SpellCollection spellCollection;
 	private GameMapPosition position;
 
@@ -51,6 +50,7 @@ public abstract class Character {
 		this.inventory = new Inventory();
 		this.wallet = new Wallet();
 		this.equippedItems = new ArrayList<>();
+		this.spellCollection = new SpellCollection();
 
 		setRemainingHealth(race.getMaxHealth());
 		setStrength(race.getStrength());
@@ -198,6 +198,11 @@ public abstract class Character {
 	public Inventory getInventory() {
 		return inventory;
 	}
+
+	public SpellCollection getSpellCollection() {
+		return spellCollection;
+	}
+
 
 	public List<Item> getItems() {
 		return Collections.unmodifiableList(inventory.getItems());

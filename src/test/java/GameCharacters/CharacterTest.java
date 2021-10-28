@@ -8,9 +8,12 @@ import static org.hamcrest.CoreMatchers.is;
 import Exceptions.*;
 import Inventory.Inventory;
 import Inventory.Wallet;
+import Magic.DebuffSpell;
+import Magic.Element;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.hamcrest.collection.IsMapContaining;
 import org.junit.jupiter.api.Test;
 import Item.*;
 import Jobs.Healer;
@@ -137,6 +140,8 @@ class CharacterTest {
 		assertThat(player.getPosition(), is(defaultPosition));
 	}
 
+	//Lena
+
 	@Test
 	void takeDamageReducesCorrectHealth() {
 		Player p = new Player("Player1", human, magician, true, defaultPosition);
@@ -177,6 +182,16 @@ class CharacterTest {
 		p.getHealed(100);
 
 		assertEquals(300, p.getRemainingHealth());
+	}
+
+	@Test
+	public void addSpellsToSpellCollection(){
+		Player p = new Player("Player1", human, magician, true, defaultPosition);
+		DebuffSpell ds = new DebuffSpell("StrengthDebuff", 10, Element.PHYSICAL, 5);
+		p.addSpellToSpellCollection(ds);
+
+		assertThat(p.getSpellCollection().getSpellCollection(), IsMapContaining.hasKey("StrengthDebuff"));
+
 	}
 
 /////// Tdd Jasmyn////////////
