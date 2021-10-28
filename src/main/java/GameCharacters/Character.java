@@ -4,6 +4,7 @@ import Exceptions.*;
 import Inventory.*;
 import Item.Item;
 import Jobs.Job;
+import Magic.Spell;
 import Magic.SpellCollection;
 import Map.*;
 import Races.*;
@@ -33,10 +34,9 @@ public abstract class Character {
 
 	private int remainingHealth;
 	private int remainingMana;
-
 	private SpellCollection spellCollection;
 	private GameMapPosition position;
-	
+
 	private Inventory inventory;
 	private List<Item> equippedItems;
 	private Wallet wallet;
@@ -50,6 +50,7 @@ public abstract class Character {
 		this.inventory = new Inventory();
 		this.wallet = new Wallet();
 		this.equippedItems = new ArrayList<>();
+		this.spellCollection = new SpellCollection();
 
 		setRemainingHealth(race.getMaxHealth());
 		setStrength(race.getStrength());
@@ -78,21 +79,9 @@ public abstract class Character {
 		this.position = position;
 	}
 
-	public void increaseHealth(int hp) {
-		if (remainingHealth + hp < getMaxHealth()) {
-			remainingHealth += hp;
-			return;
-		}
-
-		remainingHealth= getMaxHealth();
-		
-	}// increase
-
 	public int getLevel() {
 		return level;
 	}
-
-	// Lagt health i character
 
 	public boolean isAlive() {
 		return isAlive;
@@ -194,6 +183,49 @@ public abstract class Character {
 		this.remainingMana = remainingMana;
 	}
 
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
+	public Race getRace() {
+		return race;
+	}
+
+	public Job getJob() {
+		return job;
+	}
+
+	public Inventory getInventory() {
+		return inventory;
+	}
+
+	public SpellCollection getSpellCollection() {
+		return spellCollection;
+	}
+
+
+	public List<Item> getItems() {
+		return Collections.unmodifiableList(inventory.getItems());
+	}
+
+	public List<Item> getEquippedItems() {
+		return Collections.unmodifiableList(equippedItems);
+	}
+
+	public Wallet getWallet() {
+		return wallet;
+	}
+
+	public int getMoney() {
+		return wallet.getAmount();
+	}
+
+	//Lena
+
+	public void addSpellToSpellCollection(Spell spell){
+		this.spellCollection.addSpell(spell);
+	}
+
 	public void takeDamage(int damage) {
 		remainingHealth = remainingHealth - damage;
 		if (remainingHealth <= 0) {
@@ -210,6 +242,8 @@ public abstract class Character {
 		remainingHealth = Math.min(healTotal, race.getMaxHealth());
 	}
 
+	//Jasmyn
+
 	public void healDependingOnYourOwnHealSkill(Character otherCharacter) {
 		if (otherCharacter.getMaxHealth() > otherCharacter.getRemainingHealth()) {
 			int newHealthOfOtherCharacter = otherCharacter.getRemainingHealth() + getHealingSkill() * getLevel();
@@ -221,7 +255,7 @@ public abstract class Character {
 
 		int increasedDamage = getSwordSkill() * getLevel() + getStrength() + damage;
 		int otherCharacterNewHealth = otherCharacter.getRemainingHealth() - increasedDamage;
-		if (otherCharacter.getRemainingHealth() > 0 && otherCharacterNewHealth >0) {
+		if (otherCharacter.getRemainingHealth() > 0 && otherCharacterNewHealth > 0) {
 			otherCharacter.setRemainingHealth(Math.min(otherCharacterNewHealth, otherCharacter.getMaxHealth()));
 
 		} else {
@@ -230,11 +264,32 @@ public abstract class Character {
 		}
 	}
 
+	public void fight(Character otherCharacter) {
+		if (strength >= otherCharacter.getStrength()) {
+			otherCharacter.setRemainingHealth(otherCharacter.getRemainingHealth() - getLevel() * strength);
+		} else {
+			setRemainingHealth(remainingHealth - otherCharacter.getLevel() * otherCharacter.getStrength() + 10);
+
+		}
+
+	}
+
+	public void steal(Character otherCharacter) {
+		if (strength >= otherCharacter.getStrength()) {
+			otherCharacter.loseMoney(10);
+			gainMoney(10);
+			//h�rkodat f�r getMoney funkade inte
+		} else {
+			remainingHealth -= 10;
+
+		}
+	}
 
 	public void loseMagicSkillFromLoss(int loss) {
-		if (magicSkill > 0) {
-			magicSkill = magicSkill - loss;
-		}
+
+		magicSkill = magicSkill - loss;
+		Math.max(magicSkill, 0);
+
 	}
 
 	public void increaseIntelligenceFromWinningASpell() {
@@ -303,38 +358,17 @@ public abstract class Character {
 
 	}
 
+	public void increaseHealth(int hp) {
+		if (remainingHealth + hp < getMaxHealth()) {
+			remainingHealth += hp;
+			return;
+		}
 
-	public void setLevel(int level) {
-		this.level = level;
+		remainingHealth= getMaxHealth();
+
 	}
-	
-	public Race getRace() {
-		return race;
-	}
-	
-	public Job getJob() {
-		return job;
-	}
-	
-	public Inventory getInventory() {
-		return inventory;
-	}
-	
-	public List<Item> getItems() {
-		return Collections.unmodifiableList(inventory.getItems());
-	}
-	
-	public List<Item> getEquippedItems() {
-		return Collections.unmodifiableList(equippedItems);
-	}
-	
-	public Wallet getWallet() {
-		return wallet;
-	}
-	
-	public int getMoney() {
-		return wallet.getAmount();
-	}
+
+	//Jon
 	
 	public void gainMoney(int money) {
 		wallet.gain(money);
@@ -392,7 +426,6 @@ public abstract class Character {
 	public boolean hasEquipped(Item item) {
 		return equippedItems.contains(item);
 	}
-	
 	
 	public void give(Item item, Character recipient) {
 		if (!item.canBeGiven(this, recipient)) {

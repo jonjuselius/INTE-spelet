@@ -1,4 +1,4 @@
-Spells:
+List of Spells:
 DamageDealingSpell,Fireball,25,Fire,50
 HealingSpell,Band-Aid,10,physical,15
 BuffSpell,Strength,20,physical,20

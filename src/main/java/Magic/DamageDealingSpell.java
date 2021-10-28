@@ -37,7 +37,7 @@ public class DamageDealingSpell extends Spell {
         }
     }
 
-    private void setDamageOverTime(int damageOverTime) {
+    public void setDamageOverTime(int damageOverTime) {
         this.damageOverTime = damageOverTime;
     }
 
@@ -45,7 +45,7 @@ public class DamageDealingSpell extends Spell {
         return duration;
     }
 
-    private void setDuration(int duration){
+    public void setDuration(int duration){
         this.duration = duration;
     }
 
@@ -56,7 +56,7 @@ public class DamageDealingSpell extends Spell {
         initialDamage = initialDamage * powerFactor;
 
     }
-//Rough draft, lägg till fler variabler
+
     @Override
     public void cast(Character spellCaster, Character target){
         if(getManaCost() > spellCaster.getRemainingMana()){

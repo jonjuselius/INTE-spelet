@@ -1,17 +1,29 @@
 package Magic;
 
+import org.hamcrest.collection.IsMapContaining;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
-public class SpellCollectionTest {
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
-    SpellLoader sl = new SpellLoader();
-    ArrayList<Spell> spells = sl.loadSpells("src/resources/SpellDataTest/SpellDataTest");
+class SpellCollectionTest {
+
 
     @Test
-    void testAddSpell() {
+    public void spellCollectionConstructor(){
+        SpellCollection sc = new SpellCollection();
+        HashMap<String, Spell> spellCollection = new HashMap<>();
+        assertEquals(sc.getSpellCollection(), spellCollection);
+    }
 
+    @Test
+    public void addSpellToSpellCollection(){
+        SpellCollection sc = new SpellCollection();
+        sc.addSpell(new DebuffSpell("StrengthDebuff", 10, Element.PHYSICAL, 5));
+
+        assertThat(sc.getSpellCollection(), IsMapContaining.hasKey("StrengthDebuff"));
     }
 
 }

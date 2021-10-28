@@ -36,8 +36,6 @@ public class Ogre extends Race {
 
 	public int getIntelligence() {
 		return intelligence;
-	}
-
-	
+	}	
 
 }

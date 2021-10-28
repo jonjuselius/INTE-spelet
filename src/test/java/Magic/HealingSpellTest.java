@@ -4,6 +4,7 @@ import GameCharacters.*;
 import Jobs.*;
 import Map.*;
 import Races.*;
+import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -58,6 +59,15 @@ class HealingSpellTest {
         HealingSpell hs = new HealingSpell("Band-aid", 5, Element.PHYSICAL, 1);
 
         assertEquals(0, hs.getHealOverTime());
+    }
+
+    @Test
+    void healOverTime(){
+        HealingSpell hs = new HealingSpell("Band-aid", 5, Element.PHYSICAL, 1);
+        hs.setDuration(6);
+        hs.setHealOverTime(6);
+
+        assertEquals(1, hs.getHealOverTime());
     }
 
 
@@ -126,6 +136,13 @@ class HealingSpellTest {
         hs.cast(p,a);
 
         assertEquals(300, p.getRemainingHealth());
+    }
+
+    @Test
+    public void equalsContract() {
+        EqualsVerifier.simple()
+                .forClass(HealingSpell.class).withIgnoredFields("initialHeal", "healOverTime", "duration")
+                .verify();
     }
 
 }

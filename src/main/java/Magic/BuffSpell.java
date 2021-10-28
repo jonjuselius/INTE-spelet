@@ -1,7 +1,8 @@
 package Magic;
 
-import GameCharacters.*;
 import GameCharacters.Character;
+
+import java.util.Objects;
 
 public class BuffSpell extends Spell {
 
@@ -26,7 +27,6 @@ public class BuffSpell extends Spell {
 
     }
 
-    //
     public void cast(Character spellCaster, long duration){
         if(getManaCost() > spellCaster.getRemainingMana()) {
             throw new IllegalStateException("Not enough mana");
@@ -34,7 +34,6 @@ public class BuffSpell extends Spell {
             spellCaster.useMana(getManaCost());
 
             switch (this.getElement()) {
-                //case PHYSICAL -> physicalBuffSpell(spellCaster, duration);
                 case FIRE -> fireBuffSpell(spellCaster, duration);
                 case LIGHTNING -> lightningBuffSpell(spellCaster, duration);
                 case WATER -> waterBuffSpell(spellCaster, duration);
@@ -120,8 +119,16 @@ public class BuffSpell extends Spell {
         );
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof BuffSpell) {
+            return super.equals(o) && spellStrength == ((BuffSpell) o).getSpellStrength();
+        }
+        return false;
+    }
 
-
-
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), spellStrength);
+    }
 }

@@ -4,11 +4,16 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
+
 import Exceptions.*;
+import Inventory.Inventory;
 import Inventory.Wallet;
+import Magic.DebuffSpell;
+import Magic.Element;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.hamcrest.collection.IsMapContaining;
 import org.junit.jupiter.api.Test;
 import Item.*;
 import Jobs.Healer;
@@ -23,22 +28,6 @@ class CharacterTest {
 	private Magician magician = new Magician();
 	private Knight knight = new Knight();
 	private GameMapPosition defaultPosition = testMap.getMapTiles()[0][0];
-	private Character character = new Player("Default character", human, knight, true, defaultPosition);
-	private Character otherCharacter = new Player("Other character", human, knight, true, defaultPosition);
-	private Character[] players = {
-			new Player("Player 1", human, knight, true, defaultPosition),
-			new Player("Player 2", human, knight, true, defaultPosition)
-	};
-	private Item[] defaultItems = {new Sword(), new Wand(), new Potion(), new Shield(), new Ring()};
-	private Item[] swordSizes = {new Sword(Size.SMALL), new Sword(Size.MEDIUM), new Sword(Size.LARGE)};
-	private Item sword = defaultItems[0];
-	private Item wand = defaultItems[1];
-	private Item potion = defaultItems[2];
-	private Item shield = defaultItems[3];
-	private Item ring = defaultItems[4];
-	private Item smallSword = swordSizes[0];
-	private Item mediumSword = swordSizes[1];
-	private Item largeSword = swordSizes[2];
 
 	private GameMap createTestMap() {
 		GameMap map = new GameMap(2, 2);
@@ -63,6 +52,21 @@ class CharacterTest {
 		return map;
 	}
 
+	private Character character = new Player("Default character", human, knight, true, defaultPosition);
+	private Character otherCharacter = new Player("Other character", human, knight, true, defaultPosition);
+	private Character[] players = { new Player("Player 1", human, knight, true, defaultPosition),
+			new Player("Player 2", human, knight, true, defaultPosition) };
+	private Item[] defaultItems = { new Sword(), new Wand(), new Potion(), new Shield(), new Ring() };
+	private Item[] swordSizes = { new Sword(Size.SMALL), new Sword(Size.MEDIUM), new Sword(Size.LARGE) };
+	private Item sword = defaultItems[0];
+	private Item wand = defaultItems[1];
+	private Item potion = defaultItems[2];
+	private Item shield = defaultItems[3];
+	private Item ring = defaultItems[4];
+	private Item smallSword = swordSizes[0];
+	private Item mediumSword = swordSizes[1];
+	private Item largeSword = swordSizes[2];
+
 	public static class ExceptionMatcher extends TypeSafeMatcher<IllegalArgumentException> {
 		private String errorMessage;
 
@@ -72,7 +76,8 @@ class CharacterTest {
 
 		@Override
 		public boolean matchesSafely(IllegalArgumentException exception) {
-			return (exception.getClass().equals(IllegalArgumentException.class) || exception instanceof IllegalArgumentException) && exception.getMessage().equals(errorMessage);
+			return (exception.getClass().equals(IllegalArgumentException.class)
+					|| exception instanceof IllegalArgumentException) && exception.getMessage().equals(errorMessage);
 		}
 
 		@Override
@@ -135,6 +140,8 @@ class CharacterTest {
 		assertThat(player.getPosition(), is(defaultPosition));
 	}
 
+	//Lena
+
 	@Test
 	void takeDamageReducesCorrectHealth() {
 		Player p = new Player("Player1", human, magician, true, defaultPosition);
@@ -162,7 +169,7 @@ class CharacterTest {
 	@Test
 	void getHealedIncreasesHealth() {
 		Player p = new Player("Player1", human, magician, true, defaultPosition);
-        p.setRemainingHealth(100);
+		p.setRemainingHealth(100);
 		p.getHealed(100);
 
 		assertEquals(200, p.getRemainingHealth());
@@ -171,13 +178,55 @@ class CharacterTest {
 	@Test
 	void getHealedMoreThanMaxSetsHealthToMax() {
 		Player p = new Player("Player1", human, magician, true, defaultPosition);
-        p.setRemainingHealth(250);
+		p.setRemainingHealth(250);
 		p.getHealed(100);
 
 		assertEquals(300, p.getRemainingHealth());
 	}
 
+	@Test
+	public void addSpellsToSpellCollection(){
+		Player p = new Player("Player1", human, magician, true, defaultPosition);
+		DebuffSpell ds = new DebuffSpell("StrengthDebuff", 10, Element.PHYSICAL, 5);
+		p.addSpellToSpellCollection(ds);
+
+		assertThat(p.getSpellCollection().getSpellCollection(), IsMapContaining.hasKey("StrengthDebuff"));
+
+	}
+
 /////// Tdd Jasmyn////////////
+	
+	@Test
+	void nameTest() {
+		Player c3 = new Player("Oliver", new Elf(), new Knight(), true, defaultPosition);
+
+		assertEquals("Oliver", c3.getName());
+
+	}
+	
+	@Test
+	void getMagicSkillTest() {
+		Player c3 = new Player("Oliver", new Elf(), new Magician(), true, defaultPosition);
+
+		assertEquals(10, c3.getMagicSkill());
+
+	}
+	
+	@Test
+	void getMaxManaTest() {
+		Player c3 = new Player("Oliver", new Elf(), new Knight(), true, defaultPosition);
+
+		assertEquals(400, c3.getMaxMana());
+
+	}
+	
+	@Test
+	void setLevelTest() {
+		Character c3 = new Player("Oliver", new Elf(), new Knight(), true, defaultPosition);
+		c3.setLevel(3);
+		assertEquals(3, c3.getLevel());
+
+	}
 
 	@Test
 	void increasingHealthOverMaxForElfDoesNotSurpassMaxHealthTwohundred() {
@@ -208,7 +257,7 @@ class CharacterTest {
 		assertEquals(23, p.getIntelligence());
 	}
 
-	//Can't increase more than 15 over initial intelligence
+	// Can't increase more than 15 over initial intelligence
 	@Test
 	void increaseIntelligenceFromWinningASpellByThreeOverMethodBoundary() {
 		Player p = new Player("Player1", human, magician, true, defaultPosition);
@@ -320,9 +369,9 @@ class CharacterTest {
 	}
 
 	@Test
-	void dealDamageDependingOnYourSwordSkillAndStrengthCharacterDiesAtZeroLife(){
-        Player p = new Player ("jasmyn", new Ogre(), new Knight(), true, defaultPosition);
-        Player p1 = new Player ("Michael", new Elf(), new Healer(), true, defaultPosition);
+	void dealDamageDependingOnYourSwordSkillAndStrengthCharacterDiesAtZeroLife() {
+		Player p = new Player("jasmyn", new Ogre(), new Knight(), true, defaultPosition);
+		Player p1 = new Player("Michael", new Elf(), new Healer(), true, defaultPosition);
 		p.dealDamageDependingOnYourSwordSkillAndStrength(160, p1);
 
 		assertFalse(p1.isAlive());
@@ -330,16 +379,15 @@ class CharacterTest {
 	}
 
 	@Test
-	void dealDamageDependingOnYourSwordSkillAndStrengthCharacterisAlreadyDead(){
+	void dealDamageDependingOnYourSwordSkillAndStrengthCharacterisAlreadyDead() {
 
-		Player p = new Player ("jasmyn", new Ogre(), new Knight(), true, defaultPosition);
-		Player p1 = new Player ("Michael", new Elf(), new Healer(), true, defaultPosition);
+		Player p = new Player("jasmyn", new Ogre(), new Knight(), true, defaultPosition);
+		Player p1 = new Player("Michael", new Elf(), new Healer(), true, defaultPosition);
 
 		p1.takeDamage(200);
 		p.dealDamageDependingOnYourSwordSkillAndStrength(10, p1);
 
 		assertFalse(p1.isAlive());
-
 
 	}
 
@@ -360,7 +408,6 @@ class CharacterTest {
 		c1.levelsUp();
 		c1.levelsUp();
 
-
 		assertEquals(3, c1.getLevel());
 	}
 
@@ -371,7 +418,6 @@ class CharacterTest {
 		c1.increaseStrengthFromWinningASpell();
 		c1.levelsUp();
 		c1.levelsUp();
-
 
 		assertEquals(3, c1.getLevel());
 	}
@@ -399,10 +445,8 @@ class CharacterTest {
 		Player c1 = new Player("Jasmyn", new Elf(), new Knight(), true, defaultPosition);
 		c1.increaseIntelligenceFromWinningASpell();
 
-
 		c1.levelsUp();
 		c1.levelsUp();
-
 
 		assertEquals(3, c1.getLevel());
 	}
@@ -413,7 +457,6 @@ class CharacterTest {
 		c1.increaseStrengthFromWinningASpell();
 		c1.levelsUp();
 		c1.levelsUp();
-
 
 		assertEquals(3, c1.getLevel());
 	}
@@ -445,7 +488,6 @@ class CharacterTest {
 
 		c1.levelsUp();
 
-
 		assertEquals(3, c1.getLevel());
 	}
 
@@ -456,7 +498,6 @@ class CharacterTest {
 		c1.levelsUp();
 
 		c1.levelsUp();
-
 
 		assertEquals(3, c1.getLevel());
 	}
@@ -471,116 +512,311 @@ class CharacterTest {
 		assertEquals(16, c1.getIntelligence());
 	}
 
-
 	// beslutstbell som t�cker alla fallen om
-		@Test
-		void HumanCanFlyAtLevelThreeMagicskillMoreThanInitial() {
-			Player c1 = new Player("Jasmyn", new Human(), new Magician(), true, defaultPosition);
-			c1.increaseStrengthFromWinningASpell();//
-			c1.levelsUp();
-			c1.levelsUp();
-			assertTrue(c1.getIfCanFly());
-		}
+	@Test
+	void HumanCanFlyAtLevelThreeMagicskillMoreThanInitial() {
+		Player c1 = new Player("Jasmyn", new Human(), new Magician(), true, defaultPosition);
+		c1.increaseStrengthFromWinningASpell();//
+		c1.levelsUp();
+		c1.levelsUp();
+		assertTrue(c1.getIfCanFly());
+	}
 
-		@Test
-		void HumanCantFlyAtLevelThreeMagicskillNotMoreThanInitial() {
-			Player c1 = new Player("Jasmyn", new Human(), new Magician(), true, defaultPosition);
-			c1.increaseStrengthFromWinningASpell();//
-			c1.levelsUp();
-			c1.loseMagicSkillFromLoss(10);
-			c1.levelsUp();
-			assertFalse(c1.getIfCanFly());
-		}
+	@Test
+	void HumanCantFlyAtLevelThreeMagicskillNotMoreThanInitial() {
+		Player c1 = new Player("Jasmyn", new Human(), new Magician(), true, defaultPosition);
+		c1.increaseStrengthFromWinningASpell();//
+		c1.levelsUp();
+		c1.loseMagicSkillFromLoss(10);
+		c1.levelsUp();
+		assertFalse(c1.getIfCanFly());
+	}
 
-		@Test
-		void HumanCantFlyAtLevelUnderThreeMagicskillMoreThanInitial() {
-			Player c1 = new Player("Jasmyn", new Human(), new Magician(), true, defaultPosition);
-			c1.increaseStrengthFromWinningASpell();//
-			c1.levelsUp();
-			assertFalse(c1.getIfCanFly());
-		}
+	@Test
+	void HumanCantFlyAtLevelUnderThreeMagicskillMoreThanInitial() {
+		Player c1 = new Player("Jasmyn", new Human(), new Magician(), true, defaultPosition);
+		c1.increaseStrengthFromWinningASpell();//
+		c1.levelsUp();
+		assertFalse(c1.getIfCanFly());
+	}
 
-		@Test
-		void HumanCantFlyAtLevelUnderThreeMagicskillNotMoreThanInitial() {
-			Player c1 = new Player("Jasmyn", new Human(), new Magician(), true, defaultPosition);
-			c1.increaseStrengthFromWinningASpell();//
-			c1.loseMagicSkillFromLoss(10);
-			c1.levelsUp();
-			assertFalse(c1.getIfCanFly());
-		}
+	@Test
+	void HumanCantFlyAtLevelUnderThreeMagicskillNotMoreThanInitial() {
+		Player c1 = new Player("Jasmyn", new Human(), new Magician(), true, defaultPosition);
+		c1.increaseStrengthFromWinningASpell();//
+		c1.loseMagicSkillFromLoss(10);
+		c1.levelsUp();
+		assertFalse(c1.getIfCanFly());
+	}
 
-		@Test
-		void elfCanSwimAtLevelThreeMagicskillMoreThanInitial() {
-			Player c1 = new Player("elfOne", new Elf(), new Magician(), true, defaultPosition);
-			c1.increaseStrengthFromWinningASpell();//
-			c1.levelsUp();
-			c1.levelsUp();
-			assertTrue(c1.getIfCanSwim());
-		}
+	@Test
+	void elfCanSwimAtLevelThreeMagicskillMoreThanInitial() {
+		Player c1 = new Player("elfOne", new Elf(), new Magician(), true, defaultPosition);
+		c1.increaseStrengthFromWinningASpell();//
+		c1.levelsUp();
+		c1.levelsUp();
+		assertTrue(c1.getIfCanSwim());
+	}
 
-		@Test
-		void elfCantSwimAtLevelThreeMagicskillNotMoreThanInitial() {
-			Player c1 = new Player("elfOne", new Elf(), new Magician(), true, defaultPosition);
-			c1.increaseStrengthFromWinningASpell();//
-			c1.levelsUp();
-			c1.loseMagicSkillFromLoss(10);
-			c1.levelsUp();
-			assertFalse(c1.getIfCanSwim());
-		}
+	@Test
+	void elfCantSwimAtLevelThreeMagicskillNotMoreThanInitial() {
+		Player c1 = new Player("elfOne", new Elf(), new Magician(), true, defaultPosition);
+		c1.increaseStrengthFromWinningASpell();//
+		c1.levelsUp();
+		c1.loseMagicSkillFromLoss(10);
+		c1.levelsUp();
+		assertFalse(c1.getIfCanSwim());
+	}
 
-		@Test
-		void elfCantSwimAtLevelUnderThreeMagicskillMoreThanInitial() {
-			Player c1 = new Player("elfOne", new Elf(), new Magician(), true, defaultPosition);
-			c1.increaseStrengthFromWinningASpell();//
-			c1.levelsUp();
-			assertFalse(c1.getIfCanSwim());
-		}
+	@Test
+	void elfCantSwimAtLevelUnderThreeMagicskillMoreThanInitial() {
+		Player c1 = new Player("elfOne", new Elf(), new Magician(), true, defaultPosition);
+		c1.increaseStrengthFromWinningASpell();//
+		c1.levelsUp();
+		assertFalse(c1.getIfCanSwim());
+	}
 
-		@Test
-		void elfCantSwimAtLevelUnderThreeMagicskillNotMoreThanInitial() {
-			Player c1 = new Player("elfOne", new Elf(), new Magician(), true, defaultPosition);
-			c1.increaseStrengthFromWinningASpell();//
-			c1.loseMagicSkillFromLoss(10);
-			c1.levelsUp();
-			assertFalse(c1.getIfCanSwim());
-		}
+	@Test
+	void elfCantSwimAtLevelUnderThreeMagicskillNotMoreThanInitial() {
+		Player c1 = new Player("elfOne", new Elf(), new Magician(), true, defaultPosition);
+		c1.increaseStrengthFromWinningASpell();//
+		c1.loseMagicSkillFromLoss(10);
+		c1.levelsUp();
+		assertFalse(c1.getIfCanSwim());
+	}
 
-		@Test
-		void ogreCanSwimAtLevelThreeMagicskillMoreThanInitial() {
-			Player c1 = new Player("Jasmyn", new Ogre(), new Magician(), true, defaultPosition);
-			c1.increaseStrengthFromWinningASpell();//
-			c1.levelsUp();
-			c1.levelsUp();
-			assertTrue(c1.getIfCanSwim());
-		}
+	@Test
+	void ogreCanSwimAtLevelThreeMagicskillMoreThanInitial() {
+		Player c1 = new Player("Jasmyn", new Ogre(), new Magician(), true, defaultPosition);
+		c1.increaseStrengthFromWinningASpell();//
+		c1.levelsUp();
+		c1.levelsUp();
+		assertTrue(c1.getIfCanSwim());
+	}
 
+	@Test
+	void ogreCantSwimAtLevelThreeMagicskillNotMoreThanInitial() {
+		Player c1 = new Player("Jasmyn", new Ogre(), new Magician(), true, defaultPosition);
+		c1.increaseStrengthFromWinningASpell();//
+		c1.levelsUp();
+		c1.loseMagicSkillFromLoss(10);
+		c1.levelsUp();
+		assertFalse(c1.getIfCanSwim());
+	}
 
-		@Test
-		void ogreCantSwimAtLevelThreeMagicskillNotMoreThanInitial() {
-			Player c1 = new Player("Jasmyn", new Ogre(), new Magician(), true, defaultPosition);
-			c1.increaseStrengthFromWinningASpell();//
-			c1.levelsUp();
-			c1.loseMagicSkillFromLoss(10);
-			c1.levelsUp();
-			assertFalse(c1.getIfCanSwim());
-		}
+	@Test
+	void ogreCantSwimAtLevelUnderThreeMagicskillMoreThanInitial() {
+		Player c1 = new Player("Jasmyn", new Ogre(), new Magician(), true, defaultPosition);
+		c1.increaseStrengthFromWinningASpell();//
+		c1.levelsUp();
+		assertFalse(c1.getIfCanSwim());
+	}
 
-		@Test
-		void ogreCantSwimAtLevelUnderThreeMagicskillMoreThanInitial() {
-			Player c1 = new Player("Jasmyn", new Ogre(), new Magician(), true, defaultPosition);
-			c1.increaseStrengthFromWinningASpell();//
-			c1.levelsUp();
-			assertFalse(c1.getIfCanSwim());
-		}
+	@Test
+	void ogreCantSwimAtLevelUnderThreeMagicskillNotMoreThanInitial() {
+		Player c1 = new Player("Jasmyn", new Ogre(), new Magician(), true, defaultPosition);
+		c1.increaseStrengthFromWinningASpell();//
+		c1.loseMagicSkillFromLoss(10);
+		c1.levelsUp();
+		assertFalse(c1.getIfCanSwim());
+	}
 
-		@Test
-		void ogreCantSwimAtLevelUnderThreeMagicskillNotMoreThanInitial() {
-			Player c1 = new Player("Jasmyn", new Ogre(), new Magician(), true, defaultPosition);
-			c1.increaseStrengthFromWinningASpell();//
-			c1.loseMagicSkillFromLoss(10);
-			c1.levelsUp();
-			assertFalse(c1.getIfCanSwim());
+	@Test
+	void fightWithStrongerCharacter() {
+		Player h = new Player("Human", new Human(), new Magician(), true, defaultPosition);
+		Player e = new Player("Human", new Elf(), new Magician(), true, defaultPosition);
+
+		h.fight(e);
+
+		assertThat(h.getRemainingHealth(), equalTo(300));
+		assertThat(e.getRemainingHealth(), equalTo(180));
+
+	}
+
+	@Test
+	void fightWithWeakerCharacter() {
+		Player h = new Player("Human", new Human(), new Magician(), true, defaultPosition);
+		Player e = new Player("Human", new Elf(), new Magician(), true, defaultPosition);
+		e.fight(h);
+
+		assertThat(h.getRemainingHealth(), equalTo(300));
+		assertThat(e.getRemainingHealth(), equalTo(190));
+
+	}
+
+	@Test
+	void stealFromWeakerCharacter() {
+		Player h = new Player("Human", new Human(), new Magician(), true, defaultPosition);
+		Player e = new Player("Elf", new Elf(), new Magician(), true, defaultPosition);
+
+		e.gainMoney(10);
+		assertThat(e.getMoney(), equalTo(10));
+		assertThat(h.getMoney(), equalTo(0));
+
+		h.steal(e);
+		assertThat(e.getMoney(), equalTo(0));
+		assertThat(h.getMoney(), equalTo(10));
+	}
+
+	@Test
+	void stealFromStrongerCharacter() {
+		Player h = new Player("Human", new Human(), new Magician(), true, defaultPosition);
+		Player e = new Player("Elf", new Elf(), new Magician(), true, defaultPosition);
+
+		h.gainMoney(10);
+
+		assertThat(h.getMoney(), equalTo(10));
+		assertThat(e.getMoney(), equalTo(0));
+
+		e.steal(h);
+		assertThat(h.getMoney(), equalTo(10));
+		assertThat(e.getMoney(), equalTo(0));
+		assertThat(e.getRemainingHealth(), equalTo(190));
+
+	}
+
+	/*
+	 * Test driven development for players walking on the map (Emma)
+	 */
+	@Test
+	void positionChangesWhenPlayerMovesNorth() {
+		Player human_player = new Player("Human", new Human(), new Magician(), true, defaultPosition);
+		GameMapPosition newPos = testMap.getMapTiles()[0][1];
+		assertThat(newPos, equalTo(human_player.moveNorth()));
+	}
+
+	@Test
+	void positionChangesWhenPlayerMovesSouth() {
+		Player human_player = new Player("Human", new Human(), new Magician(), true, testMap.getMapTiles()[0][1]);
+		GameMapPosition newPos = testMap.getMapTiles()[0][0];
+		assertThat(newPos, equalTo(human_player.moveSouth()));
+	}
+
+	@Test
+	void positionChangesWhenPlayerMovesWest() {
+		Player human_player = new Player("Human", new Human(), new Magician(), true, testMap.getMapTiles()[1][0]);
+		GameMapPosition newPos = testMap.getMapTiles()[0][0];
+		assertThat(newPos, equalTo(human_player.moveWest()));
+	}
+
+	@Test
+	void positionChangesWhenPlayerMovesEast() {
+		Player human_player = new Player("Human", new Human(), new Magician(), true, defaultPosition);
+		GameMapPosition newPos = testMap.getMapTiles()[1][0];
+		assertThat(newPos, equalTo(human_player.moveEast()));
+	}
+
+	@Test
+	void IAEThrownWhenTryingToWalkOutsideMapNorth() {
+		Player human_player = new Player("Human", new Human(), new Magician(), true, testMap.getMapTiles()[0][1]);
+		try {
+			human_player.moveNorth();
+		} catch (IllegalArgumentException e) {
+			assertThat(e, ExceptionMatcher.isCantWalkOutsideMapException());
 		}
+	}
+
+	@Test
+	void IAEThrownWhenTryingToWalkOutsideMapSouth() {
+		Player human_player = new Player("Human", new Human(), new Magician(), true, defaultPosition);
+		try {
+			human_player.moveSouth();
+		} catch (IllegalArgumentException e) {
+			assertThat(e, ExceptionMatcher.isCantWalkOutsideMapException());
+		}
+	}
+
+	@Test
+	void IAEThrownWhenTryingToWalkOutsideMapWest() {
+		Player human_player = new Player("Human", new Human(), new Magician(), true, defaultPosition);
+		try {
+			human_player.moveWest();
+		} catch (IllegalArgumentException e) {
+			assertThat(e, ExceptionMatcher.isCantWalkOutsideMapException());
+		}
+	}
+
+	@Test
+	void IAEThrownWhenTryingToWalkOutsideMapEast() {
+		Player human_player = new Player("Human", new Human(), new Magician(), true, testMap.getMapTiles()[1][0]);
+		try {
+			human_player.moveEast();
+		} catch (IllegalArgumentException e) {
+			assertThat(e, ExceptionMatcher.isCantWalkOutsideMapException());
+		}
+	}
+
+	@Test
+	void IAEThrownWhenTryingToMoveDeadPlayer() {
+		Player human_player = new Player("Human", new Human(), new Magician(), false, defaultPosition);
+		assertThrows(IllegalArgumentException.class, human_player::moveEast);
+	}
+
+	@Test
+	void humanCanMoveOnGrass() {
+		Player human_player = new Player("Human", new Human(), new Magician(), true, defaultPosition);
+		GameMapPosition grassPosToVisit = testMap.getMapTiles()[1][0];
+		assertThat(grassPosToVisit, is(human_player.moveEast()));
+	}
+
+	@Test
+	void humanCanMoveInWater() {
+		Player human_player = new Player("Human", new Human(), new Magician(), true, defaultPosition);
+		GameMapPosition waterPosToVisit = testMap.getMapTiles()[0][1];
+		assertThat(waterPosToVisit, is(human_player.moveNorth()));
+	}
+
+	@Test
+	void humanDiesInLava() {
+		Player human_player = new Player("Human", new Human(), new Magician(), true, defaultPosition);
+		human_player.moveEast();
+		human_player.moveNorth();
+		assertFalse(human_player.isAlive());
+	}
+
+	@Test
+	void ogreCanMoveOnGrass() {
+		Player ogre = new Player("Ogre", new Ogre(), new Magician(), true, defaultPosition);
+		GameMapPosition grassPosToVisit = testMap.getMapTiles()[1][0];
+		assertThat(grassPosToVisit, is(ogre.moveEast()));
+	}
+
+	@Test
+	void ogreMovesOutOfWaterWhenInWater() {
+		Player ogre = new Player("Ogre", new Ogre(), new Magician(), true, defaultPosition);
+		assertThat(ogre.getPosition(), is(ogre.moveNorth()));
+	}
+
+	@Test
+	void ogreDiesInLava() {
+		Player ogre = new Player("Ogre", new Ogre(), new Magician(), true, defaultPosition);
+		ogre.moveEast();
+		ogre.moveNorth();
+		assertFalse(ogre.isAlive());
+	}
+
+	@Test
+	void elfCanMoveOnGrass() {
+		Player elf = new Player("Elf", new Elf(), new Magician(), true, defaultPosition);
+		GameMapPosition grassPosToVisit = testMap.getMapTiles()[1][0];
+		assertThat(grassPosToVisit, is(elf.moveEast()));
+	}
+
+	@Test
+	void elfCanMoveOnWater() {
+		Player elf = new Player("Elf", new Elf(), new Magician(), true, defaultPosition);
+		GameMapPosition waterPosToVisit = testMap.getMapTiles()[0][1];
+		assertThat(waterPosToVisit, is(elf.moveNorth()));
+	}
+
+	@Test
+	void elfCanMoveOnLava() {
+		Player elf = new Player("Elf", new Elf(), new Magician(), true, defaultPosition);
+		GameMapPosition lavaPosToVisit = testMap.getMapTiles()[1][1];
+		elf.moveEast();
+		assertThat(lavaPosToVisit, is(elf.moveNorth()));
+	}
+	// Emma
 
 	/** Use **/
 	@Test
@@ -669,7 +905,7 @@ class CharacterTest {
 	void damagingAnItemWithANegativeAmountThrowsException() {
 		try {
 			character.damage(sword, -10);
-		} catch(DamageException e) {
+		} catch (DamageException e) {
 			assertThat(e, ExceptionMatcher.isDamageException());
 		}
 	}
@@ -678,7 +914,7 @@ class CharacterTest {
 	void restoringAnItemWithANegativeAmountThrowsException() {
 		try {
 			character.restore(sword, -10);
-		} catch(RestoreException e) {
+		} catch (RestoreException e) {
 			assertThat(e, ExceptionMatcher.isRestoreException());
 		}
 	}
@@ -773,7 +1009,7 @@ class CharacterTest {
 		assertThat(character.hasEquipped(sword), is(false));
 		try {
 			character.unequip(sword);
-		} catch(IllegalArgumentException e) {
+		} catch (IllegalArgumentException e) {
 			assertThat(e, ExceptionMatcher.isUnequipException());
 		}
 	}
@@ -1091,7 +1327,7 @@ class CharacterTest {
 		assertTrue(!sword.isOwned() && !sword.isEquipped());
 		try {
 			character.lose(sword);
-		} catch(LoseException e) {
+		} catch (LoseException e) {
 			assertThat(e, ExceptionMatcher.isLoseException());
 		}
 	}
@@ -1101,7 +1337,7 @@ class CharacterTest {
 		assertTrue(!sword.isOwned() && !sword.isEquipped());
 		try {
 			character.equip(sword);
-		} catch(EquipException e) {
+		} catch (EquipException e) {
 			assertThat(e, ExceptionMatcher.isEquipException());
 		}
 	}
@@ -1111,7 +1347,7 @@ class CharacterTest {
 		assertTrue(!sword.isOwned() && !sword.isEquipped());
 		try {
 			character.unequip(sword);
-		} catch(UnequipException e) {
+		} catch (UnequipException e) {
 			assertThat(e, ExceptionMatcher.isUnequipException());
 		}
 	}
@@ -1121,7 +1357,7 @@ class CharacterTest {
 		assertTrue(!sword.isOwned() && !sword.isEquipped());
 		try {
 			character.give(sword, otherCharacter);
-		} catch(GiveException e) {
+		} catch (GiveException e) {
 			assertThat(e, ExceptionMatcher.isGiveException());
 		}
 	}
@@ -1133,7 +1369,7 @@ class CharacterTest {
 		assertTrue(sword.isOwned() && !sword.isEquipped());
 		try {
 			character.gain(sword);
-		} catch(GainException e) {
+		} catch (GainException e) {
 			assertThat(e, ExceptionMatcher.isGainException());
 		}
 	}
@@ -1145,7 +1381,7 @@ class CharacterTest {
 		assertTrue(sword.isOwned() && !sword.isEquipped());
 		try {
 			character.unequip(sword);
-		} catch(UnequipException e) {
+		} catch (UnequipException e) {
 			assertThat(e, ExceptionMatcher.isUnequipException());
 		}
 	}
@@ -1159,7 +1395,7 @@ class CharacterTest {
 		assertTrue(sword.isOwned() && sword.isEquipped());
 		try {
 			character.gain(sword);
-		} catch(GainException e) {
+		} catch (GainException e) {
 			assertThat(e, ExceptionMatcher.isGainException());
 		}
 	}
@@ -1173,7 +1409,7 @@ class CharacterTest {
 		assertTrue(sword.isOwned() && sword.isEquipped());
 		try {
 			character.equip(sword);
-		} catch(EquipException e) {
+		} catch (EquipException e) {
 			assertThat(e, ExceptionMatcher.isEquipException());
 		}
 	}
@@ -1187,153 +1423,11 @@ class CharacterTest {
 		assertTrue(sword.isOwned() && sword.isEquipped());
 		try {
 			character.give(sword, otherCharacter);
-		} catch(GiveException e) {
+		} catch (GiveException e) {
 			assertThat(e, ExceptionMatcher.isGiveException());
 		}
-	}//Jon
-
-	/*
-	 * Test driven development for players moving on the map (Emma)
-	 */
-	@Test
-	void positionChangesWhenPlayerMovesNorth() {
-		Player human_player = new Player("Human", new Human(), new Magician(), true, defaultPosition);
-		GameMapPosition newPos = testMap.getMapTiles()[0][1];
-		assertThat(newPos, equalTo(human_player.moveNorth()));
 	}
 
-	@Test
-	void positionChangesWhenPlayerMovesSouth() {
-		Player human_player = new Player("Human", new Human(), new Magician(), true, testMap.getMapTiles()[0][1]);
-		GameMapPosition newPos = testMap.getMapTiles()[0][0];
-		assertThat(newPos, equalTo(human_player.moveSouth()));
-	}
-
-	@Test
-	void positionChangesWhenPlayerMovesWest() {
-		Player human_player = new Player("Human", new Human(), new Magician(), true, testMap.getMapTiles()[1][0]);
-		GameMapPosition newPos = testMap.getMapTiles()[0][0];
-		assertThat(newPos, equalTo(human_player.moveWest()));
-	}
-
-	@Test
-	void positionChangesWhenPlayerMovesEast() {
-		Player human_player = new Player("Human", new Human(), new Magician(), true, defaultPosition);
-		GameMapPosition newPos = testMap.getMapTiles()[1][0];
-		assertThat(newPos, equalTo(human_player.moveEast()));
-	}
-
-	@Test
-	void IAEThrownWhenTryingToWalkOutsideMapNorth() {
-		Player human_player = new Player("Human", new Human(), new Magician(), true, testMap.getMapTiles()[0][1]);
-		try {
-			human_player.moveNorth();
-		} catch (IllegalArgumentException e) {
-			assertThat(e,  ExceptionMatcher.isCantWalkOutsideMapException());
-		}
-	}
-
-	@Test
-	void IAEThrownWhenTryingToWalkOutsideMapSouth() {
-		Player human_player = new Player("Human", new Human(), new Magician(), true, defaultPosition);
-		try {
-			human_player.moveSouth();
-		} catch (IllegalArgumentException e) {
-			assertThat(e, ExceptionMatcher.isCantWalkOutsideMapException());
-		}
-	}
-
-	@Test
-	void IAEThrownWhenTryingToWalkOutsideMapWest() {
-		Player human_player = new Player("Human", new Human(), new Magician(), true, defaultPosition);
-		try {
-			human_player.moveWest();
-		} catch (IllegalArgumentException e) {
-			assertThat(e, ExceptionMatcher.isCantWalkOutsideMapException());
-		}
-	}
-
-	@Test
-	void IAEThrownWhenTryingToWalkOutsideMapEast() {
-		Player human_player = new Player("Human", new Human(), new Magician(), true, testMap.getMapTiles()[1][0]);
-		try {
-			human_player.moveEast();
-		} catch (IllegalArgumentException e) {
-			assertThat(e, ExceptionMatcher.isCantWalkOutsideMapException());
-		}
-	}
-
-	@Test
-	void IAEThrownWhenTryingToMoveDeadPlayer() {
-		Player human_player = new Player("Human", new Human(), new Magician(), false, defaultPosition);
-		assertThrows(IllegalArgumentException.class, human_player::moveEast);
-	}
-
-	@Test
-	void humanCanMoveOnGrass() {
-		Player human_player = new Player("Human", new Human(), new Magician(), true, defaultPosition);
-		GameMapPosition grassPosToVisit = testMap.getMapTiles()[1][0];
-		assertThat(grassPosToVisit, is(human_player.moveEast()));
-	}
-
-	@Test
-	void humanCanMoveInWater() {
-		Player human_player = new Player("Human", new Human(), new Magician(), true, defaultPosition);
-		GameMapPosition waterPosToVisit = testMap.getMapTiles()[0][1];
-		assertThat(waterPosToVisit, is(human_player.moveNorth()));
-	}
-
-	@Test
-	void humanDiesInLava() {
-		Player human_player = new Player("Human", new Human(), new Magician(), true, defaultPosition);
-		human_player.moveEast();
-		human_player.moveNorth();
-		assertFalse(human_player.isAlive());
-	}
-
-	@Test
-	void ogreCanMoveOnGrass() {
-		Player ogre = new Player("Ogre", new Ogre(), new Magician(), true, defaultPosition);
-		GameMapPosition grassPosToVisit = testMap.getMapTiles()[1][0];
-		assertThat(grassPosToVisit, is(ogre.moveEast()));
-	}
-
-	@Test
-	void ogreMovesOutOfWaterWhenInWater() {
-		Player ogre = new Player("Ogre", new Ogre(), new Magician(), true, defaultPosition);
-		assertThat(ogre.getPosition(), is(ogre.moveNorth()));
-	}
-
-	@Test
-	void ogreDiesInLava() {
-		Player ogre = new Player("Ogre", new Ogre(), new Magician(), true, defaultPosition);
-		ogre.moveEast();
-		ogre.moveNorth();
-		assertFalse(ogre.isAlive());
-	}
-
-	@Test
-	void elfCanMoveOnGrass() {
-		Player elf = new Player("Elf", new Elf(), new Magician(), true, defaultPosition);
-		GameMapPosition grassPosToVisit = testMap.getMapTiles()[1][0];
-		assertThat(grassPosToVisit, is(elf.moveEast()));
-	}
-
-	@Test
-	void elfCanMoveOnWater() {
-		Player elf = new Player("Elf", new Elf(), new Magician(), true, defaultPosition);
-		GameMapPosition waterPosToVisit = testMap.getMapTiles()[0][1];
-		assertThat(waterPosToVisit, is(elf.moveNorth()));
-	}
-
-	@Test
-	void elfCanMoveOnLava() {
-		Player elf = new Player("Elf", new Elf(), new Magician(), true, defaultPosition);
-		GameMapPosition lavaPosToVisit = testMap.getMapTiles()[1][1];
-		elf.moveEast();
-		assertThat(lavaPosToVisit, is(elf.moveNorth()));
-	}
-	/*Emma
-	 */
+	// Jon
 
 }

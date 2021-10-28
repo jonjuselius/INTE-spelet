@@ -2,9 +2,9 @@ package Magic;
 
 import GameCharacters.Player;
 import Jobs.Magician;
-import Map.GameMap;
 import Races.Human;
 import Map.*;
+import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.*;
 import org.mockito.ArgumentCaptor;
 
@@ -106,6 +106,25 @@ class BuffSpellTest {
         assertTrue(duration > 8 && duration < 30);
 
     }
+
+    @Test
+    void castCalcuatesDurationFromSpellcaster(){
+        List<Integer> strengthStats = new ArrayList<>();
+        BuffSpell bs = new BuffSpell("StrengthBuff", 10, Element.PHYSICAL, 5);
+        Player p = new Player("Player1", human, magician, true, mockMapPosition){
+            @Override
+            public void setStrength(int strength){
+                super.setStrength(strength);
+                strengthStats.add((int) System.nanoTime());
+            }
+        };
+        bs.cast(p, p);
+        long duration = (strengthStats.get(0) - strengthStats.get(2)) / 1000000;
+
+        assertEquals(3, strengthStats.size());
+        assertTrue(duration > 1000 && duration < 3000);
+
+    }
     //Unsuccessful attempt at checking duration with a mock
    /* @Test
     public void buffSpellLastsCorrectDurationMock(){
@@ -171,6 +190,13 @@ class BuffSpellTest {
 
         assertEquals(345, manaStats.get(0));
         assertEquals(300, manaStats.get(1));
+    }
+
+    @Test
+    public void equalsContract() {
+        EqualsVerifier.simple()
+                .forClass(BuffSpell.class).withIgnoredFields()
+                .verify();
     }
 
 
