@@ -71,8 +71,28 @@ class DebuffSpellTest {
         ds.cast(player,target,10);
         long duration = (strengthStats.get(2) - strengthStats.get(0)) / 1000000;
 
+
         assertEquals(3, strengthStats.size());
         assertTrue(duration > 8 && duration < 30);
+
+    }
+
+    @Test
+    void castCalcuatesDurationFromSpellcaster(){
+        List<Integer> strengthStats = new ArrayList<>();
+        DebuffSpell ds = new DebuffSpell("StrengthDebuff", 10, Element.PHYSICAL, 5);
+        target = new Adversary("Bandit", human, magician,true, 1, mockMapPosition){
+            @Override
+            public void setStrength(int strength){
+                super.setStrength(strength);
+                strengthStats.add((int) System.nanoTime());
+            }
+        };
+        ds.cast(player,target);
+        long duration = (strengthStats.get(0) - strengthStats.get(2)) / 1000000;
+
+        assertEquals(3, strengthStats.size());
+        assertTrue(duration > 1000 && duration < 3000);
 
     }
 

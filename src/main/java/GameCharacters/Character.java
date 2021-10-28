@@ -78,21 +78,9 @@ public abstract class Character {
 		this.position = position;
 	}
 
-	public void increaseHealth(int hp) {
-		if (remainingHealth + hp < getMaxHealth()) {
-			remainingHealth += hp;
-			return;
-		}
-
-		remainingHealth= getMaxHealth();
-		
-	}// increase
-
 	public int getLevel() {
 		return level;
 	}
-
-	// Lagt health i character
 
 	public boolean isAlive() {
 		return isAlive;
@@ -194,6 +182,40 @@ public abstract class Character {
 		this.remainingMana = remainingMana;
 	}
 
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
+	public Race getRace() {
+		return race;
+	}
+
+	public Job getJob() {
+		return job;
+	}
+
+	public Inventory getInventory() {
+		return inventory;
+	}
+
+	public List<Item> getItems() {
+		return Collections.unmodifiableList(inventory.getItems());
+	}
+
+	public List<Item> getEquippedItems() {
+		return Collections.unmodifiableList(equippedItems);
+	}
+
+	public Wallet getWallet() {
+		return wallet;
+	}
+
+	public int getMoney() {
+		return wallet.getAmount();
+	}
+
+	//Lena
+
 	public void takeDamage(int damage) {
 		remainingHealth = remainingHealth - damage;
 		if (remainingHealth <= 0) {
@@ -209,6 +231,8 @@ public abstract class Character {
 		int healTotal = remainingHealth + healPoints;
 		remainingHealth = Math.min(healTotal, race.getMaxHealth());
 	}
+
+	//Jasmyn
 
 	public void healDependingOnYourOwnHealSkill(Character otherCharacter) {
 		if (otherCharacter.getMaxHealth() > otherCharacter.getRemainingHealth()) {
@@ -229,7 +253,6 @@ public abstract class Character {
 			otherCharacter.die();
 		}
 	}
-
 
 	public void loseMagicSkillFromLoss(int loss) {
 		if (magicSkill > 0) {
@@ -303,38 +326,17 @@ public abstract class Character {
 
 	}
 
+	public void increaseHealth(int hp) {
+		if (remainingHealth + hp < getMaxHealth()) {
+			remainingHealth += hp;
+			return;
+		}
 
-	public void setLevel(int level) {
-		this.level = level;
+		remainingHealth= getMaxHealth();
+
 	}
-	
-	public Race getRace() {
-		return race;
-	}
-	
-	public Job getJob() {
-		return job;
-	}
-	
-	public Inventory getInventory() {
-		return inventory;
-	}
-	
-	public List<Item> getItems() {
-		return Collections.unmodifiableList(inventory.getItems());
-	}
-	
-	public List<Item> getEquippedItems() {
-		return Collections.unmodifiableList(equippedItems);
-	}
-	
-	public Wallet getWallet() {
-		return wallet;
-	}
-	
-	public int getMoney() {
-		return wallet.getAmount();
-	}
+
+	//Jon
 	
 	public void gainMoney(int money) {
 		wallet.gain(money);

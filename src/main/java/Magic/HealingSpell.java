@@ -7,7 +7,7 @@ import java.util.Objects;
 
 public class HealingSpell extends Spell {
 
-    private int baseHeal;
+    private final int baseHeal;
     private int initialHeal;
     private int healOverTime;
     private int duration;

@@ -5,6 +5,7 @@ import Jobs.Magician;
 import Map.*;
 import Races.*;
 
+import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -50,6 +51,15 @@ class DamageDealingTest {
     }
 
     @Test
+    void damageOverTime(){
+        DamageDealingSpell dd = new DamageDealingSpell("Stonefist", 25, Element.PHYSICAL, 5);
+        dd.setDuration(6);
+        dd.setDamageOverTime(6);
+
+        assertEquals(1,dd.getDamageOverTime());
+    }
+
+    @Test
     void defaultDuration(){
         DamageDealingSpell dd = new DamageDealingSpell("Stonefist", 25, Element.PHYSICAL, 5);
         assertEquals(0, dd.getDuration());
@@ -91,5 +101,12 @@ class DamageDealingTest {
         dd.cast(p,a);
 
         assertEquals(95, a.getRemainingHealth());
+    }
+
+    @Test
+    public void equalsContract() {
+        EqualsVerifier.simple()
+                .forClass(DamageDealingSpell.class).withIgnoredFields("initialDamage", "damageOverTime", "duration")
+                .verify();
     }
 }
