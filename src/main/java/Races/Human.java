@@ -40,7 +40,4 @@ public class Human extends Race {
 	public int getIntelligence() {
 		return intelligence;
 	}
-
-
-
 }

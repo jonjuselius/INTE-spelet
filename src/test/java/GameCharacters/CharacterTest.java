@@ -25,6 +25,7 @@ class CharacterTest {
 	private Magician magician = new Magician();
 	private Knight knight = new Knight();
 	private GameMapPosition defaultPosition = testMap.getMapTiles()[0][0];
+
 	private GameMap createTestMap() {
 		GameMap map = new GameMap(2, 2);
 		GameMapPosition firstPos = new GameMapPosition(0, 0);
@@ -47,14 +48,13 @@ class CharacterTest {
 		map.putTileOnMap(fourthPos, fourthPos.getXPos(), fourthPos.getYPos());
 		return map;
 	}
+
 	private Character character = new Player("Default character", human, knight, true, defaultPosition);
 	private Character otherCharacter = new Player("Other character", human, knight, true, defaultPosition);
-	private Character[] players = {
-			new Player("Player 1", human, knight, true, defaultPosition),
-			new Player("Player 2", human, knight, true, defaultPosition)
-	};
-	private Item[] defaultItems = {new Sword(), new Wand(), new Potion(), new Shield(), new Ring()};
-	private Item[] swordSizes = {new Sword(Size.SMALL), new Sword(Size.MEDIUM), new Sword(Size.LARGE)};
+	private Character[] players = { new Player("Player 1", human, knight, true, defaultPosition),
+			new Player("Player 2", human, knight, true, defaultPosition) };
+	private Item[] defaultItems = { new Sword(), new Wand(), new Potion(), new Shield(), new Ring() };
+	private Item[] swordSizes = { new Sword(Size.SMALL), new Sword(Size.MEDIUM), new Sword(Size.LARGE) };
 	private Item sword = defaultItems[0];
 	private Item wand = defaultItems[1];
 	private Item potion = defaultItems[2];
@@ -63,73 +63,74 @@ class CharacterTest {
 	private Item smallSword = swordSizes[0];
 	private Item mediumSword = swordSizes[1];
 	private Item largeSword = swordSizes[2];
-	
+
 	public static class ExceptionMatcher extends TypeSafeMatcher<IllegalArgumentException> {
 		private String errorMessage;
-		
+
 		public ExceptionMatcher(String errorMessage) {
 			this.errorMessage = errorMessage;
 		}
-		
+
 		@Override
 		public boolean matchesSafely(IllegalArgumentException exception) {
-			return (exception.getClass().equals(IllegalArgumentException.class) || exception instanceof IllegalArgumentException) && exception.getMessage().equals(errorMessage);
+			return (exception.getClass().equals(IllegalArgumentException.class)
+					|| exception instanceof IllegalArgumentException) && exception.getMessage().equals(errorMessage);
 		}
 
 		@Override
 		public void describeTo(Description description) {
 			description.appendText("Didn't throw expected exception");
 		}
-		
+
 		public static Matcher<IllegalArgumentException> isCantWalkOutsideMapException() {
 			return new ExceptionMatcher("Can't move out of the map");
 		}
-		
+
 		public static Matcher<IllegalArgumentException> isUseException() {
 			return new ExceptionMatcher((new UseException()).getMessage());
 		}
-		
+
 		public static Matcher<IllegalArgumentException> isGiveException() {
 			return new ExceptionMatcher((new GiveException()).getMessage());
 		}
-		
+
 		public static Matcher<IllegalArgumentException> isSellException() {
 			return new ExceptionMatcher((new SellException()).getMessage());
 		}
-		
+
 		public static Matcher<IllegalArgumentException> isBuyException() {
 			return new ExceptionMatcher((new BuyException()).getMessage());
 		}
-		
+
 		public static Matcher<IllegalArgumentException> isEnhanceException() {
 			return new ExceptionMatcher((new EnhanceException()).getMessage());
 		}
-		
+
 		public static Matcher<IllegalArgumentException> isDamageException() {
 			return new ExceptionMatcher((new DamageException()).getMessage());
 		}
-		
+
 		public static Matcher<IllegalArgumentException> isRestoreException() {
 			return new ExceptionMatcher((new RestoreException()).getMessage());
 		}
-		
+
 		public static Matcher<IllegalArgumentException> isGainException() {
 			return new ExceptionMatcher((new GainException()).getMessage());
 		}
-		
+
 		public static Matcher<IllegalArgumentException> isLoseException() {
 			return new ExceptionMatcher((new LoseException()).getMessage());
 		}
-		
+
 		public static Matcher<IllegalArgumentException> isEquipException() {
 			return new ExceptionMatcher((new EquipException()).getMessage());
 		}
-		
+
 		public static Matcher<IllegalArgumentException> isUnequipException() {
 			return new ExceptionMatcher((new UnequipException()).getMessage());
 		}
 	}
-	
+
 	@Test
 	void constructorSetsGameMapPosition() {
 		Player player = new Player("Player", human, magician, true, defaultPosition);
@@ -163,7 +164,7 @@ class CharacterTest {
 	@Test
 	void getHealedIncreasesHealth() {
 		Player p = new Player("Player1", human, magician, true, defaultPosition);
-        p.setRemainingHealth(100);
+		p.setRemainingHealth(100);
 		p.getHealed(100);
 
 		assertEquals(200, p.getRemainingHealth());
@@ -172,13 +173,45 @@ class CharacterTest {
 	@Test
 	void getHealedMoreThanMaxSetsHealthToMax() {
 		Player p = new Player("Player1", human, magician, true, defaultPosition);
-        p.setRemainingHealth(250);
+		p.setRemainingHealth(250);
 		p.getHealed(100);
 
 		assertEquals(300, p.getRemainingHealth());
 	}
 
 /////// Tdd Jasmyn////////////
+	
+	@Test
+	void nameTest() {
+		Player c3 = new Player("Oliver", new Elf(), new Knight(), true, defaultPosition);
+
+		assertEquals("Oliver", c3.getName());
+
+	}
+	
+	@Test
+	void getMagicSkillTest() {
+		Player c3 = new Player("Oliver", new Elf(), new Magician(), true, defaultPosition);
+
+		assertEquals(10, c3.getMagicSkill());
+
+	}
+	
+	@Test
+	void getMaxManaTest() {
+		Player c3 = new Player("Oliver", new Elf(), new Knight(), true, defaultPosition);
+
+		assertEquals(400, c3.getMaxMana());
+
+	}
+	
+	@Test
+	void setLevelTest() {
+		Character c3 = new Player("Oliver", new Elf(), new Knight(), true, defaultPosition);
+		c3.setLevel(3);
+		assertEquals(3, c3.getLevel());
+
+	}
 
 	@Test
 	void increasingHealthOverMaxForElfDoesNotSurpassMaxHealthTwohundred() {
@@ -208,8 +241,8 @@ class CharacterTest {
 
 		assertEquals(23, p.getIntelligence());
 	}
-	
-	//Can't increase more than 15 over initial intelligence
+
+	// Can't increase more than 15 over initial intelligence
 	@Test
 	void increaseIntelligenceFromWinningASpellByThreeOverMethodBoundary() {
 		Player p = new Player("Player1", human, magician, true, defaultPosition);
@@ -223,7 +256,7 @@ class CharacterTest {
 		assertEquals(35, p.getIntelligence());
 
 	}
-	
+
 	// Humans initial strength = 20
 	@Test
 	void increaseStrengthFromWinningASpellByThree() {
@@ -321,9 +354,9 @@ class CharacterTest {
 	}
 
 	@Test
-	void dealDamageDependingOnYourSwordSkillAndStrengthCharacterDiesAtZeroLife(){
-        Player p = new Player ("jasmyn", new Ogre(), new Knight(), true, defaultPosition);
-        Player p1 = new Player ("Michael", new Elf(), new Healer(), true, defaultPosition);
+	void dealDamageDependingOnYourSwordSkillAndStrengthCharacterDiesAtZeroLife() {
+		Player p = new Player("jasmyn", new Ogre(), new Knight(), true, defaultPosition);
+		Player p1 = new Player("Michael", new Elf(), new Healer(), true, defaultPosition);
 		p.dealDamageDependingOnYourSwordSkillAndStrength(160, p1);
 
 		assertFalse(p1.isAlive());
@@ -331,16 +364,15 @@ class CharacterTest {
 	}
 
 	@Test
-	void dealDamageDependingOnYourSwordSkillAndStrengthCharacterisAlreadyDead(){
+	void dealDamageDependingOnYourSwordSkillAndStrengthCharacterisAlreadyDead() {
 
-		Player p = new Player ("jasmyn", new Ogre(), new Knight(), true, defaultPosition);
-		Player p1 = new Player ("Michael", new Elf(), new Healer(), true, defaultPosition);
-		
+		Player p = new Player("jasmyn", new Ogre(), new Knight(), true, defaultPosition);
+		Player p1 = new Player("Michael", new Elf(), new Healer(), true, defaultPosition);
+
 		p1.takeDamage(200);
 		p.dealDamageDependingOnYourSwordSkillAndStrength(10, p1);
 
 		assertFalse(p1.isAlive());
-		
 
 	}
 
@@ -361,7 +393,6 @@ class CharacterTest {
 		c1.levelsUp();
 		c1.levelsUp();
 
-
 		assertEquals(3, c1.getLevel());
 	}
 
@@ -372,7 +403,6 @@ class CharacterTest {
 		c1.increaseStrengthFromWinningASpell();
 		c1.levelsUp();
 		c1.levelsUp();
-
 
 		assertEquals(3, c1.getLevel());
 	}
@@ -400,10 +430,8 @@ class CharacterTest {
 		Player c1 = new Player("Jasmyn", new Elf(), new Knight(), true, defaultPosition);
 		c1.increaseIntelligenceFromWinningASpell();
 
-
 		c1.levelsUp();
 		c1.levelsUp();
-
 
 		assertEquals(3, c1.getLevel());
 	}
@@ -414,7 +442,6 @@ class CharacterTest {
 		c1.increaseStrengthFromWinningASpell();
 		c1.levelsUp();
 		c1.levelsUp();
-
 
 		assertEquals(3, c1.getLevel());
 	}
@@ -446,7 +473,6 @@ class CharacterTest {
 
 		c1.levelsUp();
 
-
 		assertEquals(3, c1.getLevel());
 	}
 
@@ -457,7 +483,6 @@ class CharacterTest {
 		c1.levelsUp();
 
 		c1.levelsUp();
-
 
 		assertEquals(3, c1.getLevel());
 	}
@@ -472,117 +497,168 @@ class CharacterTest {
 		assertEquals(16, c1.getIntelligence());
 	}
 
+	// beslutstbell som t�cker alla fallen om
+	@Test
+	void HumanCanFlyAtLevelThreeMagicskillMoreThanInitial() {
+		Player c1 = new Player("Jasmyn", new Human(), new Magician(), true, defaultPosition);
+		c1.increaseStrengthFromWinningASpell();//
+		c1.levelsUp();
+		c1.levelsUp();
+		assertTrue(c1.getIfCanFly());
+	}
 
-	// beslutstbell som t�cker alla fallen om 
-		@Test 
-		void HumanCanFlyAtLevelThreeMagicskillMoreThanInitial() {
-			Player c1 = new Player("Jasmyn", new Human(), new Magician(), true, defaultPosition);
-			c1.increaseStrengthFromWinningASpell();//
-			c1.levelsUp();
-			c1.levelsUp();
-			assertTrue(c1.getIfCanFly());
-		}
-		
-		@Test 
-		void HumanCantFlyAtLevelThreeMagicskillNotMoreThanInitial() {
-			Player c1 = new Player("Jasmyn", new Human(), new Magician(), true, defaultPosition);
-			c1.increaseStrengthFromWinningASpell();//
-			c1.levelsUp();
-			c1.loseMagicSkillFromLoss(10);
-			c1.levelsUp();
-			assertFalse(c1.getIfCanFly());
-		}
-		
-		@Test 
-		void HumanCantFlyAtLevelUnderThreeMagicskillMoreThanInitial() {
-			Player c1 = new Player("Jasmyn", new Human(), new Magician(), true, defaultPosition);
-			c1.increaseStrengthFromWinningASpell();//
-			c1.levelsUp();
-			assertFalse(c1.getIfCanFly());
-		}
+	@Test
+	void HumanCantFlyAtLevelThreeMagicskillNotMoreThanInitial() {
+		Player c1 = new Player("Jasmyn", new Human(), new Magician(), true, defaultPosition);
+		c1.increaseStrengthFromWinningASpell();//
+		c1.levelsUp();
+		c1.loseMagicSkillFromLoss(10);
+		c1.levelsUp();
+		assertFalse(c1.getIfCanFly());
+	}
 
-		@Test 
-		void HumanCantFlyAtLevelUnderThreeMagicskillNotMoreThanInitial() {
-			Player c1 = new Player("Jasmyn", new Human(), new Magician(), true, defaultPosition);
-			c1.increaseStrengthFromWinningASpell();//
-			c1.loseMagicSkillFromLoss(10);
-			c1.levelsUp();
-			assertFalse(c1.getIfCanFly());
-		}
-		
-		@Test 
-		void elfCanSwimAtLevelThreeMagicskillMoreThanInitial() {
-			Player c1 = new Player("elfOne", new Elf(), new Magician(), true, defaultPosition);
-			c1.increaseStrengthFromWinningASpell();//
-			c1.levelsUp();
-			c1.levelsUp();
-			assertTrue(c1.getIfCanSwim());
-		}
-		
-		@Test 
-		void elfCantSwimAtLevelThreeMagicskillNotMoreThanInitial() {
-			Player c1 = new Player("elfOne", new Elf(), new Magician(), true, defaultPosition);
-			c1.increaseStrengthFromWinningASpell();//
-			c1.levelsUp();
-			c1.loseMagicSkillFromLoss(10);
-			c1.levelsUp();
-			assertFalse(c1.getIfCanSwim());
-		}
-		
-		@Test 
-		void elfCantSwimAtLevelUnderThreeMagicskillMoreThanInitial() {
-			Player c1 = new Player("elfOne", new Elf(), new Magician(), true, defaultPosition);
-			c1.increaseStrengthFromWinningASpell();//
-			c1.levelsUp();
-			assertFalse(c1.getIfCanSwim());
-		}
+	@Test
+	void HumanCantFlyAtLevelUnderThreeMagicskillMoreThanInitial() {
+		Player c1 = new Player("Jasmyn", new Human(), new Magician(), true, defaultPosition);
+		c1.increaseStrengthFromWinningASpell();//
+		c1.levelsUp();
+		assertFalse(c1.getIfCanFly());
+	}
 
-		@Test 
-		void elfCantSwimAtLevelUnderThreeMagicskillNotMoreThanInitial() {
-			Player c1 = new Player("elfOne", new Elf(), new Magician(), true, defaultPosition);
-			c1.increaseStrengthFromWinningASpell();//
-			c1.loseMagicSkillFromLoss(10);
-			c1.levelsUp();
-			assertFalse(c1.getIfCanSwim());
-		}
+	@Test
+	void HumanCantFlyAtLevelUnderThreeMagicskillNotMoreThanInitial() {
+		Player c1 = new Player("Jasmyn", new Human(), new Magician(), true, defaultPosition);
+		c1.increaseStrengthFromWinningASpell();//
+		c1.loseMagicSkillFromLoss(10);
+		c1.levelsUp();
+		assertFalse(c1.getIfCanFly());
+	}
 
-		@Test 
-		void ogreCanSwimAtLevelThreeMagicskillMoreThanInitial() {
-			Player c1 = new Player("Jasmyn", new Ogre(), new Magician(), true, defaultPosition);
-			c1.increaseStrengthFromWinningASpell();//
-			c1.levelsUp();
-			c1.levelsUp();
-			assertTrue(c1.getIfCanSwim());
-		}
-		
-		
-		@Test 
-		void ogreCantSwimAtLevelThreeMagicskillNotMoreThanInitial() {
-			Player c1 = new Player("Jasmyn", new Ogre(), new Magician(), true, defaultPosition);
-			c1.increaseStrengthFromWinningASpell();//
-			c1.levelsUp();
-			c1.loseMagicSkillFromLoss(10);
-			c1.levelsUp();
-			assertFalse(c1.getIfCanSwim());
-		}
-		
-		@Test 
-		void ogreCantSwimAtLevelUnderThreeMagicskillMoreThanInitial() {
-			Player c1 = new Player("Jasmyn", new Ogre(), new Magician(), true, defaultPosition);
-			c1.increaseStrengthFromWinningASpell();//
-			c1.levelsUp();
-			assertFalse(c1.getIfCanSwim());
-		}
+	@Test
+	void elfCanSwimAtLevelThreeMagicskillMoreThanInitial() {
+		Player c1 = new Player("elfOne", new Elf(), new Magician(), true, defaultPosition);
+		c1.increaseStrengthFromWinningASpell();//
+		c1.levelsUp();
+		c1.levelsUp();
+		assertTrue(c1.getIfCanSwim());
+	}
 
-		@Test 
-		void ogreCantSwimAtLevelUnderThreeMagicskillNotMoreThanInitial() {
-			Player c1 = new Player("Jasmyn", new Ogre(), new Magician(), true, defaultPosition);
-			c1.increaseStrengthFromWinningASpell();//
-			c1.loseMagicSkillFromLoss(10);
-			c1.levelsUp();
-			assertFalse(c1.getIfCanSwim());
-		}
+	@Test
+	void elfCantSwimAtLevelThreeMagicskillNotMoreThanInitial() {
+		Player c1 = new Player("elfOne", new Elf(), new Magician(), true, defaultPosition);
+		c1.increaseStrengthFromWinningASpell();//
+		c1.levelsUp();
+		c1.loseMagicSkillFromLoss(10);
+		c1.levelsUp();
+		assertFalse(c1.getIfCanSwim());
+	}
 
+	@Test
+	void elfCantSwimAtLevelUnderThreeMagicskillMoreThanInitial() {
+		Player c1 = new Player("elfOne", new Elf(), new Magician(), true, defaultPosition);
+		c1.increaseStrengthFromWinningASpell();//
+		c1.levelsUp();
+		assertFalse(c1.getIfCanSwim());
+	}
+
+	@Test
+	void elfCantSwimAtLevelUnderThreeMagicskillNotMoreThanInitial() {
+		Player c1 = new Player("elfOne", new Elf(), new Magician(), true, defaultPosition);
+		c1.increaseStrengthFromWinningASpell();//
+		c1.loseMagicSkillFromLoss(10);
+		c1.levelsUp();
+		assertFalse(c1.getIfCanSwim());
+	}
+
+	@Test
+	void ogreCanSwimAtLevelThreeMagicskillMoreThanInitial() {
+		Player c1 = new Player("Jasmyn", new Ogre(), new Magician(), true, defaultPosition);
+		c1.increaseStrengthFromWinningASpell();//
+		c1.levelsUp();
+		c1.levelsUp();
+		assertTrue(c1.getIfCanSwim());
+	}
+
+	@Test
+	void ogreCantSwimAtLevelThreeMagicskillNotMoreThanInitial() {
+		Player c1 = new Player("Jasmyn", new Ogre(), new Magician(), true, defaultPosition);
+		c1.increaseStrengthFromWinningASpell();//
+		c1.levelsUp();
+		c1.loseMagicSkillFromLoss(10);
+		c1.levelsUp();
+		assertFalse(c1.getIfCanSwim());
+	}
+
+	@Test
+	void ogreCantSwimAtLevelUnderThreeMagicskillMoreThanInitial() {
+		Player c1 = new Player("Jasmyn", new Ogre(), new Magician(), true, defaultPosition);
+		c1.increaseStrengthFromWinningASpell();//
+		c1.levelsUp();
+		assertFalse(c1.getIfCanSwim());
+	}
+
+	@Test
+	void ogreCantSwimAtLevelUnderThreeMagicskillNotMoreThanInitial() {
+		Player c1 = new Player("Jasmyn", new Ogre(), new Magician(), true, defaultPosition);
+		c1.increaseStrengthFromWinningASpell();//
+		c1.loseMagicSkillFromLoss(10);
+		c1.levelsUp();
+		assertFalse(c1.getIfCanSwim());
+	}
+
+	@Test
+	void fightWithStrongerCharacter() {
+		Player h = new Player("Human", new Human(), new Magician(), true, defaultPosition);
+		Player e = new Player("Human", new Elf(), new Magician(), true, defaultPosition);
+
+		h.fight(e);
+
+		assertThat(h.getRemainingHealth(), equalTo(300));
+		assertThat(e.getRemainingHealth(), equalTo(180));
+
+	}
+
+	@Test
+	void fightWithWeakerCharacter() {
+		Player h = new Player("Human", new Human(), new Magician(), true, defaultPosition);
+		Player e = new Player("Human", new Elf(), new Magician(), true, defaultPosition);
+		e.fight(h);
+
+		assertThat(h.getRemainingHealth(), equalTo(300));
+		assertThat(e.getRemainingHealth(), equalTo(190));
+
+	}
+
+	@Test
+	void stealFromWeakerCharacter() {
+		Player h = new Player("Human", new Human(), new Magician(), true, defaultPosition);
+		Player e = new Player("Elf", new Elf(), new Magician(), true, defaultPosition);
+
+		e.gainMoney(10);
+		assertThat(e.getMoney(), equalTo(10));
+		assertThat(h.getMoney(), equalTo(0));
+
+		h.steal(e);
+		assertThat(e.getMoney(), equalTo(0));
+		assertThat(h.getMoney(), equalTo(10));
+	}
+
+	@Test
+	void stealFromStrongerCharacter() {
+		Player h = new Player("Human", new Human(), new Magician(), true, defaultPosition);
+		Player e = new Player("Elf", new Elf(), new Magician(), true, defaultPosition);
+
+		h.gainMoney(10);
+
+		assertThat(h.getMoney(), equalTo(10));
+		assertThat(e.getMoney(), equalTo(0));
+
+		e.steal(h);
+		assertThat(h.getMoney(), equalTo(10));
+		assertThat(e.getMoney(), equalTo(0));
+		assertThat(e.getRemainingHealth(), equalTo(190));
+
+	}
 
 	/*
 	 * Test driven development for players walking on the map (Emma)
@@ -621,7 +697,7 @@ class CharacterTest {
 		try {
 			human_player.moveNorth();
 		} catch (IllegalArgumentException e) {
-			assertThat(e,  ExceptionMatcher.isCantWalkOutsideMapException());
+			assertThat(e, ExceptionMatcher.isCantWalkOutsideMapException());
 		}
 	}
 
@@ -725,8 +801,8 @@ class CharacterTest {
 		elf.moveEast();
 		assertThat(lavaPosToVisit, is(elf.moveNorth()));
 	}
-	//Emma
-	
+	// Emma
+
 	/** Use **/
 	@Test
 	void usingWeaponMakesItDamaged() {
@@ -735,7 +811,7 @@ class CharacterTest {
 		assertThat(character.canUse(sword), is(true));
 		assertThat(sword.getCondition(), is(equalTo(Item.MAX_CONDITION - 10)));
 	}
-	
+
 	@Test
 	void usingFoodMakesItDestroyed() {
 		character.gain(potion);
@@ -743,7 +819,7 @@ class CharacterTest {
 		assertThat(character.canUse(potion), is(true));
 		assertThat(potion.getCondition(), is(equalTo(Item.MIN_CONDITION)));
 	}
-	
+
 	@Test
 	void characterTryingToUseAnItemThatCantBeUsedThrowsIAE() {
 		character.gain(wand);
@@ -753,7 +829,7 @@ class CharacterTest {
 			assertThat(e, ExceptionMatcher.isUseException());
 		}
 	}
-	
+
 	/** Enhance **/
 	@Test
 	void characterThatEnhancesSmallSwordMakesTheItemEnhanced() {
@@ -762,7 +838,7 @@ class CharacterTest {
 		character.enhance(smallSword);
 		assertThat(smallSword.isEnhanced(), is(true));
 	}
-	
+
 	@Test
 	void characterTryingToEnhanceMediumSwordThrowsIAE() {
 		character.gain(mediumSword);
@@ -773,7 +849,7 @@ class CharacterTest {
 			assertThat(e, ExceptionMatcher.isEnhanceException());
 		}
 	}
-	
+
 	@Test
 	void characterTryingToEnhanceLargeSwordThrowsIAE() {
 		character.gain(largeSword);
@@ -784,59 +860,57 @@ class CharacterTest {
 			assertThat(e, ExceptionMatcher.isEnhanceException());
 		}
 	}
-	
-	/** Damage, restore **/
+
 	@Test
 	void damagingAnItemDecreasesItsCondition() {
 		character.damage(sword, 10);
 		assertThat(sword.getCondition(), is(equalTo(Item.MAX_CONDITION - 10)));
 	}
-	
+
 	@Test
 	void restoringAnItemIncreasesItsCondition() {
 		character.damage(sword, 100);
 		character.restore(sword, 10);
 		assertThat(sword.getCondition(), is(equalTo(Item.MIN_CONDITION + 10)));
 	}
-	
+
 	@Test
 	void damagingAnItemNeverMakesTheConditionOfTheItemGoBelowMinimumCondition() {
 		character.damage(sword, 110);
 		assertThat(sword.getCondition(), is(equalTo(Item.MIN_CONDITION)));
 	}
-	
+
 	@Test
 	void restoringAnItemNeverMakesTheConditionOfTheItemGoOverMaximumCondition() {
 		character.restore(sword, 10);
 		assertThat(sword.getCondition(), is(equalTo(Item.MAX_CONDITION)));
 	}
-	
+
 	@Test
 	void damagingAnItemWithANegativeAmountThrowsException() {
 		try {
 			character.damage(sword, -10);
-		} catch(DamageException e) {
+		} catch (DamageException e) {
 			assertThat(e, ExceptionMatcher.isDamageException());
 		}
 	}
-	
+
 	@Test
 	void restoringAnItemWithANegativeAmountThrowsException() {
 		try {
 			character.restore(sword, -10);
-		} catch(RestoreException e) {
+		} catch (RestoreException e) {
 			assertThat(e, ExceptionMatcher.isRestoreException());
 		}
 	}
-	
-	/** Gain/lose **/
+
 	@Test
 	void characterGainingAnItemsOwnsTheItem() {
 		assertThat(character.owns(sword), is(false));
 		character.gain(sword);
 		assertThat(character.owns(sword), is(true));
 	}
-	
+
 	@Test
 	void characterLosingAnItemsDoesntOwnTheItem() {
 		character.gain(sword);
@@ -844,7 +918,7 @@ class CharacterTest {
 		character.lose(sword);
 		assertThat(character.owns(sword), is(false));
 	}
-	
+
 	@Test
 	void characterLosingAnItemMakesItDisappearFromItsInventory() {
 		assertThat(character.getItems().contains(sword), is(false));
@@ -856,7 +930,7 @@ class CharacterTest {
 		assertThat(character.getItems().contains(sword), is(false));
 		assertThat(character.getInventory().contains(sword), is(false));
 	}
-	
+
 	@Test
 	void characterLosingAnEquippedItemMakesItUnequipped() {
 		character.gain(sword);
@@ -875,8 +949,7 @@ class CharacterTest {
 		assertThat(character.getEquippedItems().contains(sword), is(false));
 		assertThat(sword.isEquipped(), is(false));
 	}
-	
-	/** Equip/unequip **/
+
 	@Test
 	void characterEquippingASwordHasTheSwordEquipped() {
 		assertThat(character.hasEquipped(sword), is(false));
@@ -891,7 +964,7 @@ class CharacterTest {
 		assertThat(character.getEquippedItems().contains(sword), is(true));
 		assertThat(sword.isEquipped(), is(true));
 	}
-	
+
 	@Test
 	void characterTryingToEquipAnItemThatCantBeEquippedThrowsIAE() {
 		assertThat(character.owns(sword), is(false));
@@ -901,7 +974,7 @@ class CharacterTest {
 			assertThat(e, ExceptionMatcher.isEquipException());
 		}
 	}
-	
+
 	@Test
 	void characterUnequippingAnItemMakesItUnequipped() {
 		character.gain(sword);
@@ -914,31 +987,31 @@ class CharacterTest {
 		assertThat(character.getEquippedItems().contains(sword), is(false));
 		assertThat(sword.isEquipped(), is(false));
 	}
-	
+
 	@Test
 	void characterTryingToUnequipAnItemThatIsNotEquippedThrowsIAE() {
 		assertThat(character.owns(sword), is(false));
 		assertThat(character.hasEquipped(sword), is(false));
 		try {
 			character.unequip(sword);
-		} catch(IllegalArgumentException e) {
+		} catch (IllegalArgumentException e) {
 			assertThat(e, ExceptionMatcher.isUnequipException());
 		}
 	}
-	
+
 	@Test
 	void characterCanEquipThatIsOwned() {
 		character.gain(sword);
 		assertThat(character.owns(sword), is(true));
 		assertThat(character.canEquip(sword), is(true));
 	}
-	
+
 	@Test
 	void characterCantEquipThatIsNotOwned() {
 		assertThat(character.owns(sword), is(false));
 		assertThat(character.canEquip(sword), is(false));
 	}
-	
+
 	@Test
 	void foodCantBeEquipped() {
 		assertThat(character.owns(potion), is(false));
@@ -947,8 +1020,7 @@ class CharacterTest {
 		assertThat(character.owns(potion), is(true));
 		assertThat(character.canEquip(potion), is(false));
 	}
-	
-	/** Give/receive **/
+
 	@Test
 	void characterCanGiveItemThatIsOwnedAndUnequipped() {
 		character.gain(sword);
@@ -958,13 +1030,13 @@ class CharacterTest {
 		assertThat(character.hasEquipped(sword), is(false));
 		assertThat(character.canGive(sword), is(true));
 	}
-	
+
 	@Test
 	void characterCantGiveItemThatIsNotOwned() {
 		assertThat(character.owns(sword), is(false));
 		assertThat(character.canGive(sword), is(false));
 	}
-	
+
 	@Test
 	void characterCantGiveItemThatIsEquipped() {
 		character.gain(sword);
@@ -973,7 +1045,7 @@ class CharacterTest {
 		assertThat(character.hasEquipped(sword), is(true));
 		assertThat(character.canGive(sword), is(false));
 	}
-	
+
 	@Test
 	void characterCantReceiveItemThatCharacterAlreadyOwns() {
 		character.gain(sword);
@@ -981,7 +1053,7 @@ class CharacterTest {
 		assertThat(character.getInventory().isFull(), is(false));
 		assertThat(character.canReceive(sword), is(false));
 	}
-	
+
 	@Test
 	void characterCantReceiveItemWhenInventoryIsFull() {
 		while (character.getInventory().hasAvailableSpace()) {
@@ -991,7 +1063,7 @@ class CharacterTest {
 		assertThat(character.getInventory().isFull(), is(true));
 		assertThat(character.canReceive(sword), is(false));
 	}
-	
+
 	@Test
 	void characterGivingAnItemToAnotherCharacterMakesTheItemBecomeOwnedByTheOtherCharacter() {
 		Character giver = players[0];
@@ -1004,7 +1076,7 @@ class CharacterTest {
 		assertThat(giver.owns(sword), is(false));
 		assertThat(receiver.owns(sword), is(true));
 	}
-	
+
 	@Test
 	void characterTryingToGiveAnItemThatCantBeGivenToAnotherCharacterThrowsIAE() {
 		Character giver = players[0];
@@ -1019,8 +1091,7 @@ class CharacterTest {
 			assertThat(e, ExceptionMatcher.isGiveException());
 		}
 	}
-	
-	/** Buy/sell **/
+
 	@Test
 	void characterThatCanReceiveAndCanAffordItemCanBuyAnItem() {
 		Character seller = players[0];
@@ -1031,7 +1102,7 @@ class CharacterTest {
 		assertThat(buyer.canAfford(sword), is(true));
 		assertThat(buyer.canBuy(sword), is(true));
 	}
-	
+
 	@Test
 	void characterThatCanReceiveButCantAffordItemCantBuyAnItem() {
 		Character seller = players[0];
@@ -1042,7 +1113,7 @@ class CharacterTest {
 		assertThat(buyer.canAfford(sword), is(false));
 		assertThat(buyer.canBuy(sword), is(false));
 	}
-	
+
 	@Test
 	void characterThatCanGiveAnItemCanSellTheItem() {
 		Character seller = players[0];
@@ -1050,7 +1121,7 @@ class CharacterTest {
 		assertThat(seller.canGive(sword), is(true));
 		assertThat(seller.canSell(sword), is(true));
 	}
-	
+
 	@Test
 	void characterThatCantGiveAnItemCantSellTheItem() {
 		Character seller = players[0];
@@ -1059,7 +1130,7 @@ class CharacterTest {
 		assertThat(seller.canGive(sword), is(false));
 		assertThat(seller.canSell(sword), is(false));
 	}
-	
+
 	@Test
 	void characterBuyingAnItemMakesBuyersAmountOfMoneyDecrease() {
 		Character seller = players[0];
@@ -1071,7 +1142,7 @@ class CharacterTest {
 		buyer.buy(sword, seller);
 		assertThat(buyer.getMoney(), is(equalTo(1000 - sword.getValue())));
 	}
-	
+
 	@Test
 	void characterBuyingAnItemMakesSellersAmountOfMoneyIncrease() {
 		Character seller = players[0];
@@ -1083,7 +1154,7 @@ class CharacterTest {
 		buyer.buy(sword, seller);
 		assertThat(seller.getMoney(), is(equalTo(5000 + sword.getValue())));
 	}
-	
+
 	@Test
 	void characterSellingAnItemMakesSellersAmountOfMoneyIncrease() {
 		Character seller = players[0];
@@ -1095,7 +1166,7 @@ class CharacterTest {
 		seller.sell(sword, buyer);
 		assertThat(seller.getMoney(), is(equalTo(5000 + sword.getValue())));
 	}
-	
+
 	@Test
 	void characterSellingAnItemMakesBuyersAmountOfMoneyDecrease() {
 		Character seller = players[0];
@@ -1106,7 +1177,7 @@ class CharacterTest {
 		seller.sell(sword, buyer);
 		assertThat(buyer.getMoney(), is(equalTo(1000 - sword.getValue())));
 	}
-	
+
 	@Test
 	void characterWhoHasBoughtAnItemOwnsTheItemAfterTransaction() {
 		Character seller = players[0];
@@ -1120,19 +1191,17 @@ class CharacterTest {
 		assertThat(seller.owns(sword), is(false));
 		assertThat(buyer.owns(sword), is(true));
 	}
-	
+
 	@Test
 	void buyingAnItemMakesItAppearInBuyersInventory() {
 		Character seller = players[0];
 		Character buyer = players[1];
-		Inventory sellersInventory = seller.getInventory();
-		Inventory buyersInventory = buyer.getInventory();
 		seller.gain(potion);
 		buyer.gainMoney(1000);
 		buyer.buy(potion, seller);
-		assertThat(buyersInventory.contains(potion), is(true));
+		assertThat(buyer.getInventory().contains(potion), is(true));
 	}
-	
+
 	@Test
 	void characterWhoHasSoldAnItemDoesntTheItemAfterTransaction() {
 		Character seller = players[0];
@@ -1146,7 +1215,7 @@ class CharacterTest {
 		assertThat(buyer.owns(sword), is(true));
 		assertThat(seller.owns(sword), is(false));
 	}
-	
+
 	@Test
 	void characterTryingToBuyAnItemThatCantBeBoughtThrowsIAE() {
 		Character seller = players[0];
@@ -1155,14 +1224,13 @@ class CharacterTest {
 		seller.equip(sword);
 		buyer.gainMoney(1000);
 		assertThat(sword.canBeSold(seller, buyer), is(false));
-		
 		try {
 			buyer.buy(sword, seller);
 		} catch (BuyException e) {
 			assertThat(e, ExceptionMatcher.isBuyException());
 		}
 	}
-	
+
 	@Test
 	void characterTryingToSellAnItemThatCantBeBoughtThrowsIAE() {
 		Character seller = players[0];
@@ -1177,8 +1245,7 @@ class CharacterTest {
 			assertThat(e, ExceptionMatcher.isSellException());
 		}
 	}
-	
-	/** Money/Wallet **/
+
 	@Test
 	void characterGainingAndLosingMoneyUpdatesContentInWallet() {
 		Wallet wallet = character.getWallet();
@@ -1187,27 +1254,27 @@ class CharacterTest {
 		character.loseMoney(2000);
 		assertThat(wallet.getAmount(), is(equalTo(-1000)));
 	}
-	
+
 	@Test
 	void characterGainingNegativeAmountOfMoneyThrowsIAE() {
 		assertThrows(IllegalArgumentException.class, () -> {
 			character.gainMoney(-1000);
 		});
 	}
-	
+
 	@Test
 	void characterLosingNegativeAmountOfMoneyThrowsIAE() {
 		assertThrows(IllegalArgumentException.class, () -> {
 			character.loseMoney(-1000);
 		});
 	}
-	
+
 	@Test
 	void characterCantAffordAnItemIfHasNotEnoughMoney() {
 		assertThat(character.getMoney(), is(equalTo(0)));
 		assertThat(character.canAfford(ring), is(false));
 	}
-	
+
 	@Test
 	void characterCanAffordARingIfHasEnoughMoney() {
 		assertThat(character.getMoney(), is(equalTo(0)));
@@ -1216,7 +1283,7 @@ class CharacterTest {
 		assertThat(character.canAfford(ring), is(true));
 		character.loseMoney(5000);
 	}
-	
+
 	@Test
 	void TF1_itemsCanBeGainedLostEquippedUnequippedWhenStateIsCorrect() {
 		assertTrue(!sword.isOwned() && !sword.isEquipped());
@@ -1239,47 +1306,47 @@ class CharacterTest {
 		character.lose(sword);
 		assertTrue(!sword.isOwned() && !sword.isEquipped());
 	}
-	
+
 	@Test
 	void TF2_unownedItemsCantBeLost() {
 		assertTrue(!sword.isOwned() && !sword.isEquipped());
 		try {
 			character.lose(sword);
-		} catch(LoseException e) {
+		} catch (LoseException e) {
 			assertThat(e, ExceptionMatcher.isLoseException());
 		}
 	}
-	
+
 	@Test
 	void TF3_unownedItemsCantBeEquipped() {
 		assertTrue(!sword.isOwned() && !sword.isEquipped());
 		try {
 			character.equip(sword);
-		} catch(EquipException e) {
+		} catch (EquipException e) {
 			assertThat(e, ExceptionMatcher.isEquipException());
 		}
 	}
-	
+
 	@Test
 	void TF4_unownedItemsCantBeUnequipped() {
 		assertTrue(!sword.isOwned() && !sword.isEquipped());
 		try {
 			character.unequip(sword);
-		} catch(UnequipException e) {
+		} catch (UnequipException e) {
 			assertThat(e, ExceptionMatcher.isUnequipException());
 		}
 	}
-	
+
 	@Test
 	void TF5_unownedItemsCantBeGivenAway() {
 		assertTrue(!sword.isOwned() && !sword.isEquipped());
 		try {
 			character.give(sword, otherCharacter);
-		} catch(GiveException e) {
+		} catch (GiveException e) {
 			assertThat(e, ExceptionMatcher.isGiveException());
 		}
 	}
-	
+
 	@Test
 	void TF6_ownedItemsCantBeGained() {
 		assertTrue(!sword.isOwned() && !sword.isEquipped());
@@ -1287,11 +1354,11 @@ class CharacterTest {
 		assertTrue(sword.isOwned() && !sword.isEquipped());
 		try {
 			character.gain(sword);
-		} catch(GainException e) {
+		} catch (GainException e) {
 			assertThat(e, ExceptionMatcher.isGainException());
 		}
 	}
-	
+
 	@Test
 	void TF7_unequippedItemsCantBeUnequippedAgain() {
 		assertTrue(!sword.isOwned() && !sword.isEquipped());
@@ -1299,11 +1366,11 @@ class CharacterTest {
 		assertTrue(sword.isOwned() && !sword.isEquipped());
 		try {
 			character.unequip(sword);
-		} catch(UnequipException e) {
+		} catch (UnequipException e) {
 			assertThat(e, ExceptionMatcher.isUnequipException());
 		}
 	}
-	
+
 	@Test
 	void TF8_equippedItemsCantBeGained() {
 		assertTrue(!sword.isOwned() && !sword.isEquipped());
@@ -1313,11 +1380,11 @@ class CharacterTest {
 		assertTrue(sword.isOwned() && sword.isEquipped());
 		try {
 			character.gain(sword);
-		} catch(GainException e) {
+		} catch (GainException e) {
 			assertThat(e, ExceptionMatcher.isGainException());
 		}
 	}
-	
+
 	@Test
 	void TF9_equippedItemsCantBeEquippedAgain() {
 		assertTrue(!sword.isOwned() && !sword.isEquipped());
@@ -1327,11 +1394,11 @@ class CharacterTest {
 		assertTrue(sword.isOwned() && sword.isEquipped());
 		try {
 			character.equip(sword);
-		} catch(EquipException e) {
+		} catch (EquipException e) {
 			assertThat(e, ExceptionMatcher.isEquipException());
 		}
 	}
-	
+
 	@Test
 	void TF10_equippedItemsCantBeGivenAway() {
 		assertTrue(!sword.isOwned() && !sword.isEquipped());
@@ -1341,11 +1408,11 @@ class CharacterTest {
 		assertTrue(sword.isOwned() && sword.isEquipped());
 		try {
 			character.give(sword, otherCharacter);
-		} catch(GiveException e) {
+		} catch (GiveException e) {
 			assertThat(e, ExceptionMatcher.isGiveException());
 		}
 	}
-	
-	//Jon
+
+	// Jon
 
 }
