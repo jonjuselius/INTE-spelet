@@ -4,6 +4,7 @@ import Exceptions.*;
 import Inventory.*;
 import Item.Item;
 import Jobs.Job;
+import Magic.Spell;
 import Magic.SpellCollection;
 import Map.*;
 import Races.*;
@@ -215,6 +216,10 @@ public abstract class Character {
 	}
 
 	//Lena
+
+	public void addSpellToSpellCollection(Spell spell){
+		this.spellCollection.addSpell(spell);
+	}
 
 	public void takeDamage(int damage) {
 		remainingHealth = remainingHealth - damage;
