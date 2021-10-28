@@ -11,6 +11,7 @@ class JobTest {
 	private static final GameMapGenerator MAP_GENERATOR = new GameMapGenerator(4, 4);
 	public static final GameMap MAP = MAP_GENERATOR.generate(1);
 
+	@Test
 	void knightConstructor() {
 
 		Knight h = new Knight();

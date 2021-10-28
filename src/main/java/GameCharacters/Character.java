@@ -232,9 +232,10 @@ public abstract class Character {
 
 
 	public void loseMagicSkillFromLoss(int loss) {
-		if (magicSkill > 0) {
+		
 			magicSkill = magicSkill - loss;
-		}
+			Math.max(magicSkill, 0);
+		
 	}
 
 	public void increaseIntelligenceFromWinningASpell() {
