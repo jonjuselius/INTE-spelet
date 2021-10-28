@@ -1,12 +1,13 @@
 package GameCharacters;
 
 import Exceptions.*;
-import Inventory.*;
+import Inventory.Inventory;
+import Inventory.Wallet;
 import Item.Item;
 import Jobs.Job;
 import Magic.SpellCollection;
-import Map.*;
-import Races.*;
+import Map.GameMapPosition;
+import Races.Race;
 
 import java.util.ArrayList;
 import java.util.Collections;

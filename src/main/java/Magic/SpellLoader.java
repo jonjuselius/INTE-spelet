@@ -94,7 +94,7 @@ public class SpellLoader {
 
         HashMap<String, Spell> spells = new HashMap<>();
 
-        ArrayList<String> spellDataLines = spellFileReader(spellDataPathName);
+        Iterable<String> spellDataLines = spellFileReader(spellDataPathName);
 
         Spell temp;
         for (String spellDataLine : spellDataLines) {

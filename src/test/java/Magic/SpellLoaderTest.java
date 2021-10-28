@@ -11,7 +11,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class SpellLoaderTest {
 
-    private static ArrayList<Spell> testSpells;
 
     public SpellLoaderTest() throws IOException {
     }
