@@ -56,7 +56,7 @@ public class DamageDealingSpell extends Spell {
         initialDamage = initialDamage * powerFactor;
 
     }
-//Rough draft, lägg till fler variabler
+
     @Override
     public void cast(Character spellCaster, Character target){
         if(getManaCost() > spellCaster.getRemainingMana()){
