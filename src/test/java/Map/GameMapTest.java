@@ -1,9 +1,7 @@
 package Map;
 
 import org.junit.jupiter.api.Test;
-
 import java.util.Random;
-
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.lessThan;
@@ -93,6 +91,7 @@ class GameMapTest {
     void putTileHasCorrectTerrain() {
         GameMap map = new GameMap(2, 2);
         GameMapPosition tile = new GameMapPosition(1, 1);
+        tile.setTerrain(Terrain.GRASS);
         int xPos = tile.getXPos();
         int yPos = tile.getYPos();
         map.putTileOnMap(tile, xPos, yPos);
@@ -106,7 +105,4 @@ class GameMapTest {
         assertThat(generatedPos.getXPos(), lessThan(map.getWidth()));
         assertThat(generatedPos.getYPos(), lessThan(map.getHeight()));
     }
-
-
-
 }

@@ -1,20 +1,32 @@
 package Map;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-
 class GameMapPositionTest {
     public static final int FAKE_RANDOM = 1;
-    public static final GameMapGenerator MAP_GENERATOR = new GameMapGenerator(4, 4);
-    public static final GameMap MAP = MAP_GENERATOR.generate(FAKE_RANDOM);
-    public static final GameMapPosition MAP_POSITION = MAP.getMapTiles()[2][2];
-    public static final GameMapPosition west = new GameMapPosition(0, 1);
-    public static final GameMapPosition east = new GameMapPosition(1, 0);
-    public static final GameMapPosition north = new GameMapPosition(1, 2);
-    public static final GameMapPosition south = new GameMapPosition(2, 1);
+    public static GameMapGenerator mapGenerator;
+    public static GameMap map;
+    public static GameMapPosition mapPosition;
+    public static GameMapPosition west;
+    public static GameMapPosition east;
+    public static GameMapPosition north;
+    public static GameMapPosition south;
+
+    @BeforeAll
+    static void setup() {
+        mapGenerator = new GameMapGenerator(4, 4);
+        map = mapGenerator.generate(FAKE_RANDOM);
+        mapPosition = map.getMapTiles()[2][2];
+        west = new GameMapPosition(0, 1);
+        east = new GameMapPosition(1, 0);
+        north = new GameMapPosition(1, 2);
+        south = new GameMapPosition(2, 1);
+    }
+
 
     @Test
     void constructorSetsXPos() {
@@ -42,8 +54,8 @@ class GameMapPositionTest {
 
     @Test
     void setTerrainSetsTerrain() {
-        MAP_POSITION.setTerrain(Terrain.GRASS);
-        assertEquals(Terrain.GRASS, MAP_POSITION.getTerrain());
+        mapPosition.setTerrain(Terrain.GRASS);
+        assertEquals(Terrain.GRASS, mapPosition.getTerrain());
     }
 
     @Test
@@ -60,51 +72,49 @@ class GameMapPositionTest {
 
     @Test
     void westNeighborSetCorrectly() {
-        MAP_POSITION.setNeighbors(west, east, north, south);
-        assertThat(MAP_POSITION.getWestNeighbor(), equalTo(west));
+        mapPosition.setNeighbors(west, east, north, south);
+        assertThat(mapPosition.getWestNeighbor(), equalTo(west));
     }
 
     @Test
     void eastNeighborSetCorrectly() {
-        MAP_POSITION.setNeighbors(west, east, north, south);
-        assertThat(MAP_POSITION.getEastNeighbor(), equalTo(east));
+        mapPosition.setNeighbors(west, east, north, south);
+        assertThat(mapPosition.getEastNeighbor(), equalTo(east));
     }
 
     @Test
     void northNeighborSetCorrectly() {
-        MAP_POSITION.setNeighbors(west, east, north, south);
-        assertThat(MAP_POSITION.getNorthNeighbor(), equalTo(north));
+        mapPosition.setNeighbors(west, east, north, south);
+        assertThat(mapPosition.getNorthNeighbor(), equalTo(north));
     }
 
     @Test
     void southNeighBorSetCorrectly() {
-        MAP_POSITION.setNeighbors(west, east, north, south);
-        assertThat(MAP_POSITION.getSouthNeighbor(), equalTo(south));
+        mapPosition.setNeighbors(west, east, north, south);
+        assertThat(mapPosition.getSouthNeighbor(), equalTo(south));
     }
 
     @Test
     void positionInTheWestEndTheMapHasNoWestNeighbor() {
-        GameMapPosition posInTheWestEnd = MAP.getMapTiles()[0][0];
+        GameMapPosition posInTheWestEnd = map.getMapTiles()[0][0];
         assertThat(posInTheWestEnd.getWestNeighbor(), sameInstance(null));
     }
 
     @Test
     void positionInTheEastEndTheMapHasNoEastNeighbor() {
-        GameMapPosition posInTheEastEnd = MAP.getMapTiles()[3][0];
+        GameMapPosition posInTheEastEnd = map.getMapTiles()[3][0];
         assertThat(posInTheEastEnd.getEastNeighbor(), sameInstance(null));
     }
 
     @Test
     void positionInTheNorthEndTheMapHasNoNorthNeighbor() {
-        GameMapPosition posInTheNorthEnd = MAP.getMapTiles()[0][3];
+        GameMapPosition posInTheNorthEnd = map.getMapTiles()[0][3];
         assertThat(posInTheNorthEnd.getNorthNeighbor(), sameInstance(null));
     }
 
     @Test
     void positionInTheSouthEndTheMapHasNoSouthNeighbor() {
-        GameMapPosition posInTheSouthEnd = MAP.getMapTiles()[0][0];
+        GameMapPosition posInTheSouthEnd = map.getMapTiles()[0][0];
         assertThat(posInTheSouthEnd.getSouthNeighbor(), sameInstance(null));
     }
-
-
 }
