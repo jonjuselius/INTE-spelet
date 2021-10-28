@@ -5,6 +5,7 @@ import Inventory.Inventory;
 import Inventory.Wallet;
 import Item.Item;
 import Jobs.Job;
+import Magic.Spell;
 import Magic.SpellCollection;
 import Map.GameMapPosition;
 import Races.Race;
@@ -34,10 +35,9 @@ public abstract class Character {
 
 	private int remainingHealth;
 	private int remainingMana;
-
 	private SpellCollection spellCollection;
 	private GameMapPosition position;
-	
+
 	private Inventory inventory;
 	private List<Item> equippedItems;
 	private Wallet wallet;
@@ -51,6 +51,7 @@ public abstract class Character {
 		this.inventory = new Inventory();
 		this.wallet = new Wallet();
 		this.equippedItems = new ArrayList<>();
+		this.spellCollection = new SpellCollection();
 
 		setRemainingHealth(race.getMaxHealth());
 		setStrength(race.getStrength());
@@ -199,6 +200,11 @@ public abstract class Character {
 		return inventory;
 	}
 
+	public SpellCollection getSpellCollection() {
+		return spellCollection;
+	}
+
+
 	public List<Item> getItems() {
 		return Collections.unmodifiableList(inventory.getItems());
 	}
@@ -216,6 +222,10 @@ public abstract class Character {
 	}
 
 	//Lena
+
+	public void addSpellToSpellCollection(Spell spell){
+		this.spellCollection.addSpell(spell);
+	}
 
 	public void takeDamage(int damage) {
 		remainingHealth = remainingHealth - damage;
@@ -246,7 +256,7 @@ public abstract class Character {
 
 		int increasedDamage = getSwordSkill() * getLevel() + getStrength() + damage;
 		int otherCharacterNewHealth = otherCharacter.getRemainingHealth() - increasedDamage;
-		if (otherCharacter.getRemainingHealth() > 0 && otherCharacterNewHealth >0) {
+		if (otherCharacter.getRemainingHealth() > 0 && otherCharacterNewHealth > 0) {
 			otherCharacter.setRemainingHealth(Math.min(otherCharacterNewHealth, otherCharacter.getMaxHealth()));
 
 		} else {
@@ -255,10 +265,32 @@ public abstract class Character {
 		}
 	}
 
-	public void loseMagicSkillFromLoss(int loss) {
-		if (magicSkill > 0) {
-			magicSkill = magicSkill - loss;
+	public void fight(Character otherCharacter) {
+		if (strength >= otherCharacter.getStrength()) {
+			otherCharacter.setRemainingHealth(otherCharacter.getRemainingHealth() - getLevel() * strength);
+		} else {
+			setRemainingHealth(remainingHealth - otherCharacter.getLevel() * otherCharacter.getStrength() + 10);
+
 		}
+
+	}
+
+	public void steal(Character otherCharacter) {
+		if (strength >= otherCharacter.getStrength()) {
+			otherCharacter.loseMoney(10);
+			gainMoney(10);
+			//h�rkodat f�r getMoney funkade inte
+		} else {
+			remainingHealth -= 10;
+
+		}
+	}
+
+	public void loseMagicSkillFromLoss(int loss) {
+
+		magicSkill = magicSkill - loss;
+		Math.max(magicSkill, 0);
+
 	}
 
 	public void increaseIntelligenceFromWinningASpell() {
