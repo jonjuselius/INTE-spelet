@@ -180,6 +180,38 @@ class CharacterTest {
 	}
 
 /////// Tdd Jasmyn////////////
+	
+	@Test
+	void nameTest() {
+		Player c3 = new Player("Oliver", new Elf(), new Knight(), true, defaultPosition);
+
+		assertEquals("Oliver", c3.getName());
+
+	}
+	
+	@Test
+	void getMagicSkillTest() {
+		Player c3 = new Player("Oliver", new Elf(), new Magician(), true, defaultPosition);
+
+		assertEquals(10, c3.getMagicSkill());
+
+	}
+	
+	@Test
+	void getMaxManaTest() {
+		Player c3 = new Player("Oliver", new Elf(), new Knight(), true, defaultPosition);
+
+		assertEquals(400, c3.getMaxMana());
+
+	}
+	
+	@Test
+	void setLevelTest() {
+		Character c3 = new Player("Oliver", new Elf(), new Knight(), true, defaultPosition);
+		c3.setLevel(3);
+		assertEquals(3, c3.getLevel());
+
+	}
 
 	@Test
 	void increasingHealthOverMaxForElfDoesNotSurpassMaxHealthTwohundred() {
