@@ -19,7 +19,6 @@ class JobTest {
 		assertEquals(3, h.getMagic());
 		assertEquals(10, h.getSwordSkill());
 		assertEquals(400, h.getMaxMana());
-
 	}
 
 	@Test
@@ -29,9 +28,8 @@ class JobTest {
 		assertEquals(3, h.getMagic());
 		assertEquals(7, h.getSwordSkill());
 		assertEquals(350, h.getMaxMana());
-
 	}
-
+	
 	@Test
 	void magicianConstructor() {
 		Magician h = new Magician();
@@ -39,7 +37,5 @@ class JobTest {
 		assertEquals(10, h.getMagic());
 		assertEquals(3, h.getSwordSkill());
 		assertEquals(300, h.getMaxMana());
-
 	}
-
 }

@@ -140,9 +140,9 @@ public abstract class Character {
 		this.canSwim = canSwim;
 	}
 
-	public boolean getIfCanWalkThroughTerraign() {
-		return canWalkThroughTerraign;
-	}
+//	public boolean getIfCanWalkThroughTerraign() {
+//		return canWalkThroughTerraign;
+//	}
 
 	protected void setIfCanWalkThroughTerraign(boolean canWalkThroughTerraign) {
 		this.canWalkThroughTerraign = canWalkThroughTerraign;
