@@ -5,9 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class SpellLoaderTest {
@@ -17,8 +15,6 @@ public class SpellLoaderTest {
     public SpellLoaderTest() throws IOException {
     }
 
-    // String-parsing tests
-
     @BeforeAll
     static void loadTestSpells() {
         testSpells = new SpellLoader().loadSpells("src/resources/SpellDataTest/SpellDataTest");
@@ -27,7 +23,7 @@ public class SpellLoaderTest {
     @Test
     void throwsFileNotFoundExceptionWithIncorrectPathName() throws FileNotFoundException {
         String badPath = "no/such/file/exists";
-        new SpellLoader().fileReader(badPath);
+        new SpellLoader().spellFileReader(badPath);
     }
 
     @Test
@@ -61,6 +57,9 @@ public class SpellLoaderTest {
             new SpellLoader().stringToSpellArguments(testSpellString);
         });
     }
+
+    @Test
+    void
 
     //Tests the Loader from the txt-file SpellDataTest.txt which reads:
     //Spells:
