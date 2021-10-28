@@ -27,7 +27,6 @@ public class BuffSpell extends Spell {
 
     }
 
-    //
     public void cast(Character spellCaster, long duration){
         if(getManaCost() > spellCaster.getRemainingMana()) {
             throw new IllegalStateException("Not enough mana");
@@ -35,7 +34,6 @@ public class BuffSpell extends Spell {
             spellCaster.useMana(getManaCost());
 
             switch (this.getElement()) {
-                //case PHYSICAL -> physicalBuffSpell(spellCaster, duration);
                 case FIRE -> fireBuffSpell(spellCaster, duration);
                 case LIGHTNING -> lightningBuffSpell(spellCaster, duration);
                 case WATER -> waterBuffSpell(spellCaster, duration);
