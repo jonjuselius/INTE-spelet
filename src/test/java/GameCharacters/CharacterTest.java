@@ -785,7 +785,6 @@ class CharacterTest {
 		}
 	}
 	
-	/** Damage, restore **/
 	@Test
 	void damagingAnItemDecreasesItsCondition() {
 		character.damage(sword, 10);
@@ -829,7 +828,6 @@ class CharacterTest {
 		}
 	}
 	
-	/** Gain/lose **/
 	@Test
 	void characterGainingAnItemsOwnsTheItem() {
 		assertThat(character.owns(sword), is(false));
@@ -876,7 +874,6 @@ class CharacterTest {
 		assertThat(sword.isEquipped(), is(false));
 	}
 	
-	/** Equip/unequip **/
 	@Test
 	void characterEquippingASwordHasTheSwordEquipped() {
 		assertThat(character.hasEquipped(sword), is(false));
@@ -948,7 +945,6 @@ class CharacterTest {
 		assertThat(character.canEquip(potion), is(false));
 	}
 	
-	/** Give/receive **/
 	@Test
 	void characterCanGiveItemThatIsOwnedAndUnequipped() {
 		character.gain(sword);
@@ -1020,7 +1016,6 @@ class CharacterTest {
 		}
 	}
 	
-	/** Buy/sell **/
 	@Test
 	void characterThatCanReceiveAndCanAffordItemCanBuyAnItem() {
 		Character seller = players[0];
@@ -1125,12 +1120,10 @@ class CharacterTest {
 	void buyingAnItemMakesItAppearInBuyersInventory() {
 		Character seller = players[0];
 		Character buyer = players[1];
-		Inventory sellersInventory = seller.getInventory();
-		Inventory buyersInventory = buyer.getInventory();
 		seller.gain(potion);
 		buyer.gainMoney(1000);
 		buyer.buy(potion, seller);
-		assertThat(buyersInventory.contains(potion), is(true));
+		assertThat(buyer.getInventory().contains(potion), is(true));
 	}
 	
 	@Test
@@ -1155,7 +1148,6 @@ class CharacterTest {
 		seller.equip(sword);
 		buyer.gainMoney(1000);
 		assertThat(sword.canBeSold(seller, buyer), is(false));
-		
 		try {
 			buyer.buy(sword, seller);
 		} catch (BuyException e) {
@@ -1178,7 +1170,6 @@ class CharacterTest {
 		}
 	}
 	
-	/** Money/Wallet **/
 	@Test
 	void characterGainingAndLosingMoneyUpdatesContentInWallet() {
 		Wallet wallet = character.getWallet();

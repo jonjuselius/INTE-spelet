@@ -393,6 +393,7 @@ public abstract class Character {
 		return equippedItems.contains(item);
 	}
 	
+	
 	public void give(Item item, Character recipient) {
 		if (!item.canBeGiven(this, recipient)) {
 			throw new GiveException();
