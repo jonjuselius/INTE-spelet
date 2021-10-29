@@ -1008,9 +1008,7 @@ class CharacterTest {
 		Character seller = players[0];
 		Character buyer = players[1];
 		seller.gain(sword);
-		seller.gainMoney(5000);
 		buyer.gainMoney(1000);
-		assertThat(sword.canBeSold(seller, buyer), is(true));
 		buyer.buy(sword, seller);
 		assertThat(buyer.getMoney(), is(equalTo(1000 - sword.getValue())));
 	}
@@ -1022,7 +1020,6 @@ class CharacterTest {
 		seller.gain(sword);
 		seller.gainMoney(5000);
 		buyer.gainMoney(1000);
-		assertThat(sword.canBeSold(seller, buyer), is(equalTo(true)));
 		buyer.buy(sword, seller);
 		assertThat(seller.getMoney(), is(equalTo(5000 + sword.getValue())));
 	}
@@ -1057,10 +1054,7 @@ class CharacterTest {
 		seller.gain(sword);
 		seller.gainMoney(5000);
 		buyer.gainMoney(1000);
-		assertThat(seller.owns(sword), is(true));
-		assertThat(buyer.owns(sword), is(false));
 		buyer.buy(sword, seller);
-		assertThat(seller.owns(sword), is(false));
 		assertThat(buyer.owns(sword), is(true));
 	}
 
@@ -1081,10 +1075,7 @@ class CharacterTest {
 		seller.gain(sword);
 		seller.gainMoney(5000);
 		buyer.gainMoney(1000);
-		assertThat(buyer.owns(sword), is(false));
-		assertThat(seller.owns(sword), is(true));
 		seller.sell(sword, buyer);
-		assertThat(buyer.owns(sword), is(true));
 		assertThat(seller.owns(sword), is(false));
 	}
 
@@ -1095,7 +1086,6 @@ class CharacterTest {
 		seller.gain(sword);
 		seller.equip(sword);
 		buyer.gainMoney(1000);
-		assertThat(sword.canBeSold(seller, buyer), is(false));
 		try {
 			buyer.buy(sword, seller);
 		} catch (BuyException e) {
@@ -1110,7 +1100,6 @@ class CharacterTest {
 		seller.gain(sword);
 		seller.equip(sword);
 		buyer.gainMoney(1000);
-		assertThat(sword.canBeSold(seller, buyer), is(false));
 		try {
 			seller.sell(sword, buyer);
 		} catch (IllegalArgumentException e) {
@@ -1122,7 +1111,6 @@ class CharacterTest {
 	void characterGainingAndLosingMoneyUpdatesContentInWallet() {
 		Wallet wallet = character.getWallet();
 		character.gainMoney(1000);
-		assertThat(wallet.getAmount(), is(equalTo(1000)));
 		character.loseMoney(2000);
 		assertThat(wallet.getAmount(), is(equalTo(-1000)));
 	}
@@ -1143,45 +1131,31 @@ class CharacterTest {
 
 	@Test
 	void characterCantAffordAnItemIfHasNotEnoughMoney() {
-		assertThat(character.getMoney(), is(equalTo(0)));
 		assertThat(character.canAfford(ring), is(false));
 	}
 
 	@Test
 	void characterCanAffordARingIfHasEnoughMoney() {
-		assertThat(character.getMoney(), is(equalTo(0)));
 		character.gainMoney(5000);
-		assertThat(character.getMoney(), is(equalTo(5000)));
 		assertThat(character.canAfford(ring), is(true));
-		character.loseMoney(5000);
 	}
 
 	@Test
 	void TF1_itemsCanBeGainedLostEquippedUnequippedWhenStateIsCorrect() {
-		assertTrue(!sword.isOwned() && !sword.isEquipped());
 		character.gain(sword);
-		assertTrue(sword.isOwned() && !sword.isEquipped());
 		character.give(sword, otherCharacter);
-		assertTrue(sword.isOwned() && !sword.isEquipped());
 		otherCharacter.give(sword, character);
-		assertTrue(sword.isOwned() && !sword.isEquipped());
 		character.equip(sword);
-		assertTrue(sword.isOwned() && sword.isEquipped());
 		character.unequip(sword);
-		assertTrue(sword.isOwned() && !sword.isEquipped());
 		character.lose(sword);
-		assertTrue(!sword.isOwned() && !sword.isEquipped());
 		character.gain(sword);
-		assertTrue(sword.isOwned() && !sword.isEquipped());
 		character.equip(sword);
-		assertTrue(sword.isOwned() && sword.isEquipped());
 		character.lose(sword);
 		assertTrue(!sword.isOwned() && !sword.isEquipped());
 	}
 
 	@Test
 	void TF2_unownedItemsCantBeLost() {
-		assertTrue(!sword.isOwned() && !sword.isEquipped());
 		try {
 			character.lose(sword);
 		} catch (LoseException e) {
@@ -1191,7 +1165,6 @@ class CharacterTest {
 
 	@Test
 	void TF3_unownedItemsCantBeEquipped() {
-		assertTrue(!sword.isOwned() && !sword.isEquipped());
 		try {
 			character.equip(sword);
 		} catch (EquipException e) {
@@ -1201,7 +1174,6 @@ class CharacterTest {
 
 	@Test
 	void TF4_unownedItemsCantBeUnequipped() {
-		assertTrue(!sword.isOwned() && !sword.isEquipped());
 		try {
 			character.unequip(sword);
 		} catch (UnequipException e) {
@@ -1221,9 +1193,7 @@ class CharacterTest {
 
 	@Test
 	void TF6_ownedItemsCantBeGained() {
-		assertTrue(!sword.isOwned() && !sword.isEquipped());
 		character.gain(sword);
-		assertTrue(sword.isOwned() && !sword.isEquipped());
 		try {
 			character.gain(sword);
 		} catch (GainException e) {
@@ -1233,9 +1203,7 @@ class CharacterTest {
 
 	@Test
 	void TF7_unequippedItemsCantBeUnequippedAgain() {
-		assertTrue(!sword.isOwned() && !sword.isEquipped());
 		character.gain(sword);
-		assertTrue(sword.isOwned() && !sword.isEquipped());
 		try {
 			character.unequip(sword);
 		} catch (UnequipException e) {
@@ -1245,11 +1213,8 @@ class CharacterTest {
 
 	@Test
 	void TF8_equippedItemsCantBeGained() {
-		assertTrue(!sword.isOwned() && !sword.isEquipped());
 		character.gain(sword);
-		assertTrue(sword.isOwned() && !sword.isEquipped());
 		character.equip(sword);
-		assertTrue(sword.isOwned() && sword.isEquipped());
 		try {
 			character.gain(sword);
 		} catch (GainException e) {

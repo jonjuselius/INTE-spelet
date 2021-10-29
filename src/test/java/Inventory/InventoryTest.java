@@ -155,7 +155,6 @@ class InventoryTest {
 		inventory.add(potion);
 		inventory.add(shield);
 		inventory.add(ring);
-		
 		Item[] predicted = {sword, wand, potion, ring};
 		inventory.remove(shield);
 		Item[] actual = inventory.getItems().toArray(new Item[inventory.getItemSize()]);
@@ -168,8 +167,6 @@ class InventoryTest {
 		Item sword = new Sword();
 		Item ring = new Ring();
 		inventory.add(sword);
-		
-		assertFalse(inventory.contains(ring));
 		assertThrows(IllegalArgumentException.class, () -> inventory.remove(ring));
 	}
 	
